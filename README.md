@@ -6,7 +6,7 @@ Small, free, private web apps that run in your browser. No ads, no sign-up, and 
 
 ### <img src="offlinetodo/favicon.svg" width="36" height="36" align="center"> [To-Do List](https://umar8092.github.io/apps/offlinetodo/)
 
-A free online to-do list with no registration. Works offline and stays private on your device. Due dates, priorities, search, backup and share.
+A free online to-do list with no registration. Works offline and stays private on your device. Due dates, priorities, sort by due date, search, backup and share.
 
 [**Open the app**](https://umar8092.github.io/apps/offlinetodo/) &middot; [Details and screenshots](offlinetodo/)
 
@@ -30,7 +30,7 @@ Find the best time to go to bed or wake up using 90-minute sleep cycles.
 
 ### <img src="sleepbeat/favicon.svg" width="36" height="36" align="center"> [Heartbeat Sound](https://umar8092.github.io/apps/sleepbeat/)
 
-A calming heartbeat sound that loops all night, for sleep, babies and puppies. Adjustable heart rate and sleep timer.
+A calming heartbeat sound that loops all night, for sleep, babies and puppies. Keeps playing when the phone screen locks. Adjustable heart rate and sleep timer.
 
 [**Open the app**](https://umar8092.github.io/apps/sleepbeat/) &middot; [Details and screenshots](sleepbeat/)
 
@@ -38,11 +38,11 @@ A calming heartbeat sound that loops all night, for sleep, babies and puppies. A
 
 ### <img src="weather-app/favicon.svg" width="36" height="36" align="center"> [Weather App](https://umar8092.github.io/apps/weather-app/)
 
-Current weather for any city or your location, with a background that follows the weather and time of day. Bring your own free OpenWeatherMap key.
+Weather forecast for any city or your location, with advice (umbrella? what to wear?), hourly and 7-day forecasts. No sign-up and no API key.
 
 [**Open the app**](https://umar8092.github.io/apps/weather-app/) &middot; [Details and screenshots](weather-app/)
 
-<a href="weather-app/"><img src="weather-app/screenshots/los-angeles-clear-day.png" alt="Weather App screenshot" width="260"></a>
+<a href="weather-app/"><img src="weather-app/screenshots/phone.png" alt="Weather App screenshot" width="260"></a>
 
 ## Adding an app
 

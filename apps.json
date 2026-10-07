@@ -12,7 +12,7 @@
   {
     "slug": "sleepbeat",
     "name": "Heartbeat Sound",
-    "description": "Heartbeat sound for sleep, babies and puppies. Loops all night."
+    "description": "Heartbeat sound for sleep, babies and puppies. Plays with the screen locked."
   },
   {
     "slug": "bill-splitter",
@@ -22,6 +22,6 @@
   {
     "slug": "weather-app",
     "name": "Weather App",
-    "description": "Check the current weather for any city, with your own free OpenWeatherMap key."
+    "description": "Weather forecast for any city or your location, with advice. No API key."
   }
 ]

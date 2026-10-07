@@ -45,8 +45,8 @@ button, input { font: inherit; color: inherit; }
 .units button { border: 0; background: transparent; padding: .35rem .8rem; border-radius: 999px; cursor: pointer; opacity: .8; }
 .units button[aria-pressed="true"] { background: #fff; color: #1b2a41; opacity: 1; font-weight: 600; }
 
-.search, #key-form { display: flex; gap: .5rem; }
-input[type="text"], input[type="password"] {
+.search { display: flex; gap: .5rem; }
+input[type="text"] {
     flex: 1; min-width: 0;
     padding: .8rem 1rem;
     border-radius: 14px;
@@ -58,12 +58,12 @@ input[type="text"], input[type="password"] {
 input::placeholder { color: var(--muted); }
 input:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 
-.search button, #key-form button {
+.search button {
     border: 0; border-radius: 14px; padding: 0 1.1rem; cursor: pointer; font-weight: 600;
     background: #fff; color: #1b2a41;
 }
 .search button.ghost { background: var(--glass); color: var(--ink); border: 1px solid var(--line); font-size: 1.2rem; padding: 0 .9rem; }
-.search button:hover, #key-form button:hover { filter: brightness(.94); }
+.search button:hover { filter: brightness(.94); }
 
 .status { min-height: 1.5rem; margin: .8rem .2rem; color: var(--muted); }
 .status.error { color: #ffd2d2; }
@@ -84,9 +84,6 @@ input:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px 
 .place p { margin: .15rem 0 0; color: var(--muted); }
 
 .now { display: flex; align-items: center; gap: .5rem; margin: .5rem 0 1rem; }
-.now img { filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .25)); }
-/* OpenWeatherMap draws a clear night as a dark grey disc, which vanishes on a dark background */
-body[data-weather="clear-night"] .now img { filter: brightness(2.6) drop-shadow(0 0 14px rgba(255, 255, 255, .4)); }
 .temp { margin: 0; font-size: clamp(3.5rem, 18vw, 5rem); font-weight: 300; line-height: 1; letter-spacing: -.04em; }
 .temp sup { font-size: .4em; font-weight: 400; vertical-align: top; margin-left: .1em; }
 .desc { margin: .3rem 0 0; font-size: 1.1rem; text-transform: capitalize; color: var(--muted); }
@@ -96,11 +93,22 @@ body[data-weather="clear-night"] .now img { filter: brightness(2.6) drop-shadow(
 .grid dt { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
 .grid dd { margin: .15rem 0 0; font-size: 1.1rem; font-weight: 600; }
 
-.key { margin-top: 1.2rem; padding: .8rem 1rem; border-radius: 14px; background: var(--glass); border: 1px solid var(--line); }
-.key summary { cursor: pointer; font-weight: 600; }
-.key p { color: var(--muted); font-size: .92rem; line-height: 1.5; }
 
 a { color: #fff; }
+.icon { font-size: 5.2rem; line-height: 1; width: 120px; text-align: center; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .25)); }
+h3 { margin: 1.4rem 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+.tips { padding: .9rem 1rem; border-radius: 16px; background: rgba(255, 255, 255, .16); margin-bottom: 1rem; }
+.tips h3 { margin: 0 0 .4rem; }
+.tips ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .3rem; font-weight: 500; }
+.others { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin: -.2rem 0 .8rem; font-size: .88rem; color: var(--muted); }
+.others button { border: 1px solid var(--line); background: var(--glass); color: var(--ink); border-radius: 999px; padding: .3rem .75rem; cursor: pointer; }
+.hourly { list-style: none; margin: 0; padding: 0 0 .4rem; display: flex; gap: .5rem; overflow-x: auto; scroll-snap-type: x proximity; }
+.hourly li { flex: 0 0 auto; min-width: 64px; padding: .6rem .5rem; border-radius: 14px; background: rgba(255, 255, 255, .1); text-align: center; display: grid; gap: .15rem; scroll-snap-align: start; }
+.h-t { font-size: .8rem; color: var(--muted); } .h-i { font-size: 1.5rem; } .h-r { font-size: .75rem; color: var(--muted); }
+.daily { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; }
+.daily li { display: grid; grid-template-columns: 3.4rem 2rem 3rem 1fr 1fr; align-items: center; gap: .4rem; padding: .5rem .8rem; border-radius: 12px; background: rgba(255, 255, 255, .1); }
+.daily b, .d-lo { text-align: right; } .d-lo, .d-r { color: var(--muted); } .d-i { font-size: 1.3rem; text-align: center; }
+[hidden] { display: none !important; }
 footer { margin-top: 1.5rem; text-align: center; font-size: .82rem; color: var(--muted); }
 
 @media (prefers-reduced-motion: reduce) { .card { animation: none; } body { transition: none; } }

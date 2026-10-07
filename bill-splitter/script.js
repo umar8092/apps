@@ -158,6 +158,15 @@
     $('round').onchange = e => { s.round = e.target.checked; render(); };
     $('add-person').onclick = () => { if (s.rows.length < 30) { s.rows.push(blank()); orderRows(); render(); } };
     $('add-payer').onclick = () => { if (s.prows.length < 30) { s.prows.push(blank()); paidRows(); render(); } };
+    // clear everyone and the bill name for the next meal; Undo brings it back for a few seconds
+    let undoTimer = null;
+    $('new-bill').onclick = () => {
+        const before = { bname: s.bname, prows: s.prows };
+        s.bname = ''; s.prows = [blank(), blank(), blank()];
+        $('bname').value = ''; paidRows(); render();
+        $('undo').hidden = false; clearTimeout(undoTimer); undoTimer = setTimeout(() => { $('undo').hidden = true; }, 10000);
+        $('undo-btn').onclick = () => { s.bname = before.bname; s.prows = before.prows; $('bname').value = s.bname; paidRows(); render(); $('undo').hidden = true; };
+    };
     $('copy').onclick = async () => {
         let ok = false;
         try { await navigator.clipboard.writeText(last); ok = true; } catch (e) {

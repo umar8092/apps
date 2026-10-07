@@ -24,6 +24,7 @@ With more people it finds a short list of payments (for example four people, one
 - **Clear summary.** Total, fair share, who pays whom, and what each person paid and owes.
 - **Email the summary.** *Email everyone* or *Email only people who owe* opens your mail app with the subject (the bill name), the people, what each paid, who pays whom, and the final result already written. Adding emails is optional: tap *+ Add email* for a person, or leave it and type addresses in your mail app. Nothing is sent by the app. You press send.
 - **Copy summary** to paste into any chat.
+- **Start a new bill** clears everyone for the next meal, with Undo if you tapped it by mistake.
 - **Split evenly** with tip and tax, and **By order** (everyone pays for what they ordered, tax and tip shared in proportion), with a round-up option.
 - **Private.** Everything is worked out on your device. Nothing is sent anywhere.
 - **Works offline and installable.** Light and dark mode, phone friendly.

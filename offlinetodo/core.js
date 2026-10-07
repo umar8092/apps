@@ -77,6 +77,13 @@
         return rest;
     }
 
+    // Most urgent first: soonest due date (no date goes last), then high priority first. Ties keep their order. Done tasks go to the end.
+    function sortByDue(list) {
+        const at = new Map(list.map((t, i) => [t.id, i]));
+        const key = t => [t.done ? 1 : 0, t.due || '9999-99-99', -t.priority, at.get(t.id)];
+        return list.slice().sort((a, b) => { const x = key(a), y = key(b); for (let i = 0; i < 4; i++) if (x[i] !== y[i]) return x[i] < y[i] ? -1 : 1; return 0; });
+    }
+
     function visible(list, filter, query) {
         const q = (query || '').trim().toLowerCase();
         return list.filter(t =>
@@ -100,5 +107,5 @@
         }).join('\n');
     }
 
-    root.TodoCore = { MAX_TEXT, uid, normalizeTask, parseImport, exportJSON, toChecklist, dueInfo, place, visible, counts };
+    root.TodoCore = { MAX_TEXT, uid, normalizeTask, parseImport, exportJSON, toChecklist, dueInfo, place, sortByDue, visible, counts };
 })(window);

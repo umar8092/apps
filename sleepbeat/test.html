@@ -12,6 +12,7 @@
 <p>Renders the heartbeat sound offline (no speakers needed) and checks its shape. Open this file in a browser.</p>
 <ul id="out"></ul>
 <script src="beat.js"></script>
+<script src="loop.js"></script>
 <script>
 const SR = 44100;
 
@@ -48,7 +49,7 @@ async function render(bpm, beats) {
 }
 
 // smoothed loudness envelope, then local peaks at least 70 ms apart
-function thumpTimes(data) {
+function thumpTimes(data, SR = 44100) {
     const win = Math.floor(SR * 0.012), env = new Float32Array(data.length);
     let sum = 0;
     for (let i = 0; i < data.length; i++) {
@@ -92,6 +93,25 @@ function check(name, ok, detail) { results.push({ name, ok, detail }); }
     let low = 0, total = 0;
     mag.slice(0, 16384).forEach((m, i) => { total += m * m; if (i * binHz < 400) low += m * m; });
     check('Most energy is below 400 Hz', low / total > 0.9, `${(100 * low / total).toFixed(1)}%`);
+
+
+    // the looping file that is played by the audio player
+    for (const bpm of [40, 70, 120, 200]) {
+        const loop = await HeartbeatLoop.render(bpm, 1.3), secs = loop.length / HeartbeatLoop.RATE, beats = HeartbeatLoop.loopBeats(bpm);
+        check(`${bpm} BPM loop: exactly ${beats} beats long (${secs.toFixed(2)} s) and at least 30 s`, Math.abs(secs - beats * 60 / bpm) < 1 / HeartbeatLoop.RATE && secs >= 30);
+        // play the loop twice in a row and measure the beat spacing, including across the join
+        const twice = new Float32Array(loop.length * 2); twice.set(loop); twice.set(loop, loop.length);
+        const p = thumpTimes(twice, HeartbeatLoop.RATE).filter((_, i) => i % 2 === 0);   // lub of each beat
+        const gaps = p.slice(1).map((v, i) => v - p[i]), bad = gaps.filter(g => Math.abs(g - 60 / bpm) > 0.03).length;
+        check(`${bpm} BPM loop: ${p.length} beats over two plays, all ${(60 / bpm).toFixed(2)} s apart, even at the join`, p.length === beats * 2 && bad === 0, `${p.length} beats, ${bad} uneven`);
+        const peak = loop.reduce((m, v) => Math.max(m, Math.abs(v)), 0);
+        check(`${bpm} BPM loop: loud enough, no clipping at full volume`, peak > 0.15 && peak <= 1, `peak ${peak.toFixed(2)}`);
+    }
+    {
+        const wav = HeartbeatLoop.toWav(new Float32Array([0, 0.5, -0.5, 2, -2]), 22050), v = new DataView(wav.buffer), ascii = (o, n) => String.fromCharCode(...wav.slice(o, o + n));
+        check('WAV file has a valid header (RIFF, WAVE, 16-bit mono, right size)', ascii(0, 4) === 'RIFF' && ascii(8, 4) === 'WAVE' && v.getUint16(22, true) === 1 && v.getUint16(34, true) === 16 && v.getUint32(24, true) === 22050 && wav.length === 44 + 10 && v.getUint32(40, true) === 10);
+        check('WAV samples are clamped, never wrapped', v.getInt16(44 + 6, true) === 32767 && v.getInt16(44 + 8, true) === -32767 && v.getInt16(44 + 2, true) === 16384);
+    }
 
     const out = document.getElementById('out');
     results.forEach(r => {

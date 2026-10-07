@@ -57,6 +57,14 @@ const ids = l => l.map(x => x.id).join('');
 const list = [t('a'), t('b'), t('c'), t('d')];
 check('Move before a task', ids(C.place(list, 'd', 'b', false)) === 'adbc');
 check('Move after a task', ids(C.place(list, 'a', 'c', true)) === 'bcad');
+{
+    const t = (id, due, priority, done) => ({ id, text: id, due, priority, done: !!done });
+    const L = [t('nodate', '', 1), t('later', '2026-12-01', 1), t('soon-low', '2026-10-01', 0), t('soon-high', '2026-10-01', 2), t('finished', '2026-09-01', 2, true), t('soon-high2', '2026-10-01', 2)];
+    check('Sort by due date: soonest first, high priority first on the same day, undated last, done at the very end, ties keep their order',
+        C.sortByDue(L).map(x => x.id).join() === 'soon-high,soon-high2,soon-low,later,nodate,finished');
+    check('Sort by due date does not change the original list or lose tasks', L.map(x => x.id).join() === 'nodate,later,soon-low,soon-high,finished,soon-high2' && C.sortByDue(L).length === L.length);
+    check('Sorting an empty list is fine', C.sortByDue([]).length === 0);
+}
 check('An unknown id changes nothing', C.place(list, 'x', 'b', false) === list && C.place(list, 'a', 'x', true) === list);
 check('The original list is not changed', ids(list) === 'abcd');
 const mix = [t('Buy milk'), t('Call mum', { done: true }), t('Buy bread', { done: true })];

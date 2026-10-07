@@ -195,6 +195,11 @@
     }
     document.querySelectorAll('#filters button').forEach(b => b.addEventListener('click', () => setFilter(b.dataset.filter)));
     $('search').addEventListener('input', e => { query = e.target.value; render(); });
+    $('sort-due').addEventListener('click', () => {
+        const sorted = TodoCore.sortByDue(tasks);
+        if (sorted.every((t, i) => t === tasks[i])) return toast('Already sorted by due date');
+        change(() => sorted, 'Sorted by due date');
+    });
     $('clear-done').addEventListener('click', () => {
         const n = TodoCore.counts(tasks).done;
         if (n) change(list => list.filter(t => !t.done), `Cleared ${n} completed task${n === 1 ? '' : 's'}`);

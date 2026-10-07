@@ -1,51 +1,57 @@
 # Weather App
 
-Search any city, or use your location, to see the current weather: temperature, conditions, feels-like, high and low, humidity, wind, pressure, visibility, sunrise and sunset. The background changes with the weather and the time of day, and you can switch between °C and °F.
+A free **weather forecast for any city or your current location**, with no sign-up and **no API key**. It tells you what to expect in plain words (take an umbrella? what to wear? is the sun strong?), then shows the details, the next 12 hours and the next 7 days.
 
-Built with plain HTML, CSS and JavaScript. No build step, no dependencies.
+**Live demo:** [umar8092.github.io/apps/weather-app](https://umar8092.github.io/apps/weather-app/)
 
-**Live demo:** https://umar8092.github.io/apps/weather-app/
+| Desktop | On a phone |
+|---|---|
+| ![Weather App showing Karachi at night with advice for the day, details, hourly and 7-day forecasts](screenshots/desktop.png) | <img src="screenshots/phone.png" alt="Weather App on a phone" width="260"> |
 
-## Screenshots
+The background changes with the weather and the time of day.
 
-| Los Angeles (clear day) | Sydney (rain) | Dubai (clear night, °F) |
-|---|---|---|
-| ![Los Angeles, clear sky, 35 degrees, on a bright blue background](screenshots/los-angeles-clear-day.png) | ![Sydney, light rain, 13 degrees, on a blue-grey background](screenshots/sydney-rain.png) | ![Dubai, clear sky at night in Fahrenheit, on a dark teal background](screenshots/dubai-clear-night-fahrenheit.png) |
+## The situation it solves
 
-The background changes with the weather and the time of day. On your first visit you will see the API key box:
+You are about to leave the house, or planning a trip, and want a quick answer: *Do I need an umbrella? A jacket? Sunscreen?* Weather App answers first, then shows the numbers:
 
-![The API key box shown on first visit](screenshots/api-key-setup.png)
+- *No umbrella needed. Rain is unlikely today.*
+- *Hot. Dress light and drink plenty of water.*
+- *Strong sun (UV 7). Use sunscreen and sunglasses.*
 
-*Screenshots show live data from OpenWeatherMap.*
+## Features
 
-**Tip:** many city names exist in several countries (typing `Rome` gives Rome, USA). Add a country code to be exact, for example `Rome,IT` or `Paris,FR`.
+- **Search any city.** Cities that share a name (Rome in Italy and Rome in Georgia) are handled: the best match is shown, with other real towns one tap away. Add a country to be exact, for example `Rome, IT`.
+- **Use my location** with one tap. The browser asks permission first, and nothing is stored on a server.
+- **Advice for today:** umbrella, what to wear for how it feels, strong sun, wind, snow and thunderstorm warnings.
+- **Details:** feels like, high and low, chance of rain, humidity, wind, UV index, sunrise and sunset.
+- **Next 12 hours** and a **7-day forecast** with a picture, chance of rain and high and low for each.
+- **°C or °F**, switched instantly with no new request.
+- **Remembers your place.** Open the app and your forecast is there.
+- **Offline-friendly:** if you lose your connection it shows the last saved forecast and says when it was saved.
+- Refreshes by itself when you come back to the tab after a while.
 
-## Get an API key (required)
+## No API key
 
-The app gets its data from the **OpenWeatherMap** API, and you need your own free key:
+Earlier versions needed a personal OpenWeatherMap key. This version uses [Open-Meteo](https://open-meteo.com) for weather and place search, which needs no key, and [BigDataCloud](https://www.bigdatacloud.com) only to turn your position into a place name when you tap "use my location" (if that fails, the forecast still works). The free Open-Meteo service is for non-commercial use, which fits this ad-free app. An old key saved in your browser by the earlier version is removed automatically.
 
-1. Create a free account at [openweathermap.org](https://openweathermap.org/api) (the "Current Weather Data" API on the free plan is enough).
-2. Open your [API keys page](https://home.openweathermap.org/api_keys) and copy the default key, or generate a new one.
-3. New keys can take **up to 2 hours to activate**. Until then the app will say the key was rejected.
+## Run it yourself
 
-## Add the key
+No build step and no dependencies.
 
-Pick one:
-
-- **On the page:** open the **API key** box, paste your key and press Save. It is stored only in your own browser (local storage) and is never sent anywhere except to OpenWeatherMap.
-- **In the code:** open `script.js` and replace `YOUR_API_KEY` with your key. Only do this for a copy you keep private.
-
-> Never commit your real key to a public repo. Anyone can copy it and use up your quota.
-
-## Run it locally
-
-```
+```bash
 git clone https://github.com/umar8092/apps.git
 cd apps/weather-app
+python3 -m http.server
 ```
 
-Then open `index.html` in your browser.
+Then open http://localhost:8000 (the location button needs `https` or `localhost`).
+
+## How it works
+
+- `core.js` is the logic with no page code: weather codes to words and pictures, the advice rules, place search matching, and the next-hours list. Values stay in metric and are converted for display.
+- `script.js` builds the page. All place names and text are added as plain text, never as HTML.
+- Run the checks with `node tests.js`, or open `test.html` in a browser.
 
 ## License
 
-[MIT](LICENSE). Free to use, copy, modify and share. Made by [Muhammad Umar](https://github.com/umar8092).
+[MIT](LICENSE). Free to use, copy, modify and share. Made by [Muhammad Umar](https://github.com/umar8092). Weather data by Open-Meteo.com (CC BY 4.0).

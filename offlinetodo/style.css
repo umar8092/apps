@@ -171,3 +171,5 @@ footer a { color: var(--muted); }
     .toolbar input { max-width: none; margin-left: 0; flex: 1 1 100%; }
     .actions button { width: 30px; }
 }
+
+.summary-actions { display: flex; gap: .6rem; flex-wrap: wrap; justify-content: flex-end; }
