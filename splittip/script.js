@@ -1,7 +1,7 @@
 (function () {
     const C = SplitCore, $ = id => document.getElementById(id), KEY = 'splittip-v1';
     const blank = () => ({ n: '', a: '', e: '' });
-    const def = { mode: 'settle', bname: '', bill: '', tax: '', tip: '18', people: 2, round: false, cur: '$',
+    const def = { mode: 'settle', bname: '', bill: '', tax: '', tip: '18', people: 2, round: false,
         rows: [blank(), blank()], prows: [blank(), blank(), blank()] };
     let s = Object.assign({}, def);
     try {
@@ -25,20 +25,27 @@
         return e;
     }
 
-    // One list of people. withEmail adds the optional email box used by "Who owes who".
+    // One list of people. withEmail adds an optional email box that only appears after "+ Add email".
     function rowsHtml(list, ul, withEmail, amountLabel) {
         ul.innerHTML = '';
         list.forEach((r, i) => {
             const li = document.createElement('li');
             li.innerHTML = '<input type="text" maxlength="30" placeholder="Person ' + (i + 1) + '" aria-label="Name of person ' + (i + 1) + '" autocomplete="off">' +
                 '<input type="text" inputmode="decimal" maxlength="15" placeholder="' + amountLabel + '" aria-label="' + amountLabel + ' for person ' + (i + 1) + '" autocomplete="off">' +
-                (withEmail ? '<input type="email" maxlength="80" placeholder="Email (optional)" aria-label="Email of person ' + (i + 1) + '" autocomplete="off" autocapitalize="off">' : '') +
-                '<button type="button" aria-label="Remove person ' + (i + 1) + '">&times;</button>';
+                '<button type="button" aria-label="Remove person ' + (i + 1) + '">&times;</button>' +
+                (withEmail ? '<button type="button" class="addmail">+ Add email (optional)</button>' +
+                    '<input type="email" maxlength="80" placeholder="Email" aria-label="Email of person ' + (i + 1) + '" autocomplete="off" autocapitalize="off" hidden>' : '');
             const inputs = li.querySelectorAll('input'), x = li.querySelector('button');
             inputs[0].value = r.n; inputs[1].value = r.a;
             inputs[0].oninput = () => { r.n = inputs[0].value; render(); };
             inputs[1].oninput = () => { r.a = inputs[1].value; render(); };
-            if (withEmail) { inputs[2].value = r.e; inputs[2].oninput = () => { r.e = inputs[2].value; render(); }; }
+            if (withEmail) {
+                const add = li.querySelector('.addmail'), em = inputs[2];
+                const show = () => { add.hidden = true; em.hidden = false; };
+                em.value = r.e; em.oninput = () => { r.e = em.value; render(); };
+                add.onclick = () => { show(); em.focus(); };
+                if (r.e) show();
+            }
             x.onclick = () => { if (list.length > 1) { list.splice(i, 1); rowsHtml(list, ul, withEmail, amountLabel); render(); } };
             ul.appendChild(li);
         });
@@ -53,10 +60,11 @@
         const name = i => s.prows[i].n.trim() || 'Person ' + (i + 1);
         const paid = s.prows.map(x => C.parseMoney(x.a));
         const r = C.settle(paid), n = paid.length;
-        const bill = s.bname.trim();
+        const bill = s.bname.trim(), who = n + (n === 1 ? ' person' : ' people');
+        const same = r.shares.every(c => c === r.shares[0]), each = (same ? '' : 'about ') + f(r.shares[0]);
 
-        $('s-share').textContent = (r.shares.every(c => c === r.shares[0]) ? '' : 'about ') + f(r.shares[0]);
-        $('s-total').textContent = 'Total ' + f(r.total) + ' shared by ' + n + (n === 1 ? ' person' : ' people');
+        $('s-share').textContent = each;
+        $('s-total').textContent = 'Total ' + f(r.total) + ' shared by ' + who;
 
         const transfers = r.transfers.map(t => name(t.from) + ' pays ' + name(t.to) + ' ' + f(t.amount));
         $('transfers').innerHTML = '';
@@ -64,37 +72,45 @@
             .forEach(t => $('transfers').appendChild(el('li', transfers.length ? '' : 'none', t)));
 
         $('s-people').innerHTML = '';
-        const people = paid.map((p, i) => {
+        paid.forEach((p, i) => {
             const b = r.balance[i], d = el('div');
-            const left = el('span', '', name(i)); left.appendChild(el('small', '', 'paid ' + f(p) + ', share ' + f(r.shares[i])));
+            const left = el('span', '', name(i)); left.appendChild(el('small', '', 'paid ' + f(p) + ', fair share ' + f(r.shares[i])));
             d.appendChild(left);
             d.appendChild(el('b', b > 0 ? 'get' : b < 0 ? 'owe' : '', b > 0 ? 'gets back ' + f(b) : b < 0 ? 'owes ' + f(-b) : 'all square'));
             $('s-people').appendChild(d);
-            return name(i) + ' paid ' + f(p) + ' (share ' + f(r.shares[i]) + ')';
         });
+        const final = r.total ? (transfers.length ? 'After these payments everyone has paid ' + each + '.' : 'Everyone has paid ' + each + '.') : '';
+        $('s-final').textContent = final; $('s-final').hidden = !final;
 
-        const body = (bill ? bill + '\n' : '') + 'Total ' + f(r.total) + ' for ' + n + (n === 1 ? ' person' : ' people') +
-            '\n\nWho paid:\n' + people.join('\n') + '\n\nTo settle up:\n' + (transfers.length ? transfers.join('\n') : 'Nobody owes anything.');
+        // The same summary is used for Copy and for both email buttons. \r\n is what mail apps expect.
+        const summary = (bill ? 'Bill: ' + bill + '\n\n' : '') +
+            'Total: ' + f(r.total) + ' for ' + who + '\nEach person\'s fair share: ' + each +
+            '\n\nWhat everyone paid:\n' + paid.map((p, i) => '- ' + name(i) + ' paid ' + f(p)).join('\n') +
+            '\n\nWho pays who:\n' + (transfers.length ? transfers.map(t => '- ' + t).join('\n') : '- Nobody owes anything.') +
+            (final ? '\n\n' + final : '');
         const subject = (bill || 'Our bill') + ': who owes who';
-        const mail = emails => 'mailto:' + emails.join(',') + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        const mail = (emails, greet) => 'mailto:' + emails.join(',') + '?subject=' + encodeURIComponent(subject) +
+            '&body=' + encodeURIComponent((greet + ',\n\n' + summary + '\n\nThanks!').replace(/\n/g, '\r\n'));
         const emailOf = i => s.prows[i].e.trim();
-        const everyone = [...new Set(s.prows.map((x, i) => emailOf(i)).filter(validEmail))];
-        const owing = [...new Set(r.balance.map((b, i) => b < 0 ? emailOf(i) : '').filter(validEmail))];
-        $('mail-all').href = mail(everyone); $('mail-owe').href = mail(owing);
+        const owingIdx = r.balance.map((b, i) => b < 0 ? i : -1).filter(i => i >= 0);
+        const uniq = a => [...new Set(a.filter(validEmail))];
+        const list = a => a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
+        $('mail-all').href = mail(uniq(s.prows.map((x, i) => emailOf(i))), 'Hi everyone');
+        $('mail-owe').href = mail(uniq(owingIdx.map(emailOf)), 'Hi ' + (owingIdx.length ? list(owingIdx.map(name)) : 'everyone'));
         $('mail-all').hidden = $('mail-owe').hidden = !r.total;
-        return body;
+        return summary;
     }
 
     function render() {
-        const settle = s.mode === 'settle', person = s.mode === 'person', sym = s.cur;
+        const settle = s.mode === 'settle', person = s.mode === 'person';
         document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.mode === s.mode)));
         $('settle-box').hidden = !settle; $('settle-res').hidden = !settle; $('sum-box').hidden = settle;
-        $('tt-box').hidden = settle; $('round-wrap').hidden = settle;
+        $('tt-box').hidden = settle; $('row2').hidden = settle;
         $('even-box').hidden = person || settle; $('people-box').hidden = person || settle; $('person-box').hidden = !person;
         $('per-wrap').hidden = person || settle; $('shares').hidden = !person;
         document.querySelectorAll('#tips button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tip === s.tip)));
-        $('round').checked = s.round; $('cur').value = s.cur;
-        const f = c => C.format(c, sym);
+        $('round').checked = s.round;
+        const f = c => C.format(c, '');
 
         if (settle) { last = renderSettle(f); save(); return; }
 
@@ -140,7 +156,6 @@
     $('people').oninput = e => { s.people = e.target.value.replace(/\D/g, '').slice(0, 3); render(); };
     $('people').onblur = () => setPeople(parseInt(s.people, 10) || 1);
     $('round').onchange = e => { s.round = e.target.checked; render(); };
-    $('cur').onchange = e => { s.cur = e.target.value; render(); };
     $('add-person').onclick = () => { if (s.rows.length < 30) { s.rows.push(blank()); orderRows(); render(); } };
     $('add-payer').onclick = () => { if (s.prows.length < 30) { s.prows.push(blank()); paidRows(); render(); } };
     $('copy').onclick = async () => {

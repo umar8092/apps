@@ -39,7 +39,7 @@ input:focus-visible, button:focus-visible, select:focus-visible, summary:focus-v
 .hint { margin: 0 0 .6rem; color: var(--muted); font-size: .9rem; }
 .rows { list-style: none; margin: 0 0 .6rem; padding: 0; display: grid; gap: .5rem; }
 .rows li { display: grid; grid-template-columns: 1fr 120px 44px; gap: .4rem; }
-.rows button { border-radius: 12px; border: 1px solid var(--line); background: var(--field); color: var(--ink); font-size: 1.2rem; cursor: pointer; }
+.rows li > button:not(.addmail) { border-radius: 12px; border: 1px solid var(--line); background: var(--field); color: var(--ink); font-size: 1.2rem; cursor: pointer; }
 .ghost { width: 100%; min-height: 44px; border-radius: 12px; border: 1px dashed var(--line); background: transparent; color: var(--ink); font: inherit; cursor: pointer; }
 .big { font-size: clamp(2.4rem, 12vw, 3.2rem); font-weight: 800; letter-spacing: -.02em; color: var(--accent); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .big-label { margin: 0; }
@@ -60,9 +60,10 @@ footer { text-align: center; margin-top: 1.5rem; font-size: .9rem; } footer a { 
 [hidden] { display: none !important; }
 @media (max-width: 380px) { .tips { grid-template-columns: repeat(3, 1fr); } .rows li { grid-template-columns: 1fr 100px 44px; } }
 
-.rows.with-email li { grid-template-columns: 1fr 110px 44px; }
-.rows.with-email li input:nth-child(3) { grid-column: 1 / -1; grid-row: 2; font-size: 1rem; }
-.rows.with-email li button { grid-column: 3; grid-row: 1; }
+.rows.with-email li > input[type=email], .rows.with-email li .addmail { grid-column: 1 / -1; grid-row: 2; }
+.rows.with-email li input[type=email] { font-size: 1rem; }
+.addmail { justify-self: start; min-height: 36px; padding: 0 .2rem; border: 0; background: none; color: var(--accent); font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer; }
+.final { margin: .8rem 0; padding: .7rem .8rem; border-radius: 12px; background: var(--field); font-weight: 600; text-align: center; }
 h3 { margin: 1.1rem 0 .4rem; font-size: 1rem; }
 .meta { margin: .2rem 0 0; color: var(--muted); }
 .xfers { list-style: none; margin: 0; padding: 0; display: grid; gap: .4rem; }

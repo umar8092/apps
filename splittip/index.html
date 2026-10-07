@@ -17,7 +17,7 @@
     <meta property="og:description" content="Split a restaurant bill evenly or by what each person ordered. Tax and tip shared fairly. Free, offline, no ads.">
     <meta name="twitter:card" content="summary">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SplitTip","alternateName":["Tip Calculator","Bill Splitter","Split the Check"],"url":"https://umar8092.github.io/apps/splittip/","description":"A free tip calculator and bill splitter. Split evenly or by what each person ordered, with tax and tip shared fairly.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"tip calculator, bill splitter, split the check, split bill by item, restaurant tip calculator","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I work out who owes who when different people paid?","acceptedAnswer":{"@type":"Answer","text":"Choose Who owes who, add everyone and type what each person paid (0 if nothing). The total is split equally and the app lists exactly who pays whom, with an option to email the summary."}},{"@type":"Question","name":"How do I split a bill when everyone ordered different amounts?","acceptedAnswer":{"@type":"Answer","text":"Choose By order, add a row for each person and type what they ordered. Tax and tip are shared in proportion to each amount, so someone with a salad does not pay for someone else's steak."}},{"@type":"Question","name":"How is the tip calculated?","acceptedAnswer":{"@type":"Answer","text":"The tip is a percentage of the bill before tax. Pick 10, 15, 18, 20 or 25 percent, or type your own."}},{"@type":"Question","name":"What does Round up do?","acceptedAnswer":{"@type":"Answer","text":"It rounds each person's share up to a whole dollar, euro or pound. The extra goes to the tip, so the total always adds up."}},{"@type":"Question","name":"Does it work offline and is my data private?","acceptedAnswer":{"@type":"Answer","text":"Yes. After the first visit it works with no connection. Everything is worked out on your device and nothing is sent anywhere."}}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I work out who owes who when different people paid?","acceptedAnswer":{"@type":"Answer","text":"Choose Who owes who, add everyone and type what each person paid (0 if nothing). The total is split equally and the app lists exactly who pays whom, with an option to email the summary."}},{"@type":"Question","name":"How do I split a bill when everyone ordered different amounts?","acceptedAnswer":{"@type":"Answer","text":"Choose By order, add a row for each person and type what they ordered. Tax and tip are shared in proportion to each amount, so someone with a salad does not pay for someone else's steak."}},{"@type":"Question","name":"How is the tip calculated?","acceptedAnswer":{"@type":"Answer","text":"The tip is a percentage of the bill before tax. Pick 10, 15, 18, 20 or 25 percent, or type your own."}},{"@type":"Question","name":"What does Round up do?","acceptedAnswer":{"@type":"Answer","text":"It rounds each person's share up to a whole number. The extra goes to the tip, so the total always adds up."}},{"@type":"Question","name":"Does it work offline and is my data private?","acceptedAnswer":{"@type":"Answer","text":"Yes. After the first visit it works with no connection. Everything is worked out on your device and nothing is sent anywhere."}}]}</script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -77,12 +77,8 @@
             </div>
         </div>
 
-        <div class="row2">
+        <div class="row2" id="row2">
             <label class="check" id="round-wrap"><input type="checkbox" id="round"> Round up each share</label>
-            <select id="cur" aria-label="Currency symbol">
-                <option value="$">$</option><option value="€">€</option><option value="£">£</option>
-                <option value="₹">₹</option><option value="¥">¥</option><option value="">none</option>
-            </select>
         </div>
     </section>
 
@@ -100,11 +96,12 @@
             <ul id="transfers" class="xfers"></ul>
             <h3>Everyone</h3>
             <div id="s-people" class="shares"></div>
-            <p class="hint">Email opens your mail app with the details filled in. Add each person's email above to fill in the To line (optional).</p>
+            <p id="s-final" class="final"></p>
             <div class="mail">
                 <a id="mail-all" class="primary" href="#">Email everyone</a>
                 <a id="mail-owe" class="primary alt" href="#">Email only people who owe</a>
             </div>
+            <p class="hint">Your mail app opens with the summary written for you. Add anyone's email address there if it is not filled in. Nothing is sent until you press send.</p>
         </div>
         <dl class="sum" id="sum-box">
             <div><dt>Subtotal</dt><dd id="r-sub">0.00</dd></div>
