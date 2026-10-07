@@ -1,12 +1,12 @@
-# OfflineTodo
+# To-Do List
 
 A **free online to-do list with no registration**. It works offline, it's private, and your tasks stay on your own device. No account, no ads, no tracking.
 
 **Live demo:** [umar8092.github.io/apps/offlinetodo](https://umar8092.github.io/apps/offlinetodo/)
 
-| Dark | Light |
-|---|---|
-| ![OfflineTodo in dark mode with tasks, due dates and priorities](screenshots/dark.png) | ![OfflineTodo in light mode with tasks, due dates and priorities](screenshots/light.png) |
+| Dark | Light | On a phone |
+|---|---|---|
+| ![To-Do List in dark mode with tasks, due dates and priorities](screenshots/desktop.png) | ![To-Do List in light mode with tasks, due dates and priorities](screenshots/desktop-light.png) | <img src="screenshots/phone.png" alt="To-Do List on a phone" width="220"> |
 
 The app follows your device's light or dark setting.
 
@@ -44,10 +44,10 @@ Tasks live in your browser's local storage on this device. That means:
 No build step and no dependencies.
 
 ```bash
-git clone https://github.com/umar8092/offlinetodo.git
+git clone https://github.com/umar8092/apps.git
 ```
 
-Open `index.html` in your browser. Offline mode and install need the files served over `https` or from `localhost` (for example `python3 -m http.server`), because browsers only allow service workers there.
+Then open `offlinetodo/index.html` in your browser. Offline mode and install need the files served over `https` or from `localhost` (for example `python3 -m http.server`), because browsers only allow service workers there.
 
 ## How it works
 

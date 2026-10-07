@@ -1,6 +1,6 @@
 {
-  "name": "SplitTip",
-  "short_name": "SplitTip",
+  "name": "Bill Splitter",
+  "short_name": "Bill Splitter",
   "description": "Tip calculator and bill splitter that works offline.",
   "start_url": "./",
   "scope": "./",

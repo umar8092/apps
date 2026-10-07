@@ -1,6 +1,6 @@
 {
-  "name": "OfflineTodo",
-  "short_name": "OfflineTodo",
+  "name": "To-Do List",
+  "short_name": "To-Do List",
   "description": "A private to-do list that works offline. No account, no tracking.",
   "start_url": "./",
   "scope": "./",

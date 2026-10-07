@@ -1,11 +1,11 @@
 (function () {
-    const C = SplitCore, $ = id => document.getElementById(id), KEY = 'splittip-v1';
+    const C = SplitCore, $ = id => document.getElementById(id), KEY = 'bill-splitter.state', OLD_KEY = 'splittip-v1';
     const blank = () => ({ n: '', a: '', e: '' });
     const def = { mode: 'settle', bname: '', bill: '', tax: '', tip: '18', people: 2, round: false,
         rows: [blank(), blank()], prows: [blank(), blank(), blank()] };
     let s = Object.assign({}, def);
     try {
-        const saved = JSON.parse(localStorage.getItem(KEY));
+        const saved = JSON.parse(localStorage.getItem(KEY) || localStorage.getItem(OLD_KEY));
         if (saved && typeof saved === 'object') s = Object.assign(s, saved);
     } catch (e) { /* storage blocked or corrupt: start fresh */ }
     const clean = (rows, fallback) => Array.isArray(rows) && rows.length

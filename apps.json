@@ -6,18 +6,18 @@
   },
   {
     "slug": "offlinetodo",
-    "name": "Free To-Do List",
-    "description": "Free online to-do list with no registration. Works offline."
+    "name": "To-Do List",
+    "description": "Free to-do list with no registration. Works offline."
   },
   {
     "slug": "sleepbeat",
-    "name": "SleepBeat",
-    "description": "Free heartbeat sound for sleep, babies and puppies."
+    "name": "Heartbeat Sound",
+    "description": "Heartbeat sound for sleep, babies and puppies. Loops all night."
   },
   {
-    "slug": "splittip",
-    "name": "Bill Splitter and Tip Calculator",
-    "description": "Split a bill and see who owes who. Email the summary. Also tip calculator."
+    "slug": "bill-splitter",
+    "name": "Bill Splitter",
+    "description": "Split a bill and see who owes who. Email the summary. Also a tip calculator."
   },
   {
     "slug": "weather-app",

@@ -1,10 +1,12 @@
-# SleepBeat
+# Heartbeat Sound
 
 A free, calming **heartbeat sound** you can loop all night, for sleep, newborns, puppies, focus and relaxation. No ads, no sign-up, no tracking. Everything runs in your browser.
 
 **Live demo:** [umar8092.github.io/apps/sleepbeat](https://umar8092.github.io/apps/sleepbeat/)
 
-![SleepBeat playing a heartbeat sound at 70 BPM with a 30 minute sleep timer](screenshots/playing.png)
+| Desktop | Phone |
+|---|---|
+| ![Heartbeat Sound playing a heartbeat at 70 BPM with heart rate presets, volume and sleep timer](screenshots/desktop.png) | <img src="screenshots/phone.png" alt="Heartbeat Sound on a phone" width="220"> |
 
 ## What you can do
 
@@ -34,10 +36,10 @@ Sleep, settling a newborn, comforting a new puppy or kitten, studying, meditatio
 No build step and no dependencies.
 
 ```bash
-git clone https://github.com/umar8092/sleepbeat.git
+git clone https://github.com/umar8092/apps.git
 ```
 
-Open `index.html` in your browser.
+Then open `sleepbeat/index.html` in your browser.
 
 ## How it works
 

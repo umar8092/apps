@@ -60,6 +60,8 @@ async function details(url,fb){
   try{
     const r=await fetch(abs); if(!r.ok) return null; // not an app (e.g. icons/ folder)
     const d=new DOMParser().parseFromString(await r.text(),"text/html");
+    // real apps have a description and are not redirect stubs (old addresses) or folder listings
+    if(d.querySelector('meta[http-equiv=refresh]')||!d.querySelector('meta[name=description]')) return null;
     const t=clean(d.title); if(t) o.name=t.split(/[:|,–—]| - /)[0].trim();
     o.desc=clean(d.querySelector('meta[name=description]')?.content)||o.desc;
     const href=d.querySelector('link[rel~=icon]')?.getAttribute("href")||"";

@@ -40,7 +40,8 @@ Pick one:
 ## Run it locally
 
 ```
-git clone https://github.com/umar8092/weather-app.git
+git clone https://github.com/umar8092/apps.git
+cd apps/weather-app
 ```
 
 Then open `index.html` in your browser.
