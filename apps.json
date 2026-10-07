@@ -1,1 +1,7 @@
-[]
+[
+  {
+    "slug": "sleepcycle",
+    "name": "Sleep Cycle Calculator",
+    "description": "Find the best bedtime or wake-up time using 90-minute sleep cycles. Private and works offline."
+  }
+]

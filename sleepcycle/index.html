@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sleep Cycle Calculator: Best Bedtime &amp; Wake-Up Time</title>
+<meta name="description" content="Free sleep cycle calculator. Find the best time to go to bed or wake up using 90-minute sleep cycles. No ads, no sign-up, works offline, private on your device.">
+<link rel="canonical" href="https://umar8092.github.io/apps/sleepcycle/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0f1530">
+<style>
+:root{--bg:#0b1024;--card:#161d3d;--card2:#1e2750;--fg:#eef1ff;--mut:#9aa5d6;--acc:#8fa2ff;--acc2:#ffd27a;--ok:#6ee7b7;--r:16px}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:radial-gradient(1200px 600px at 50% -200px,#25306b,var(--bg));background-color:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+h1{font-size:clamp(1.6rem,5vw,2.2rem);margin:.2em 0 .1em;text-align:center}
+.sub{color:var(--mut);text-align:center;margin:0 0 20px}
+.card{background:var(--card);border-radius:var(--r);padding:18px;margin:14px 0;box-shadow:0 4px 20px #0005}
+.tabs{display:flex;gap:6px;background:var(--card);padding:5px;border-radius:999px}
+.tabs button{flex:1;border:0;background:none;color:var(--mut);padding:10px 6px;border-radius:999px;font:inherit;font-weight:600;cursor:pointer;min-height:44px}
+.tabs button[aria-selected=true]{background:var(--acc);color:#0b1024}
+label{display:block;color:var(--mut);font-size:.9rem;margin-bottom:6px}
+.row{display:flex;flex-wrap:wrap;gap:14px;align-items:end}
+.row>div{flex:1 1 150px}
+input[type=time],input[type=number],select{width:100%;background:var(--card2);color:var(--fg);border:1px solid #33407f;border-radius:12px;padding:10px 12px;font:inherit;font-size:1.3rem;min-height:48px;color-scheme:dark}
+select,input[type=number]{font-size:1rem}
+button.go{background:var(--acc2);color:#2a1d00;border:0;border-radius:12px;font:inherit;font-weight:700;padding:12px 20px;min-height:48px;cursor:pointer;width:100%}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--acc2);outline-offset:2px}
+#results{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:6px}
+.res{background:var(--card2);border-radius:14px;padding:14px 8px;text-align:center;border:2px solid transparent}
+.res.best{border-color:var(--ok)}
+.res .t{font-size:1.6rem;font-weight:700;letter-spacing:.5px}
+.res .m{color:var(--mut);font-size:.82rem}
+.res .tag{display:inline-block;margin-top:4px;font-size:.72rem;color:#05281c;background:var(--ok);border-radius:999px;padding:1px 8px;font-weight:700}
+#hint{color:var(--mut);text-align:center;margin:4px 0 10px}
+details{color:var(--mut)}summary{cursor:pointer;color:var(--fg);font-weight:600}
+h2{font-size:1.1rem;margin:.2em 0 .4em}
+p{margin:.4em 0}
+footer{text-align:center;color:var(--mut);font-size:.85rem;margin-top:24px}
+a{color:var(--acc)}
+@media(min-width:900px){main{padding-top:48px}}
+</style>
+</head>
+<body>
+<main>
+<h1>🌙 Sleep Cycle Calculator</h1>
+<p class="sub">Wake up between cycles, not in the middle of one.</p>
+
+<div class="tabs" role="tablist" aria-label="Mode">
+  <button role="tab" id="tab-wake" aria-selected="true" data-mode="wake">I need to wake at…</button>
+  <button role="tab" id="tab-bed" aria-selected="false" data-mode="bed">I go to bed at…</button>
+</div>
+
+<section class="card">
+  <div class="row">
+    <div><label for="time" id="timeLabel">Wake-up time</label><input type="time" id="time" value="07:00"></div>
+    <div><button class="go" id="now" type="button">Sleep now</button></div>
+  </div>
+  <details style="margin-top:14px"><summary>Settings</summary>
+    <div class="row" style="margin-top:10px">
+      <div><label for="fall">Minutes to fall asleep</label><input type="number" id="fall" min="0" max="120" value="15"></div>
+      <div><label for="cyc">Cycle length (min)</label><input type="number" id="cyc" min="60" max="120" value="90"></div>
+      <div><label for="fmt">Clock</label><select id="fmt"><option value="12">12-hour</option><option value="24">24-hour</option></select></div>
+    </div>
+  </details>
+</section>
+
+<p id="hint" aria-live="polite"></p>
+<section class="card" aria-live="polite"><div id="results"></div></section>
+
+<section class="card">
+  <h2>How it works</h2>
+  <p>Sleep runs in cycles of about 90 minutes. Waking at the end of a cycle usually feels easier than being pulled out of deep sleep. Most adults do well with 5–6 cycles (7.5–9 hours). The calculator adds the time you need to fall asleep (default 15 minutes).</p>
+  <p>These are estimates, not medical advice. Everyone's sleep differs, so adjust the settings to suit you.</p>
+</section>
+<footer>Free, no ads, no sign-up. Everything stays on your device. <a href="../">More free apps</a></footer>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
