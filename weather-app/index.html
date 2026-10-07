@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App: Current Weather for Any City</title>
+    <meta name="description" content="Check the current weather for any city. Free, open source, built with plain HTML, CSS and JavaScript.">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#1d4ed8">
+    <link rel="canonical" href="https://umar8092.github.io/apps/weather-app/">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-weather="default">
+    <main class="app">
+        <header class="top">
+            <h1>Weather</h1>
+            <div class="units" role="group" aria-label="Temperature unit">
+                <button type="button" data-units="metric" aria-pressed="true">°C</button>
+                <button type="button" data-units="imperial" aria-pressed="false">°F</button>
+            </div>
+        </header>
+
+        <form id="search-form" class="search" autocomplete="off">
+            <label for="city-input" class="sr-only">City</label>
+            <input type="text" id="city-input" placeholder="Search a city, e.g. London or Rome,IT" required>
+            <button type="submit" id="search-button">Search</button>
+            <button type="button" id="locate-button" class="ghost" title="Use my location" aria-label="Use my location">&#9737;</button>
+        </form>
+
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+
+        <section id="weather-info" class="card" hidden>
+            <div class="place">
+                <h2 id="place-name"></h2>
+                <p id="place-time"></p>
+            </div>
+            <div class="now">
+                <img id="icon" alt="" width="120" height="120">
+                <div>
+                    <p class="temp"><span id="temp"></span><sup id="temp-unit"></sup></p>
+                    <p id="desc" class="desc"></p>
+                </div>
+            </div>
+            <dl class="grid">
+                <div><dt>Feels like</dt><dd id="feels"></dd></div>
+                <div><dt>High / Low</dt><dd id="hilo"></dd></div>
+                <div><dt>Humidity</dt><dd id="humidity"></dd></div>
+                <div><dt>Wind</dt><dd id="wind"></dd></div>
+                <div><dt>Pressure</dt><dd id="pressure"></dd></div>
+                <div><dt>Visibility</dt><dd id="visibility"></dd></div>
+                <div><dt>Sunrise</dt><dd id="sunrise"></dd></div>
+                <div><dt>Sunset</dt><dd id="sunset"></dd></div>
+            </dl>
+        </section>
+
+        <details id="key-panel" class="key">
+            <summary>API key</summary>
+            <p>This app uses a free <a href="https://openweathermap.org/api" target="_blank" rel="noopener">OpenWeatherMap</a> key.
+                <a href="https://home.openweathermap.org/api_keys" target="_blank" rel="noopener">Get yours here</a>
+                and paste it below. It is saved only in this browser.</p>
+            <form id="key-form">
+                <label for="key-input" class="sr-only">OpenWeatherMap API key</label>
+                <input type="password" id="key-input" placeholder="Paste your API key" autocomplete="off">
+                <button type="submit">Save</button>
+            </form>
+        </details>
+
+        <footer>Weather data by <a href="https://openweathermap.org" target="_blank" rel="noopener">OpenWeatherMap</a> &middot;
+            <a href="https://github.com/umar8092/weather-app" target="_blank" rel="noopener">Source on GitHub</a></footer>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>
