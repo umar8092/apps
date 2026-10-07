@@ -41,7 +41,7 @@ footer a{color:var(--acc)}
 // Discovers apps on every load: folders in this repo (GitHub API, apps.json as fallback).
 // Each app's own page supplies its title/description/icon.
 const USER="umar8092";
-const J=u=>fetch(u).then(r=>r.ok?r.json():Promise.reject(u));
+const J=u=>fetch(u,{cache:'no-cache'}).then(r=>r.ok?r.json():Promise.reject(u));
 const clean=s=>(s||"").replace(/\s+/g," ").trim();
 
 async function discover(){
@@ -58,7 +58,7 @@ async function discover(){
 async function details(url,fb){
   const abs=new URL(url,location.href).href, o={url:abs,name:fb.name,desc:clean(fb.desc),icon:""};
   try{
-    const r=await fetch(abs); if(!r.ok) return null; // not an app (e.g. icons/ folder)
+    const r=await fetch(abs,{cache:'no-cache'}); if(!r.ok) return null; // not an app (e.g. icons/ folder)
     const d=new DOMParser().parseFromString(await r.text(),"text/html");
     // real apps have a description and are not redirect stubs (old addresses) or folder listings
     if(d.querySelector('meta[http-equiv=refresh]')||!d.querySelector('meta[name=description]')) return null;
