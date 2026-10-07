@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OfflineTodo logic check</title>
+<meta name="robots" content="noindex">
+<style>body{font:16px/1.6 system-ui,sans-serif;max-width:680px;margin:2rem auto;padding:0 1rem}.pass{color:#0a7d33}.fail{color:#c0221b;font-weight:600}</style>
+</head>
+<body>
+<h1>OfflineTodo logic check</h1>
+<p>Runs the checks on the app's logic in your browser. Open this file to see the results.</p>
+<ul id="out"></ul>
+<script src="core.js"></script>
+<script>
+const C = TodoCore, results = [];
+const check = (name, ok, detail) => results.push({ name, ok: !!ok, detail: detail || '' });
+const throws = fn => { try { fn(); return null; } catch (e) { return e.message; } };
+const t = (text, extra) => Object.assign({ id: text, text, done: false, due: '', priority: 1, created: 1 }, extra);
+
+// cleaning tasks
+check('A normal task is kept', C.normalizeTask({ text: ' Buy milk ', done: true, due: '2026-12-01', priority: 2 }).text === 'Buy milk');
+check('Blank text is rejected', C.normalizeTask({ text: '   ' }) === null);
+check('Non-objects and missing text are rejected', [null, 5, 'x', [], {}, { text: 7 }].every(v => C.normalizeTask(v) === null));
+check('Long text is cut to 500 characters', C.normalizeTask({ text: 'a'.repeat(900) }).text.length === 500);
+check('A bad date is dropped', C.normalizeTask({ text: 'x', due: '2026-13-45' }).due === '' && C.normalizeTask({ text: 'x', due: 'tomorrow' }).due === '');
+check('A bad priority becomes Normal', C.normalizeTask({ text: 'x', priority: 9 }).priority === 1);
+check('Only a real true counts as done', C.normalizeTask({ text: 'x', done: 'yes' }).done === false);
+check('Markup stays plain text (it is never run as HTML)', C.normalizeTask({ text: '<img src=x onerror=alert(1)>' }).text === '<img src=x onerror=alert(1)>');
+
+// import
+const good = C.parseImport(JSON.stringify({ tasks: [t('a'), t('b', { done: true })] }));
+check('A backup file is read', good.tasks.length === 2 && good.skipped === 0);
+check('A plain array also works', C.parseImport(JSON.stringify([t('a')])).tasks.length === 1);
+check('Invalid items are skipped and counted', (r => r.tasks.length === 1 && r.skipped === 2)(C.parseImport(JSON.stringify([t('a'), { text: '' }, 5]))));
+check('Duplicate ids are made unique', (r => new Set(r.tasks.map(x => x.id)).size === 2)(C.parseImport(JSON.stringify([t('a'), t('a')]))));
+check('Broken JSON gives a clear message', throws(() => C.parseImport('{oops')) === 'That file is not valid JSON.');
+check('Wrong shape gives a clear message', throws(() => C.parseImport('{"hello":1}')) === 'That file is not an OfflineTodo backup.');
+check('A file with only junk is refused', throws(() => C.parseImport('[1,2,3]')) === 'No valid tasks were found in that file.');
+check('An empty list is allowed', C.parseImport('[]').tasks.length === 0);
+const round = C.parseImport(C.exportJSON([t('one', { due: '2026-05-05', priority: 2 }), t('two', { done: true })])).tasks;
+check('Export then import gives the same tasks back', round.length === 2 && round[0].text === 'one' && round[0].due === '2026-05-05' && round[0].priority === 2 && round[1].done === true);
+
+// due dates
+const now = new Date(2026, 5, 10, 15, 30); // 10 June 2026, afternoon
+const due = d => C.dueInfo(d, now);
+check('Due today', due('2026-06-10').state === 'today' && due('2026-06-10').label === 'Due today');
+check('Due tomorrow', due('2026-06-11').label === 'Due tomorrow');
+check('Due in 3 days', due('2026-06-13').label === 'Due in 3 days');
+check('Overdue by 1 day and by 3 days', due('2026-06-09').label === 'Overdue 1 day' && due('2026-06-07').label === 'Overdue 3 days' && due('2026-06-07').state === 'overdue');
+check('A date far away is "later"', due('2026-08-20').state === 'later');
+check('No date gives no label', due('').label === '');
+check('Month ends work (31 May is 10 days before 10 June)', due('2026-05-31').label === 'Overdue 10 days');
+
+// ordering and filtering
+const ids = l => l.map(x => x.id).join('');
+const list = [t('a'), t('b'), t('c'), t('d')];
+check('Move before a task', ids(C.place(list, 'd', 'b', false)) === 'adbc');
+check('Move after a task', ids(C.place(list, 'a', 'c', true)) === 'bcad');
+check('An unknown id changes nothing', C.place(list, 'x', 'b', false) === list && C.place(list, 'a', 'x', true) === list);
+check('The original list is not changed', ids(list) === 'abcd');
+const mix = [t('Buy milk'), t('Call mum', { done: true }), t('Buy bread', { done: true })];
+check('Filter: all, active, done', C.visible(mix, 'all', '').length === 3 && C.visible(mix, 'active', '').length === 1 && C.visible(mix, 'done', '').length === 2);
+check('Search ignores case and spaces around', ids(C.visible(mix, 'all', '  BUY ')) === 'Buy milkBuy bread');
+check('Search and filter combine', ids(C.visible(mix, 'done', 'buy')) === 'Buy bread');
+check('Counts are right', (c => c.active === 1 && c.done === 2)(C.counts(mix)));
+
+// checklist text
+const cl = C.toChecklist([t('Buy milk', { due: '2026-06-11', priority: 2 }), t('Call mum', { done: true }), t('Water plants', { priority: 0 }), t('Two\nlines')]).split('\n');
+check('Checklist: an open task is "- [ ]" with due date and priority', cl[0] === '- [ ] Buy milk (due 2026-06-11, high priority)');
+check('Checklist: a done task is "- [x]"', cl[1] === '- [x] Call mum');
+check('Checklist: low priority is noted, normal is not', cl[2] === '- [ ] Water plants (low priority)');
+check('Checklist: line breaks inside a task never split it into two lines', cl.length === 4 && cl[3] === '- [ ] Two lines');
+check('Checklist: an empty list gives empty text', C.toChecklist([]) === '');
+
+const out = document.getElementById('out');
+results.forEach(r => {
+    const li = document.createElement('li');
+    li.className = r.ok ? 'pass' : 'fail';
+    li.textContent = (r.ok ? 'PASS ' : 'FAIL ') + r.name + (r.detail ? ' (' + r.detail + ')' : '');
+    out.appendChild(li);
+});
+const failed = results.filter(r => !r.ok).length;
+const sum = document.createElement('p');
+sum.className = failed ? 'fail' : 'pass';
+sum.textContent = failed ? failed + ' check(s) failed' : 'All ' + results.length + ' checks passed';
+document.body.appendChild(sum);
+document.body.dataset.result = failed ? 'fail' : 'pass';
+</script>
+</body>
+</html>

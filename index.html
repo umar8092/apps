@@ -37,9 +37,9 @@ footer a{color:var(--acc)}
 <footer>New apps appear here automatically. <a href="https://github.com/umar8092">GitHub</a></footer>
 </main>
 <script>
-// Discovers apps on every load: folders in this repo (GitHub API, apps.json as fallback)
-// plus the user's other repos that have a github.io homepage. Each app's own page supplies its title/description/icon.
-const USER="umar8092", HOST=USER+".github.io", SKIP=new Set(["apps",HOST,"saco-international"]);
+// Discovers apps on every load: folders in this repo (GitHub API, apps.json as fallback).
+// Each app's own page supplies its title/description/icon.
+const USER="umar8092";
 const J=u=>fetch(u).then(r=>r.ok?r.json():Promise.reject(u));
 const clean=s=>(s||"").replace(/\s+/g," ").trim();
 
@@ -50,9 +50,6 @@ async function discover(){
   try{
     (await J(`https://api.github.com/repos/${USER}/apps/contents`))
       .filter(f=>f.type==="dir"&&!f.name.startsWith(".")).forEach(f=>add(f.name+"/",f.name));
-    (await J(`https://api.github.com/users/${USER}/repos?per_page=100`))
-      .filter(r=>!SKIP.has(r.name)&&(r.homepage||"").includes(HOST))
-      .forEach(r=>add(r.homepage,r.name,r.description));
   }catch(e){}
   return urls;
 }

@@ -1,0 +1,106 @@
+:root {
+    --bg1: #14070d;
+    --bg2: #2a0d1a;
+    --ink: #fff;
+    --muted: rgba(255, 255, 255, .68);
+    --glass: rgba(255, 255, 255, .07);
+    --line: rgba(255, 255, 255, .16);
+    --accent: #ff4d6d;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: clamp(1.2rem, 5vw, 3rem) 1rem;
+    display: flex;
+    justify-content: center;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+    background: radial-gradient(120% 80% at 50% 0%, var(--bg2), var(--bg1) 70%) fixed;
+    touch-action: manipulation; /* stops double-tap zoom, so a quick second tap is not a second action */
+}
+
+.page { width: min(640px, 100%); }
+.app { width: min(440px, 100%); margin: 0 auto; text-align: center; }
+
+h1 { margin: 0; font-size: 1.7rem; letter-spacing: -.02em; }
+.sub { margin: .4rem 0 0; color: var(--muted); }
+
+.stage { margin: 1.6rem 0 1rem; }
+.heart {
+    width: 170px;
+    height: auto;
+    filter: drop-shadow(0 0 22px rgba(255, 77, 109, .45));
+    will-change: transform;
+}
+body[data-playing="true"] .heart { filter: drop-shadow(0 0 34px rgba(255, 77, 109, .7)); }
+
+.bpm { margin: .6rem 0 0; font-size: 2.6rem; font-weight: 300; line-height: 1; letter-spacing: -.03em; }
+.bpm small { font-size: .9rem; font-weight: 600; letter-spacing: .12em; color: var(--muted); }
+
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+.play {
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    border: 0;
+    margin: .4rem auto 1.6rem;
+    display: grid; place-items: center;
+    cursor: pointer;
+    color: #2a0d1a;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(255, 77, 109, .35);
+    transition: transform .12s, box-shadow .2s;
+}
+.play:active { transform: scale(.94); }
+.play svg { width: 38px; height: 38px; fill: currentColor; }
+.play .i-pause { display: none; }
+body[data-playing="true"] .play .i-play { display: none; }
+body[data-playing="true"] .play .i-pause { display: block; }
+
+.panel {
+    margin-bottom: .9rem;
+    padding: 1rem 1.1rem;
+    border-radius: 18px;
+    background: var(--glass);
+    border: 1px solid var(--line);
+    text-align: left;
+}
+.panel > label { display: block; margin-bottom: .6rem; font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+
+input[type="range"] { width: 100%; accent-color: var(--accent); height: 28px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .5rem; }
+.panel > label + .chips { margin-top: 0; }
+.chips button {
+    padding: .4rem .8rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: transparent;
+    cursor: pointer;
+    font-size: .9rem;
+}
+.chips button:hover { background: var(--glass); }
+.chips button[aria-pressed="true"] { background: #fff; color: #2a0d1a; border-color: #fff; font-weight: 600; }
+
+.timer-status { margin: .7rem 0 0; font-size: .92rem; color: var(--muted); }
+
+.tip { margin: 1.2rem .4rem; font-size: .85rem; line-height: 1.5; color: var(--muted); }
+footer { margin-top: 2rem; text-align: center; font-size: .82rem; }
+footer a { color: var(--muted); }
+
+/* the text under the player: what it is for, and common questions */
+.info { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+.info h2 { margin: 0 0 1rem; font-size: 1.25rem; letter-spacing: -.01em; }
+.info h2:not(:first-child) { margin-top: 2.2rem; }
+.uses { margin: 0; padding: 0; list-style: none; display: grid; gap: .7rem; }
+.uses li { padding: .9rem 1rem; border-radius: 14px; background: var(--glass); border: 1px solid var(--line); color: var(--muted); line-height: 1.5; }
+.uses strong { display: block; color: var(--ink); margin-bottom: .15rem; }
+.faq details { border-bottom: 1px solid var(--line); padding: .9rem 0; }
+.faq summary { cursor: pointer; font-weight: 600; }
+.faq p { margin: .6rem 0 0; color: var(--muted); line-height: 1.6; }
+
+@media (prefers-reduced-motion: reduce) { .play { transition: none; } }

@@ -3,5 +3,20 @@
     "slug": "sleepcycle",
     "name": "Sleep Cycle Calculator",
     "description": "Find the best bedtime or wake-up time using 90-minute sleep cycles. Private and works offline."
+  },
+  {
+    "slug": "offlinetodo",
+    "name": "Free To-Do List",
+    "description": "Free online to-do list with no registration. Works offline."
+  },
+  {
+    "slug": "sleepbeat",
+    "name": "SleepBeat",
+    "description": "Free heartbeat sound for sleep, babies and puppies."
+  },
+  {
+    "slug": "splittip",
+    "name": "Tip Calculator and Bill Splitter",
+    "description": "Free tip calculator and bill splitter."
   }
 ]

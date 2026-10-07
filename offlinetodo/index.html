@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free To-Do List, No Registration, Works Offline | OfflineTodo</title>
+    <meta name="description" content="Free online to-do list with no registration. Works offline and keeps your tasks private on your device. Due dates, priorities, backup and share. No ads.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/offlinetodo/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#0f172a">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="OfflineTodo">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="https://umar8092.github.io/apps/offlinetodo/">
+    <meta property="og:title" content="Free To-Do List, No Registration, Works Offline | OfflineTodo">
+    <meta property="og:description" content="A free online to-do list with no registration. Works offline and keeps your tasks private on your device. No ads, no tracking.">
+    <meta property="og:image" content="https://umar8092.github.io/apps/offlinetodo/screenshots/social.png">
+    <meta property="og:image:alt" content="OfflineTodo: a private to-do list with tasks, due dates and priorities">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OfflineTodo","alternateName":["OfflineTodo Free Online To-Do List","Offline To-Do List","To-Do List No Registration"],"url":"https://umar8092.github.io/apps/offlinetodo/","description":"A free online to-do list with no registration. Works offline and keeps tasks private on your device, with due dates, priorities, search, backup, import and share.","applicationCategory":"ProductivityApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser","isAccessibleForFree":true,"keywords":"free online to-do list, to-do list no registration, offline to-do list, private to-do list, to-do list no account, installable to-do app, checklist maker","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do I need to register or create an account?","acceptedAnswer":{"@type":"Answer","text":"No. There is no registration, no sign-up and no login. Open the page and start adding tasks. Your list is saved on your device."}},{"@type":"Question","name":"Does this to-do list work without internet?","acceptedAnswer":{"@type":"Answer","text":"Yes. After the first visit the app is saved in your browser, so it opens and works with no connection. You can add, edit and finish tasks offline."}},{"@type":"Question","name":"Where are my tasks stored?","acceptedAnswer":{"@type":"Answer","text":"Only on your own device, in your browser's local storage. Nothing is sent to a server, and there is no account, no sign-up and no tracking."}},{"@type":"Question","name":"Can I install it on my phone or computer?","acceptedAnswer":{"@type":"Answer","text":"Yes. In Chrome, Edge or Safari, use the browser's install or Add to Home Screen option. It then opens like a normal app and works offline."}},{"@type":"Question","name":"Can I copy my list to Notes, Keep or another app?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use Copy as checklist to copy your tasks as plain text, one per line, ready to paste anywhere. On a phone, the Share button sends the list straight to Notes, Keep, Messages or any other app."}},{"@type":"Question","name":"How do I back up my tasks or move them to another device?","acceptedAnswer":{"@type":"Answer","text":"Use Export backup to save your tasks as a file, then use Import backup on the other device. Because tasks live only on your device, a backup file is the way to move or protect them."}},{"@type":"Question","name":"What happens if I clear my browser data?","acceptedAnswer":{"@type":"Answer","text":"Your tasks are deleted along with it, because they are stored in the browser. Export a backup now and then to be safe."}},{"@type":"Question","name":"Is OfflineTodo free?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free and open source under the MIT license, with no ads."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="page">
+        <div class="app">
+            <header>
+                <h1>OfflineTodo</h1>
+                <h2 class="sub">A free online to-do list with no registration. Works offline and stays private on your device.</h2>
+                <p id="pill" class="pill" role="status" aria-live="polite">Saved on this device</p>
+            </header>
+
+            <p id="storage-warning" class="warning" role="alert" hidden>Your browser is blocking storage, so tasks will not be saved after you close this tab.</p>
+
+            <form id="add-form" class="add" autocomplete="off">
+                <label for="new-text" class="sr-only">New task</label>
+                <input id="new-text" type="text" maxlength="500" placeholder="Add a task" required>
+                <div class="add-row">
+                    <label class="field"><span>Due</span><input id="new-due" type="date"></label>
+                    <label class="field"><span>Priority</span>
+                        <select id="new-priority">
+                            <option value="0">Low</option>
+                            <option value="1" selected>Normal</option>
+                            <option value="2">High</option>
+                        </select>
+                    </label>
+                    <button type="submit" class="primary">Add</button>
+                </div>
+            </form>
+
+            <div class="toolbar">
+                <div id="filters" class="chips" role="group" aria-label="Show tasks">
+                    <button type="button" data-filter="all" aria-pressed="true">All</button>
+                    <button type="button" data-filter="active" aria-pressed="false">Active</button>
+                    <button type="button" data-filter="done" aria-pressed="false">Done</button>
+                </div>
+                <label for="search" class="sr-only">Search tasks</label>
+                <input id="search" type="search" placeholder="Search ( / )">
+            </div>
+
+            <ul id="list" class="list"></ul>
+            <p id="empty" class="empty" hidden></p>
+
+            <div class="summary">
+                <span id="left" aria-live="polite">0 tasks left</span>
+                <button type="button" id="clear-done" class="link">Clear completed</button>
+            </div>
+
+            <div class="backup">
+                <button type="button" id="copy">Copy as checklist</button>
+                <button type="button" id="share" hidden>Share</button>
+                <button type="button" id="export">Export backup</button>
+                <button type="button" id="import-btn">Import backup</button>
+                <input id="import-file" type="file" accept="application/json,.json" hidden>
+            </div>
+        </div>
+
+        <section class="info" aria-labelledby="why-title">
+            <h2 id="why-title">Why OfflineTodo</h2>
+            <ul class="uses">
+                <li><strong>Works offline</strong> After your first visit it opens and works with no connection.</li>
+                <li><strong>No registration</strong> Start using it right away. No account, no email, no password.</li>
+                <li><strong>Private by design</strong> Your tasks stay on your device. No servers, no tracking, no ads.</li>
+                <li><strong>Installable</strong> Add it to your home screen or desktop and it opens like a normal app.</li>
+                <li><strong>Simple but capable</strong> Due dates, priorities, search, filters, reordering and undo.</li>
+                <li><strong>Yours to keep</strong> Export your tasks to a file any time, and import them anywhere.</li>
+                <li><strong>Easy to share</strong> Copy your list as a checklist, or send it to Notes, Keep or any app from your phone's share menu.</li>
+            </ul>
+
+            <h2>Questions</h2>
+            <div class="faq">
+                <details>
+                    <summary>Do I need to register or create an account?</summary>
+                    <p>No. There is no registration, no sign-up and no login. Open the page and start adding tasks. Your list is saved on your device.</p>
+                </details>
+                <details>
+                    <summary>Does this to-do list work without internet?</summary>
+                    <p>Yes. After the first visit the app is saved in your browser, so it opens and works with no connection. You can add, edit and finish tasks offline.</p>
+                </details>
+                <details>
+                    <summary>Where are my tasks stored?</summary>
+                    <p>Only on your own device, in your browser's local storage. Nothing is sent to a server, and there is no account, no sign-up and no tracking.</p>
+                </details>
+                <details>
+                    <summary>Can I install it on my phone or computer?</summary>
+                    <p>Yes. In Chrome, Edge or Safari, use the browser's install or Add to Home Screen option. It then opens like a normal app and works offline.</p>
+                </details>
+                <details>
+                    <summary>Can I copy my list to Notes, Keep or another app?</summary>
+                    <p>Yes. Use Copy as checklist to copy your tasks as plain text, one per line, ready to paste anywhere. On a phone, the Share button sends the list straight to Notes, Keep, Messages or any other app.</p>
+                </details>
+                <details>
+                    <summary>How do I back up my tasks or move them to another device?</summary>
+                    <p>Use Export backup to save your tasks as a file, then use Import backup on the other device. Because tasks live only on your device, a backup file is the way to move or protect them.</p>
+                </details>
+                <details>
+                    <summary>What happens if I clear my browser data?</summary>
+                    <p>Your tasks are deleted along with it, because they are stored in the browser. Export a backup now and then to be safe.</p>
+                </details>
+                <details>
+                    <summary>Is OfflineTodo free?</summary>
+                    <p>Yes. It is free and open source under the MIT license, with no ads.</p>
+                </details>
+            </div>
+        </section>
+
+        <footer>
+            <a href="https://github.com/umar8092/offlinetodo" target="_blank" rel="noopener">Open source (MIT) on GitHub</a>
+        </footer>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden>
+        <span id="toast-text"></span>
+        <button type="button" id="toast-undo" class="link" hidden>Undo</button>
+    </div>
+
+    <script src="core.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

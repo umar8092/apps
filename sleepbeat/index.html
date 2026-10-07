@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SleepBeat: Heartbeat Sound for Sleep, Babies &amp; Puppies</title>
+    <meta name="description" content="Free heartbeat sound that loops all night. Adjust the heart rate, set a sleep timer with fade-out. No ads, no sign-up. For sleep, newborns, puppies and calm.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/sleepbeat/">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%E2%9D%A4%EF%B8%8F%3C/text%3E%3C/svg%3E">
+    <meta name="theme-color" content="#14070d">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="SleepBeat">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="https://umar8092.github.io/apps/sleepbeat/">
+    <meta property="og:title" content="SleepBeat: Heartbeat Sound for Sleep, Babies &amp; Puppies">
+    <meta property="og:description" content="A free, gentle heartbeat sound that loops all night, with adjustable heart rate, volume and a sleep timer.">
+    <meta property="og:image" content="https://umar8092.github.io/apps/sleepbeat/screenshots/social.png">
+    <meta property="og:image:alt" content="SleepBeat: a glowing heart and a play button for a calming heartbeat sound">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SleepBeat","alternateName":["SleepBeat Heartbeat Sound","Heartbeat Sound for Sleep"],"url":"https://umar8092.github.io/apps/sleepbeat/","description":"A free heartbeat sound for sleep, newborns and puppies, with adjustable heart rate, volume and a sleep timer with fade-out.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","browserRequirements":"Requires a browser with Web Audio support","isAccessibleForFree":true,"keywords":"heartbeat sound, heartbeat sound for sleep, heartbeat sound for puppy, heartbeat sound for baby, sleep sounds, sleep timer, relaxation, calming sounds","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does a heartbeat sound help you sleep?","acceptedAnswer":{"@type":"Answer","text":"Many people find a slow, steady rhythm calming, and it also covers up background noise. Results vary and there is little scientific proof for any single sound, so treat it as a comfort aid, not a treatment. If you often have trouble sleeping, talk to a doctor."}},{"@type":"Question","name":"What heart rate should I choose for sleep?","acceptedAnswer":{"@type":"Answer","text":"For sleep, most people start with a slow resting rate of about 60 beats per minute. For a newborn, a faster 110 to 130 BPM is often used because it is closer to the rhythm a baby heard before birth. For a puppy, a slow steady rhythm of around 60 to 100 BPM is common."}},{"@type":"Question","name":"Can I use a heartbeat sound for a puppy or newborn?","acceptedAnswer":{"@type":"Answer","text":"Many owners and parents use a heartbeat sound to help settle a puppy or a baby. Keep the volume low, place the speaker a few feet away and never inside a crib or bed, and ask your vet or paediatrician if you are unsure."}},{"@type":"Question","name":"Can I play it all night?","acceptedAnswer":{"@type":"Answer","text":"Yes. It loops until you pause it, or you can set a sleep timer of 15, 30 or 60 minutes or 8 hours with a gentle fade-out. Phones stop web audio when the screen locks, so keep the screen on and the phone plugged in."}},{"@type":"Question","name":"Is SleepBeat free?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free and open source, with no ads, no sign-up and no tracking. Everything runs in your browser."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-playing="false">
+    <main class="page">
+        <div class="app">
+            <header>
+                <h1>SleepBeat</h1>
+                <p class="sub">A calming heartbeat sound for sleep, babies and puppies.</p>
+            </header>
+
+            <div class="stage">
+                <svg id="heart" class="heart" viewBox="0 0 100 90" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0" stop-color="#ff6b81" />
+                            <stop offset="1" stop-color="#d6234a" />
+                        </linearGradient>
+                    </defs>
+                    <path fill="url(#hg)" d="M50 86C20 62 3 46 3 27 3 14 13 5 26 5c10 0 19 6 24 14C55 11 64 5 74 5c13 0 23 9 23 22 0 19-17 35-47 59z" />
+                </svg>
+                <p class="bpm"><span id="bpm-value">70</span> <small>BPM</small></p>
+            </div>
+
+            <button type="button" id="play" class="play" aria-pressed="false" aria-label="Play heartbeat">
+                <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+                <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z" /></svg>
+            </button>
+
+            <section class="panel" aria-label="Heart rate">
+                <label for="bpm">Heart rate</label>
+                <input type="range" id="bpm" min="40" max="200" step="1" value="70">
+                <div id="presets" class="chips" role="group" aria-label="Heart rate presets"></div>
+            </section>
+
+            <section class="panel" aria-label="Volume">
+                <label for="volume">Volume</label>
+                <input type="range" id="volume" min="0" max="100" step="1" value="60">
+            </section>
+
+            <section class="panel" aria-label="Sleep timer">
+                <label id="timer-label">Sleep timer</label>
+                <div id="timers" class="chips" role="group" aria-labelledby="timer-label"></div>
+                <p id="timer-status" class="timer-status" role="status" aria-live="polite">Timer off. It plays until you stop it.</p>
+            </section>
+
+            <p class="tip">Tip: headphones or a speaker with some bass sound fuller. The screen stays on while it plays so your phone doesn't stop the sound. Not a medical device.</p>
+        </div>
+
+        <section class="info" aria-labelledby="uses-title">
+            <h2 id="uses-title">What people use a heartbeat sound for</h2>
+            <ul class="uses">
+                <li><strong>Sleep</strong> A slow, steady rhythm to wind down, and a gentle way to cover up noise at night.</li>
+                <li><strong>Newborns and babies</strong> Many parents play a soft heartbeat to settle a baby. Keep it quiet and a few feet away.</li>
+                <li><strong>Puppies and kittens</strong> A slow heartbeat is a popular way to comfort a new puppy on its first nights home.</li>
+                <li><strong>Focus and study</strong> A quiet, regular pulse in the background can help you settle into work.</li>
+                <li><strong>Relaxing and meditation</strong> Slow your breathing to the beat.</li>
+                <li><strong>Videos, games and podcasts</strong> A free, loopable heartbeat for sound effects and suspense.</li>
+            </ul>
+
+            <h2>Questions</h2>
+            <div class="faq">
+                <details>
+                    <summary>Does a heartbeat sound help you sleep?</summary>
+                    <p>Many people find a slow, steady rhythm calming, and it also covers up background noise. Results vary and there is little scientific proof for any single sound, so treat it as a comfort aid, not a treatment. If you often have trouble sleeping, talk to a doctor.</p>
+                </details>
+                <details>
+                    <summary>What heart rate should I choose for sleep?</summary>
+                    <p>For sleep, most people start with a slow resting rate of about 60 beats per minute. For a newborn, a faster 110 to 130 BPM is often used because it is closer to the rhythm a baby heard before birth. For a puppy, a slow steady rhythm of around 60 to 100 BPM is common.</p>
+                </details>
+                <details>
+                    <summary>Can I use a heartbeat sound for a puppy or newborn?</summary>
+                    <p>Many owners and parents use a heartbeat sound to help settle a puppy or a baby. Keep the volume low, place the speaker a few feet away and never inside a crib or bed, and ask your vet or paediatrician if you are unsure.</p>
+                </details>
+                <details>
+                    <summary>Can I play it all night?</summary>
+                    <p>Yes. It loops until you pause it, or you can set a sleep timer of 15, 30 or 60 minutes or 8 hours with a gentle fade-out. Phones stop web audio when the screen locks, so keep the screen on and the phone plugged in.</p>
+                </details>
+                <details>
+                    <summary>Is SleepBeat free?</summary>
+                    <p>Yes. It is free and open source, with no ads, no sign-up and no tracking. Everything runs in your browser.</p>
+                </details>
+            </div>
+        </section>
+
+        <footer>
+            <a href="https://github.com/umar8092/sleepbeat" target="_blank" rel="noopener">Open source (MIT) on GitHub</a>
+        </footer>
+    </main>
+    <script src="beat.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

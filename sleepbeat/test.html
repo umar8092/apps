@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heartbeat synth check</title>
+<meta name="robots" content="noindex">
+<style>body{font:16px/1.6 system-ui,sans-serif;max-width:640px;margin:2rem auto;padding:0 1rem}.pass{color:#0a7d33}.fail{color:#c0221b;font-weight:600}</style>
+</head>
+<body>
+<h1>Heartbeat synth check</h1>
+<p>Renders the heartbeat sound offline (no speakers needed) and checks its shape. Open this file in a browser.</p>
+<ul id="out"></ul>
+<script src="beat.js"></script>
+<script>
+const SR = 44100;
+
+// plain radix-2 FFT, returns magnitudes
+function fftMag(x) {
+    const n = x.length, re = Float64Array.from(x), im = new Float64Array(n);
+    for (let i = 1, j = 0; i < n; i++) {
+        let bit = n >> 1;
+        for (; j & bit; bit >>= 1) j ^= bit;
+        j ^= bit;
+        if (i < j) [re[i], re[j]] = [re[j], re[i]];
+    }
+    for (let len = 2; len <= n; len <<= 1) {
+        const ang = -2 * Math.PI / len, wr = Math.cos(ang), wi = Math.sin(ang);
+        for (let i = 0; i < n; i += len) {
+            let cr = 1, ci = 0;
+            for (let k = 0; k < len / 2; k++) {
+                const a = i + k, b = a + len / 2;
+                const tr = re[b] * cr - im[b] * ci, ti = re[b] * ci + im[b] * cr;
+                re[b] = re[a] - tr; im[b] = im[a] - ti; re[a] += tr; im[a] += ti;
+                const nr = cr * wr - ci * wi; ci = cr * wi + ci * wr; cr = nr;
+            }
+        }
+    }
+    return re.map((r, i) => Math.hypot(r, im[i]));
+}
+
+async function render(bpm, beats) {
+    const ctx = new OfflineAudioContext(1, SR * (beats * 60 / bpm + 1), SR);
+    const bus = HeartbeatSynth.createBus(ctx, ctx.destination);
+    const noise = HeartbeatSynth.makeNoise(ctx);
+    for (let i = 0; i < beats; i++) HeartbeatSynth.scheduleBeat(ctx, bus, noise, 0.2 + i * 60 / bpm, bpm);
+    return (await ctx.startRendering()).getChannelData(0);
+}
+
+// smoothed loudness envelope, then local peaks at least 70 ms apart
+function thumpTimes(data) {
+    const win = Math.floor(SR * 0.012), env = new Float32Array(data.length);
+    let sum = 0;
+    for (let i = 0; i < data.length; i++) {
+        sum += Math.abs(data[i]) - (i >= win ? Math.abs(data[i - win]) : 0);
+        env[i] = sum / win;
+    }
+    const max = env.reduce((m, v) => Math.max(m, v), 0), peaks = [];
+    for (let i = 1; i < env.length - 1; i++) {
+        if (env[i] > max * 0.3 && env[i] >= env[i - 1] && env[i] > env[i + 1]) {
+            if (peaks.length && i - peaks[peaks.length - 1] < SR * 0.07) {
+                if (env[i] > env[peaks[peaks.length - 1]]) peaks[peaks.length - 1] = i;
+            } else peaks.push(i);
+        }
+    }
+    return peaks.map(i => i / SR);
+}
+
+const results = [];
+function check(name, ok, detail) { results.push({ name, ok, detail }); }
+
+(async () => {
+    for (const bpm of [60, 120, 183]) {
+        const beats = 4, data = await render(bpm, beats);
+        const peaks = thumpTimes(data);
+        check(`${bpm} BPM: ${beats * 2} thumps (lub-dub x ${beats})`, peaks.length === beats * 2, `found ${peaks.length}`);
+
+        const peak = data.reduce((m, v) => Math.max(m, Math.abs(v)), 0);
+        check(`${bpm} BPM: loud enough but never clips`, peak > 0.15 && peak < 0.95, `peak ${peak.toFixed(2)}`);
+
+        if (peaks.length === beats * 2) {
+            const gap = peaks[1] - peaks[0], expected = Math.min(0.30, (60 / bpm) * 0.42);
+            check(`${bpm} BPM: lub-dub gap about ${(expected * 1000) | 0} ms`, Math.abs(gap - expected) < 0.04, `measured ${(gap * 1000) | 0} ms`);
+            const cycle = peaks[2] - peaks[0];
+            check(`${bpm} BPM: beats are ${(60 / bpm).toFixed(2)} s apart`, Math.abs(cycle - 60 / bpm) < 0.04, `measured ${cycle.toFixed(2)} s`);
+        }
+    }
+
+    // most of the energy should be low and soft, like a heartbeat heard through a chest
+    const data = await render(60, 2), mag = fftMag(data.slice(0, 32768));
+    const binHz = SR / 32768;
+    let low = 0, total = 0;
+    mag.slice(0, 16384).forEach((m, i) => { total += m * m; if (i * binHz < 400) low += m * m; });
+    check('Most energy is below 400 Hz', low / total > 0.9, `${(100 * low / total).toFixed(1)}%`);
+
+    const out = document.getElementById('out');
+    results.forEach(r => {
+        const li = document.createElement('li');
+        li.className = r.ok ? 'pass' : 'fail';
+        li.textContent = (r.ok ? 'PASS ' : 'FAIL ') + r.name + ' (' + r.detail + ')';
+        out.appendChild(li);
+    });
+    const failed = results.filter(r => !r.ok).length;
+    const sum = document.createElement('p');
+    sum.className = failed ? 'fail' : 'pass';
+    sum.textContent = failed ? failed + ' check(s) failed' : 'All ' + results.length + ' checks passed';
+    document.body.appendChild(sum);
+    document.body.dataset.result = failed ? 'fail' : 'pass';
+})();
+</script>
+</body>
+</html>

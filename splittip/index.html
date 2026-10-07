@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator and Bill Splitter, Free, No Ads | SplitTip</title>
+    <meta name="description" content="Free tip calculator and bill splitter. Split a check evenly or by what each person ordered, with tax and tip shared fairly. Works offline, no sign-up, no ads.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/splittip/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#0f172a">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="SplitTip">
+    <meta property="og:url" content="https://umar8092.github.io/apps/splittip/">
+    <meta property="og:title" content="Tip Calculator and Bill Splitter | SplitTip">
+    <meta property="og:description" content="Split a restaurant bill evenly or by what each person ordered. Tax and tip shared fairly. Free, offline, no ads.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SplitTip","alternateName":["Tip Calculator","Bill Splitter","Split the Check"],"url":"https://umar8092.github.io/apps/splittip/","description":"A free tip calculator and bill splitter. Split evenly or by what each person ordered, with tax and tip shared fairly.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"tip calculator, bill splitter, split the check, split bill by item, restaurant tip calculator","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I split a bill when everyone ordered different amounts?","acceptedAnswer":{"@type":"Answer","text":"Choose By person, add a row for each person and type what they ordered. Tax and tip are shared in proportion to each amount, so someone with a salad does not pay for someone else's steak."}},{"@type":"Question","name":"How is the tip calculated?","acceptedAnswer":{"@type":"Answer","text":"The tip is a percentage of the bill before tax. Pick 10, 15, 18, 20 or 25 percent, or type your own."}},{"@type":"Question","name":"What does Round up do?","acceptedAnswer":{"@type":"Answer","text":"It rounds each person's share up to a whole dollar, euro or pound. The extra goes to the tip, so the total always adds up."}},{"@type":"Question","name":"Does it work offline and is my data private?","acceptedAnswer":{"@type":"Answer","text":"Yes. After the first visit it works with no connection. Everything is worked out on your device and nothing is sent anywhere."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="app">
+    <header>
+        <h1>SplitTip</h1>
+        <h2 class="sub">Free tip calculator and bill splitter. Works offline, no sign-up.</h2>
+    </header>
+
+    <div class="tabs" role="tablist" aria-label="Split method">
+        <button type="button" role="tab" id="tab-even" aria-selected="true" data-mode="even">Split evenly</button>
+        <button type="button" role="tab" id="tab-person" aria-selected="false" data-mode="person">By person</button>
+    </div>
+
+    <section class="card">
+        <div id="even-box">
+            <label for="bill">Bill (before tax)</label>
+            <input id="bill" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off">
+        </div>
+
+        <div id="person-box" hidden>
+            <p class="hint">Type what each person ordered, before tax.</p>
+            <ul id="rows" class="rows"></ul>
+            <button type="button" id="add-person" class="ghost">+ Add person</button>
+        </div>
+
+        <label for="tax">Tax <span class="opt">(optional, amount)</span></label>
+        <input id="tax" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off">
+
+        <label id="tip-label">Tip</label>
+        <div class="tips" role="group" aria-labelledby="tip-label" id="tips">
+            <button type="button" data-tip="10">10%</button>
+            <button type="button" data-tip="15">15%</button>
+            <button type="button" data-tip="18">18%</button>
+            <button type="button" data-tip="20">20%</button>
+            <button type="button" data-tip="25">25%</button>
+            <input id="tip-custom" type="text" inputmode="decimal" placeholder="Custom %" aria-label="Custom tip percent" autocomplete="off">
+        </div>
+
+        <div id="people-box">
+            <label for="people">People</label>
+            <div class="stepper">
+                <button type="button" id="minus" aria-label="One fewer person">&minus;</button>
+                <input id="people" type="text" inputmode="numeric" value="2" aria-label="Number of people" autocomplete="off">
+                <button type="button" id="plus" aria-label="One more person">+</button>
+            </div>
+        </div>
+
+        <div class="row2">
+            <label class="check"><input type="checkbox" id="round"> Round up each share</label>
+            <select id="cur" aria-label="Currency symbol">
+                <option value="$">$</option><option value="€">€</option><option value="£">£</option>
+                <option value="₹">₹</option><option value="¥">¥</option><option value="">none</option>
+            </select>
+        </div>
+    </section>
+
+    <section class="card result" aria-live="polite">
+        <div id="per-wrap">
+            <div class="big-label">Each person pays</div>
+            <div id="per" class="big">0.00</div>
+        </div>
+        <div id="shares" class="shares" hidden></div>
+        <dl class="sum">
+            <div><dt>Subtotal</dt><dd id="r-sub">0.00</dd></div>
+            <div><dt>Tax</dt><dd id="r-tax">0.00</dd></div>
+            <div><dt>Tip <span id="r-pct"></span></dt><dd id="r-tip">0.00</dd></div>
+            <div class="total"><dt>Total</dt><dd id="r-total">0.00</dd></div>
+        </dl>
+        <button type="button" id="copy" class="primary">Copy summary</button>
+        <p id="msg" class="msg" role="status"></p>
+    </section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How do I split a bill when everyone ordered different amounts?</summary><p>Choose <b>By person</b>, add a row for each person and type what they ordered. Tax and tip are shared in proportion to each amount.</p></details>
+        <details><summary>How is the tip calculated?</summary><p>As a percentage of the bill before tax. Pick a preset or type your own.</p></details>
+        <details><summary>What does Round up do?</summary><p>Each share goes up to a whole unit. The extra goes to the tip, so everything still adds up.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. Everything is worked out on your device. Nothing is sent anywhere, and it works offline.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/splittip">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
