@@ -1,1 +1,85 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Free Web Apps</title></head><body><h1>Free Web Apps</h1><p>Small, free, private tools. Each lives in its own folder.</p><ul id="apps"></ul><script>fetch("apps.json").then(r=>r.json()).then(a=>apps.innerHTML=a.map(x=>`<li><a href="${x.slug}/">${x.name}</a> - ${x.description}</li>`).join(""))</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free Web Apps</title>
+<meta name="description" content="Free, private web apps that run in your browser. No ads, no sign-up, most work offline.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%9B%A0%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--fg:#14172b;--mut:#5d6486;--acc:#4f5bd5;--bd:#e3e6f2;--sh:0 2px 12px #1b244a14}
+@media (prefers-color-scheme:dark){:root{--bg:#0d1122;--card:#171d3a;--fg:#eef1ff;--mut:#9aa5d6;--acc:#8fa2ff;--bd:#2a3366;--sh:0 2px 16px #0006}}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:960px;margin:0 auto;padding:40px 16px 56px}
+h1{font-size:clamp(1.8rem,5vw,2.6rem);margin:0 0 .2em;text-align:center}
+.sub{color:var(--mut);text-align:center;margin:0 0 24px}
+#q{display:block;width:100%;max-width:420px;margin:0 auto 24px;padding:12px 16px;font:inherit;color:var(--fg);background:var(--card);border:1px solid var(--bd);border-radius:999px;min-height:48px}
+#q:focus-visible,a.card:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+a.card{display:flex;flex-direction:column;gap:6px;padding:18px;background:var(--card);border:1px solid var(--bd);border-radius:16px;box-shadow:var(--sh);color:inherit;text-decoration:none;transition:transform .15s}
+a.card:hover{transform:translateY(-2px);border-color:var(--acc)}
+.ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:1.6rem;background:var(--bg);color:var(--acc);font-weight:700}
+.nm{font-weight:700;font-size:1.1rem}
+.ds{color:var(--mut);font-size:.92rem}
+#msg{text-align:center;color:var(--mut)}
+footer{text-align:center;color:var(--mut);font-size:.85rem;margin-top:32px}
+footer a{color:var(--acc)}
+</style>
+</head>
+<body>
+<main>
+<h1>Free Web Apps</h1>
+<p class="sub">Small, free and private tools. No ads, no sign-up, most work offline.</p>
+<input id="q" type="search" placeholder="Search apps" aria-label="Search apps" hidden>
+<div id="grid"></div>
+<p id="msg">Loading apps…</p>
+<footer>New apps appear here automatically. <a href="https://github.com/umar8092">GitHub</a></footer>
+</main>
+<script>
+// Discovers apps on every load: folders in this repo (GitHub API, apps.json as fallback)
+// plus the user's other repos that have a github.io homepage. Each app's own page supplies its title/description/icon.
+const USER="umar8092", HOST=USER+".github.io", SKIP=new Set(["apps",HOST,"saco-international"]);
+const J=u=>fetch(u).then(r=>r.ok?r.json():Promise.reject(u));
+const clean=s=>(s||"").replace(/\s+/g," ").trim();
+
+async function discover(){
+  const urls=new Map(); // url -> fallback info
+  const add=(url,name,desc)=>urls.has(url)||urls.set(url,{name,desc});
+  try{(await J("apps.json")).forEach(a=>add(a.slug+"/",a.name,a.description))}catch(e){}
+  try{
+    (await J(`https://api.github.com/repos/${USER}/apps/contents`))
+      .filter(f=>f.type==="dir"&&!f.name.startsWith(".")).forEach(f=>add(f.name+"/",f.name));
+    (await J(`https://api.github.com/users/${USER}/repos?per_page=100`))
+      .filter(r=>!SKIP.has(r.name)&&(r.homepage||"").includes(HOST))
+      .forEach(r=>add(r.homepage,r.name,r.description));
+  }catch(e){}
+  return urls;
+}
+
+async function details(url,fb){
+  const abs=new URL(url,location.href).href, o={url:abs,name:fb.name,desc:clean(fb.desc),icon:""};
+  try{
+    const r=await fetch(abs); if(!r.ok) throw 0;
+    const d=new DOMParser().parseFromString(await r.text(),"text/html");
+    const t=clean(d.title); if(t) o.name=t.split(/[:|,–—]| - /)[0].trim();
+    o.desc=clean(d.querySelector('meta[name=description]')?.content)||o.desc;
+    const href=d.querySelector('link[rel~=icon]')?.getAttribute("href")||"";
+    const m=decodeURIComponent(href).match(/<text[^>]*>([^<]+)</); o.icon=m?m[1]:"";
+  }catch(e){}
+  return o;
+}
+
+(async()=>{
+  const urls=await discover();
+  const apps=(await Promise.all([...urls].map(([u,f])=>details(u,f)))).sort((a,b)=>a.name.localeCompare(b.name));
+  const msg=document.getElementById("msg"), grid=document.getElementById("grid"), q=document.getElementById("q");
+  if(!apps.length){msg.textContent="No apps found yet. Check back soon.";return}
+  grid.innerHTML=apps.map(a=>`<a class="card" href="${a.url}" data-s="${(a.name+" "+a.desc).toLowerCase().replace(/"/g,"")}"><div class="ic">${a.icon||a.name[0]||"?"}</div><div class="nm"></div><div class="ds"></div></a>`).join("");
+  grid.querySelectorAll(".card").forEach((c,i)=>{c.querySelector(".nm").textContent=apps[i].name;c.querySelector(".ds").textContent=apps[i].desc});
+  msg.hidden=true; q.hidden=false;
+  q.oninput=()=>{const v=q.value.toLowerCase().trim();let n=0;grid.querySelectorAll(".card").forEach(c=>{const s=c.dataset.s.includes(v);c.hidden=!s;n+=s});msg.hidden=n>0;msg.textContent="No matching apps."};
+})();
+</script>
+</body>
+</html>
