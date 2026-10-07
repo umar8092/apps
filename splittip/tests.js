@@ -42,6 +42,19 @@
 
         check('format adds symbol and thousands', C.format(123456, '$') === '$1,234.56');
         check('format with no symbol', C.format(5, '') === '0.05');
+        // settle up: who pays who
+        let s = C.settle([10000, 0, 5000]);
+        check('settle: paid 100, 0, 50 -> each owes 50, second pays first 50', s.shares.join() === '5000,5000,5000' && s.balance.join() === '5000,-5000,0' &&
+            s.transfers.length === 1 && s.transfers[0].from === 1 && s.transfers[0].to === 0 && s.transfers[0].amount === 5000);
+        s = C.settle([9000, 1000, 0, 0]);
+        check('settle: four people, three payments to the one who paid most', s.transfers.length === 3 && s.transfers.every(x => x.to === 0) && sum(s.transfers.map(x => x.amount)) === 6500);
+        s = C.settle([1000, 0, 0]);
+        check('settle: odd cents still add up', sum(s.shares) === 1000 && sum(s.balance) === 0 && sum(s.transfers.map(x => x.amount)) === s.balance.filter(b => b > 0).reduce((a, b) => a + b, 0));
+        check('settle: everyone paid the same = nobody owes', C.settle([2500, 2500, 2500]).transfers.length === 0);
+        check('settle: nothing paid = nothing to do', C.settle([0, 0]).transfers.length === 0 && C.settle([0, 0]).total === 0);
+        s = C.settle([3300, 100, 2700, 0, 900]);
+        const net = Array(5).fill(0); s.transfers.forEach(x => { net[x.from] += x.amount; net[x.to] -= x.amount; });
+        check('settle: after the payments every balance is exactly zero', s.balance.every((b, i) => b + net[i] === 0));
         return r;
     }
     if (typeof module !== 'undefined' && module.exports) {

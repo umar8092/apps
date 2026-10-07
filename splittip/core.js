@@ -38,11 +38,31 @@
         return { subtotal: sub, tax, tip, total: sub + tax + tip, shares, tipPct: sub ? tip / sub * 100 : pct };
     }
 
+    // paid: what each person actually paid (cents). The total is shared equally, so each balance is paid - share:
+    // positive = gets money back, negative = owes. Transfers pay debts to creditors, largest first, in as few payments as this greedy pass finds.
+    function settle(paid) {
+        const total = paid.reduce((a, b) => a + b, 0);
+        const shares = allocate(total, paid.map(() => 1));
+        const balance = paid.map((p, i) => p - shares[i]);
+        const owe = [], get = [];
+        balance.forEach((b, i) => { if (b < 0) owe.push([i, -b]); else if (b > 0) get.push([i, b]); });
+        owe.sort((a, b) => b[1] - a[1] || a[0] - b[0]); get.sort((a, b) => b[1] - a[1] || a[0] - b[0]);
+        const transfers = [];
+        for (let i = 0, j = 0; i < owe.length && j < get.length;) {
+            const amount = Math.min(owe[i][1], get[j][1]);
+            transfers.push({ from: owe[i][0], to: get[j][0], amount });
+            owe[i][1] -= amount; get[j][1] -= amount;
+            if (!owe[i][1]) i++;
+            if (!get[j][1]) j++;
+        }
+        return { total, shares, balance, transfers };
+    }
+
     function format(cents, symbol) {
         return (symbol || '') + (cents / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-    const api = { parseMoney, allocate, compute, format };
+    const api = { parseMoney, allocate, compute, settle, format };
     if (typeof module !== 'undefined' && module.exports) module.exports = api;
     root.SplitCore = api;
 })(typeof self !== 'undefined' ? self : this);
