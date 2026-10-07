@@ -58,7 +58,7 @@ async function discover(){
 async function details(url,fb){
   const abs=new URL(url,location.href).href, o={url:abs,name:fb.name,desc:clean(fb.desc),icon:""};
   try{
-    const r=await fetch(abs); if(!r.ok) throw 0;
+    const r=await fetch(abs); if(!r.ok) return null; // not an app (e.g. icons/ folder)
     const d=new DOMParser().parseFromString(await r.text(),"text/html");
     const t=clean(d.title); if(t) o.name=t.split(/[:|,–—]| - /)[0].trim();
     o.desc=clean(d.querySelector('meta[name=description]')?.content)||o.desc;
@@ -70,7 +70,7 @@ async function details(url,fb){
 
 (async()=>{
   const urls=await discover();
-  const apps=(await Promise.all([...urls].map(([u,f])=>details(u,f)))).sort((a,b)=>a.name.localeCompare(b.name));
+  const apps=(await Promise.all([...urls].map(([u,f])=>details(u,f)))).filter(Boolean).sort((a,b)=>a.name.localeCompare(b.name));
   const msg=document.getElementById("msg"), grid=document.getElementById("grid"), q=document.getElementById("q");
   if(!apps.length){msg.textContent="No apps found yet. Check back soon.";return}
   grid.innerHTML=apps.map(a=>`<a class="card" href="${a.url}" data-s="${(a.name+" "+a.desc).toLowerCase().replace(/"/g,"")}"><div class="ic">${a.img?`<img src="${a.img}" alt="" width="44" height="44">`:a.icon||a.name[0]||"?"}</div><div class="nm"></div><div class="ds"></div></a>`).join("");
