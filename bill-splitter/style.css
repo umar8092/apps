@@ -25,8 +25,8 @@ label:first-child, .card > :first-child > label:first-child { margin-top: 0; }
 input[type=text], input[type=email], select { width: 100%; min-height: 48px; padding: .6rem .8rem; font: inherit; font-size: 1.1rem; color: var(--ink);
        background: var(--field); border: 1px solid var(--line); border-radius: 12px; }
 input:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.tips { display: grid; grid-template-columns: repeat(5, 1fr); gap: .4rem; }
-.tips button { min-height: 48px; border-radius: 12px; border: 1px solid var(--line); background: var(--field); color: var(--ink); font: inherit; font-weight: 600; cursor: pointer; }
+.tips { display: grid; grid-template-columns: repeat(6, 1fr); gap: .4rem; }
+.tips button { min-height: 48px; padding: 0 .2rem; border-radius: 12px; border: 1px solid var(--line); background: var(--field); color: var(--ink); font: inherit; font-weight: 600; cursor: pointer; }
 .tips button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 .tips input { grid-column: 1 / -1; }
 .stepper { display: grid; grid-template-columns: 56px 1fr 56px; gap: .4rem; }
@@ -58,7 +58,7 @@ summary { cursor: pointer; font-weight: 600; min-height: 32px; }
 details p { margin: .4rem 0 0; color: var(--muted); }
 footer { text-align: center; margin-top: 1.5rem; font-size: .9rem; } footer a { color: var(--muted); }
 [hidden] { display: none !important; }
-@media (max-width: 380px) { .tips { grid-template-columns: repeat(3, 1fr); } .rows li { grid-template-columns: 1fr 100px 44px; } }
+@media (max-width: 480px) { .tips { grid-template-columns: repeat(3, 1fr); } .rows li { grid-template-columns: 1fr 100px 44px; } }
 
 .rows.with-email li > input[type=email], .rows.with-email li .addmail { grid-column: 1 / -1; grid-row: 2; }
 .rows.with-email li input[type=email] { font-size: 1rem; }

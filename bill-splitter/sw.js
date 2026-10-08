@@ -1,7 +1,7 @@
 // Saves the app on the device so it opens with no connection.
 // Files are served from the saved copy and refreshed in the background, so updates arrive on the next visit.
 // Change CACHE only when you add, remove or rename a file in FILES.
-const CACHE = 'bill-splitter-v4';
+const CACHE = 'bill-splitter-v5';
 const FILES = ['../theme.js', './', 'index.html', 'style.css', 'core.js', 'script.js', 'favicon.svg', 'manifest.webmanifest',
     'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 

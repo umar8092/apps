@@ -144,7 +144,7 @@
     // wire up
     document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => { s.mode = b.dataset.mode; render(); });
     $('bname').value = s.bname; $('bill').value = s.bill; $('tax').value = s.tax; $('people').value = s.people;
-    if (!['10', '15', '18', '20', '25'].includes(String(s.tip))) $('tip-custom').value = s.tip;
+    if (!['0', '10', '15', '18', '20', '25'].includes(String(s.tip))) $('tip-custom').value = s.tip;
     $('bname').oninput = e => { s.bname = e.target.value; render(); };
     $('bill').oninput = e => { s.bill = e.target.value; render(); };
     $('tax').oninput = e => { s.tax = e.target.value; render(); };
