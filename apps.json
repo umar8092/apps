@@ -23,5 +23,10 @@
     "slug": "weather-app",
     "name": "Weather App",
     "description": "Weather forecast for any city or your location, with advice. No API key."
+  },
+  {
+    "slug": "due-date-calculator",
+    "name": "Due Date Calculator",
+    "description": "Pregnancy due date and weeks pregnant today from your last period, conception, IVF or scan. Email it or add to calendar."
   }
 ]

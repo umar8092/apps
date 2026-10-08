@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Due Date Calculator: Pregnancy Due Date and Weeks, Free</title>
+    <meta name="description" content="Free pregnancy due date calculator. Enter the first day of your last period, conception date, IVF transfer or scan and see your due date, how many weeks pregnant you are today and key dates. Works offline, no sign-up, no ads.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/due-date-calculator/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#c026d3">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Due Date Calculator">
+    <meta property="og:url" content="https://umar8092.github.io/apps/due-date-calculator/">
+    <meta property="og:title" content="Due Date Calculator: Pregnancy Due Date and Weeks">
+    <meta property="og:description" content="Find your due date and how many weeks pregnant you are today. Free, private, works offline.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Due Date Calculator","alternateName":["Pregnancy Due Date Calculator","How Many Weeks Pregnant Am I"],"url":"https://umar8092.github.io/apps/due-date-calculator/","description":"A free pregnancy due date calculator. Works out the estimated due date from the last period, conception date, IVF transfer or ultrasound, and shows weeks pregnant today.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is the due date calculated?","acceptedAnswer":{"@type":"Answer","text":"A pregnancy is counted as 40 weeks (280 days) from the first day of your last period. Adding 280 days to that date gives the estimated due date. If your cycle is not 28 days long, the date is moved by the difference."}},{"@type":"Question","name":"How do I work out the due date from the conception date?","acceptedAnswer":{"@type":"Answer","text":"Add 266 days (38 weeks) to the conception date."}},{"@type":"Question","name":"How is the due date worked out after IVF?","acceptedAnswer":{"@type":"Answer","text":"For a day 5 embryo transfer, add 261 days to the transfer date. For a day 3 transfer, add 263 days."}},{"@type":"Question","name":"How accurate is a due date?","acceptedAnswer":{"@type":"Answer","text":"Only about 1 baby in 25 is born on the exact due date. Most are born within two weeks either side. Your midwife or doctor may adjust the date after an ultrasound."}},{"@type":"Question","name":"Is my information private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything is worked out on your device. Nothing is sent anywhere."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="app">
+    <header>
+        <h1>Due Date Calculator</h1>
+        <h2 class="sub">Find your due date and how many weeks pregnant you are today.</h2>
+    </header>
+
+    <div class="tabs" role="tablist" aria-label="How do you know the date?">
+        <button type="button" role="tab" id="tab-lmp" aria-selected="true" data-method="lmp">Last period</button>
+        <button type="button" role="tab" id="tab-conception" aria-selected="false" data-method="conception">Conception</button>
+        <button type="button" role="tab" id="tab-ivf" aria-selected="false" data-method="ivf">IVF</button>
+        <button type="button" role="tab" id="tab-scan" aria-selected="false" data-method="scan">Scan</button>
+    </div>
+
+    <section class="card">
+        <div id="f-lmp" class="pane">
+            <label for="d-lmp">First day of your last period</label>
+            <input id="d-lmp" type="date">
+            <button type="button" class="link" id="show-cycle">+ Add cycle length (optional)</button>
+            <div id="cycle-box" hidden>
+                <label for="cycle">Usual cycle length in days <span class="opt">(28 if you are not sure)</span></label>
+                <input id="cycle" type="number" inputmode="numeric" min="20" max="45" placeholder="28">
+            </div>
+        </div>
+        <div id="f-conception" class="pane" hidden>
+            <label for="d-conception">Conception date</label>
+            <input id="d-conception" type="date">
+            <p class="hint">The day you think the egg was fertilised, usually about 2 weeks after your period started.</p>
+        </div>
+        <div id="f-ivf" class="pane" hidden>
+            <label for="d-ivf">Embryo transfer date</label>
+            <input id="d-ivf" type="date">
+            <label for="embryo">Age of the embryo on transfer</label>
+            <select id="embryo">
+                <option value="3">Day 3 embryo</option>
+                <option value="5" selected>Day 5 embryo (blastocyst)</option>
+            </select>
+        </div>
+        <div id="f-scan" class="pane" hidden>
+            <label for="d-scan">Date of the ultrasound scan</label>
+            <input id="d-scan" type="date">
+            <label for="s-weeks">How far along the scan said you were</label>
+            <div class="pair">
+                <input id="s-weeks" type="number" inputmode="numeric" min="4" max="42" placeholder="Weeks" aria-label="Weeks">
+                <input id="s-days" type="number" inputmode="numeric" min="0" max="6" placeholder="Days" aria-label="Days">
+            </div>
+        </div>
+        <p id="error" class="error" role="alert" hidden></p>
+    </section>
+
+    <section id="result" class="card result" hidden aria-live="polite">
+        <div class="big-label">Your estimated due date</div>
+        <div class="big" id="due"></div>
+        <p class="lead" id="line"></p>
+        <div class="bar" aria-hidden="true"><span id="fill"></span></div>
+        <p class="togo" id="togo"></p>
+        <p class="note" id="notes" hidden></p>
+        <h3>Key dates</h3>
+        <ul class="miles" id="miles"></ul>
+        <div class="actions">
+            <a class="primary" id="email" href="#">Email this</a>
+            <button type="button" class="second" id="copy">Copy</button>
+            <button type="button" class="second" id="cal">Add to calendar</button>
+        </div>
+        <button type="button" class="ghost" id="reset">Start over</button>
+        <p class="fine">Only about 1 baby in 25 arrives on the exact due date. Most arrive within two weeks either side. This is an estimate, not medical advice. Your midwife or doctor may change the date after a scan.</p>
+    </section>
+    <p class="msg" id="msg" role="status"></p>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is the due date calculated?</summary><p>A pregnancy is counted as 40 weeks (280 days) from the first day of your last period. If your cycle is longer or shorter than 28 days, the date moves by the difference. From conception it is 266 days. After IVF it is 261 days from a day 5 transfer and 263 days from a day 3 transfer. From a scan, the weeks and days it measured are counted back to day zero.</p></details>
+        <details><summary>Why does it say 5 weeks when I conceived 3 weeks ago?</summary><p>Doctors start counting from the first day of your last period, about two weeks before conception. That is why a pregnancy lasts 40 weeks, not 38.</p></details>
+        <details><summary>Is my information private?</summary><p>Yes. Everything is worked out on your device and only saved on your device, so you see your result again next time. Nothing is sent anywhere. Start over clears it.</p></details>
+    </section>
+    <footer><a href="../">More free apps</a> &middot; <a href="https://github.com/umar8092/apps/tree/main/due-date-calculator">Source</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -44,6 +44,14 @@ Weather forecast for any city or your location, with advice (umbrella? what to w
 
 <a href="weather-app/"><img src="weather-app/screenshots/phone.png" alt="Weather App screenshot" width="260"></a>
 
+### <img src="due-date-calculator/favicon.svg" width="36" height="36" align="center"> [Due Date Calculator](https://umar8092.github.io/apps/due-date-calculator/)
+
+Find your pregnancy due date and how many weeks pregnant you are today from your last period, conception date, IVF transfer or scan. Key dates, email or copy the summary, add the due date to your calendar.
+
+[**Open the app**](https://umar8092.github.io/apps/due-date-calculator/) &middot; [Details and screenshots](due-date-calculator/)
+
+<a href="due-date-calculator/"><img src="due-date-calculator/screenshots/phone.png" alt="Due Date Calculator screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
