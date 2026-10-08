@@ -2,36 +2,43 @@
   {
     "slug": "sleepcycle",
     "name": "Sleep Cycle Calculator",
-    "description": "Find the best bedtime or wake-up time using 90-minute sleep cycles. Private and works offline."
+    "description": "Find the best bedtime or wake-up time using 90-minute sleep cycles. Private and works offline.",
+    "color": "#6366f1"
   },
   {
     "slug": "offlinetodo",
     "name": "To-Do List",
-    "description": "Free to-do list with no registration. Works offline."
+    "description": "Free to-do list with no registration. Works offline.",
+    "color": "#10b981"
   },
   {
     "slug": "sleepbeat",
     "name": "Heartbeat Sound",
-    "description": "Heartbeat sound for sleep, babies and puppies. Plays with the screen locked."
+    "description": "Heartbeat sound for sleep, babies and puppies. Plays with the screen locked.",
+    "color": "#f43f5e"
   },
   {
     "slug": "bill-splitter",
     "name": "Bill Splitter",
-    "description": "Split a bill and see who owes who. Email the summary. Also a tip calculator."
+    "description": "Split a bill and see who owes who. Email the summary. Also a tip calculator.",
+    "color": "#f97316"
   },
   {
     "slug": "weather-app",
     "name": "Weather App",
-    "description": "Weather forecast for any city or your location, with advice. No API key."
+    "description": "Weather forecast for any city or your location, with advice. No API key.",
+    "color": "#0ea5e9"
   },
   {
     "slug": "due-date-calculator",
     "name": "Due Date Calculator",
-    "description": "Pregnancy due date and weeks pregnant today from your last period, conception, IVF or scan. Email it or add to calendar."
+    "description": "Pregnancy due date and weeks pregnant today from your last period, conception, IVF or scan. Email it or add to calendar.",
+    "color": "#d946ef"
   },
   {
     "slug": "time-zone-meeting-planner",
     "name": "Time Zone Meeting Planner",
-    "description": "Find a meeting time across time zones, even when people work different hours."
+    "description": "Find a meeting time across time zones, even when people work different hours.",
+    "color": "#eab308"
   }
 ]
