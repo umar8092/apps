@@ -62,3 +62,20 @@
         dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });   // tap outside the box closes it
     });
 })();
+
+// When an app is updated while a page is open, the open page keeps showing the old version until it is reloaded.
+// Tell the person, with a one-tap "Refresh" (we never reload by ourselves, so nothing they typed is lost).
+(function () {
+    if (!('serviceWorker' in navigator)) return;
+    var had = !!navigator.serviceWorker.controller;   // false on the very first visit (nothing to update)
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (!had || document.getElementById('update-note')) return;
+        var bar = document.createElement('div'); bar.id = 'update-note'; bar.setAttribute('role', 'status');
+        bar.style.cssText = 'position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:2147483000;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 32px);padding:10px 12px 10px 16px;border-radius:999px;background:#14213d;color:#fff;font:600 15px/1.3 system-ui,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.35)';
+        var t = document.createElement('span'); t.textContent = 'A new version is ready.';
+        var b = document.createElement('button'); b.type = 'button'; b.textContent = 'Refresh';
+        b.style.cssText = 'min-height:40px;padding:0 16px;border:0;border-radius:999px;background:#fde047;color:#14213d;font:700 15px system-ui,sans-serif;cursor:pointer';
+        b.onclick = function () { location.reload(); };
+        bar.appendChild(t); bar.appendChild(b); document.body.appendChild(bar);
+    });
+})();
