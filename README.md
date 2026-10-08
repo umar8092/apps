@@ -52,6 +52,14 @@ Find your pregnancy due date and how many weeks pregnant you are today from your
 
 <a href="due-date-calculator/"><img src="due-date-calculator/screenshots/phone.png" alt="Due Date Calculator screenshot" width="260"></a>
 
+### <img src="meeting-time-planner/favicon.svg" width="36" height="36" align="center"> [Meeting Time Planner](https://umar8092.github.io/apps/meeting-time-planner/)
+
+Add everyone's city and find the best time to meet across time zones, inside everyone's working hours, with each person's local time. Handles daylight saving. Copy, email or add to your calendar.
+
+[**Open the app**](https://umar8092.github.io/apps/meeting-time-planner/) &middot; [Details and screenshots](meeting-time-planner/)
+
+<a href="meeting-time-planner/"><img src="meeting-time-planner/screenshots/phone.png" alt="Meeting Time Planner screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
