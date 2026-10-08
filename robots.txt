@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://umar8092.github.io/apps/sitemap.xml
