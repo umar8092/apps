@@ -4,19 +4,34 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Free Web Apps</title>
-<meta name="description" content="Free, private web apps that run in your browser. No ads, no sign-up, most work offline.">
+<meta name="description" content="Free web apps made as a hobby by Muhammad Umar. Completely free, no ads, no sign-up, most work offline. New apps every day.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <style>
-:root{--bg:#f6f7fb;--card:#fff;--fg:#14172b;--mut:#5d6486;--acc:#4f5bd5;--bd:#e3e6f2;--sh:0 2px 12px #1b244a14}
-@media (prefers-color-scheme:dark){:root{--bg:#0d1122;--card:#171d3a;--fg:#eef1ff;--mut:#9aa5d6;--acc:#8fa2ff;--bd:#2a3366;--sh:0 2px 16px #0006}}
-:root[data-theme="dark"]{--bg:#0d1122;--card:#171d3a;--fg:#eef1ff;--mut:#9aa5d6;--acc:#8fa2ff;--bd:#2a3366;--sh:0 2px 16px #0006}
-:root[data-theme="light"]{--bg:#f6f7fb;--card:#fff;--fg:#14172b;--mut:#5d6486;--acc:#4f5bd5;--bd:#e3e6f2;--sh:0 2px 12px #1b244a14}
+:root{--bg:#e3e8f4;--bg2:#d6ddee;--card:#f5f7fc;--fg:#14172b;--mut:#4d5679;--acc:#4350c4;--bd:#c3cce4;--sh:0 3px 14px #1b244a26;--hero:#eaeef8}
+@media (prefers-color-scheme:dark){:root{--bg:#0d1122;--bg2:#0a0e1c;--card:#171d3a;--fg:#eef1ff;--mut:#9aa5d6;--acc:#8fa2ff;--bd:#2a3366;--sh:0 2px 16px #0006;--hero:#141a33}}
+:root[data-theme="dark"]{--bg:#0d1122;--bg2:#0a0e1c;--card:#171d3a;--fg:#eef1ff;--mut:#9aa5d6;--acc:#8fa2ff;--bd:#2a3366;--sh:0 2px 16px #0006;--hero:#141a33}
+:root[data-theme="light"]{--bg:#e3e8f4;--bg2:#d6ddee;--card:#f5f7fc;--fg:#14172b;--mut:#4d5679;--acc:#4350c4;--bd:#c3cce4;--sh:0 3px 14px #1b244a26;--hero:#eaeef8}
 *{box-sizing:border-box}[hidden]{display:none!important}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+html{background:var(--bg2)}
+body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 main{max-width:1120px;margin:0 auto;padding:40px 16px 56px}
-h1{font-size:clamp(1.8rem,5vw,2.6rem);margin:0 0 .2em;text-align:center}
-.sub{color:var(--mut);text-align:center;margin:0 0 24px}
+.hero{text-align:center;margin:0 auto 28px;max-width:680px}
+.pill{display:inline-block;margin:0 0 14px;padding:6px 14px;border-radius:999px;background:var(--acc);color:#fff;font-size:.82rem;font-weight:700;letter-spacing:.02em}
+:root[data-theme="dark"] .pill{color:#0d1122}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pill{color:#0d1122}}
+h1{font-size:clamp(1.9rem,5.5vw,2.9rem);margin:0 0 .25em;line-height:1.15;letter-spacing:-.02em}
+.sub{color:var(--mut);margin:0;font-size:1.08rem}
+.sub a,.about a:not(.btn){color:var(--acc);font-weight:700}
+.about{margin:40px auto 0;max-width:760px;padding:26px 24px;background:var(--hero);border:1px solid var(--bd);border-radius:20px;box-shadow:var(--sh);text-align:center}
+.about h2{margin:0 0 .4em;font-size:1.35rem}
+.about p{margin:.5em 0;color:var(--mut)}
+.about .free{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:16px 0}
+.about .free span{padding:6px 12px;border-radius:999px;border:1px solid var(--bd);background:var(--card);color:var(--fg);font-size:.9rem;font-weight:600}
+.btns{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px}
+a.btn{display:inline-flex;align-items:center;min-height:48px;padding:0 20px;border-radius:999px;border:1px solid var(--acc);color:var(--acc);font-weight:700;text-decoration:none}
+a.btn.main{background:var(--acc);color:#fff}
+:root[data-theme="dark"] a.btn.main{color:#0d1122}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) a.btn.main{color:#0d1122}}
+a.btn:focus-visible,.sub a:focus-visible,footer a:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
 #q{display:block;width:100%;max-width:420px;margin:0 auto 24px;padding:12px 16px;font:inherit;color:var(--fg);background:var(--card);border:1px solid var(--bd);border-radius:999px;min-height:48px}
 #q:focus-visible,a.card:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
 #grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
@@ -34,12 +49,22 @@ footer a{color:var(--acc)}
 </head>
 <body>
 <main>
+<header class="hero">
+<span class="pill">100% free &middot; No ads &middot; No sign-up</span>
 <h1>Free Web Apps</h1>
-<p class="sub">Small, free and private tools. No ads, no sign-up, most work offline.</p>
+<p class="sub">Handy little tools I build as a hobby and give away for free. Made by <a href="https://umar8092.github.io/">Muhammad Umar</a>. A new app lands here every day.</p>
+</header>
 <input id="q" type="search" placeholder="Search apps" aria-label="Search apps" hidden>
 <div id="grid"></div>
 <p id="msg">Loading apps…</p>
-<footer>New apps appear here automatically. <a href="https://github.com/umar8092">GitHub</a></footer>
+<section class="about" aria-labelledby="about-title">
+<h2 id="about-title">Made for fun, free for everyone</h2>
+<p>I'm Muhammad Umar. I make these apps as a hobby because I enjoy building useful things, and I want anyone to be able to use them. There is no catch: no payments, no accounts, no ads, nothing to unlock.</p>
+<div class="free"><span>Completely free</span><span>No ads</span><span>No sign-up</span><span>Private on your device</span><span>New apps every day</span></div>
+<p>Come back soon to see what's new. If an app saves you a few minutes, that is all the thanks I need.</p>
+<div class="btns"><a class="btn main" href="https://umar8092.github.io/">See my portfolio</a><a class="btn" href="https://github.com/umar8092">My GitHub</a></div>
+</section>
+<footer>&copy; Muhammad Umar &middot; Built as a hobby, free for everyone &middot; <a href="https://umar8092.github.io/">Portfolio</a> &middot; <a href="https://github.com/umar8092/apps">Source code</a></footer>
 </main>
 <script>
 // Discovers apps on every load: folders in this repo (GitHub API, apps.json as fallback).

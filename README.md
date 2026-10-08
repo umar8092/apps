@@ -1,6 +1,8 @@
 # Free Web Apps
 
-Small, free, private web apps that run in your browser. No ads, no sign-up, and most work offline. Each app lives in its own folder with a description and screenshots.
+Handy little web apps I build as a hobby and give away for free. Completely free, no ads, no sign-up, and most work offline. A new app is added every day. Each app lives in its own folder with a description and screenshots.
+
+Made by [Muhammad Umar](https://umar8092.github.io/) ([portfolio](https://umar8092.github.io/)).
 
 **All apps:** [umar8092.github.io/apps](https://umar8092.github.io/apps/)
 
