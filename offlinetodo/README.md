@@ -4,11 +4,11 @@ A **free online to-do list with no registration**. It works offline, it's privat
 
 **Live demo:** [umar8092.github.io/apps/offlinetodo](https://umar8092.github.io/apps/offlinetodo/)
 
-| Dark | Light | On a phone |
-|---|---|---|
-| ![To-Do List in dark mode with tasks, due dates and priorities](screenshots/desktop.png) | ![To-Do List in light mode with tasks, due dates and priorities](screenshots/desktop-light.png) | <img src="screenshots/phone.png" alt="To-Do List on a phone" width="220"> |
+| Desktop | On a phone |
+|---|---|
+| ![To-Do List with tasks, due dates and priorities](screenshots/desktop.png) | <img src="screenshots/phone.png" alt="To-Do List on a phone" width="220"> |
 
-The app follows your device's light or dark setting.
+The app follows your device's light or dark setting, and the button at the top switches between them.
 
 ## Features
 

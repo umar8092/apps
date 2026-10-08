@@ -163,7 +163,6 @@ async function overlaps(p) {
       await p.emulateMedia({ colorScheme: label === 'phone' ? 'light' : 'dark' }); await p.waitForTimeout(100);
       if (label === 'desktop') await p.setViewportSize({ width: 1100, height: 1700 });
       await p.screenshot({ path: path.join(__dirname, 'screenshots', label + '.png'), fullPage: true });
-      if (label === 'desktop') { await p.emulateMedia({ colorScheme: 'light' }); await p.waitForTimeout(100); await p.screenshot({ path: path.join(__dirname, 'screenshots', 'desktop-light.png'), fullPage: true }); }
     }
     await ctx.close();
   }

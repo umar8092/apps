@@ -113,3 +113,16 @@ footer a { color: var(--muted); }
 .back:hover { color: var(--ink, inherit); border-color: currentColor; }
 .back:focus-visible { outline: 3px solid var(--accent, var(--acc, #fff)); outline-offset: 2px; }
 @media print { .back { display: none; } }
+
+/* laptops and desktops: two columns instead of one phone-sized column */
+@media (min-width: 900px) {
+    .page { width: min(1000px, 100%); }
+    .app { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3.5rem; align-items: center; }
+    .app > header { grid-column: 1 / -1; grid-row: 1; margin-bottom: 1.5rem; }
+    .app > .tip { grid-column: 1; grid-row: 4; }
+    .app > .stage { grid-column: 1; grid-row: 2; margin: 1rem 0 .5rem; align-self: end; }
+    .app > .play { grid-column: 1; grid-row: 3; margin: .4rem auto 0; align-self: start; }
+    .app > .controls { grid-column: 2; grid-row: 2 / span 3; text-align: left; align-self: center; }
+    .heart { width: 240px; }
+    .info { width: min(720px, 100%); margin-left: auto; margin-right: auto; }
+}

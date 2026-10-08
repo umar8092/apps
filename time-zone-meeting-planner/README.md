@@ -4,9 +4,9 @@ A free **meeting planner for people in different time zones**. Add everyone's ci
 
 **Live demo:** [umar8092.github.io/apps/time-zone-meeting-planner](https://umar8092.github.io/apps/time-zone-meeting-planner/)
 
-| Desktop | Light mode | On a phone |
-|---|---|---|
-| ![Time Zone Meeting Planner showing 15:00 London, 10:00 New York and 19:00 Karachi, each with their own working hours](screenshots/desktop.png) | ![Time Zone Meeting Planner in light mode](screenshots/desktop-light.png) | <img src="screenshots/phone.png" alt="Time Zone Meeting Planner on a phone" width="220"> |
+| Desktop | On a phone |
+|---|---|
+| ![Time Zone Meeting Planner showing 15:00 London, 10:00 New York and 19:00 Karachi, each with their own working hours](screenshots/desktop.png) | <img src="screenshots/phone.png" alt="Time Zone Meeting Planner on a phone" width="220"> |
 
 ## The situations it solves
 

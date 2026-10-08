@@ -79,14 +79,12 @@ const ok = (name, cond) => { if (!cond) fail++; console.log((cond ? 'PASS ' : 'F
       else {
         await p.emulateMedia({ colorScheme: 'dark' }); await p.waitForTimeout(150);
         await p.screenshot({ path: dir + '/desktop.png', fullPage: true });
-        await p.emulateMedia({ colorScheme: 'light' }); await p.waitForTimeout(150);
-        await p.screenshot({ path: dir + '/desktop-light.png', fullPage: true });
       }
     }
     await ctx.close();
   }
   // service worker file + assets exist
-  const need = ['index.html', 'style.css', 'core.js', 'script.js', 'favicon.svg', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'LICENSE', 'README.md', 'screenshots/desktop.png', 'screenshots/phone.png', 'screenshots/desktop-light.png'];
+  const need = ['index.html', 'style.css', 'core.js', 'script.js', 'favicon.svg', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'LICENSE', 'README.md', 'screenshots/desktop.png', 'screenshots/phone.png'];
   need.forEach(f => { if (!fs.existsSync(path.join(__dirname, f)) && !(shots === false && f.startsWith('README'))) ok('file exists ' + f, false); });
   await b.close();
   console.log(fail ? fail + ' FAILED' : 'ALL UI CHECKS PASSED');

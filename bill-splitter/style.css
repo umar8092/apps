@@ -93,3 +93,17 @@ a.primary.alt { background: transparent; color: var(--ink); border: 1px solid va
     --ink: #f1f5f9; --muted: #a5b4c8; --accent: #fb923c; --accent-ink: #2a1200; --field: rgba(255,255,255,.08);
     color-scheme: dark;
 }
+
+/* laptops and desktops: two columns instead of one phone-sized column */
+@media (min-width: 900px) {
+    .app { width: min(1040px, 100%); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 1.5rem; align-items: start; }
+    .app > * { grid-column: 1 / -1; }
+    .app > .card:not(.result):not(#result), .app > .app-in { grid-column: 1; }
+    .app > .result, .app > #result { grid-column: 2; position: sticky; top: 1rem; margin-top: 0; }
+    .app > .card { margin-bottom: .9rem; }
+    .app > .faq, .app > footer { width: min(760px, 100%); justify-self: center; }
+    header h1 { font-size: 2.3rem; }
+    .tabs { max-width: 560px; justify-self: center; width: 100%; }
+    /* before there is a result, keep the lone form card centered and phone-sized */
+    .app:has(> #result[hidden]) > .card { grid-column: 1 / -1; width: min(560px, 100%); justify-self: center; }
+}

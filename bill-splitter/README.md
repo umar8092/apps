@@ -4,9 +4,9 @@ A free **bill splitter that tells you who owes who**. Type what each person paid
 
 **Live demo:** [umar8092.github.io/apps/bill-splitter](https://umar8092.github.io/apps/bill-splitter/)
 
-| Desktop | Light mode | On a phone |
-|---|---|---|
-| ![Bill Splitter showing Alice paid 100, Bob 0 and Carol 50, so Bob pays Alice 50](screenshots/desktop.png) | ![Bill Splitter in light mode](screenshots/desktop-light.png) | <img src="screenshots/phone.png" alt="Bill Splitter on a phone" width="220"> |
+| Desktop | On a phone |
+|---|---|
+| ![Bill Splitter showing Alice paid 100, Bob 0 and Carol 50, so Bob pays Alice 50](screenshots/desktop.png) | <img src="screenshots/phone.png" alt="Bill Splitter on a phone" width="220"> |
 
 ## The situation it solves
 

@@ -4,9 +4,9 @@ A free **pregnancy due date calculator** that tells you your due date and exactl
 
 **Live demo:** [umar8092.github.io/apps/due-date-calculator](https://umar8092.github.io/apps/due-date-calculator/)
 
-| Desktop | Light mode | On a phone |
-|---|---|---|
-| ![Due Date Calculator showing a due date of Tuesday 8 June 2027 and 5 weeks 2 days pregnant](screenshots/desktop.png) | ![Due Date Calculator in light mode](screenshots/desktop-light.png) | <img src="screenshots/phone.png" alt="Due Date Calculator on a phone" width="220"> |
+| Desktop | On a phone |
+|---|---|
+| ![Due Date Calculator showing a due date of Tuesday 8 June 2027 and 5 weeks 2 days pregnant](screenshots/desktop.png) | <img src="screenshots/phone.png" alt="Due Date Calculator on a phone" width="220"> |
 
 ## The situation it solves
 

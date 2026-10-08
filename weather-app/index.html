@@ -35,6 +35,7 @@
         <div id="others" class="others" hidden></div>
 
         <section id="weather-info" class="card" hidden>
+            <div class="col-now">
             <div class="place">
                 <h2 id="place-name"></h2>
                 <p id="place-time"></p>
@@ -63,11 +64,14 @@
                 <div><dt>Sunset</dt><dd id="sunset"></dd></div>
             </dl>
 
+            </div>
+            <div class="col-later">
             <h3>Next 12 hours</h3>
             <ol id="hourly" class="hourly"></ol>
 
             <h3>7-day forecast</h3>
             <ul id="daily" class="daily"></ul>
+            </div>
         </section>
 
         <footer>Weather data by <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a> &middot;
