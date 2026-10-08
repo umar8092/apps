@@ -1,7 +1,7 @@
 // Saves the app on the device so it opens with no connection.
 // Files are served from the saved copy and refreshed in the background, so updates arrive on the next visit.
 // Change CACHE only when you add, remove or rename a file in FILES.
-const CACHE = 'offlinetodo-v7';
+const CACHE = 'time-zone-meeting-planner-v1';
 const FILES = ['../theme.js', './', 'index.html', 'style.css', 'core.js', 'script.js', 'favicon.svg', 'manifest.webmanifest',
     'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
@@ -14,7 +14,7 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys()
-            .then(keys => Promise.all(keys.filter(key => key.startsWith('offlinetodo-') && key !== CACHE).map(key => caches.delete(key))))
+            .then(keys => Promise.all(keys.filter(key => key.startsWith('time-zone-meeting-planner-') && key !== CACHE).map(key => caches.delete(key))))
             .then(() => self.clients.claim())
     );
 });

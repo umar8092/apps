@@ -1,4 +1,4 @@
-// Meeting Time Planner: the maths, with no page code. Times are minutes since local midnight.
+// Time Zone Meeting Planner: the maths, with no page code. Times are minutes since local midnight.
 // Works in the browser (MeetCore) and in node (module.exports). Time zones come from the built-in Intl database, so it works offline.
 (function (root) {
     const MIN = 60000;
@@ -16,6 +16,22 @@
         'Manila': 'Asia/Manila', 'Hong Kong': 'Asia/Hong_Kong', 'Shanghai': 'Asia/Shanghai', 'Beijing': 'Asia/Shanghai', 'Taipei': 'Asia/Taipei', 'Seoul': 'Asia/Seoul', 'Tokyo': 'Asia/Tokyo',
         'Sydney': 'Australia/Sydney', 'Melbourne': 'Australia/Melbourne', 'Perth': 'Australia/Perth', 'Auckland': 'Pacific/Auckland'
     };
+    // Working hours people can pick for themselves. A shift that ends before it starts runs past midnight (night shift).
+    const PRESETS = {
+        office: { label: 'Office hours', s: 540, e: 1020 }, early: { label: 'Early shift', s: 360, e: 840 }, evening: { label: 'Evening shift', s: 840, e: 1320 },
+        night: { label: 'Night shift', s: 1320, e: 360 }, any: { label: 'Any time', s: 0, e: 1440 }
+    };
+    const rawOf = h => { const p = h && h.k !== 'custom' && PRESETS[h.k] ? PRESETS[h.k] : (h && h.k === 'custom' ? h : PRESETS.office); return { s: +p.s, e: +p.e }; };
+    // {k:'office'|...|'custom', s, e} -> the window the planner uses. A window that crosses midnight gets an end past 1440.
+    // A full 24 hours is continuous (a meeting may cross midnight), so it is made long enough that nothing falls outside it.
+    function windowOf(h) {
+        const { s, e } = rawOf(h);
+        let end = e > s ? e : e + 1440;
+        if (end - s >= 1440) end = s + 2880;
+        return { start: s, end };
+    }
+    const MAX_MEETING = 180;   // minutes
+    const lenWords = d => ({ 60: '1-hour', 120: '2-hour', 180: '3-hour' }[d] || d + '-minute');
     const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const fmtCache = {};
 
@@ -112,6 +128,11 @@
         const h = Math.floor(min / 60), m = min % 60;
         return (h ? h + ' h' : '') + (h && m ? ' ' : '') + (m ? m + ' min' : '');
     }
+    // "09:00 - 17:00", "22:00 - 06:00 (next day)" for a shift that runs past midnight, "(24 hours)" when start equals end
+    function hoursText(h, h12) {
+        const { s, e } = rawOf(h);
+        return fmtTime(s, h12) + ' \u2013 ' + (e === 1440 ? (h12 ? '12:00 am' : '24:00') : fmtTime(e, h12)) + (e < s ? ' (next day)' : e === s ? ' (24 hours)' : '');
+    }
     function dayText(v) { return DAYS[v.dow] + (v.dayDiff === 1 ? ' (next day)' : v.dayDiff === -1 ? ' (previous day)' : v.dayDiff > 1 ? ' (+' + v.dayDiff + ' days)' : v.dayDiff < -1 ? ' (' + v.dayDiff + ' days)' : ''); }
 
     // ---- cities ----
@@ -149,13 +170,13 @@
     function icsStamp(utc) { const d = new Date(utc); return d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()) + 'T' + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + '00Z'; }
     function icsEscape(s) { return String(s).replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n'); }
     function buildIcs(utc, duration, description, now) {
-        return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Meeting Time Planner//EN', 'CALSCALE:GREGORIAN', 'BEGIN:VEVENT',
-            'UID:' + icsStamp(utc) + '-meeting-time-planner@umar8092.github.io', 'DTSTAMP:' + icsStamp(now || utc),
+        return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Time Zone Meeting Planner//EN', 'CALSCALE:GREGORIAN', 'BEGIN:VEVENT',
+            'UID:' + icsStamp(utc) + '-time-zone-meeting-planner@umar8092.github.io', 'DTSTAMP:' + icsStamp(now || utc),
             'DTSTART:' + icsStamp(utc), 'DTEND:' + icsStamp(utc + duration * MIN), 'SUMMARY:Meeting',
             'DESCRIPTION:' + icsEscape(description), 'END:VEVENT', 'END:VCALENDAR'].join('\r\n') + '\r\n';
     }
 
-    const api = { ALIASES, DAYS, validZone, offsetMinutes, local, zonedToUtc, dayNoOf, outsideMinutes, comfort, plan, view,
+    const api = { hoursText, ALIASES, PRESETS, MAX_MEETING, windowOf, lenWords, DAYS, validZone, offsetMinutes, local, zonedToUtc, dayNoOf, outsideMinutes, comfort, plan, view,
         fmtTime, fmtLen, dayText, cityOfZone, cityNames, findCity, utcOffsetText, buildIcs, icsStamp };
     if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.MeetCore = api;
 })(typeof self !== 'undefined' ? self : this);

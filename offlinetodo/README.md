@@ -25,6 +25,8 @@ The app follows your device's light or dark setting.
 - **Copy as checklist** or **Share** your list as plain text (`- [ ] task`, one per line) that pastes into Notes, Keep, Notion, Obsidian and more. On phones, Share opens the system share menu. It copies what you are looking at, so a filter or search applies.
 - **Export and import** your tasks as a file, to back them up or move them to another device.
 - **Keyboard friendly.** Enter adds a task, `/` jumps to search, Esc cancels an edit.
+- **Back to all apps.** A "← All apps" button at the top of the page.
+- **Light and dark mode switch.** It follows your device until you choose, and remembers your choice in every app.
 
 ## Install it
 

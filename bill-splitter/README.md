@@ -28,6 +28,8 @@ With more people it finds a short list of payments (for example four people, one
 - **Split evenly** with tip and tax, and **By order** (everyone pays for what they ordered, tax and tip shared in proportion), with a round-up option.
 - **Private.** Everything is worked out on your device. Nothing is sent anywhere.
 - **Works offline and installable.** Light and dark mode, phone friendly.
+- **Back to all apps.** A "← All apps" button at the top of the page.
+- **Light and dark mode switch.** It follows your device until you choose, and remembers your choice in every app.
 
 ## Run it yourself
 

@@ -10,6 +10,8 @@
 <style>
 :root{--bg:#f6f7fb;--card:#fff;--fg:#14172b;--mut:#5d6486;--acc:#4f5bd5;--bd:#e3e6f2;--sh:0 2px 12px #1b244a14}
 @media (prefers-color-scheme:dark){:root{--bg:#0d1122;--card:#171d3a;--fg:#eef1ff;--mut:#9aa5d6;--acc:#8fa2ff;--bd:#2a3366;--sh:0 2px 16px #0006}}
+:root[data-theme="dark"]{--bg:#0d1122;--card:#171d3a;--fg:#eef1ff;--mut:#9aa5d6;--acc:#8fa2ff;--bd:#2a3366;--sh:0 2px 16px #0006}
+:root[data-theme="light"]{--bg:#f6f7fb;--card:#fff;--fg:#14172b;--mut:#5d6486;--acc:#4f5bd5;--bd:#e3e6f2;--sh:0 2px 12px #1b244a14}
 *{box-sizing:border-box}[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 main{max-width:960px;margin:0 auto;padding:40px 16px 56px}
@@ -27,6 +29,7 @@ a.card:hover{transform:translateY(-2px);border-color:var(--acc)}
 footer{text-align:center;color:var(--mut);font-size:.85rem;margin-top:32px}
 footer a{color:var(--acc)}
 </style>
+<script src="theme.js"></script>
 </head>
 <body>
 <main>

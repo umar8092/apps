@@ -1,7 +1,7 @@
 {
-  "name": "Meeting Time Planner",
-  "short_name": "Meeting Time",
-  "description": "Find a meeting time that works in every time zone. Works offline.",
+  "name": "Time Zone Meeting Planner",
+  "short_name": "Meeting Planner",
+  "description": "Find a meeting time that works across time zones, even for different working hours. Works offline.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

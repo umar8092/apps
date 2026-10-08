@@ -29,6 +29,7 @@ You are about to leave the house, or planning a trip, and want a quick answer: *
 - **Remembers your place.** Open the app and your forecast is there.
 - **Offline-friendly:** if you lose your connection it shows the last saved forecast and says when it was saved.
 - Refreshes by itself when you come back to the tab after a while.
+- **Back to all apps.** A "← All apps" button at the top of the page.
 
 ## No API key
 

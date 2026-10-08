@@ -1,12 +1,13 @@
 // Drives the real page in headless Chromium: node ui-test.js [--shots]
-const { chromium } = require('/opt/node-tools/node_modules/playwright');
+const pw = (() => { for (const m of ['playwright', 'playwright-core', '/opt/node-tools/node_modules/playwright']) { try { return require(m); } catch (e) { /* try next */ } } throw new Error('playwright not found'); })();
+const chromium = pw.chromium;
 const path = require('path'), fs = require('fs');
 const url = 'file://' + path.join(__dirname, 'index.html');
 const shots = process.argv.includes('--shots');
 let fail = 0;
 const ok = (name, cond) => { if (!cond) fail++; console.log((cond ? 'PASS ' : 'FAIL ') + name); };
 (async () => {
-  const b = await chromium.launch();
+  const b = await chromium.launch({ executablePath: process.env.CHROME_PATH || undefined });
   for (const [label, vp] of [['phone', { width: 390, height: 844 }], ['tablet', { width: 820, height: 1100 }], ['desktop', { width: 1280, height: 900 }]]) {
     const ctx = await b.newContext({ viewport: vp, deviceScaleFactor: label === 'phone' ? 2 : 1, acceptDownloads: true, permissions: ['clipboard-read', 'clipboard-write'] });
     const p = await ctx.newPage();

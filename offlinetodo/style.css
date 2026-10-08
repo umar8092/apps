@@ -173,3 +173,37 @@ footer a { color: var(--muted); }
 }
 
 .summary-actions { display: flex; gap: .6rem; flex-wrap: wrap; justify-content: flex-end; }
+
+/* back to the list of all apps */
+.back { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; margin: 0 0 .5rem; padding: 0 1rem 0 .8rem; border: 1px solid var(--line, rgba(127,127,127,.4)); border-radius: 999px; color: var(--muted, var(--mut, inherit)); font-size: .92rem; font-weight: 600; text-decoration: none; background: transparent; }
+.back:hover { color: var(--ink, inherit); border-color: currentColor; }
+.back:focus-visible { outline: 3px solid var(--accent, var(--acc, #fff)); outline-offset: 2px; }
+@media print { .back { display: none; } }
+
+/* light / dark switch (theme.js sets data-theme); without it the device setting decides */
+:root[data-theme="light"] {
+        --bg: #f4f6fb;
+        --bg2: #e9eef8;
+        --card: #ffffff;
+        --line: #d6dded;
+        --ink: #14213d;
+        --muted: #55637d;
+        --accent: #047857;
+        --accent-ink: #ffffff;
+        --danger: #be123c;
+        --warn: #a16207;
+        color-scheme: light;
+    }
+:root[data-theme="dark"] {
+    --bg: #0f172a;
+    --bg2: #111c33;
+    --card: rgba(255, 255, 255, .06);
+    --line: rgba(255, 255, 255, .14);
+    --ink: #f1f5f9;
+    --muted: #a5b4c8;
+    --accent: #34d399;
+    --accent-ink: #052e1f;
+    --danger: #fda4af;
+    --warn: #fcd34d;
+    color-scheme: dark;
+}

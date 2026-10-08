@@ -74,6 +74,38 @@ function runTests(C) {
     eq('01:00 Auckland on Thursday is Wednesday in Los Angeles (previous day)', [v.dow, v.dayDiff], [3, -1]);
     eq('day text', C.dayText(v), 'Wed (previous day)');
 
+    // different hours for each person, including a night shift that runs past midnight
+    eq('office preset is 09:00-17:00', C.windowOf({ k: 'office' }), { start: 540, end: 1020 });
+    eq('night shift 22:00-06:00 becomes a window that ends the next day', C.windowOf({ k: 'night' }), { start: 1320, end: 1800 });
+    eq('custom hours that end before they start also run past midnight', C.windowOf({ k: 'custom', s: 1260, e: 420 }), { start: 1260, end: 1860 });
+    eq('an unknown preset falls back to office hours', C.windowOf({ k: 'nonsense' }), { start: 540, end: 1020 });
+    eq('hours text 24h, day and night', [C.hoursText({ k: 'office' }, false), C.hoursText({ k: 'night' }, false), C.hoursText({ k: 'any' }, false)], ['09:00 \u2013 17:00', '22:00 \u2013 06:00 (next day)', '00:00 \u2013 24:00']);
+    eq('hours text 12h', C.hoursText({ k: 'office' }, true), '9:00 am \u2013 5:00 pm');
+    eq('night-shift meeting is inside the window after midnight (01:00-02:00)', C.outsideMinutes(60, 60, 1320, 1800), 0);
+    eq('night-shift meeting at 05:30 runs 30 min past 06:00', C.outsideMinutes(330, 60, 1320, 1800), 30);
+    eq('night-shift meeting at 12:00 is fully outside', C.outsideMinutes(720, 60, 1320, 1800), 60);
+    // person 1 works days in London, person 2 works nights in New York (22:00-06:00 in New York = 03:00-11:00 in London)
+    const NY = (k) => Object.assign({ tz: 'America/New_York' }, C.windowOf({ k }));
+    p = C.plan([P('Europe/London'), NY('night')], '2026-10-08', 60);
+    eq('day in London + night in New York: starts 09:00-10:00 London', [t(p.ranges[0].from, 'Europe/London'), t(p.ranges[0].to, 'Europe/London'), p.ranges.length], ['09:00', '10:00', 1]);
+    eq('day + night: best is 09:30 London, which is 04:30 in New York', [t(p.best.utc, 'Europe/London'), t(p.best.utc, 'America/New_York')], ['09:30', '04:30']);
+    // night worker in Karachi and day worker in London have no common time
+    p = C.plan([P('Europe/London'), Object.assign({ tz: 'Asia/Karachi' }, C.windowOf({ k: 'night' }))], '2026-10-08', 60);
+    eq('London days + Karachi nights: no time works, a closest option is offered', [p.best, !!p.fallback], [null, true]);
+    // an evening shift in Sydney with office hours in London
+    p = C.plan([P('Europe/London'), Object.assign({ tz: 'Australia/Sydney' }, C.windowOf({ k: 'evening' }))], '2026-10-08', 60);
+    eq('London office + Sydney evening shift (14:00-22:00 Sydney = 04:00-12:00 London) works 09:00-11:00 London', [t(p.ranges[0].from, 'Europe/London'), t(p.ranges[0].to, 'Europe/London')], ['09:00', '11:00']);
+    // 24-hour people never block anyone
+    p = C.plan([P('Europe/London'), Object.assign({ tz: 'Asia/Tokyo' }, C.windowOf({ k: 'any' }))], '2026-10-08', 60);
+    eq('an any-time person leaves the other person\'s full hours free (09:00-16:00 starts)', [t(p.ranges[0].from, 'Europe/London'), t(p.ranges[0].to, 'Europe/London')], ['09:00', '16:00']);
+    // meeting lengths: custom up to 3 hours
+    eq('length words', [C.lenWords(60), C.lenWords(90), C.lenWords(180), C.lenWords(50)], ['1-hour', '90-minute', '3-hour', '50-minute']);
+    eq('longest meeting is 3 hours', C.MAX_MEETING, 180);
+    p = C.plan([P('Europe/London'), P('Europe/London')], '2026-10-08', 50);
+    eq('a 50-minute custom meeting fits and ends inside the hours', [p.valid.length > 0, t(p.ranges[0].to, 'Europe/London')], [true, '16:00']);
+    p = C.plan([P('Europe/London'), P('Europe/London')], '2026-10-08', 180);
+    eq('a 3-hour meeting can start 09:00-14:00', [t(p.ranges[0].from, 'Europe/London'), t(p.ranges[0].to, 'Europe/London')], ['09:00', '14:00']);
+
     // formatting
     eq('24h format', C.fmtTime(905, false), '15:05');
     eq('12h format pm', C.fmtTime(905, true), '3:05 pm');

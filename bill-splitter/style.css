@@ -78,3 +78,18 @@ a.primary.alt { background: transparent; color: var(--ink); border: 1px solid va
 @media (max-width: 380px) { .tabs button { font-size: .85rem; } }
 .newbill { margin: .6rem 0 0; text-align: center; color: var(--muted); font-size: .9rem; }
 .newbill .addmail { display: inline; }
+
+/* back to the list of all apps */
+.back { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; margin: 0 0 .5rem; padding: 0 1rem 0 .8rem; border: 1px solid var(--line, rgba(127,127,127,.4)); border-radius: 999px; color: var(--muted, var(--mut, inherit)); font-size: .92rem; font-weight: 600; text-decoration: none; background: transparent; }
+.back:hover { color: var(--ink, inherit); border-color: currentColor; }
+.back:focus-visible { outline: 3px solid var(--accent, var(--acc, #fff)); outline-offset: 2px; }
+@media print { .back { display: none; } }
+
+/* light / dark switch (theme.js sets data-theme); without it the device setting decides */
+:root[data-theme="light"] { --bg: #f4f6fb; --bg2: #e9eef8; --card: #fff; --line: #d0d8ea; --ink: #14213d; --muted: #55637d;
+            --accent: #c2410c; --accent-ink: #fff; --field: #f3f6fc; color-scheme: light; }
+:root[data-theme="dark"] {
+    --bg: #0f172a; --bg2: #111c33; --card: rgba(255,255,255,.06); --line: rgba(255,255,255,.16);
+    --ink: #f1f5f9; --muted: #a5b4c8; --accent: #fb923c; --accent-ink: #2a1200; --field: rgba(255,255,255,.08);
+    color-scheme: dark;
+}

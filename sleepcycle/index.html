@@ -42,10 +42,17 @@ p{margin:.4em 0}
 footer{text-align:center;color:var(--mut);font-size:.85rem;margin-top:24px}
 a{color:var(--acc)}
 @media(min-width:900px){main{padding-top:48px}}
+
+/* back to the list of all apps */
+.back { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; margin: 0 0 .5rem; padding: 0 1rem 0 .8rem; border: 1px solid var(--line, rgba(127,127,127,.4)); border-radius: 999px; color: var(--muted, var(--mut, inherit)); font-size: .92rem; font-weight: 600; text-decoration: none; background: transparent; }
+.back:hover { color: var(--ink, inherit); border-color: currentColor; }
+.back:focus-visible { outline: 3px solid var(--accent, var(--acc, #fff)); outline-offset: 2px; }
+@media print { .back { display: none; } }
 </style>
 </head>
 <body>
 <main>
+    <a class="back" href="../">&larr; All apps</a>
 <h1>Sleep Cycle Calculator</h1>
 <p class="sub">Wake up between cycles, not in the middle of one.</p>
 
