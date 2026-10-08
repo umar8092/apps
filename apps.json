@@ -40,5 +40,11 @@
     "name": "Time Zone Meeting Planner",
     "description": "Find a meeting time across time zones, even when people work different hours.",
     "color": "#eab308"
+  },
+  {
+    "slug": "work-hours-calculator",
+    "name": "Work Hours Calculator",
+    "description": "Weekly timesheet: total hours, overtime and pay from start, finish and break each day. Handles night shifts.",
+    "color": "#14b8a6"
   }
 ]

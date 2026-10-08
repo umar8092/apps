@@ -62,6 +62,14 @@ Find a meeting time that works across time zones, even when people work differen
 
 <a href="time-zone-meeting-planner/"><img src="time-zone-meeting-planner/screenshots/phone.png" alt="Time Zone Meeting Planner screenshot" width="260"></a>
 
+### <img src="work-hours-calculator/favicon.svg" width="36" height="36" align="center"> [Work Hours Calculator](https://umar8092.github.io/apps/work-hours-calculator/)
+
+Weekly timesheet: type start, finish and break for each day and get total hours, overtime and pay. Night shifts past midnight work, and each day has its own break. Copy, email or print.
+
+[**Open the app**](https://umar8092.github.io/apps/work-hours-calculator/) &middot; [Details and screenshots](work-hours-calculator/)
+
+<a href="work-hours-calculator/"><img src="work-hours-calculator/screenshots/phone.png" alt="Work Hours Calculator screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
