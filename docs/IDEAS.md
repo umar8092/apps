@@ -1,0 +1,16 @@
+# Idea queue
+
+The daily job builds the FIRST unchecked idea below, then adds new vetted ideas at the bottom so there are always at least 8 waiting.
+An idea only goes on this list if it solves a real everyday problem, people would keep it, and it is not already offered by every site (see `REJECTED.md`).
+Each idea says who needs it, the situation, and the answer the app must give. Add the edge cases the app must handle.
+
+- [ ] **Subscription Tracker** — Anyone paying for streaming, apps and memberships. Add each subscription (name, price, how often, next bill date); the app shows the monthly and yearly total, what is due in the next 7 days, and which are the most expensive. Edge cases: weekly/monthly/quarterly/yearly/custom billing, free trials that end, paused or cancelled, prices that change, amounts like 0 or 9.99, same name twice, backup export/import, everything stays on the device.
+- [ ] **Recipe Scaler and Unit Converter** — A home cook with a recipe for 4 who is cooking for 7, or an American recipe in grams. Paste or type ingredients, set servings from X to Y, and get scaled amounts in friendly units (1 1/2 cups, not 1.4999). Edge cases: fractions, "a pinch", ranges ("2-3"), cups to grams per ingredient (flour, sugar, butter), metric/US/UK, oven temperature, copy the result.
+- [ ] **Loan and Credit Card Payoff Planner** — Someone with a debt who wants to know when they will be free and how much extra helps. Enter balance, rate and payment; show the payoff date, total interest, and how much sooner they finish by paying a bit more. Edge cases: payment too low to ever pay it off (say so plainly), 0% rate, several debts (snowball vs avalanche), extra one-off payments.
+- [ ] **Hourly, Daily, Monthly and Yearly Pay Converter** — A job seeker comparing offers. Enter any one of hourly/weekly/monthly/yearly pay plus hours per week and weeks per year; see all the others. Edge cases: unpaid holidays, part-time, overtime, two offers side by side.
+- [ ] **Trip Expense Splitter** — A group on a trip where different people pay for different things on different days. Tracks who paid for what and answers "Sam pays Lee 40". (Check it does not duplicate Bill Splitter; if it overlaps, merge into Bill Splitter instead.)
+- [ ] **Grocery List with Running Total** — A shopper who wants to stay on budget. Add items with price and quantity, tick them off in the shop, see the total and what is left of the budget.
+- [ ] **Photo Size Reducer (offline)** — Someone who must upload a photo or ID under 200 KB or 1 MB. Drop in a photo, pick the size limit, get a smaller JPEG without sending it anywhere. Edge cases: HEIC, huge photos, rotation, "can't reach the limit" message.
+- [ ] **Medication and Habit Reminder Log** — Someone who keeps forgetting if they took today's tablet. Log doses with time, show "last taken", warn about double doses. (Not medical advice; clear disclaimer.)
+- [ ] **Trip Packing Checklist** — A traveller who always forgets something. Pick the trip type and length and get a checklist they can edit and tick off, saved on the device.
+- [ ] **Age and Date Difference Calculator** — Exact age, days between dates, days until an event; handles leap years and different time zones.
