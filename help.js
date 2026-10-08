@@ -13,6 +13,7 @@
         'dialog.help h2{margin:0 0 .6rem;font-size:1.3rem;letter-spacing:-.01em}' +
         'dialog.help h3{margin:1.1rem 0 .3rem;font-size:1rem;color:var(--hacc)}' +
         'dialog.help ol,dialog.help ul{margin:0;padding-left:1.3rem}dialog.help li{margin:.3rem 0}' +
+        '.help-dots{display:flex;gap:6px;margin:0 0 .8rem}.help-dots i{display:block;width:8px;height:8px;border-radius:50%;background:#f97316}.help-dots i:nth-child(2){background:#d946ef}.help-dots i:nth-child(3){background:#6366f1}.help-dots i:nth-child(4){background:#0ea5e9}.help-dots i:nth-child(5){background:#10b981}' +
         '.help-close{display:block;width:100%;min-height:48px;margin-top:1.2rem;border:0;border-radius:12px;background:var(--hacc);color:var(--hbg);font:inherit;font-weight:700;cursor:pointer}' +
         '@media print{.topbar,dialog.help{display:none}}';
     var ICON = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1.1.9-1.1 1.7"/><path d="M12 17h.01"/></svg>';
@@ -34,6 +35,7 @@
         bar.insertBefore(btn, toggle || null);
 
         var dlg = document.createElement('dialog'); dlg.className = 'help'; dlg.setAttribute('aria-labelledby', 'help-title');
+        var dots = document.createElement('div'); dots.className = 'help-dots'; dots.setAttribute('aria-hidden', 'true'); dots.innerHTML = '<i></i><i></i><i></i><i></i><i></i>'; dlg.appendChild(dots);
         var h = document.createElement('h2'); h.id = 'help-title'; h.textContent = data.title || 'How to use this app'; dlg.appendChild(h);
         (data.sections || []).forEach(function (s) {
             if (s.h) { var h3 = document.createElement('h3'); h3.textContent = s.h; dlg.appendChild(h3); }

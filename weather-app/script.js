@@ -10,7 +10,10 @@
     let units = store.get('units') === 'imperial' ? 'imperial' : 'metric';
     let place = null, data = null, fetchedAt = 0;
 
-    const setStatus = (text, isError = false) => { $('status').textContent = text; $('status').classList.toggle('error', isError); };
+    const setStatus = (text, isError = false) => {
+        const el = $('status'); el.textContent = text; el.classList.toggle('error', isError);
+        if (/…$/.test(text)) { const d = document.createElement('span'); d.className = 'dots load'; d.setAttribute('aria-hidden', 'true'); d.innerHTML = '<i></i><i></i><i></i><i></i><i></i>'; el.prepend(d, ' '); }   // loading: the five bouncing dots
+    };
     const json = async url => { const r = await fetch(url); if (!r.ok) throw new Error(r.status); return r.json(); };
     const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 
