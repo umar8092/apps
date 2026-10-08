@@ -16,6 +16,7 @@ A free **meeting planner for people in different time zones**. Add everyone's ci
 
 ## Features
 
+- **Help button.** Tap **Help** at the top for a short how-to written for this app, and tap **All apps** to go back to the list.
 - **Working hours for every person**, not one shared window. Pick *Office hours*, *Early shift*, *Evening shift*, *Night shift*, *Any time*, or *Custom hours*. A custom shift that ends before it starts runs past midnight and the page says so.
 - **Best time, not just a converter.** Tries every half hour and keeps only times where the whole meeting is inside everyone's hours, then picks the one with the most room for the person with the least.
 - **Meeting length from 15 minutes to 3 hours**, or a **custom length** in minutes (3 hours is the most).

@@ -19,6 +19,7 @@ A free, calming **heartbeat sound** you can loop all night, for sleep, newborns,
 - **Keeps playing when your phone screen locks.** The sound is played by a normal audio player, so you can lock the phone or turn the screen off and it carries on. The lock screen shows the controls (play, pause) and the heart rate.
 - **Optional: keep the screen on** while playing, if you want the beating heart in view.
 - **Play and pause with the spacebar.**
+- **Help button.** Tap **Help** at the top for a short how-to, and **All apps** to go back to the list.
 - It remembers your heart rate and volume.
 
 ## Good for

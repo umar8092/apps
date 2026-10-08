@@ -19,6 +19,7 @@ You have just seen a positive test. Your last period started on 1 September 2026
 
 ## Features
 
+- **Help button.** Tap **Help** at the top for a short how-to written for this app, and tap **All apps** to go back to the list.
 - **Four ways to start.** First day of your last period (with an optional cycle length, behind a small button), conception date, IVF embryo transfer (day 3 or day 5), or an ultrasound scan (date plus the weeks and days it measured).
 - **Clear answer.** Due date with the weekday, weeks and days pregnant today, trimester, progress bar and days to go. If the date has passed it says how many days ago.
 - **Key dates.** Nine milestones from 6 to 40 weeks with their dates and how many days away they are.

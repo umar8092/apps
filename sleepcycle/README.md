@@ -14,6 +14,7 @@ You must wake at 6:30 AM. Sleep Cycle Calculator tells you when to fall asleep: 
 
 ## Features
 
+- **Help button.** Tap **Help** at the top for a short how-to written for this app, and tap **All apps** to go back to the list.
 - **I need to wake at...** gives the times to fall asleep. **I go to bed at...** gives the times to wake up. **Sleep now** starts from the current time.
 - A nap tip: about 20 minutes, or a full 90-minute cycle, avoids waking in deep sleep.
 - Settings: minutes to fall asleep, cycle length (default 90), and 12 or 24 hour clock. They are remembered on your device.

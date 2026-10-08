@@ -19,6 +19,7 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Time Zone Meeting Planner","alternateName":["Time Zone Meeting Planner","Best Time to Meet Across Time Zones"],"url":"https://umar8092.github.io/apps/time-zone-meeting-planner/","description":"A free meeting planner that finds a time inside everyone's working hours across time zones, with daylight saving handled.","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
     <link rel="stylesheet" href="style.css">
     <script src="../theme.js"></script>
+    <script src="../help.js"></script>
 </head>
 <body>
 <main class="app">
@@ -96,5 +97,6 @@
 </main>
 <script src="core.js"></script>
 <script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Time Zone Meeting Planner", "sections": [{"h": "Find a time that works", "steps": ["Pick the day of the meeting and how long it is (5 minutes to 3 hours, or choose \"Custom\" to type minutes).", "For each person, type their city and choose from the list. Next to it choose when they work: office hours, an early, evening or night shift, any time, or custom hours.", "Tap \"+ Add a city\" for more people. Use × to remove one.", "The best time is shown at the top with each person's local time. Tap one of \"Other times that work\" to pick a different start.", "The chart shows everyone's working hours, with the meeting highlighted."]}, {"h": "Different hours or night shifts", "steps": ["Choose \"Custom hours\" and set a start and an end. If the end is earlier than the start the shift runs past midnight, and the page says so."]}, {"h": "Share it", "steps": ["\"Copy\" copies the plan, \"Email\" opens your mail app, and \"Add to calendar\" downloads a calendar file.", "\"12-hour clock\" switches the time style. \"Start a new meeting\" clears everything."]}, {"h": "If nothing works for everyone", "tips": true, "steps": ["The page tells you the closest start and who would be outside their hours. Try a shorter meeting or change someone's hours."]}]}</script>
 </body>
 </html>

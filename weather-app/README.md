@@ -20,6 +20,7 @@ You are about to leave the house, or planning a trip, and want a quick answer: *
 
 ## Features
 
+- **Help button.** Tap **Help** at the top for a short how-to written for this app, and tap **All apps** to go back to the list.
 - **Search any city.** Cities that share a name (Rome in Italy and Rome in Georgia) are handled: the best match is shown, with other real towns one tap away. Add a country to be exact, for example `Rome, IT`.
 - **Use my location** with one tap. The browser asks permission first, and nothing is stored on a server.
 - **Advice for today:** umbrella, what to wear for how it feels, strong sun, wind, snow and thunderstorm warnings.

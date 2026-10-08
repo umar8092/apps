@@ -20,6 +20,7 @@ With more people it finds a short list of payments (for example four people, one
 
 ## Features
 
+- **Help button.** Tap **Help** at the top for a short how-to written for this app, and tap **All apps** to go back to the list.
 - **Who owes who.** Enter each person's name and what they paid (0 if nothing). Optional bill or restaurant name.
 - **Clear summary.** Total, fair share, who pays whom, and what each person paid and owes.
 - **Email the summary.** *Email everyone* or *Email only people who owe* opens your mail app with the subject (the bill name), the people, what each paid, who pays whom, and the final result already written. Adding emails is optional: tap *+ Add email* for a person, or leave it and type addresses in your mail app. Nothing is sent by the app. You press send.

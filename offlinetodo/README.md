@@ -12,6 +12,7 @@ The app follows your device's light or dark setting, and the button at the top s
 
 ## Features
 
+- **Help button.** Tap **Help** at the top for a short how-to written for this app, and tap **All apps** to go back to the list.
 - **Works offline.** After the first visit it opens and works with no connection.
 - **No registration.** No account, email or password. Open it and start.
 - **Private.** Tasks are saved only in your browser. Nothing is sent anywhere, and the app makes no network requests except loading its own files.
