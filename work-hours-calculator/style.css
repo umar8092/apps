@@ -107,3 +107,7 @@ footer { text-align: center; margin-top: 1.5rem; font-size: .9rem; } footer a { 
     .dgrid .brk { grid-column: auto; }
     .dgrid .brk input { margin-top: .4rem; }
 }
+
+.sub.eg { margin-top: .5rem; font-size: .95rem; color: var(--accent); }
+.demo { margin: .6rem 0 0; width: 100%; }
+.fill { border-top: 0; padding-top: 0; margin-bottom: 1rem; }

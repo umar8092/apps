@@ -109,6 +109,7 @@
 
         $('total').textContent = C.fmtHM(r.total);
         $('dec').textContent = r.total ? C.fmtDec(r.total) + ' hours in decimal, over ' + r.worked + (r.worked === 1 ? ' day' : ' days') : 'Type a start and finish time to begin.';
+        $('demo').hidden = !!r.total || w.some(d => d.s || d.e);
         const sum = $('sum'); sum.innerHTML = '';
         const add = (k, v, cls) => { const d = document.createElement('div'); if (cls) d.className = cls; const dt = document.createElement('dt'), dd = document.createElement('dd'); dt.textContent = k; dd.textContent = v; d.append(dt, dd); sum.appendChild(d); };
         const out = [];
@@ -160,6 +161,12 @@
     $('fill-wd').onclick = () => fill(true);
     $('fill-all').onclick = () => fill(false);
 
+    $('demo').onclick = () => {
+        snapshot('Example added.');
+        const w = days(), ex = [['09:00', '17:30', '30'], ['09:00', '18:00', '30'], ['08:30', '17:00', '60'], ['09:00', '19:00', '30'], ['09:00', '17:00', '30'], ['22:00', '06:00', '30']];
+        ex.forEach((x, i) => { w[i] = { s: x[0], e: x[1], b: x[2], c: false }; });
+        buildDays(); render();
+    };
     $('new-wk').onclick = () => { snapshot('Cleared.'); s.weeks[s.start] = blankWeek(); buildDays(); render(); };
     $('undo-btn').onclick = () => { if (backup) { s.weeks[s.start] = backup; hideUndo(); buildDays(); render(); } };
 

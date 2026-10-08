@@ -27,7 +27,8 @@
     <a class="back" href="../">&larr; All apps</a>
     <header>
         <h1>Work Hours Calculator</h1>
-        <h2 class="sub">Type your start, finish and break for each day. See your total hours for the week, overtime and pay.</h2>
+        <h2 class="sub">Adds up the hours you worked this week from the time you started and finished each day. Use it for your timesheet, to check your pay, or to see your overtime.</h2>
+        <p class="sub eg">Example: 9:00 to 17:30 with a 30 minute break is 8 hours worked.</p>
     </header>
 
     <div class="inputs">
@@ -43,9 +44,8 @@
         </section>
 
         <section class="card">
-            <ul id="days" class="days"></ul>
-            <details class="fill" id="fill">
-                <summary>Same hours every day? Fill the week</summary>
+            <details class="fill" id="fill" open>
+                <summary>Quick start: same hours on most days? Fill the week in one tap</summary>
                 <div class="fillgrid">
                     <div><label for="f-s">Start</label><input id="f-s" type="time" value="09:00"></div>
                     <div><label for="f-e">Finish</label><input id="f-e" type="time" value="17:00"></div>
@@ -56,6 +56,7 @@
                     <button type="button" id="fill-all" class="ghost">Fill all 7 days</button>
                 </div>
             </details>
+            <ul id="days" class="days"></ul>
         </section>
 
         <section class="card">
@@ -102,6 +103,7 @@
         <div class="big-label">Total hours this week</div>
         <div id="total" class="big">0h</div>
         <p id="dec" class="meta">Type a start and finish time to begin.</p>
+        <button type="button" id="demo" class="ghost demo" hidden>Not sure? Try an example week</button>
         <dl class="sum" id="sum"></dl>
         <h3>Day by day</h3>
         <ul id="lines" class="lines"></ul>

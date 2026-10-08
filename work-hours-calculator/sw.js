@@ -1,7 +1,7 @@
 // Saves the app on the device so it opens with no connection.
 // Network first: online you always get the newest files (and the saved copy is refreshed); offline the saved copy is used.
 // Change CACHE whenever the app changes.
-const CACHE = 'work-hours-calculator-v1';
+const CACHE = 'work-hours-calculator-v2';
 const FILES = ['../theme.js', '../help.js', './', 'index.html', 'style.css', 'core.js', 'script.js', 'favicon.svg', 'manifest.webmanifest',
     'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
