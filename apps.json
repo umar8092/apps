@@ -46,5 +46,11 @@
     "name": "Work Hours Calculator",
     "description": "Weekly timesheet: total hours, overtime and pay from start, finish and break each day. Handles night shifts.",
     "color": "#14b8a6"
+  },
+  {
+    "slug": "paint-calculator",
+    "name": "Paint Calculator",
+    "description": "How much paint to buy for your rooms, and which tins. Each room has its own size, doors, windows, coats and colour.",
+    "color": "#84cc16"
   }
 ]

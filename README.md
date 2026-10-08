@@ -70,6 +70,14 @@ Weekly timesheet: type start, finish and break for each day and get total hours,
 
 <a href="work-hours-calculator/"><img src="work-hours-calculator/screenshots/phone.png" alt="Work Hours Calculator screenshot" width="260"></a>
 
+### <img src="paint-calculator/favicon.svg" width="36" height="36" align="center"> [Paint Calculator](https://umar8092.github.io/apps/paint-calculator/)
+
+Find out how much paint to buy and which tins to pick. Every room has its own size, doors, windows, coats and colour, ceilings are listed separately, and you can email, copy or print the shopping list.
+
+[**Open the app**](https://umar8092.github.io/apps/paint-calculator/) &middot; [Details and screenshots](paint-calculator/)
+
+<a href="paint-calculator/"><img src="paint-calculator/screenshots/phone.png" alt="Paint Calculator screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

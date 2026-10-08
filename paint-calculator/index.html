@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paint Calculator: How Much Paint for Your Rooms, Free</title>
+    <meta name="description" content="Free paint calculator: how much paint to buy for one or more rooms. Each room has its own size, windows, doors, coats and colour. Gives the tins to buy. Works offline, no sign-up, no ads.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/paint-calculator/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#84cc16">
+    <meta name="theme-color" content="#4d7c0f">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Paint Calculator">
+    <meta property="og:url" content="https://umar8092.github.io/apps/paint-calculator/">
+    <meta property="og:title" content="Paint Calculator: How Much Paint for Your Rooms">
+    <meta property="og:description" content="Enter your rooms and see exactly which tins of paint to buy. Free, offline, no ads.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Paint Calculator","alternateName":["How much paint do I need","Room Paint Calculator"],"url":"https://umar8092.github.io/apps/paint-calculator/","description":"A free paint calculator. Add your rooms, windows, doors and coats and get the tins of paint to buy.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"paint calculator, how much paint do I need, wall paint calculator, paint for a room, litres of paint","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Paint Calculator</h1>
+        <h2 class="sub">How much paint to buy for your rooms, and which tins. Works offline, no sign-up.</h2>
+    </header>
+
+    <div class="inputs">
+        <section class="card" aria-label="Paint settings">
+            <div class="tabs two" role="group" aria-label="Units">
+                <button type="button" id="u-metric" data-u="metric" aria-pressed="true">Metres</button>
+                <button type="button" id="u-imperial" data-u="imperial" aria-pressed="false">Feet</button>
+            </div>
+            <label id="cov-label">How far does the paint go? <span class="opt" id="cov-unit"></span></label>
+            <div class="chips" role="group" aria-labelledby="cov-label" id="cov-chips"></div>
+            <input id="cov-custom" type="text" inputmode="decimal" maxlength="6" aria-label="Custom coverage" autocomplete="off" hidden>
+            <p class="hint">Read this on the tin. Standard wall paint covers about the first number.</p>
+            <label id="extra-label">Extra for touch-ups and uneven walls</label>
+            <div class="chips" role="group" aria-labelledby="extra-label" id="extra-chips"></div>
+            <input id="extra-custom" type="text" inputmode="numeric" maxlength="3" placeholder="Custom %" aria-label="Custom extra percent" autocomplete="off" hidden>
+        </section>
+
+        <ul id="rooms" class="rooms"></ul>
+        <div class="room-actions">
+            <button type="button" id="add-room" class="ghost">+ Add another room</button>
+            <p class="newbill"><button type="button" id="example" class="addmail">Try an example</button> &middot; <button type="button" id="new-job" class="addmail">Start over</button><span id="undo" hidden> Changed. <button type="button" id="undo-btn" class="addmail">Undo</button></span></p>
+        </div>
+    </div>
+
+    <section class="card result" id="result" aria-live="polite">
+        <div class="big-label">Paint to buy</div>
+        <div id="shop"></div>
+        <h3 id="rooms-h" hidden>Room by room</h3>
+        <ul id="room-list" class="roomsum"></ul>
+        <div class="mail">
+            <a id="mail" class="primary" href="#">Email the shopping list</a>
+            <button type="button" id="copy" class="primary alt">Copy shopping list</button>
+            <button type="button" id="print" class="primary alt">Print</button>
+        </div>
+        <p id="msg" class="msg" role="status"></p>
+        <p class="hint">Your mail app opens with the list already written. Nothing is sent until you press send. Always check the coverage on the tin you choose.</p>
+    </section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How much paint do I need for a room?</summary><p>Wall area is the distance around the room times the wall height, minus doors and windows. Multiply by the number of coats, add a little extra, and divide by how far a litre (or gallon) goes. The app does this for every room and tells you which tins to buy.</p></details>
+        <details><summary>Can each room have its own colour and coats?</summary><p>Yes. Every room has its own size, doors, windows and coats, and you can give it a colour name. Rooms with the same colour are added together so you buy once.</p></details>
+        <details><summary>How are the tins chosen?</summary><p>The app picks the smallest total that covers what you need. If a bigger tin wastes at most about a litre (a quart) more, it suggests that to save you buying extra tins.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Yes to both. Everything is worked out on your device and nothing is sent anywhere.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/paint-calculator">Open source (MIT)</a></footer>
+</main>
+<script type="application/json" id="help-data">{"title": "How to use Paint Calculator", "sections": [{"h": "Work out how much paint to buy", "steps": ["Pick \"Metres\" or \"Feet\" at the top. Numbers you already typed are converted.", "Under \"How far does the paint go?\" choose the number printed on your tin, or choose \"Custom\" and type it.", "Pick the \"Extra for touch-ups and uneven walls\" you want. 10% is a good start.", "In the room box type the room name, then Length, Width and Height of the room.", "Set how many Doors and Windows the room has. They are taken off the wall area.", "Choose the number of coats for that room. Dark colours over light walls often need 3.", "Read \"Paint to buy\". It shows the tins to buy, for example 1 × 5 L + 1 × 2.5 L, and how much you need."]}, {"h": "Many rooms, different paint", "steps": ["Tap \"+ Add another room\". Every room has its own box with its own size, doors, windows and coats.", "Tap \"+ Paint colour (optional)\" in a room to name its colour. Rooms with the same colour name are added together.", "Tick or untick \"Walls\" and \"Ceiling\" in each room. Ceilings are bought as their own \"Ceiling paint\" and their coats are set separately.", "Tap \"+ Door, window and other sizes (optional)\" to change the size of doors and windows, take off other areas such as a wardrobe, or add areas such as a chimney breast."]}, {"h": "Share, print and start again", "steps": ["\"Email the shopping list\" opens your mail app with the list written. You choose who to send it to.", "\"Copy shopping list\" copies it as text. \"Print\" prints the result.", "\"Try an example\" fills two sample rooms. \"Start over\" clears everything and shows Undo.", "A red note in a room box means something is missing, such as the length."]}, {"h": "Good to know", "tips": true, "steps": ["The tins are the smallest total that covers what you need. A bigger tin is suggested instead when it wastes at most about a litre (a quart) more.", "Your rooms stay on this device. The app works offline and nothing is sent anywhere.", "Textured or very porous walls use more paint. Pick the lower coverage number for them."]}]}</script>
+<script src="core.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
