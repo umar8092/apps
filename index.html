@@ -16,23 +16,38 @@
 html{background:var(--bg2)}
 body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 main{max-width:1120px;margin:0 auto;padding:40px 16px 56px}
-.hero{text-align:center;margin:0 auto 28px;max-width:680px}
+main{display:block}
+.hero{text-align:center;margin:0 auto 26px;max-width:680px}
 .pill{display:inline-block;margin:0 0 14px;padding:6px 14px;border-radius:999px;background:var(--acc);color:#fff;font-size:.82rem;font-weight:700;letter-spacing:.02em}
 :root[data-theme="dark"] .pill{color:#0d1122}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pill{color:#0d1122}}
-h1{font-size:clamp(1.9rem,5.5vw,2.9rem);margin:0 0 .25em;line-height:1.15;letter-spacing:-.02em}
+h1{font-size:clamp(1.9rem,5.5vw,3rem);margin:0 0 .25em;line-height:1.12;letter-spacing:-.02em}
 .sub{color:var(--mut);margin:0;font-size:1.08rem}
 .sub a,.about a:not(.btn){color:var(--acc);font-weight:700}
-.about{margin:40px auto 0;max-width:760px;padding:26px 24px;background:var(--hero);border:1px solid var(--bd);border-radius:20px;box-shadow:var(--sh);text-align:center}
-.about h2{margin:0 0 .4em;font-size:1.35rem}
+.hero .btns{margin-top:20px}
+.tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin:0 0 16px}
+.tools h2{margin:0;font-size:1.35rem}.tools h2 span{color:var(--mut);font-weight:600;font-size:1rem;margin-left:.3rem}
+.about{margin:36px auto 0;max-width:620px;padding:24px;background:var(--hero);border:1px solid var(--bd);border-radius:20px;box-shadow:var(--sh);text-align:center}
+.me{width:64px;height:64px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(160deg,#6d7bff,#9b5cf6);color:#fff;font-size:1.4rem;font-weight:800;letter-spacing:.02em}
+.about h2{margin:0 0 .3em;font-size:1.25rem}
 .about p{margin:.5em 0;color:var(--mut)}
-.about .free{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:16px 0}
-.about .free span{padding:6px 12px;border-radius:999px;border:1px solid var(--bd);background:var(--card);color:var(--fg);font-size:.9rem;font-weight:600}
-.btns{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px}
+.about .free{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:14px 0}
+.about .free span{padding:5px 11px;border-radius:999px;border:1px solid var(--bd);background:var(--card);color:var(--fg);font-size:.85rem;font-weight:600}
+.btns{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:16px}
 a.btn{display:inline-flex;align-items:center;min-height:48px;padding:0 20px;border-radius:999px;border:1px solid var(--acc);color:var(--acc);font-weight:700;text-decoration:none}
 a.btn.main{background:var(--acc);color:#fff}
 :root[data-theme="dark"] a.btn.main{color:#0d1122}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) a.btn.main{color:#0d1122}}
 a.btn:focus-visible,.sub a:focus-visible,footer a:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
-#q{display:block;width:100%;max-width:420px;margin:0 auto 24px;padding:12px 16px;font:inherit;color:var(--fg);background:var(--card);border:1px solid var(--bd);border-radius:999px;min-height:48px}
+@media (max-width:899px){main{display:flex;flex-direction:column}.about{order:3;width:100%}footer{order:4}}
+@media (min-width:900px){
+ main{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);column-gap:40px;align-items:center;padding-top:56px}
+ main>*{grid-column:1/-1}
+ main>.topbar{grid-row:1;margin:0 0 20px}
+ .hero{grid-column:1;grid-row:2;text-align:left;margin:0;max-width:none}
+ .hero .btns{justify-content:flex-start}
+ .about{grid-column:2;grid-row:2;margin:0;max-width:none}
+ .tools{margin-top:44px}
+}
+#q{display:block;flex:1 1 240px;max-width:380px;margin:0;padding:12px 16px;font:inherit;color:var(--fg);background:var(--card);border:1px solid var(--bd);border-radius:999px;min-height:48px}
 #q:focus-visible,a.card:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
 #grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
 a.card{display:flex;flex-direction:column;gap:6px;padding:18px;background:var(--card);border:1px solid var(--bd);border-radius:16px;box-shadow:var(--sh);color:inherit;text-decoration:none;transition:transform .15s}
@@ -53,17 +68,22 @@ footer a{color:var(--acc)}
 <span class="pill">100% free &middot; No ads &middot; No sign-up</span>
 <h1>Free Web Apps</h1>
 <p class="sub">Handy little tools I build as a hobby and give away for free. Made by <a href="https://umar8092.github.io/">Muhammad Umar</a>. A new app lands here every day.</p>
+<div class="btns"><a class="btn main" href="#apps">Browse the apps</a></div>
 </header>
+<aside class="about" aria-labelledby="about-title">
+<div class="me" aria-hidden="true">MU</div>
+<h2 id="about-title">Made for fun, free for everyone</h2>
+<p>I'm Muhammad Umar. I build these apps as a hobby because I enjoy making useful things, and I want anyone to be able to use them. There is no catch: no payments, no accounts, no ads, nothing to unlock.</p>
+<div class="free"><span>Completely free</span><span>No ads</span><span>No sign-up</span><span>Private on your device</span><span>New apps every day</span></div>
+<p>If an app saves you a few minutes, that is all the thanks I need.</p>
+<div class="btns"><a class="btn main" href="https://umar8092.github.io/">See my portfolio</a><a class="btn" href="https://github.com/umar8092">My GitHub</a></div>
+</aside>
+<div class="tools" id="apps">
+<h2>All apps <span id="count"></span></h2>
 <input id="q" type="search" placeholder="Search apps" aria-label="Search apps" hidden>
+</div>
 <div id="grid"></div>
 <p id="msg">Loading apps…</p>
-<section class="about" aria-labelledby="about-title">
-<h2 id="about-title">Made for fun, free for everyone</h2>
-<p>I'm Muhammad Umar. I make these apps as a hobby because I enjoy building useful things, and I want anyone to be able to use them. There is no catch: no payments, no accounts, no ads, nothing to unlock.</p>
-<div class="free"><span>Completely free</span><span>No ads</span><span>No sign-up</span><span>Private on your device</span><span>New apps every day</span></div>
-<p>Come back soon to see what's new. If an app saves you a few minutes, that is all the thanks I need.</p>
-<div class="btns"><a class="btn main" href="https://umar8092.github.io/">See my portfolio</a><a class="btn" href="https://github.com/umar8092">My GitHub</a></div>
-</section>
 <footer>&copy; Muhammad Umar &middot; Built as a hobby, free for everyone &middot; <a href="https://umar8092.github.io/">Portfolio</a> &middot; <a href="https://github.com/umar8092/apps">Source code</a></footer>
 </main>
 <script>
@@ -112,7 +132,7 @@ function paint(apps){
   if(!apps.length){msg.textContent="No apps found yet. Check back soon.";return}
   grid.innerHTML=apps.map(a=>`<a class="card" href="${esc(a.url)}" data-s="${esc((a.name+" "+a.desc).toLowerCase())}"><div class="ic">${a.img?`<img src="${esc(a.img)}" alt="" width="44" height="44">`:esc(a.icon||a.name[0]||"?")}</div><div class="nm"></div><div class="ds"></div></a>`).join("");
   grid.querySelectorAll(".card").forEach((c,i)=>{c.querySelector(".nm").textContent=apps[i].name;c.querySelector(".ds").textContent=apps[i].desc});
-  msg.hidden=true; q.hidden=false; if(q.value) filter();
+  msg.hidden=true; q.hidden=false; document.getElementById("count").textContent="("+apps.length+")"; if(q.value) filter();
 }
 const byName=(a,b)=>a.name.localeCompare(b.name);
 
