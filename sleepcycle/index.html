@@ -13,7 +13,7 @@
 <meta name="theme-color" content="#0f1530">
 <style>
 :root{--bg:#0b1024;--card:#161d3d;--card2:#1e2750;--fg:#eef1ff;--mut:#9aa5d6;--acc:#8fa2ff;--acc2:#ffd27a;--ok:#6ee7b7;--r:16px}
-*{box-sizing:border-box}
+*{box-sizing:border-box}[hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:radial-gradient(1200px 600px at 50% -200px,#25306b,var(--bg));background-color:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
 main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
@@ -35,7 +35,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .res.best{border-color:var(--ok)}
 .res .t{font-size:1.6rem;font-weight:700;letter-spacing:.5px}
 .res .m{color:var(--mut);font-size:.82rem}
-.res .tag{display:inline-block;margin-top:4px;font-size:.72rem;color:#05281c;background:var(--ok);border-radius:999px;padding:1px 8px;font-weight:700}
+.legend{margin:12px 2px 0;color:var(--mut);font-size:.85rem;text-align:center}.res.past{opacity:.45}.res .tag.gone{background:#33407f;color:#cfd6ff}.res .tag{display:inline-block;margin-top:4px;font-size:.72rem;color:#05281c;background:var(--ok);border-radius:999px;padding:1px 8px;font-weight:700}
 #hint{color:var(--mut);text-align:center;margin:4px 0 10px}
 details{color:var(--mut)}summary{cursor:pointer;color:var(--fg);font-weight:600}
 h2{font-size:1.1rem;margin:.2em 0 .4em}
@@ -64,8 +64,8 @@ main>.card,main>footer{max-width:760px;margin-left:auto;margin-right:auto}}
 <p class="sub">Wake up between cycles, not in the middle of one.</p>
 
 <div class="tabs" role="tablist" aria-label="Mode">
-  <button role="tab" id="tab-wake" aria-selected="true" data-mode="wake">I need to wake at…</button>
-  <button role="tab" id="tab-bed" aria-selected="false" data-mode="bed">I go to bed at…</button>
+  <button role="tab" id="tab-wake" aria-selected="true" data-mode="wake">I need to wake up at…</button>
+  <button role="tab" id="tab-bed" aria-selected="false" data-mode="bed">I'm going to bed at…</button>
 </div>
 
 <div class="cols">
@@ -73,7 +73,7 @@ main>.card,main>footer{max-width:760px;margin-left:auto;margin-right:auto}}
 <section class="card">
   <div class="row">
     <div><label for="time" id="timeLabel">Wake-up time</label><input type="time" id="time" value="07:00"></div>
-    <div><button class="go" id="now" type="button">Sleep now</button></div>
+    <div><button class="go" id="now" type="button">Use the time now</button></div>
   </div>
   <details style="margin-top:14px"><summary>Settings</summary>
     <div class="row" style="margin-top:10px">
@@ -87,7 +87,7 @@ main>.card,main>footer{max-width:760px;margin-left:auto;margin-right:auto}}
 </div>
 <div class="out">
 <p id="hint" aria-live="polite"></p>
-<section class="card" aria-live="polite"><div id="results"></div></section>
+<section class="card" aria-live="polite"><div id="results"></div><p class="legend"><b>Best</b> = 5 or 6 full sleep cycles (7½ to 9 hours), which suits most adults. A sleep cycle is about 90 minutes.</p></section>
 </div>
 </div>
 
@@ -100,6 +100,6 @@ main>.card,main>footer{max-width:760px;margin-left:auto;margin-right:auto}}
 <footer>Free, no ads, no sign-up. Everything stays on your device. <a href="../">More free apps</a></footer>
 </main>
 <script src="app.js"></script>
-<script type="application/json" id="help-data">{"title": "How to use Sleep Cycle Calculator", "sections": [{"h": "Find your bedtime", "steps": ["Tap \"I need to wake at...\" and set your wake-up time. You get the times to fall asleep so you wake at the end of a sleep cycle.", "The green \"Recommended\" times give 5 to 6 cycles (7.5 to 9 hours), which suits most adults."]}, {"h": "Find your wake-up time", "steps": ["Tap \"I go to bed at...\" and set the time you will lie down, or tap \"Sleep now\". You get the best times to wake up."]}, {"h": "Settings", "steps": ["Open \"Settings\" to change the minutes you need to fall asleep (15 by default), your cycle length (90 minutes by default) and 12 or 24 hour time."]}, {"h": "Good to know", "tips": true, "steps": ["For a nap, keep it to about 20 minutes or a full 90-minute cycle.", "These are estimates, not medical advice."]}]}</script>
+<script type="application/json" id="help-data">{"title": "How to use Sleep Cycle Calculator", "sections": [{"h": "If you know when you must wake up", "steps": ["Stay on \"I need to wake up at...\" and set your wake-up time.", "The cards show the times to get into bed. Each card says how much sleep you get and when you will be asleep, since falling asleep takes a few minutes.", "Pick a time marked \"Best\", or any other time that suits you. A faded card says \"Already passed\", so choose a later one."]}, {"h": "If you are going to bed soon", "steps": ["Tap \"I'm going to bed at...\" and set the time you will get into bed, or tap \"Use the time now\".", "The cards show the times to set your alarm for, so you wake at the end of a sleep cycle."]}, {"h": "Settings", "steps": ["Open \"Settings\" to change the minutes you need to fall asleep (15 by default), your cycle length (90 minutes by default) and 12 or 24 hour time."]}, {"h": "Good to know", "tips": true, "steps": ["\"Best\" means 5 or 6 full sleep cycles, which is 7½ to 9 hours, what most adults need.", "For a nap, keep it to about 20 minutes or a full 90-minute cycle.", "These are estimates, not medical advice."]}]}</script>
 </body>
 </html>

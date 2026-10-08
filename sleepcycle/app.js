@@ -10,12 +10,16 @@
     return ((h%12)||12)+':'+pad(m)+' '+(h<12?'AM':'PM');
   }
   function hm(min){var h=Math.floor(min/60),m=min%60;return h+'h'+(m?' '+m+'m':'')}
+  // The time you typed, as a moment. For a wake-up time, that is the NEXT time the clock shows it (tonight's sleep -> tomorrow morning).
   function base(){
-    if(S.mode==='now'){return new Date()}
-    var p=S.time.split(':'),d=new Date();
-    d.setHours(+p[0]||0,+p[1]||0,0,0);return d;
+    var p=S.time.split(':'),d=new Date(),now=new Date();
+    d.setHours(+p[0]||0,+p[1]||0,0,0);
+    if(S.mode==='wake'&&d<=now)d.setDate(d.getDate()+1);
+    return d;
   }
   // pure calculation: returns [{date,cycles,minutes}]
+  //   wake: the times to GET INTO BED so you are asleep (after `fall` minutes) and wake exactly at the end of a cycle
+  //   bed:  the times to set the ALARM if you get into bed at the given time and fall asleep `fall` minutes later
   function calc(mode,anchor,fall,cyc){
     var out=[],n;
     if(mode==='wake'){
@@ -28,28 +32,29 @@
   }
   window.__calc=calc;
   function render(){
-    var mode=S.mode;
-    document.querySelectorAll('.tabs button').forEach(function(b){
-      var on=b.dataset.mode===(mode==='now'?'bed':mode);b.setAttribute('aria-selected',on)});
-    var wake=mode==='wake';
-    $('timeLabel').textContent=wake?'Wake-up time':'Bedtime';
+    var mode=S.mode,wake=mode==='wake',now=new Date();
+    document.querySelectorAll('.tabs button').forEach(function(b){b.setAttribute('aria-selected',b.dataset.mode===mode)});
+    $('timeLabel').textContent=wake?'I need to wake up at':'I am getting into bed at';
     $('time').value=S.time;$('fall').value=S.fall;$('cyc').value=S.cyc;$('fmt').value=S.fmt;
-    var a=base(),r=calc(wake?'wake':'bed',a,S.fall,S.cyc);
-    $('hint').textContent=wake?'To wake at '+fmt(a)+', fall asleep at one of these times:'
-      :(mode==='now'?'If you fall asleep now (about '+S.fall+' min from '+fmt(a)+'), wake at:':'If you go to bed at '+fmt(a)+', wake at:');
+    $('now').hidden=wake;   // "Use the time now" only makes sense for bedtime
+    var a=base(),r=calc(wake?'wake':'bed',a,S.fall,S.cyc),first=r[0].date,late=S.fall?' (you fall asleep about '+S.fall+' min later)':'';
+    $('hint').textContent=wake?'To wake up at '+fmt(a)+', get into bed at one of these times:'
+      :'If you get into bed at '+fmt(a)+late+', set your alarm for one of these times:';
     $('results').innerHTML=r.map(function(x){
-      var best=x.cycles>=5&&x.cycles<=6;
-      return '<div class="res'+(best?' best':'')+'"><div class="t">'+fmt(x.date)+'</div><div class="m">'+x.cycles+' cycles · '+hm(x.minutes)+'</div>'+(best?'<span class="tag">Recommended</span>':'')+'</div>';
+      var best=x.cycles>=5&&x.cycles<=6,past=wake&&x.date<now,after=wake&&x.date.getDate()!==first.getDate();
+      var asleep=wake&&S.fall?'<div class="m">asleep by '+fmt(new Date(x.date.getTime()+S.fall*6e4))+'</div>':'';
+      return '<div class="res'+(best?' best':'')+(past?' past':'')+'"><div class="t">'+fmt(x.date)+'</div>'+(after?'<div class="m">after midnight</div>':'')+
+        '<div class="m">'+hm(x.minutes)+' of sleep</div>'+asleep+(past?'<span class="tag gone">Already passed</span>':best?'<span class="tag">Best</span>':'')+'</div>';
     }).join('');
   }
   document.querySelectorAll('.tabs button').forEach(function(b){
     b.onclick=function(){S.mode=b.dataset.mode;save();render()}});
-  $('time').oninput=function(){if(this.value){S.time=this.value;if(S.mode==='now')S.mode='bed';save();render()}};
-  $('now').onclick=function(){S.mode='now';render()};
+  $('time').oninput=function(){if(this.value){S.time=this.value;save();render()}};
+  $('now').onclick=function(){var d=new Date();S.time=pad(d.getHours())+':'+pad(d.getMinutes());S.mode='bed';save();render()};
   $('fall').onchange=function(){S.fall=Math.min(120,Math.max(0,parseInt(this.value,10)||0));save();render()};
   $('cyc').onchange=function(){S.cyc=Math.min(120,Math.max(60,parseInt(this.value,10)||90));save();render()};
   $('fmt').onchange=function(){S.fmt=this.value;save();render()};
-  if(S.mode==='now')S.mode='bed';
+  if(S.mode!=='wake'&&S.mode!=='bed')S.mode='bed';
   render();
   if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js').catch(function(){});
 })();
