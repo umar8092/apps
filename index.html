@@ -29,6 +29,7 @@ a.card:hover{transform:translateY(-2px);border-color:var(--acc)}
 footer{text-align:center;color:var(--mut);font-size:.85rem;margin-top:32px}
 footer a{color:var(--acc)}
 </style>
+<link rel="preload" href="apps.json" as="fetch" crossorigin>
 <script src="theme.js"></script>
 </head>
 <body>
@@ -73,15 +74,34 @@ async function details(url,fb){
   return o;
 }
 
-(async()=>{
-  const urls=await discover();
-  const apps=(await Promise.all([...urls].map(([u,f])=>details(u,f)))).filter(Boolean).sort((a,b)=>a.name.localeCompare(b.name));
-  const msg=document.getElementById("msg"), grid=document.getElementById("grid"), q=document.getElementById("q");
+const CACHE_KEY="apps.hub.v1";
+const msg=document.getElementById("msg"), grid=document.getElementById("grid"), q=document.getElementById("q");
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let shown="";
+
+function filter(){const v=q.value.toLowerCase().trim();let n=0;grid.querySelectorAll(".card").forEach(c=>{const s=c.dataset.s.includes(v);c.hidden=!s;n+=s});msg.hidden=n>0;msg.textContent="No matching apps."}
+q.oninput=filter;
+
+function paint(apps){
+  const key=JSON.stringify(apps); if(key===shown) return; shown=key;
   if(!apps.length){msg.textContent="No apps found yet. Check back soon.";return}
-  grid.innerHTML=apps.map(a=>`<a class="card" href="${a.url}" data-s="${(a.name+" "+a.desc).toLowerCase().replace(/"/g,"")}"><div class="ic">${a.img?`<img src="${a.img}" alt="" width="44" height="44">`:a.icon||a.name[0]||"?"}</div><div class="nm"></div><div class="ds"></div></a>`).join("");
+  grid.innerHTML=apps.map(a=>`<a class="card" href="${esc(a.url)}" data-s="${esc((a.name+" "+a.desc).toLowerCase())}"><div class="ic">${a.img?`<img src="${esc(a.img)}" alt="" width="44" height="44">`:esc(a.icon||a.name[0]||"?")}</div><div class="nm"></div><div class="ds"></div></a>`).join("");
   grid.querySelectorAll(".card").forEach((c,i)=>{c.querySelector(".nm").textContent=apps[i].name;c.querySelector(".ds").textContent=apps[i].desc});
-  msg.hidden=true; q.hidden=false;
-  q.oninput=()=>{const v=q.value.toLowerCase().trim();let n=0;grid.querySelectorAll(".card").forEach(c=>{const s=c.dataset.s.includes(v);c.hidden=!s;n+=s});msg.hidden=n>0;msg.textContent="No matching apps."};
+  msg.hidden=true; q.hidden=false; if(q.value) filter();
+}
+const byName=(a,b)=>a.name.localeCompare(b.name);
+
+(async()=>{
+  // 1. draw at once: the list saved on the last visit, or else apps.json (one small file)
+  let first=[]; try{first=JSON.parse(localStorage.getItem(CACHE_KEY)||"[]")}catch(e){}
+  if(!first.length){
+    try{first=(await J("apps.json")).map(a=>({url:new URL(a.slug+"/",location.href).href,name:a.name,desc:clean(a.description),img:new URL(a.slug+"/favicon.svg",location.href).href})).sort(byName)}catch(e){}
+  }
+  if(first.length) paint(first);
+  // 2. then, in the background, check every app page (finds new apps, picks up renamed ones) and redraw only if something changed
+  const urls=await discover();
+  const apps=(await Promise.all([...urls].map(([u,f])=>details(u,f)))).filter(Boolean).sort(byName);
+  if(apps.length||!first.length){ paint(apps); try{localStorage.setItem(CACHE_KEY,JSON.stringify(apps))}catch(e){} }
 })();
 </script>
 </body>
