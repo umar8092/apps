@@ -1,7 +1,7 @@
 // Saves the app on the device so it opens with no connection.
 // Files are served from the saved copy and refreshed in the background, so updates arrive on the next visit.
 // Change CACHE only when you add, remove or rename a file in FILES.
-const CACHE = 'due-date-calculator-v2';
+const CACHE = 'due-date-calculator-v3';
 const FILES = ['../theme.js', './', 'index.html', 'style.css', 'core.js', 'script.js', 'favicon.svg', 'manifest.webmanifest',
     'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
@@ -31,7 +31,7 @@ self.addEventListener('fetch', event => {
                 }
                 return response;
             }).catch(() => saved || (request.mode === 'navigate' ? caches.match('./') : undefined));
-            return saved || fresh;
+            return fresh;  // online: always the newest files; offline: the catch below serves the saved copy
         })
     );
 });
