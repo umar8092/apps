@@ -78,6 +78,14 @@ Find out how much paint to buy and which tins to pick. Every room has its own si
 
 <a href="paint-calculator/"><img src="paint-calculator/screenshots/phone.png" alt="Paint Calculator screenshot" width="260"></a>
 
+### <img src="subscription-tracker/favicon.svg" width="36" height="36" align="center"> [Subscription Tracker](https://umar8092.github.io/apps/subscription-tracker/)
+
+See what all your subscriptions cost per month and per year, what is due in the next 7 and 30 days, and when free trials end so you can cancel in time. Payment dates move forward by themselves. Calendar reminders, backup, copy and email. Private, no bank link.
+
+[**Open the app**](https://umar8092.github.io/apps/subscription-tracker/) &middot; [Details and screenshots](subscription-tracker/)
+
+<a href="subscription-tracker/"><img src="subscription-tracker/screenshots/phone.png" alt="Subscription Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

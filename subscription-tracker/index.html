@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Tracker: What Your Subscriptions Cost, Free</title>
+    <meta name="description" content="Free subscription tracker. List what you pay for (streaming, apps, gym, phone) and see the monthly and yearly total, what is due in the next 7 and 30 days, and when free trials end. Private on your device, no sign-up, no bank link.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/subscription-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#8b5cf6">
+    <meta name="theme-color" content="#6d28d9">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Subscription Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/subscription-tracker/">
+    <meta property="og:title" content="Subscription Tracker: What Your Subscriptions Cost">
+    <meta property="og:description" content="See your monthly and yearly subscription total, what is due next and when free trials end. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Subscription Tracker","alternateName":["Subscription Manager","Subscription Cost Calculator","Recurring Payments Tracker"],"url":"https://umar8092.github.io/apps/subscription-tracker/","description":"A free subscription tracker. Add what you pay for and see the monthly and yearly total, upcoming payments and free trials that are about to end.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"subscription tracker, subscription manager, how much do I spend on subscriptions, free trial reminder, recurring payments","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is the monthly total worked out?","acceptedAnswer":{"@type":"Answer","text":"Each subscription is turned into a yearly cost (a year counts 12 months, 52 weeks or 365 days) and the total is divided by 12. Paused and cancelled subscriptions are not counted."}},{"@type":"Question","name":"What happens when a payment date passes?","acceptedAnswer":{"@type":"Answer","text":"The next payment date moves forward by itself, so the list stays right every time you open it. A free trial whose end date has passed counts as paying."}},{"@type":"Question","name":"Can it remind me before a payment or a trial ends?","acceptedAnswer":{"@type":"Answer","text":"Tap Add payment reminders to my calendar. It saves a calendar file with every payment repeating, a reminder the day before, and a warning 2 days before a free trial ends."}},{"@type":"Question","name":"Is my list private?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is saved only in this browser on this device. There is no account and no bank link. Download a backup to move it to another device."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Subscription Tracker</h1>
+        <p class="sub">See what all your subscriptions cost each month, what is due next, and when free trials end. Private, no sign-up.</p>
+    </header>
+
+    <section class="card result" id="result" aria-labelledby="res-h" hidden>
+        <h2 class="big-label" id="res-h">Your subscriptions cost</h2>
+        <p class="big" aria-live="polite"><span id="r-month">0.00</span> <span class="per">a month</span></p>
+        <p class="meta" id="r-year"></p>
+        <ul class="alerts" id="alerts"></ul>
+
+        <h3>Coming up</h3>
+        <div class="tiles">
+            <div><span>Next 7 days</span><b id="r-7">0.00</b></div>
+            <div><span>Next 30 days</span><b id="r-30">0.00</b></div>
+        </div>
+        <ul class="upcoming" id="upcoming"></ul>
+
+        <h3 id="big-h">Biggest costs, per month</h3>
+        <ul class="bars" id="bars"></ul>
+        <p class="meta" id="r-other"></p>
+    </section>
+
+    <div class="col-main">
+        <section class="card add-card" id="add-card" aria-labelledby="form-h">
+            <div id="intro">
+                <p class="lead">Add each subscription you pay for: streaming, music, apps, cloud storage, gym, phone, newspapers. You will see the total per month and per year, and what is due next.</p>
+                <button type="button" id="demo" class="ghost">Try an example list</button>
+            </div>
+            <button type="button" id="open-form" class="primary" hidden>+ Add a subscription</button>
+            <form id="form" novalidate autocomplete="off">
+                <h2 id="form-h">Add a subscription</h2>
+                <label for="f-name">Name</label>
+                <input id="f-name" type="text" maxlength="60" placeholder="e.g. Netflix" list="known">
+                <datalist id="known"></datalist>
+
+                <span class="flabel" id="st-label">Status</span>
+                <div class="seg" role="radiogroup" aria-labelledby="st-label" id="f-status">
+                    <label><input type="radio" name="st" value="active" checked><span>Paying</span></label>
+                    <label><input type="radio" name="st" value="trial"><span>Free trial</span></label>
+                    <label><input type="radio" name="st" value="paused"><span>Paused</span></label>
+                    <label><input type="radio" name="st" value="cancelled"><span>Cancelled</span></label>
+                </div>
+
+                <div class="two">
+                    <div>
+                        <label for="f-price" id="price-label">Price</label>
+                        <div class="money"><span id="f-sym" aria-hidden="true"></span><input id="f-price" type="text" inputmode="decimal" maxlength="16" placeholder="e.g. 9.99"></div>
+                    </div>
+                    <div>
+                        <label for="f-cycle">How often</label>
+                        <select id="f-cycle">
+                            <option value="1-week">Every week</option>
+                            <option value="2-week">Every 2 weeks</option>
+                            <option value="4-week">Every 4 weeks</option>
+                            <option value="1-month" selected>Every month</option>
+                            <option value="3-month">Every 3 months</option>
+                            <option value="6-month">Every 6 months</option>
+                            <option value="1-year">Every year</option>
+                            <option value="custom">Other&hellip;</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="custom" id="custom" hidden>
+                    <label for="f-every">Every</label>
+                    <input id="f-every" type="text" inputmode="numeric" maxlength="3" value="2" aria-describedby="every-hint">
+                    <select id="f-unit" aria-label="Days, weeks, months or years">
+                        <option value="day">days</option>
+                        <option value="week">weeks</option>
+                        <option value="month" selected>months</option>
+                        <option value="year">years</option>
+                    </select>
+                    <p class="hint" id="every-hint">Up to 365 days, 52 weeks, 24 months or 10 years.</p>
+                </div>
+
+                <div id="date-box">
+                    <label for="f-date" id="date-label">Next payment date</label>
+                    <input id="f-date" type="date" aria-describedby="date-hint">
+                    <p class="hint" id="date-hint">Leave it empty if you do not know. A date in the past moves forward to the next payment by itself.</p>
+                </div>
+
+                <button type="button" id="add-note" class="link">+ Add a note (optional)</button>
+                <div id="note-box" hidden>
+                    <label for="f-note">Note <span class="opt">(optional)</span></label>
+                    <input id="f-note" type="text" maxlength="200" placeholder="e.g. paid with Visa 1234, cancel in account settings">
+                </div>
+
+                <p class="err" id="form-err" role="alert"></p>
+                <div class="actions">
+                    <button type="submit" id="save" class="primary">Add subscription</button>
+                    <button type="button" id="cancel" class="secondary" hidden>Cancel</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card list-card" id="list-card" aria-labelledby="list-h" hidden>
+            <div class="list-head">
+                <h2 id="list-h">Your subscriptions <span id="list-n" class="count"></span></h2>
+                <label class="sort">Sort by
+                    <select id="sort">
+                        <option value="next">Next payment</option>
+                        <option value="cost">Highest cost</option>
+                        <option value="name">Name (A to Z)</option>
+                    </select>
+                </label>
+            </div>
+            <ul class="subs" id="subs"></ul>
+        </section>
+
+        <section class="card tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share, back up and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur">
+                <option value="">None (plain numbers)</option>
+                <option value="$">$ (dollar)</option>
+                <option value="€">€ (euro)</option>
+                <option value="£">£ (pound)</option>
+                <option value="₹">₹ (rupee)</option>
+                <option value="Rs">Rs (rupee)</option>
+                <option value="¥">¥ (yen, yuan)</option>
+                <option value="₩">₩ (won)</option>
+                <option value="₦">₦ (naira)</option>
+                <option value="₱">₱ (peso)</option>
+                <option value="R">R (rand)</option>
+                <option value="kr">kr (krona, krone)</option>
+                <option value="CHF">CHF (franc)</option>
+                <option value="AED">AED (dirham)</option>
+            </select>
+            <div class="tool-grid" id="share-tools">
+                <button type="button" id="copy" class="secondary">Copy list</button>
+                <a id="mail" class="secondary" href="mailto:">Email list</a>
+                <button type="button" id="print" class="secondary">Print</button>
+                <button type="button" id="cal" class="secondary">Add payment reminders to my calendar</button>
+            </div>
+            <p class="hint">Your list is saved only in this browser on this device. Download a backup to keep it safe or move it to another phone or computer.</p>
+            <div class="tool-grid">
+                <button type="button" id="backup" class="secondary">Download backup</button>
+                <button type="button" id="restore" class="secondary">Restore from backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" id="clear" class="danger">Delete everything and start over</button>
+            <p class="msg" id="msg" role="status"></p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is the monthly total worked out?</summary><p>Each subscription is turned into a cost per year (a year counts 12 months, 52 weeks or 365 days), added up, and divided by 12. So a 10.00 weekly gym counts as 43.33 a month. Paused and cancelled subscriptions are not counted.</p></details>
+        <details><summary>What happens when a payment date passes?</summary><p>It moves forward to the next payment by itself, so the list is right every time you open it. A payment on the 31st is taken on the last day of shorter months. A free trial whose end date has passed counts as paying.</p></details>
+        <details><summary>Can it remind me before I pay?</summary><p>Tap <b>Add payment reminders to my calendar</b>. It saves a calendar file with each payment repeating, a reminder the day before, and a warning 2 days before a free trial ends. Open the file to add it to Google, Apple or Outlook calendar.</p></details>
+        <details><summary>Why add cancelled subscriptions?</summary><p>So you can see how much you save each year, and keep a note of what you cancelled and when.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. There is no account and no bank link. Your list stays in this browser on this device, and the app works offline once it has loaded.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/subscription-tracker">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Subscription Tracker", "sections": [
+ {"h": "Add your subscriptions", "steps": ["Type the Name (for example Netflix). Suggestions appear as you type, but any name works.", "Pick the Status: Paying, Free trial, Paused or Cancelled.", "Type the Price and pick How often you pay: every week, 2 weeks, 4 weeks, month, 3 months, 6 months or year. Pick Other to type your own, for example every 2 years.", "Pick the Next payment date. Leave it empty if you do not know. A date in the past moves forward by itself.", "For a free trial, the date is the day the trial ends and the first payment is taken, and the price is what you pay after the trial.", "Optional: tap \"+ Add a note (optional)\" to remember the card you pay with or how to cancel.", "Tap \"Add subscription\". Not sure how it looks? Tap \"Try an example list\" first."]},
+ {"h": "Read the result", "steps": ["\"Your subscriptions cost\" shows the total per month and per year for everything you are paying for or trying. Paused and cancelled ones are left out.", "Coming up shows the total due in the next 7 days and the next 30 days, and lists each payment with its date.", "Biggest costs shows the most expensive subscriptions per month and their share of the total.", "Warnings at the top tell you when a free trial ends within 7 days, when the same name appears twice, and when a payment date is missing."]},
+ {"h": "Change or remove", "steps": ["Tap \"Edit\" on a subscription to change the price, date, status or note, then \"Save changes\". \"Cancel\" leaves it as it was.", "Cancelled something? Edit it and pick Cancelled. It stays in the list and shows how much you save per year.", "Tap \"Delete\" to remove one. Tap \"Undo\" right there to bring it back.", "\"Sort by\" orders the list by next payment, highest cost or name."]},
+ {"h": "Share, back up and settings", "steps": ["\"Currency symbol\" adds $, €, £, ₹ or another symbol to every amount. None shows plain numbers.", "\"Copy list\" copies a text summary. \"Email list\" opens your mail app with the summary written and no address filled in. \"Print\" prints the list.", "\"Add payment reminders to my calendar\" saves a calendar file. Open it to add every payment as a repeating event with a reminder the day before.", "\"Download backup\" saves your list as a file. \"Restore from backup\" loads such a file and replaces the list (with Undo).", "\"Delete everything and start over\" clears the list. \"Undo\" brings it back."]},
+ {"h": "Good to know", "tips": true, "steps": ["A year counts 12 months, 52 weeks or 365 days, so a weekly 10.00 is 43.33 a month.", "Your list stays in this browser on this device. Nothing is sent anywhere, and the app works offline.", "Use the same browser each time, or download a backup, so you do not lose your list."]}
+]}</script>
+</body>
+</html>

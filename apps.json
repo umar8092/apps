@@ -52,5 +52,11 @@
     "name": "Paint Calculator",
     "description": "How much paint to buy for your rooms, and which tins. Each room has its own size, doors, windows, coats and colour.",
     "color": "#84cc16"
+  },
+  {
+    "slug": "subscription-tracker",
+    "name": "Subscription Tracker",
+    "description": "See what your subscriptions cost per month and per year, what is due next and when free trials end. Private, no sign-up.",
+    "color": "#8b5cf6"
   }
 ]
