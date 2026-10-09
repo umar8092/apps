@@ -6,3 +6,4 @@ Weak, niche or one-off. Many sites already do them, and nobody keeps them.
 - Tip calculator on its own (Bill Splitter already includes tip and tax)
 - Random name/number pickers, coin flips, dice rollers
 - Anything that is just a single formula with one result and nothing to come back to
+- Trip Expense Splitter (duplicates Bill Splitter, which already says who pays whom; extend Bill Splitter instead)
