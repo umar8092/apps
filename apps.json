@@ -58,5 +58,11 @@
     "name": "Subscription Tracker",
     "description": "See what your subscriptions cost per month and per year, what is due next and when free trials end. Private, no sign-up.",
     "color": "#8b5cf6"
+  },
+  {
+    "slug": "hourly-to-salary-converter",
+    "name": "Hourly to Salary Converter",
+    "description": "Turn any pay into per hour, day, week, month and year, with holidays, unpaid days off and overtime. Compare job offers.",
+    "color": "#3b82f6"
   }
 ]

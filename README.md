@@ -86,6 +86,14 @@ See what all your subscriptions cost per month and per year, what is due in the 
 
 <a href="subscription-tracker/"><img src="subscription-tracker/screenshots/phone.png" alt="Subscription Tracker screenshot" width="260"></a>
 
+### <img src="hourly-to-salary-converter/favicon.svg" width="36" height="36" align="center"> [Hourly to Salary Converter](https://umar8092.github.io/apps/hourly-to-salary-converter/)
+
+Turn any pay into per hour, day, week, 2 weeks, month and year. Counts paid holiday, unpaid days off and overtime, and compares up to 4 job offers to show which really pays more, a year and per hour you actually work. Copy, email or print.
+
+[**Open the app**](https://umar8092.github.io/apps/hourly-to-salary-converter/) &middot; [Details and screenshots](hourly-to-salary-converter/)
+
+<a href="hourly-to-salary-converter/"><img src="hourly-to-salary-converter/screenshots/phone.png" alt="Hourly to Salary Converter screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

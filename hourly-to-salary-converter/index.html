@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hourly to Salary Converter: Compare Job Offers, Free</title>
+    <meta name="description" content="Free hourly to salary converter. Turn any pay into per hour, day, week, 2 weeks, month and year, with unpaid days off, paid holiday and overtime, and compare job offers side by side. Private, no sign-up.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/hourly-to-salary-converter/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#3b82f6">
+    <meta name="theme-color" content="#1d4ed8">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Hourly to Salary Converter">
+    <meta property="og:url" content="https://umar8092.github.io/apps/hourly-to-salary-converter/">
+    <meta property="og:title" content="Hourly to Salary Converter: Compare Job Offers">
+    <meta property="og:description" content="Turn hourly pay into a yearly salary and back, with holidays, unpaid days off and overtime, and see which job offer really pays more. Free and private.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Hourly to Salary Converter","alternateName":["Salary to Hourly Calculator","Pay Converter","Job Offer Comparison Calculator"],"url":"https://umar8092.github.io/apps/hourly-to-salary-converter/","description":"A free pay converter. Type pay per hour, day, week, 2 weeks, month or year and see all the others, with paid holiday, unpaid days off and overtime, and compare job offers.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"hourly to salary, salary to hourly, how much is 20 an hour a year, compare job offers, pay converter","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much is 20 an hour a year?","acceptedAnswer":{"@type":"Answer","text":"At 40 hours a week for 52 weeks it is 41,600 a year (20 x 40 x 52), about 3,466.67 a month, before tax. Unpaid days off lower it."}},{"@type":"Question","name":"What is the difference between paid holiday and unpaid days off?","acceptedAnswer":{"@type":"Answer","text":"Unpaid days off lower your yearly pay. Paid holiday does not lower your pay, but you work fewer hours for it, so you earn more per hour you actually work."}},{"@type":"Question","name":"How do I compare two job offers?","acceptedAnswer":{"@type":"Answer","text":"Tap Compare with another job and fill in both. The app says which pays more a year and a month, and which pays more per hour you actually work once holidays and hours are counted."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Hourly to Salary Converter</h1>
+        <p class="sub">Type your pay and see it per hour, day, week, month and year. Compare job offers to see which really pays more.</p>
+    </header>
+
+    <div class="col-main">
+        <div class="intro" id="intro">
+            <p class="lead">Have two job offers, one hourly and one a salary? Add both and see which pays more, counting holidays, unpaid days off and overtime.</p>
+            <button type="button" id="demo" class="ghost">Try an example: compare two job offers</button>
+        </div>
+        <div id="jobs"></div>
+        <button type="button" id="add-job" class="add-job">+ Compare with another job</button>
+    </div>
+
+    <div class="col-side">
+        <section class="card result" id="result" aria-labelledby="res-h">
+            <h2 id="res-h">Your pay</h2>
+            <div id="compare" class="compare" aria-live="polite" hidden></div>
+            <div id="tables" aria-live="polite"></div>
+            <p class="hint tax">All amounts are before tax. A year is 52 weeks.</p>
+        </section>
+
+        <section class="card tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur">
+                <option value="">None (plain numbers)</option>
+                <option value="$">$ (dollar)</option>
+                <option value="€">€ (euro)</option>
+                <option value="£">£ (pound)</option>
+                <option value="₹">₹ (rupee)</option>
+                <option value="Rs">Rs (rupee)</option>
+                <option value="¥">¥ (yen, yuan)</option>
+                <option value="₩">₩ (won)</option>
+                <option value="₦">₦ (naira)</option>
+                <option value="₱">₱ (peso)</option>
+                <option value="R">R (rand)</option>
+                <option value="kr">kr (krona, krone)</option>
+                <option value="CHF">CHF (franc)</option>
+                <option value="AED">AED (dirham)</option>
+            </select>
+            <div class="tool-grid" id="share-tools">
+                <button type="button" id="copy" class="secondary">Copy results</button>
+                <a id="mail" class="secondary" href="mailto:">Email results</a>
+                <button type="button" id="print" class="secondary">Print</button>
+            </div>
+            <button type="button" id="clear" class="danger">Start over</button>
+            <p class="msg" id="msg" role="status"></p>
+            <p class="hint">Everything stays in this browser on this device. Nothing is sent anywhere, and the app works offline.</p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How much is 20 an hour a year?</summary><p>At 40 hours a week for 52 weeks it is 41,600 a year (20 &times; 40 &times; 52), or about 3,466.67 a month, before tax. If some days off are unpaid, add them under <b>+ Add holidays and unpaid days off</b> and the year goes down.</p></details>
+        <details><summary>What is the difference between paid holiday and unpaid days off?</summary><p><b>Unpaid days off</b> lower your yearly pay, for example 20 unpaid days on an hourly job. <b>Paid holiday</b> (including public holidays) does not lower your pay, but you work fewer hours for the same money, so you earn more per hour you actually work.</p></details>
+        <details><summary>Why is the week times 52 not the same as the year?</summary><p>The week is a normal week you work. The year takes off any unpaid days and counts overtime only in the weeks you are at work. With no time off and no overtime, the week times 52 is exactly the year.</p></details>
+        <details><summary>What does "per hour you actually work" mean?</summary><p>Your yearly pay divided by the hours you are really at work in a year, after holidays and with overtime. It is the fairest way to compare a salary with an hourly job.</p></details>
+        <details><summary>Does it include tax?</summary><p>No. All amounts are before tax and other deductions, so you can compare offers the same way in any country.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/hourly-to-salary-converter">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Hourly to Salary Converter", "sections": [
+ {"h": "Convert your pay", "steps": ["Type your Pay, for example 22.50, and pick Per: hour, day, week, 2 weeks, month or year.", "Type your Hours a week (the buttons 40, 37.5, 35, 30 and 20 fill it in for you) and pick Days a week.", "The result shows your pay per hour, per day, per week, every 2 weeks, per month (on average) and per year. It updates as you type.", "Not sure how it looks? Tap \"Try an example: compare two job offers\"."]},
+ {"h": "Holidays, unpaid days off and overtime", "steps": ["Tap \"+ Add holidays and unpaid days off (optional)\".", "Paid holiday days a year: days off you are still paid for, including public holidays. They do not change your pay, but you work fewer hours, so you earn more per hour you actually work.", "Unpaid days off a year: days you are not paid for. They lower your yearly and monthly pay. Half days such as 2.5 are fine.", "Tap \"+ Add overtime (optional)\" and type the Overtime hours a week and the Overtime rate (1.25, 1.5 or 2 times, or Other). Overtime is added to the week, month and year, but only in the weeks you are at work."]},
+ {"h": "Compare job offers", "steps": ["Tap \"+ Compare with another job\" and fill in the second job. Up to 4 jobs, each with its own hours, days, holidays and overtime.", "Tap \"+ Add a name (optional)\" to call a job, for example, Office job.", "\"Which job pays more\" says which pays the most a year and a month, and by how much. It also says which pays more per hour you actually work, when that is a different job.", "Tap \"Remove\" on a job to take it out. Tap \"Undo\" to bring it back."]},
+ {"h": "Share and settings", "steps": ["\"Currency symbol\" adds $, €, £, ₹ or another symbol to every amount. None shows plain numbers.", "\"Copy results\" copies a text summary. \"Email results\" opens your mail app with the summary written and no address filled in. \"Print\" prints it.", "\"Start over\" clears everything. \"Undo\" brings it back."]},
+ {"h": "Good to know", "tips": true, "steps": ["All amounts are before tax.", "A year is 52 weeks. Per month is the yearly pay divided by 12.", "Per week and every 2 weeks are for weeks you work, so with unpaid days off the week times 52 is more than the year.", "What you type is saved in this browser on this device only, and the app works offline."]}
+]}</script>
+</body>
+</html>
