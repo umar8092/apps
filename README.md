@@ -110,6 +110,14 @@ A grocery list with prices for staying on budget. Tick items off as they go in y
 
 <a href="grocery-list-with-running-total/"><img src="grocery-list-with-running-total/screenshots/phone.png" alt="Grocery List with Running Total screenshot" width="260"></a>
 
+### <img src="photo-size-reducer-for-online-forms/favicon.svg" width="36" height="36" align="center"> [Photo Size Reducer for Online Forms](https://umar8092.github.io/apps/photo-size-reducer-for-online-forms/)
+
+Make a photo smaller than the size an online form allows, like 20 KB, 50 KB, 100 KB or 200 KB, right on your device: nothing is uploaded. Each photo has its own limit, with an optional minimum size ("between 20 KB and 50 KB") and exact pixels (600 × 600). Download or share the result.
+
+[**Open the app**](https://umar8092.github.io/apps/photo-size-reducer-for-online-forms/) &middot; [Details and screenshots](photo-size-reducer-for-online-forms/)
+
+<a href="photo-size-reducer-for-online-forms/"><img src="photo-size-reducer-for-online-forms/screenshots/phone.png" alt="Photo Size Reducer for Online Forms screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

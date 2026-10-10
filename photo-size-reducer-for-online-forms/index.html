@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Size Reducer for Online Forms: Reduce a Photo to 20, 50, 100 or 200 KB</title>
+    <meta name="description" content="Free photo size reducer for online forms. Make a photo or ID scan smaller than the limit a form allows, like 50 KB, 100 KB or 200 KB, with an optional minimum size and exact pixels. Works on your device: nothing is uploaded. No sign-up, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/photo-size-reducer-for-online-forms/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#ec4899">
+    <meta name="theme-color" content="#be185d">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Photo Size Reducer for Online Forms">
+    <meta property="og:url" content="https://umar8092.github.io/apps/photo-size-reducer-for-online-forms/">
+    <meta property="og:title" content="Photo Size Reducer for Online Forms: Reduce a Photo to Any KB">
+    <meta property="og:description" content="Make a photo smaller than the limit an online form allows, like 50 KB or 200 KB. It happens on your device, nothing is uploaded. Free, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Photo Size Reducer for Online Forms","alternateName":["Reduce Photo Size in KB","Compress Image to 100KB","Image Size Reducer","Compress JPEG to 50KB"],"url":"https://umar8092.github.io/apps/photo-size-reducer-for-online-forms/","description":"Make a photo smaller than the size an online form allows, like 20 KB, 50 KB, 100 KB or 200 KB, on your own device. Optional minimum size and exact width and height in pixels.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"reduce photo size in kb, compress image to 100kb, compress image to 50kb, reduce image size for online form, photo resizer in kb, offline image compressor","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I reduce a photo to 100 KB?","acceptedAnswer":{"@type":"Answer","text":"Tap Choose photos, pick the photo, and set Must be under to 100 KB. The app makes it as sharp as it can while staying under 100 KB and shows the new size. Tap Download."}},{"@type":"Question","name":"Is my photo uploaded anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. The photo is made smaller inside your browser on your device. Nothing is sent anywhere, and the app works offline once it has loaded."}},{"@type":"Question","name":"The form says between 20 KB and 50 KB. What do I do?","acceptedAnswer":{"@type":"Answer","text":"Set Must be under to 50 KB, tap + More size rules and type 20 in At least. The photo will end up between the two."}},{"@type":"Question","name":"Does 1 KB mean 1000 or 1024 bytes?","acceptedAnswer":{"@type":"Answer","text":"Websites differ, so the app makes the photo pass both ways: 100 KB means at most 100,000 bytes, and at least 20 KB means at least 20,480 bytes."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Photo Size Reducer for Online Forms</h1>
+        <p class="sub">Make a photo smaller than the size a form allows, like 50 KB or 200 KB. It all happens on your device: your photo is never uploaded.</p>
+    </header>
+
+    <div class="col-main">
+        <section class="card pick" id="pick-card" aria-labelledby="pick-h">
+            <h2 id="pick-h">Choose your photos</h2>
+            <input type="file" id="file" class="file-input" accept="image/*,.heic,.heif" multiple>
+            <label class="drop" id="drop" for="file">
+                <svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true"><rect x="6" y="9" width="36" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="3.4"/><circle cx="17" cy="19" r="3.6" fill="currentColor"/><path d="M8 35l11-10 7 6 6-5 10 9" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round"/></svg>
+                <b>Choose photos</b>
+                <span class="drop-sub">or drag them here</span>
+            </label>
+            <p class="hint">JPG, PNG, WebP or HEIC. Up to 12 photos at a time. You can also paste a screenshot with Ctrl+V.</p>
+            <button type="button" id="sample" class="link">Try it with a sample photo</button>
+            <p class="msg" id="pick-msg" role="status"></p>
+            <div class="how">
+                <h3>How it works</h3>
+                <ol>
+                    <li>Choose the photo the form asks for.</li>
+                    <li>Set <b>Must be under</b> to the size the form allows.</li>
+                    <li>Check the new size and tap <b>Download</b>, then upload that file to the form.</li>
+                </ol>
+            </div>
+        </section>
+    </div>
+
+    <section class="results" id="results" aria-labelledby="res-h">
+        <h2 id="res-h">Your smaller photos <span class="count" id="count"></span></h2>
+        <p class="empty" id="empty">Your smaller photos appear here, each with its own size limit and a <b>Download</b> button. Photos are not kept after you close the page; your size limit is remembered.</p>
+        <ul class="photos" id="photos"></ul>
+        <div class="list-actions" id="all-actions" hidden>
+            <button type="button" id="clear" class="danger">Remove all photos</button>
+        </div>
+        <p class="msg" id="list-msg" role="status"></p>
+        <p class="sr-only" id="announce" aria-live="polite"></p>
+    </section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Is my photo uploaded anywhere?</summary><p>No. The photo is made smaller inside your browser, on your device. Nothing is sent anywhere, so it is safe for ID cards and documents. Once the page has loaded it works offline too.</p></details>
+        <details><summary>The form says &ldquo;between 20 KB and 50 KB&rdquo;. What do I do?</summary><p>Set <b>Must be under</b> to <b>50 KB</b>, tap <b>+ More size rules</b> and type <b>20</b> in <b>At least</b>. The photo ends up between the two. If the photo is too small on its own, the file is padded with empty space that does not change the picture.</p></details>
+        <details><summary>The form also asks for exact pixels, like 600 &times; 600.</summary><p>Tap <b>+ More size rules</b> and pick the size under <b>Exact width and height</b>, or choose <b>Other size</b> and type it. If the photo has a different shape, <b>Crop the edges</b> fills the size and cuts a little off the sides, and <b>Add white bars</b> keeps the whole photo. Check the preview before you download.</p></details>
+        <details><summary>Does 1 KB mean 1000 or 1024 bytes?</summary><p>Websites count it differently, so the app makes your photo pass both ways: <b>under 100 KB</b> means at most 100,000 bytes, and <b>at least 20 KB</b> means at least 20,480 bytes. Sizes shown in the app are counted the way Windows counts them (1 KB = 1024 bytes).</p></details>
+        <details><summary>Why is the new photo a JPG?</summary><p>Almost every form accepts JPG, and it is the format that gets a photo smallest while it still looks sharp. A see-through background (from a PNG) becomes white.</p></details>
+        <details><summary>My photo is HEIC and it does not open.</summary><p>HEIC is the iPhone photo format. Safari on iPhone and Mac opens it; most other browsers cannot yet. Open this page in Safari, or on the iPhone set <b>Settings &gt; Camera &gt; Formats &gt; Most Compatible</b> so new photos are saved as JPG.</p></details>
+        <details><summary>It says it cannot get the photo that small.</summary><p>Below a certain size a photo can no longer be recognised, so the app stops and tells you the smallest it could make. Check the limit you typed (50 KB, not 5 KB?) or choose a bigger one.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/photo-size-reducer-for-online-forms">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Photo Size Reducer for Online Forms", "sections": [
+ {"h": "Make a photo smaller", "steps": ["Tap \"Choose photos\" and pick one or more photos. On a computer you can also drag them onto the box, or paste a screenshot with Ctrl+V.", "Each photo gets its own box. Set \"Must be under\" to the size the form allows, for example 100 KB. Pick \"Other size\" to type any size in KB or MB.", "The big number is the new size of the file. A green line means it is under the limit and ready to upload.", "Tap \"Download\" to save the smaller photo, then upload that file to the form. Its name ends in \"-under-100KB.jpg\" (or whatever your limit is).", "Not sure how it looks? Tap \"Try it with a sample photo\"."]},
+ {"h": "When the form has more rules (optional)", "steps": ["Tap \"+ More size rules (optional)\" in the photo's box.", "\"At least\": for forms that say, for example, between 20 KB and 50 KB. Type 20 here and set Must be under to 50 KB.", "\"Exact width and height\": for forms that ask for a pixel size, like 600 × 600. Pick one from the list or choose \"Other size\" and type the width and height.", "\"If the shape is different\": \"Crop the edges\" fills the whole size and cuts a little off the sides. \"Add white bars\" keeps the whole photo and fills the gaps with white."]},
+ {"h": "Fix, remove and start over", "steps": ["\"Rotate\" turns the photo a quarter turn each time, for a photo that came out sideways.", "\"Remove\" takes a photo away and \"Undo\" brings it back. \"Remove all photos\" clears the page, also with Undo.", "Each photo keeps its own size rules, so a photo of 50 KB and a signature of 20 KB can sit side by side. A new photo starts with the rules you used last."]},
+ {"h": "Good to know", "tips": true, "steps": ["Your photos never leave your device. Nothing is uploaded, and the app works offline once it has loaded.", "The app keeps the photo as sharp as it can: it lowers the quality a little first and makes the picture smaller in pixels only when it has to.", "A JPG that already fits and needs no change is left exactly as it is.", "The size is made to pass whether the website counts 1 KB as 1000 or 1024 bytes.", "Photos are not kept after you close the page. Your size rules are remembered for next time."]}
+]}</script>
+</body>
+</html>
