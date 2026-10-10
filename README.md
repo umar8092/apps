@@ -94,6 +94,14 @@ Turn any pay into per hour, day, week, 2 weeks, month and year. Counts paid holi
 
 <a href="hourly-to-salary-converter/"><img src="hourly-to-salary-converter/screenshots/phone.png" alt="Hourly to Salary Converter screenshot" width="260"></a>
 
+### <img src="loan-and-credit-card-payoff-planner/favicon.svg" width="36" height="36" align="center"> [Loan and Credit Card Payoff Planner](https://umar8092.github.io/apps/loan-and-credit-card-payoff-planner/)
+
+Add your loans and credit cards and see the month you will be debt-free, the total interest, what to pay on each debt this month, and how much sooner you finish by paying a bit more. Compares highest interest first with smallest balance first, warns when a payment never pays a debt off, and shows what to pay to be debt-free in 1 to 5 years. Copy, email or print.
+
+[**Open the app**](https://umar8092.github.io/apps/loan-and-credit-card-payoff-planner/) &middot; [Details and screenshots](loan-and-credit-card-payoff-planner/)
+
+<a href="loan-and-credit-card-payoff-planner/"><img src="loan-and-credit-card-payoff-planner/screenshots/phone.png" alt="Loan and Credit Card Payoff Planner screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

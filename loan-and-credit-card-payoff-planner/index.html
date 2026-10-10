@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan and Credit Card Payoff Planner: When Will You Be Debt-Free?</title>
+    <meta name="description" content="Free loan and credit card payoff planner. Add your debts and see the month you will be debt-free, the total interest, what to pay on each debt this month, and how much paying extra saves. Highest interest or smallest balance first. Private, no sign-up.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/loan-and-credit-card-payoff-planner/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#06b6d4">
+    <meta name="theme-color" content="#0e7490">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Loan and Credit Card Payoff Planner">
+    <meta property="og:url" content="https://umar8092.github.io/apps/loan-and-credit-card-payoff-planner/">
+    <meta property="og:title" content="Loan and Credit Card Payoff Planner: When Will You Be Debt-Free?">
+    <meta property="og:description" content="Add your loans and credit cards and see when you will be debt-free, the interest you will pay, and how much sooner you finish by paying a bit more. Free and private.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Loan and Credit Card Payoff Planner","alternateName":["Debt Payoff Planner","Credit Card Payoff Calculator","Debt Snowball and Avalanche Calculator"],"url":"https://umar8092.github.io/apps/loan-and-credit-card-payoff-planner/","description":"A free debt payoff planner. Add loans and credit cards with balance, interest rate and monthly payment, and see the debt-free date, total interest, what to pay on each debt this month and how much paying extra saves.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"debt payoff calculator, credit card payoff calculator, loan payoff calculator, debt snowball, debt avalanche, when will I be debt free","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which debt should I pay off first?","acceptedAnswer":{"@type":"Answer","text":"Paying the highest interest rate first (the avalanche method) always costs the least interest. Paying the smallest balance first (the snowball method) clears whole debts sooner, which keeps many people going. The planner shows both so you can compare."}},{"@type":"Question","name":"What happens when one debt is paid off?","acceptedAnswer":{"@type":"Answer","text":"Its monthly payment moves to the next debt in the plan, so you keep paying the same total each month and the next debt goes down faster."}},{"@type":"Question","name":"Why does it say my debt will never be paid off?","acceptedAnswer":{"@type":"Answer","text":"Your payment is less than the interest added each month, so the balance never goes down. The planner shows how much you need to pay to be debt-free in 1, 2, 3 or 5 years."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Loan and Credit Card Payoff Planner</h1>
+        <p class="sub">Add your loans and credit cards. See when you will be debt-free, what it costs in interest, and how much sooner you finish by paying a bit more.</p>
+    </header>
+
+    <div class="col-main">
+        <div class="intro" id="intro">
+            <p class="lead">Type the balance, interest rate and monthly payment from your statement for each debt. Nothing leaves this device.</p>
+            <button type="button" id="demo" class="ghost">Try an example: a credit card, a store card and a car loan</button>
+        </div>
+        <div id="debts"></div>
+        <button type="button" id="add-debt" class="add-debt">+ Add another debt</button>
+
+        <section class="card plan" aria-labelledby="plan-h">
+            <h2 id="plan-h">Your plan</h2>
+            <label for="extra">Extra each month (optional)</label>
+            <div class="money"><span class="sym" aria-hidden="true"></span><input type="text" id="extra" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 100" aria-describedby="extra-hint extra-err"></div>
+            <div class="chips" role="group" aria-label="Common extra amounts" id="extra-chips"></div>
+            <p class="hint" id="extra-hint">On top of your monthly payments. Leave blank for none.</p>
+            <p class="ferr" id="extra-err"></p>
+
+            <fieldset class="order" id="order-box">
+                <legend>Which debt gets the extra first?</legend>
+                <label class="opt"><input type="radio" name="order" value="avalanche" checked> <span><b>Highest interest first</b> <small>Costs the least interest</small></span></label>
+                <label class="opt"><input type="radio" name="order" value="snowball"> <span><b>Smallest balance first</b> <small>Clears whole debts sooner</small></span></label>
+                <label class="opt"><input type="radio" name="order" value="listed"> <span><b>In the order I listed</b> <small>Top to bottom</small></span></label>
+                <p class="hint">When a debt is paid off, its payment moves to the next one.</p>
+            </fieldset>
+
+            <div id="oneoffs"></div>
+            <button type="button" id="add-oneoff" class="link">+ Add a one-off payment (optional)</button>
+            <p class="hint" id="oneoff-hint" hidden>For example a tax refund or a bonus, paid once in the month you pick.</p>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card result" id="result" aria-labelledby="res-h">
+            <h2 id="res-h">When you will be debt-free</h2>
+            <div id="out" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur">
+                <option value="">None (plain numbers)</option>
+                <option value="$">$ (dollar)</option>
+                <option value="€">€ (euro)</option>
+                <option value="£">£ (pound)</option>
+                <option value="₹">₹ (rupee)</option>
+                <option value="Rs">Rs (rupee)</option>
+                <option value="¥">¥ (yen, yuan)</option>
+                <option value="₩">₩ (won)</option>
+                <option value="₦">₦ (naira)</option>
+                <option value="₱">₱ (peso)</option>
+                <option value="R">R (rand)</option>
+                <option value="kr">kr (krona, krone)</option>
+                <option value="CHF">CHF (franc)</option>
+                <option value="AED">AED (dirham)</option>
+            </select>
+            <div class="tool-grid">
+                <button type="button" id="copy" class="secondary">Copy plan</button>
+                <a id="mail" class="secondary" href="mailto:">Email plan</a>
+                <button type="button" id="print" class="secondary">Print</button>
+            </div>
+            <button type="button" id="clear" class="danger">Start over</button>
+            <p class="msg" id="msg" role="status"></p>
+            <p class="hint">Everything stays in this browser on this device. Nothing is sent anywhere, and the app works offline.</p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Which debt should I pay off first?</summary><p><b>Highest interest first</b> (also called the avalanche method) always costs the least interest. <b>Smallest balance first</b> (the snowball method) clears whole debts sooner, which keeps many people going. The plan shows both, so you can see what the quick wins cost.</p></details>
+        <details><summary>What happens when one debt is paid off?</summary><p>Its monthly payment moves to the next debt in the plan. You keep paying the same total each month, and the next debt goes down faster. This is why a plan finishes sooner than just paying each debt on its own.</p></details>
+        <details><summary>Why does it say a debt is never paid off?</summary><p>The payment is less than the interest added each month, so the balance never goes down. The plan shows how much you would need to pay each month to be debt-free in 1, 2, 3 or 5 years.</p></details>
+        <details><summary>Why is my bank's figure a little different?</summary><p>The planner adds interest once a month (the yearly rate divided by 12). Many cards work it out daily, and fees, new spending or a changing minimum payment also change the numbers. Update your balances from each new statement to stay on track.</p></details>
+        <details><summary>Should I use the minimum payment?</summary><p>Type what you really pay each month. If your minimum goes down as the balance drops, keep paying the same amount instead: that is what this plan assumes, and it gets you out of debt much sooner.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/loan-and-credit-card-payoff-planner">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Loan and Credit Card Payoff Planner", "sections": [
+ {"h": "Add your debts", "steps": ["For each loan or credit card, type the Balance owed, the Interest rate (% a year, the APR on your statement; type 0 if there is no interest) and the Monthly payment you make.", "Tap \"+ Add a name (optional)\" to call a debt, for example, Credit card.", "Tap \"+ Add another debt\" for the next one. Up to 10 debts, each in its own box.", "Tap \"Remove\" on a debt to take it out. Tap \"Undo\" to bring it back.", "Not sure how it looks? Tap \"Try an example: a credit card, a store card and a car loan\"."]},
+ {"h": "Your plan", "steps": ["Extra each month: money you can pay on top of your monthly payments. The buttons fill in common amounts. Leave it blank for none.", "Which debt gets the extra first: Highest interest first costs the least interest. Smallest balance first clears whole debts sooner. In the order I listed goes top to bottom.", "When a debt is paid off, its monthly payment moves to the next debt, so you keep paying the same total.", "Tap \"+ Add a one-off payment (optional)\" for a tax refund or a bonus. Pick the amount and the month it is paid. Tap \"Remove\" to take it out."]},
+ {"h": "Reading the result", "steps": ["Debt-free in: the month of your last payment, how long that is, and the total interest you will pay.", "This month, pay: how much to pay on each debt this month to follow the plan.", "Order and dates: when each debt is paid off and the interest each one costs.", "Without the plan: what happens if you just pay each monthly payment with no extra. The plan says how much it saves and how much sooner you finish.", "Finish sooner: what paying more each month does to your debt-free date and interest, and what you need to pay each month to be debt-free in 1, 2, 3 or 5 years.", "Month by month: every payment, the interest added and what you still owe."]},
+ {"h": "Share and settings", "steps": ["\"Currency symbol\" adds $, €, £, ₹ or another symbol to every amount. None shows plain numbers.", "\"Copy plan\" copies a text summary. \"Email plan\" opens your mail app with the plan written and no address filled in. \"Print\" prints it.", "\"Start over\" clears everything. \"Undo\" brings it back."]},
+ {"h": "Good to know", "tips": true, "steps": ["The plan starts with next month's payment.", "Interest is added once a month (the yearly rate divided by 12), so your bank's figures can differ by a little.", "If a payment is less than the interest, the plan tells you, and how much to pay instead.", "Update your balances from each new statement. Everything is saved in this browser on this device only, and the app works offline."]}
+]}</script>
+</body>
+</html>

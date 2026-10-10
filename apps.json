@@ -64,5 +64,11 @@
     "name": "Hourly to Salary Converter",
     "description": "Turn any pay into per hour, day, week, month and year, with holidays, unpaid days off and overtime. Compare job offers.",
     "color": "#3b82f6"
+  },
+  {
+    "slug": "loan-and-credit-card-payoff-planner",
+    "name": "Loan and Credit Card Payoff Planner",
+    "description": "When will you be debt-free? Add your loans and credit cards and see the date, the interest, what to pay this month and how much paying extra saves.",
+    "color": "#06b6d4"
   }
 ]
