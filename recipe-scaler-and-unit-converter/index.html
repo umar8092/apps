@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Scaler and Unit Converter: Cups to Grams, Any Servings</title>
+    <meta name="description" content="Free recipe scaler for home cooks. Paste the ingredients, say how many the recipe makes and how many you want, and get every amount in easy kitchen measures (1⅓ cups, not 1.3125). Turn cups into grams or grams into cups, and oven °F into °C. Save your recipes. Private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/recipe-scaler-and-unit-converter/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#d97706">
+    <meta name="theme-color" content="#b45309">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Recipe Scaler and Unit Converter">
+    <meta property="og:url" content="https://umar8092.github.io/apps/recipe-scaler-and-unit-converter/">
+    <meta property="og:title" content="Recipe Scaler and Unit Converter: Cups to Grams, Any Servings">
+    <meta property="og:description" content="Cook a recipe for 4 for 7 people, or turn cups into grams. Easy kitchen measures, oven temperatures, saved recipes. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Recipe Scaler and Unit Converter","alternateName":["Recipe Resizer","Recipe Converter","Cups to Grams Converter","Recipe Multiplier"],"url":"https://umar8092.github.io/apps/recipe-scaler-and-unit-converter/","description":"A free recipe scaler for home cooks. Make a recipe for more or fewer people with easy kitchen measures, and convert cups and spoons to grams and ml or back, plus oven temperatures.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"recipe scaler, recipe converter, scale recipe servings, cups to grams, grams to cups, double a recipe, half a recipe, oven temperature converter","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I scale a recipe for more people?","acceptedAnswer":{"@type":"Answer","text":"Paste the ingredients, type how many the recipe makes and how many you want to make. Every amount is multiplied and shown in easy kitchen measures, for example 1⅓ cups instead of 1.3125 cups."}},{"@type":"Question","name":"How many grams is a cup of flour?","acceptedAnswer":{"@type":"Answer","text":"About 120 g for all-purpose flour, 200 g for sugar and 227 g for butter. Choose Grams and ml and the app uses a typical weight for each ingredient it knows, marked with ≈."}},{"@type":"Question","name":"What do I do with half an egg?","acceptedAnswer":{"@type":"Answer","text":"The app tells you. For 1¾ eggs it says to use 1 egg plus 2 tbsp of another beaten egg. A large egg is about 3 tbsp or 50 g beaten."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your recipes are saved only in this browser on this device. There is no account and the app works offline once it has loaded."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Recipe Scaler and Unit Converter</h1>
+        <p class="sub">Cook a recipe for more or fewer people, in easy kitchen measures, and turn cups into grams or grams into cups.</p>
+    </header>
+
+    <div class="col-in">
+        <section class="card" id="recipe-card" aria-labelledby="recipe-h">
+            <h2 id="recipe-h"><span class="step">1</span> Your recipe</h2>
+            <div id="intro">
+                <p class="lead">Paste the ingredients from any recipe, one per line. Amounts like 1½ cups, 200 g, 2-3 cloves and ¼ tsp all work.</p>
+                <button type="button" id="demo" class="ghost">Try an example recipe</button>
+            </div>
+            <label for="ing">Ingredients, one per line</label>
+            <textarea id="ing" rows="9" maxlength="20000" spellcheck="false" placeholder="1 1/2 cups flour&#10;2 eggs&#10;200 g butter"></textarea>
+            <p class="hint">Lines with no amount (salt to taste) are kept as they are.</p>
+            <button type="button" id="add-method" class="link">+ Add the method (optional)</button>
+            <div id="method-box" hidden>
+                <label for="method">Method</label>
+                <textarea id="method" rows="5" maxlength="20000" placeholder="Heat the oven to 350°F.&#10;Mix the flour and sugar."></textarea>
+                <p class="hint">Not scaled. Oven temperatures get °C, °F and gas mark added.</p>
+                <button type="button" id="remove-method" class="link small">Remove the method</button>
+            </div>
+            <label for="sys">Cup and spoon sizes in this recipe</label>
+            <select id="sys">
+                <option value="us">US (cup 237 ml, tbsp 15 ml)</option>
+                <option value="metric">UK, Canada, metric (cup 250 ml)</option>
+                <option value="au">Australia (cup 250 ml, tbsp 20 ml)</option>
+            </select>
+            <button type="button" id="new" class="secondary new-btn">Start a new recipe</button>
+            <p class="msg" id="recipe-msg" role="status"></p>
+        </section>
+
+        <section class="card" id="scale-card" aria-labelledby="scale-h">
+            <h2 id="scale-h"><span class="step">2</span> How much to make</h2>
+            <div class="two">
+                <div>
+                    <label for="from">The recipe makes</label>
+                    <input id="from" type="text" inputmode="decimal" maxlength="9" placeholder="e.g. 4" autocomplete="off">
+                </div>
+                <div>
+                    <label for="to">I want to make</label>
+                    <input id="to" type="text" inputmode="decimal" maxlength="9" placeholder="e.g. 7" autocomplete="off">
+                </div>
+            </div>
+            <p class="hint">Servings, people, cookies or tins: use the same kind of number in both boxes.</p>
+            <div class="chips" role="group" aria-label="Quick sizes">
+                <button type="button" data-x="0.5">Half</button>
+                <button type="button" data-x="1">Same</button>
+                <button type="button" data-x="2">Double</button>
+                <button type="button" data-x="3">Triple</button>
+            </div>
+            <p class="err" id="scale-err" role="alert"></p>
+            <button type="button" id="add-have" class="link">+ Scale to an ingredient I have (optional)</button>
+            <div id="have-box" hidden>
+                <p class="hint first">Only 2 eggs, or one 400 g tin? Pick the ingredient and type how much you have.</p>
+                <label for="have-line">Ingredient</label>
+                <select id="have-line"></select>
+                <label for="have">I have</label>
+                <div class="unitbox"><input id="have" type="text" inputmode="decimal" maxlength="9" placeholder="e.g. 2" autocomplete="off"><span class="suffix" id="have-unit" aria-hidden="true"></span></div>
+                <p class="err" id="have-err" role="alert"></p>
+                <p class="msg" id="have-msg" role="status"></p>
+                <button type="button" id="remove-have" class="link small">Close</button>
+            </div>
+            <fieldset class="seg">
+                <legend>Show amounts in</legend>
+                <div class="seg-opts">
+                    <label><input type="radio" name="mode" value="same" checked><span>As written</span></label>
+                    <label><input type="radio" name="mode" value="metric"><span>Grams and ml</span></label>
+                    <label><input type="radio" name="mode" value="us"><span>Cups and spoons</span></label>
+                </div>
+            </fieldset>
+        </section>
+    </div>
+
+    <div class="col-out">
+        <section class="card result" id="result" aria-labelledby="res-h">
+            <h2 id="res-h">Scaled recipe</h2>
+            <p class="factor" id="r-factor" aria-live="polite">×1</p>
+            <p class="meta" id="r-meta">Same amounts as the recipe.</p>
+            <ul class="lines" id="lines"></ul>
+            <p class="empty" id="lines-empty">Paste or type your ingredients and they appear here, scaled.</p>
+            <div id="method-out" hidden>
+                <h3>Method</h3>
+                <ol id="method-list"></ol>
+            </div>
+            <ul class="notes" id="notes"></ul>
+            <div class="tool-grid">
+                <button type="button" id="copy" class="secondary">Copy</button>
+                <a id="mail" class="secondary" href="mailto:">Email</a>
+                <button type="button" id="print" class="secondary">Print</button>
+            </div>
+            <button type="button" id="save" class="primary">Save to My recipes</button>
+            <div id="save-box" hidden>
+                <label for="name">Recipe name</label>
+                <input id="name" type="text" maxlength="80" placeholder="e.g. Sunday pancakes" autocomplete="off" enterkeyhint="done">
+                <p class="err" id="save-err" role="alert"></p>
+                <div class="two-btn">
+                    <button type="button" id="save-ok" class="primary">Save</button>
+                    <button type="button" id="save-cancel" class="secondary">Cancel</button>
+                </div>
+            </div>
+            <p class="msg" id="result-msg" role="status"></p>
+        </section>
+
+        <section class="card" id="saved-card" aria-labelledby="saved-h">
+            <h2 id="saved-h">My recipes <span class="count" id="saved-n"></span></h2>
+            <ul class="saved" id="saved"></ul>
+            <p class="empty" id="saved-empty">Recipes you save appear here, so next time you just open one and change how many.</p>
+            <p class="hint">Saved only in this browser on this device. Nothing is sent anywhere.</p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How are the amounts rounded?</summary><p>To measures you can actually scoop: cups in ¼ and ⅓ steps, tablespoons, and teaspoons down to ⅛. If one measure is within about 3% it is used (1⅓ cups instead of 1¼ cups + 1 tbsp), otherwise the amount is split, like 2 cups + 3 tbsp. Grams and ml are shown to the gram, or to the half gram under 10 g.</p></details>
+        <details><summary>How many grams is a cup?</summary><p>It depends on the ingredient: about 120 g of flour, 200 g of white sugar, 213 g of brown sugar, 227 g of butter and 340 g of honey. Choose <b>Grams and ml</b> and the app uses a typical weight for each ingredient it knows, marked with ≈. Liquids such as milk and water are shown in ml. If it does not know the ingredient it shows ml, which is always right.</p></details>
+        <details><summary>Why are small amounts still in spoons in grams mode?</summary><p>Kitchen scales are not accurate for 3 g of salt or baking powder, so amounts under about 2 tablespoons stay in teaspoons and tablespoons, like in metric cookbooks.</p></details>
+        <details><summary>What do I do with part of an egg?</summary><p>The app tells you, for example "Use 1 egg, plus 2 tbsp of another beaten egg". A large egg is about 3 tbsp (50 g) when beaten.</p></details>
+        <details><summary>Does the cooking time change?</summary><p>Not in the same way. A bigger batch in a bigger pan often needs a few more minutes, and a deeper cake tin needs longer at a slightly lower heat. Times in the method are never changed: check it is done the usual way.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. There is no account. Your recipes stay in this browser on this device, and the app works offline once it has loaded.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/recipe-scaler-and-unit-converter">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Recipe Scaler and Unit Converter", "sections": [
+ {"h": "1. Your recipe", "steps": ["Paste or type the ingredients in \"Ingredients, one per line\". Copying the list from a recipe website works, bullets and tick boxes are removed.", "Amounts like 1 1/2, 1½, 1.5, 1,5, 2-3 (a range), 200g, 1 cup + 2 tbsp and \"a dozen\" are all understood. Lines with no amount, like \"Salt to taste\", are kept as they are.", "Want the method too? Tap \"+ Add the method (optional)\". It is not scaled, but oven temperatures get °C, °F and gas mark added.", "\"Cup and spoon sizes in this recipe\": pick US for American recipes, UK, Canada, metric for 250 ml cups, or Australia, where a tablespoon is 20 ml.", "Not sure how it works? Tap \"Try an example recipe\"."]},
+ {"h": "2. How much to make", "steps": ["Type what \"The recipe makes\" (for example 4 servings, or 24 cookies) and what \"I want to make\" (7 servings, or 36 cookies).", "\"Half\", \"Same\", \"Double\" and \"Triple\" fill in \"I want to make\" for you.", "Only have part of something, like 2 eggs? Tap \"+ Scale to an ingredient I have (optional)\", pick it and type how much you have. \"I want to make\" changes to match, and every other amount follows.", "\"Show amounts in\": \"As written\" keeps the recipe's units, \"Grams and ml\" turns cups and ounces into grams and ml, \"Cups and spoons\" turns grams and ml into US cups and spoons."]},
+ {"h": "The scaled recipe", "steps": ["The big number is how many times the recipe you are making, for example ×1.75.", "Each ingredient shows the new amount, with what the recipe said underneath.", "≈ means the amount was turned between cups and grams using a typical weight for that ingredient.", "Part of an egg? The line under it says what to do, for example \"Use 1 egg, plus 2 tbsp of another beaten egg\".", "\"Copy\" copies the scaled recipe as text, \"Email\" opens your mail app with it written and no address needed, \"Print\" prints only the recipe."]},
+ {"h": "My recipes", "steps": ["Tap \"Save to My recipes\", type a name and tap \"Save\". Saving again with the same name updates it.", "Next time tap \"Open\" on a saved recipe and change how many you want.", "\"Delete\" removes a saved recipe, and \"Undo\" brings it back.", "\"Start a new recipe\" empties the boxes (your saved recipes stay). \"Undo\" brings it back."]},
+ {"h": "Good to know", "tips": true, "steps": ["Amounts are rounded to measures you can scoop: cups in ¼ and ⅓ steps, tbsp, and tsp down to ⅛. Under ⅛ tsp it says a pinch.", "Cooking times are not scaled. A bigger batch may need a few more minutes, so check it is done the usual way.", "Everything stays in this browser on this device and works offline. Use the same browser to find your saved recipes again."]}
+]}</script>
+</body>
+</html>

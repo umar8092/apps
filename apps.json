@@ -82,5 +82,11 @@
     "name": "Photo Size Reducer for Online Forms",
     "description": "Make a photo smaller than the size a form allows, like 50 KB or 200 KB, with an optional minimum and exact pixels. Nothing is uploaded.",
     "color": "#ec4899"
+  },
+  {
+    "slug": "recipe-scaler-and-unit-converter",
+    "name": "Recipe Scaler and Unit Converter",
+    "description": "Cook a recipe for more or fewer people in easy kitchen measures, and turn cups into grams or grams into cups. Save your recipes.",
+    "color": "#d97706"
   }
 ]
