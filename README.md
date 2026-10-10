@@ -102,6 +102,14 @@ Add your loans and credit cards and see the month you will be debt-free, the tot
 
 <a href="loan-and-credit-card-payoff-planner/"><img src="loan-and-credit-card-payoff-planner/screenshots/phone.png" alt="Loan and Credit Card Payoff Planner screenshot" width="260"></a>
 
+### <img src="grocery-list-with-running-total/favicon.svg" width="36" height="36" align="center"> [Grocery List with Running Total](https://umar8092.github.io/apps/grocery-list-with-running-total/)
+
+A grocery list with prices for staying on budget. Tick items off as they go in your trolley and see what you have spent, what is still to get, what the whole list costs and what is left of your budget, before you reach the till. Weights, items with no price yet, optional sales tax, paste a whole list, reuse it next week. Copy, email or print.
+
+[**Open the app**](https://umar8092.github.io/apps/grocery-list-with-running-total/) &middot; [Details and screenshots](grocery-list-with-running-total/)
+
+<a href="grocery-list-with-running-total/"><img src="grocery-list-with-running-total/screenshots/phone.png" alt="Grocery List with Running Total screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

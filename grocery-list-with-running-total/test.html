@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grocery List with Running Total logic check</title><meta name="robots" content="noindex">
+<style>body{font:16px/1.6 system-ui,sans-serif;max-width:680px;margin:2rem auto;padding:0 1rem}.pass{color:#0a7d33}.fail{color:#c0221b;font-weight:600}</style></head>
+<body><h1>Grocery List with Running Total logic check</h1><p id="sum"></p><ul id="out"></ul>
+<script src="core.js"></script><script src="tests.js"></script>
+<script>
+const r = runTests(GroceryCore);
+document.getElementById('sum').textContent = r.filter(t => t.ok).length + ' of ' + r.length + ' checks passed';
+r.forEach(t => { const li = document.createElement('li'); li.className = t.ok ? 'pass' : 'fail'; li.textContent = (t.ok ? 'PASS ' : 'FAIL ') + t.name; document.getElementById('out').appendChild(li); });
+</script></body></html>

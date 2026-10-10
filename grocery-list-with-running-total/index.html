@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery List with Running Total: Stay on Budget, Free</title>
+    <meta name="description" content="Free grocery list with a running total. Add items with prices, tick them off as they go in your trolley, and see what you have spent, what the whole list costs and what is left of your budget. Private, no sign-up, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/grocery-list-with-running-total/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#ef4444">
+    <meta name="theme-color" content="#b91c1c">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Grocery List with Running Total">
+    <meta property="og:url" content="https://umar8092.github.io/apps/grocery-list-with-running-total/">
+    <meta property="og:title" content="Grocery List with Running Total: Stay on Budget">
+    <meta property="og:description" content="Tick items off as you shop and see what is in your trolley, what the whole list costs and what is left of your budget. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Grocery List with Running Total","alternateName":["Shopping List Calculator","Grocery Budget Calculator","Shopping List with Prices"],"url":"https://umar8092.github.io/apps/grocery-list-with-running-total/","description":"A free grocery list with prices. Tick items off as you shop and see the running total, the cost of the whole list and what is left of your budget.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"grocery list with prices, shopping list calculator, grocery budget calculator, running total, shopping list app no sign up","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I stay on budget while I shop?","acceptedAnswer":{"@type":"Answer","text":"Tap Set a budget, type your list with prices, and tick each item as it goes in your trolley. The app shows what is in your trolley, what is left to spend and whether the whole list fits your budget."}},{"@type":"Question","name":"Can I use the same list next week?","acceptedAnswer":{"@type":"Answer","text":"Yes. Tap New shop with the same list. Every item and price stays and all the ticks are cleared."}},{"@type":"Question","name":"How do I add loose fruit sold by weight?","acceptedAnswer":{"@type":"Answer","text":"Type the weight as the quantity, for example 1.2, and the price per kg or per lb as the price. 1.2 at 1.10 costs 1.32."}},{"@type":"Question","name":"Is my list private?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is saved only in this browser on this device. There is no account, and the app works offline once it has loaded."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Grocery List with Running Total</h1>
+        <p class="sub">Tick items off as they go in your trolley and see what you have spent, what the whole list costs and what is left of your budget.</p>
+    </header>
+
+    <div class="col-side">
+        <section class="card result" id="result" aria-labelledby="res-h">
+            <h2 class="big-label" id="res-h">In your trolley</h2>
+            <p class="big" id="r-trolley" aria-live="polite">0.00</p>
+            <p class="meta" id="r-count">Nothing ticked yet.</p>
+
+            <div id="budget-view" hidden>
+                <div class="bar" aria-hidden="true"><i id="r-bar"></i></div>
+                <p class="budget-line" id="r-budget-left"></p>
+            </div>
+
+            <div class="tiles">
+                <div><span>Still to get</span><b id="r-left">0.00</b><small id="r-left-n">0 items</small></div>
+                <div><span>Whole list</span><b id="r-whole">0.00</b><small id="r-whole-n">0 items</small></div>
+            </div>
+            <ul class="alerts" id="alerts" aria-live="polite"></ul>
+
+            <button type="button" id="add-budget" class="link">+ Set a budget (optional)</button>
+            <div id="budget-box" hidden>
+                <label for="budget">My budget for this shop</label>
+                <div class="money"><span class="sym" aria-hidden="true"></span><input id="budget" type="text" inputmode="decimal" maxlength="14" placeholder="e.g. 60"></div>
+                <p class="err" id="budget-err" role="alert"></p>
+                <button type="button" id="remove-budget" class="link small">Remove budget</button>
+            </div>
+            <button type="button" id="add-tax" class="link">+ Add sales tax (optional)</button>
+            <div id="tax-box" hidden>
+                <label for="tax">Sales tax added at the till</label>
+                <div class="money"><input id="tax" type="text" inputmode="decimal" maxlength="7" placeholder="e.g. 8.25"><span class="suffix" aria-hidden="true">%</span></div>
+                <p class="hint">Added to every item. Leave it off if prices on the shelf already include tax.</p>
+                <p class="err" id="tax-err" role="alert"></p>
+                <button type="button" id="remove-tax" class="link small">Remove tax</button>
+            </div>
+        </section>
+
+        <section class="card tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur">
+                <option value="">None (plain numbers)</option>
+                <option value="$">$ (dollar)</option>
+                <option value="€">€ (euro)</option>
+                <option value="£">£ (pound)</option>
+                <option value="₹">₹ (rupee)</option>
+                <option value="Rs">Rs (rupee)</option>
+                <option value="¥">¥ (yen, yuan)</option>
+                <option value="₩">₩ (won)</option>
+                <option value="₦">₦ (naira)</option>
+                <option value="₱">₱ (peso)</option>
+                <option value="R">R (rand)</option>
+                <option value="kr">kr (krona, krone)</option>
+                <option value="CHF">CHF (franc)</option>
+                <option value="AED">AED (dirham)</option>
+                <option value="SAR">SAR (riyal)</option>
+                <option value="RM">RM (ringgit)</option>
+            </select>
+            <div class="tool-grid">
+                <button type="button" id="copy" class="secondary">Copy list</button>
+                <a id="mail" class="secondary" href="mailto:">Email list</a>
+                <button type="button" id="print" class="secondary">Print</button>
+            </div>
+            <p class="hint">Your list is saved only in this browser on this device. Nothing is sent anywhere.</p>
+            <p class="msg" id="tools-msg" role="status"></p>
+        </section>
+    </div>
+
+    <div class="col-main">
+        <section class="card add-card" aria-labelledby="form-h">
+            <div id="intro">
+                <p class="lead">Type what you need to buy, with a price if you know it. In the shop, tick each item as it goes in your trolley.</p>
+                <button type="button" id="demo" class="ghost">Try an example list</button>
+            </div>
+            <form id="form" novalidate autocomplete="off">
+                <h2 id="form-h">Add an item</h2>
+                <label for="f-name">Item</label>
+                <input id="f-name" type="text" maxlength="80" placeholder="e.g. Milk" enterkeyhint="next">
+                <div class="two">
+                    <div>
+                        <label for="f-qty">How many</label>
+                        <input id="f-qty" type="text" inputmode="decimal" maxlength="7" placeholder="1" aria-describedby="qty-hint">
+                    </div>
+                    <div>
+                        <label for="f-price">Price each</label>
+                        <div class="money"><span class="sym" aria-hidden="true"></span><input id="f-price" type="text" inputmode="decimal" maxlength="14" placeholder="e.g. 1.29" enterkeyhint="done"></div>
+                    </div>
+                </div>
+                <p class="hint" id="qty-hint">Sold by weight? Type the weight (e.g. 1.5) and the price per kg or lb. No price yet? Leave it empty.</p>
+                <p class="err" id="form-err" role="alert"></p>
+                <button type="submit" id="save" class="primary">Add to list</button>
+            </form>
+            <button type="button" id="open-paste" class="link">+ Paste a whole list (optional)</button>
+            <div id="paste-box" hidden>
+                <label for="paste">One item per line</label>
+                <textarea id="paste" rows="6" maxlength="20000" placeholder="2 x Milk 1.29&#10;Bread 1.45&#10;Eggs"></textarea>
+                <p class="hint">A number with &ldquo;x&rdquo; is the quantity (2 x Milk) and a price with decimals at the end is the price (1.29).</p>
+                <div class="two-btn">
+                    <button type="button" id="paste-add" class="primary">Add these items</button>
+                    <button type="button" id="paste-cancel" class="secondary">Cancel</button>
+                </div>
+            </div>
+            <p class="msg" id="add-msg" role="status"></p>
+        </section>
+
+        <section class="card list-card" id="list-card" aria-labelledby="list-h" hidden>
+            <h2 id="list-h">Still to get <span class="count" id="todo-n"></span><span class="h-sum" id="todo-sum"></span></h2>
+            <ul class="items" id="todo"></ul>
+            <p class="empty" id="todo-empty" hidden>Everything is in your trolley.</p>
+            <h2 id="got-h" class="got-h">In the trolley <span class="count" id="got-n"></span><span class="h-sum" id="got-sum"></span></h2>
+            <ul class="items" id="got"></ul>
+            <p class="empty" id="got-empty">Tick an item when it goes in your trolley.</p>
+            <div class="list-actions">
+                <button type="button" id="restart" class="secondary">New shop with the same list</button>
+                <button type="button" id="clear" class="danger">Delete all items</button>
+            </div>
+            <p class="msg" id="list-msg" role="status"></p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>What do the three totals mean?</summary><p><b>In your trolley</b> is what the ticked items cost, so what you will pay if you go to the till now. <b>Still to get</b> is what the items you have not ticked yet cost. <b>Whole list</b> is both together.</p></details>
+        <details><summary>How do I stay on budget?</summary><p>Tap <b>+ Set a budget</b>. The bar shows how much of it is in your trolley, and the app tells you how much is left to spend and whether the whole list fits. If it does not, it tells you by how much, so you know what to leave out before you reach the till.</p></details>
+        <details><summary>The price on the shelf is different. What do I do?</summary><p>Tap <b>Edit</b> on the item, change the price and tap <b>Save</b>. All totals update straight away.</p></details>
+        <details><summary>Can I use the same list next week?</summary><p>Yes. Tap <b>New shop with the same list</b>. Every item and price stays and all the ticks are cleared. <b>Delete all items</b> starts from an empty list. Both can be undone.</p></details>
+        <details><summary>How is it rounded?</summary><p>Each line is worked out to the cent (1.2 kg at 1.10 is 1.32, half a cent rounds up) and the lines are added up, the same way a till receipt does. Sales tax, if you add it, is worked out on the total.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. There is no account. Your list stays in this browser on this device, and the app works offline once it has loaded, so it still works in a shop with no signal.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/grocery-list-with-running-total">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Grocery List with Running Total", "sections": [
+ {"h": "Make your list", "steps": ["Type the Item (for example Milk), How many, and the Price each, then tap \"Add to list\". Enter also adds it.", "How many is 1 if you leave it empty. Sold by weight? Type the weight, for example 1.5, and the price per kg or lb.", "No price yet? Leave Price each empty. The item is still on the list, and the totals tell you how many items have no price.", "Adding something that is already on the list with the same price adds to its quantity instead of a second line.", "Have a list somewhere else? Tap \"+ Paste a whole list (optional)\", paste one item per line, and tap \"Add these items\". \"2 x Milk 1.29\" becomes 2 milk at 1.29.", "Not sure how it looks? Tap \"Try an example list\"."]},
+ {"h": "Set a budget (optional)", "steps": ["Tap \"+ Set a budget (optional)\" and type how much you want to spend.", "The bar fills as you tick items, and the line under it says how much is left to spend, or how much you are over.", "A message tells you whether the whole list fits your budget and by how much, so you know before the till if something has to go back.", "\"Remove budget\" hides it again."]},
+ {"h": "In the shop", "steps": ["Tick an item when it goes in your trolley. It moves to In the trolley and the totals update. Untick it to move it back.", "In your trolley is what you would pay at the till now. Still to get is the cost of what is left. Whole list is both together.", "The shelf price is different? Tap \"Edit\" on the item, change it and tap \"Save\". \"Cancel\" leaves it as it was.", "Bought something that was not on the list? Add it and tick it.", "Tap \"Delete\" to remove an item, and \"Undo\" to bring it back."]},
+ {"h": "After the shop", "steps": ["\"New shop with the same list\" keeps every item and price and clears all the ticks, ready for next time.", "\"Delete all items\" empties the list. Both buttons show \"Undo\" in case you tap them by mistake."]},
+ {"h": "Share and settings", "steps": ["\"Currency symbol\" adds $, €, £, ₹ or another symbol to every amount. None shows plain numbers. It is remembered.", "\"+ Add sales tax (optional)\" adds a tax percentage to every total, for places where tax is added at the till.", "\"Copy list\" copies the list as text. \"Email list\" opens your mail app with the list written and no address filled in. \"Print\" prints it."]},
+ {"h": "Good to know", "tips": true, "steps": ["Each line is rounded to the cent, like a till receipt, so the totals match what you pay.", "Your list stays in this browser on this device. Nothing is sent anywhere, and the app works offline, even in a shop with no signal.", "Use the same browser each time so your list is there next week."]}
+]}</script>
+</body>
+</html>

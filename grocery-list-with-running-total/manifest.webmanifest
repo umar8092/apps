@@ -1,0 +1,15 @@
+{
+  "name": "Grocery List with Running Total",
+  "short_name": "Grocery List",
+  "description": "Tick items off as you shop and see what is in your trolley, what the whole list costs and what is left of your budget.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1f1011",
+  "theme_color": "#b91c1c",
+  "categories": ["shopping", "finance", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

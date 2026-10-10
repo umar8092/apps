@@ -70,5 +70,11 @@
     "name": "Loan and Credit Card Payoff Planner",
     "description": "When will you be debt-free? Add your loans and credit cards and see the date, the interest, what to pay this month and how much paying extra saves.",
     "color": "#06b6d4"
+  },
+  {
+    "slug": "grocery-list-with-running-total",
+    "name": "Grocery List with Running Total",
+    "description": "Tick items off as you shop and see what is in your trolley, what the whole list costs and what is left of your budget.",
+    "color": "#ef4444"
   }
 ]
