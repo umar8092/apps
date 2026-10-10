@@ -187,7 +187,7 @@ async function discover(){
   try{(await J("apps.json")).forEach(a=>add(a.slug+"/",a.name,a.description,a.color))}catch(e){}
   try{
     (await J(`https://api.github.com/repos/${USER}/apps/contents`))
-      .filter(f=>f.type==="dir"&&!f.name.startsWith(".")).forEach(f=>add(f.name+"/",f.name));
+      .filter(f=>f.type==="dir"&&!f.name.startsWith(".")&&!["docs","scripts","icons"].includes(f.name)).forEach(f=>add(f.name+"/",f.name));
   }catch(e){}
   return urls;
 }
