@@ -1,7 +1,7 @@
 // Saves the app on the device so it opens with no connection.
 // Network first: online it always serves the newest files and refreshes the saved copy; offline it uses the saved copy.
 // Bump CACHE whenever the app changes.
-const CACHE = 'loan-and-credit-card-payoff-planner-v1';
+const CACHE = 'loan-and-credit-card-payoff-planner-v2';
 const FILES = ['../theme.js', '../help.js', './', 'index.html', 'style.css', 'core.js', 'script.js', 'favicon.svg', 'manifest.webmanifest',
     'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 

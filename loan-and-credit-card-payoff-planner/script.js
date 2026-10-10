@@ -74,7 +74,7 @@
 
         const bal = textInput(p + 'bal', d.bal, { inputMode: 'decimal', maxLength: 20, placeholder: 'e.g. 3,200' });
         bal.oninput = () => upd('bal', bal.value);
-        const rate = textInput(p + 'rate', d.rate, { inputMode: 'decimal', maxLength: 12, placeholder: 'e.g. 19.9' });
+        const rate = textInput(p + 'rate', d.rate, { inputMode: 'decimal', maxLength: 12, placeholder: '19.9' });
         rate.oninput = () => upd('rate', rate.value);
         const rateBox = el('div', 'money rate'); const pct = el('span', 'pct', '% a year'); pct.setAttribute('aria-hidden', 'true'); rateBox.append(rate, pct);
         const row = el('div', 'two');
