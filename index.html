@@ -33,10 +33,19 @@ a{color:inherit}
 .dots.load i:nth-child(2){animation-delay:.12s}.dots.load i:nth-child(3){animation-delay:.24s}.dots.load i:nth-child(4){animation-delay:.36s}.dots.load i:nth-child(5){animation-delay:.48s}
 @keyframes hop{0%,55%,100%{transform:translateY(0)}25%{transform:translateY(-.55em)}}
 .sub{color:var(--mut);margin:0;font-size:1.1rem;max-width:36em}
+@media (max-width:380px){.hero h1{font-size:2.05rem}}
 .btn{display:inline-flex;align-items:center;gap:.5rem;min-height:50px;padding:0 24px;border-radius:999px;border:1.5px solid var(--acc);background:transparent;color:var(--acc);font:inherit;font-weight:700;text-decoration:none;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s,background .2s}
 .btn.main{background:var(--acc);color:var(--on-acc)}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px -12px var(--acc)}
 .btn:active{transform:scale(.97)}
+
+/* "Free" is the promise of this page, so it is the one word that shines: the five app colours, a light sweep, a tiny sparkle */
+.free{position:relative;display:inline-block;margin-right:.06em;padding:0 .02em;transform:rotate(-3deg);transform-origin:50% 80%;background:linear-gradient(100deg,#f97316 0%,#e8429d 24%,#7c5cf0 50%,#1ea7f0 76%,#14c48b 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 .06em .1em color-mix(in srgb,#7c5cf0 35%,transparent))}
+.free::after{content:attr(data-t);position:absolute;inset:0;padding:inherit;background:linear-gradient(105deg,transparent 38%,#ffffffee 50%,transparent 62%);background-size:260% 100%;background-position:160% 0;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:shine 4.2s ease-in-out infinite}
+.free::before{content:"";position:absolute;right:-.2em;top:-.02em;width:.3em;height:.3em;background:#fff8;background:linear-gradient(135deg,#fff,#ffd36b);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);transform-origin:50% 50%;animation:twinkle 4.2s ease-in-out infinite}
+@keyframes shine{0%,35%{background-position:160% 0}75%,100%{background-position:-60% 0}}
+@keyframes twinkle{0%,38%{transform:scale(0) rotate(0)}52%{transform:scale(1) rotate(40deg)}70%,100%{transform:scale(0) rotate(90deg)}}
+@media (prefers-reduced-motion:reduce){.free::after,.free::before{animation:none}.free::before{display:none}.free::after{display:none}}
 
 /* finder: search is the one big control, the rest is quiet */
 .finder{display:flex;gap:12px;margin:0 0 14px}
@@ -52,7 +61,16 @@ a{color:inherit}
 .cat-b:hover{color:var(--fg)}
 .cat-b[aria-pressed=true]{background:color-mix(in srgb,var(--acc) 16%,transparent);color:var(--acc)}
 .sortbox{flex:none;display:flex;align-items:center;gap:8px;color:var(--mut);font-size:.9rem}
-#sort{font:inherit;font-size:.92rem;font-weight:700;color:var(--fg);background:var(--card);border:1px solid var(--bd);border-radius:12px;min-height:40px;padding:0 10px}
+.sortbox{position:relative}
+.sortbtn{display:inline-flex;align-items:center;gap:12px;min-height:40px;padding:0 14px;border:1px solid var(--bd);border-radius:12px;background:var(--card);color:var(--fg);font:inherit;font-size:.92rem;font-weight:700;cursor:pointer;transition:border-color .15s}
+.sortbtn:hover,.sortbtn[aria-expanded=true]{border-color:var(--acc)}
+.sortbtn::after{content:"";width:7px;height:7px;margin-top:-3px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .2s var(--ease)}
+.sortbtn[aria-expanded=true]::after{transform:rotate(225deg);margin-top:3px}
+.menu{position:absolute;right:0;top:calc(100% + 8px);min-width:100%;margin:0;padding:6px;list-style:none;background:var(--card);border:1px solid var(--bd);border-radius:14px;box-shadow:0 18px 40px -14px #000a;z-index:30;outline:0;animation:menuIn .18s var(--ease)}
+@keyframes menuIn{from{opacity:0;transform:translateY(-6px) scale(.98)}}
+.menu li{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:10px 12px;border-radius:9px;font-size:.92rem;font-weight:700;white-space:nowrap;cursor:pointer}
+.menu li[data-active]{background:color-mix(in srgb,var(--acc) 16%,transparent);color:var(--acc)}
+.menu li[aria-selected=true]::after{content:"";width:6px;height:11px;margin-top:-3px;border-right:2px solid var(--acc);border-bottom:2px solid var(--acc);transform:rotate(40deg)}
 @media (max-width:640px){.finder{flex-direction:column}.finder .btn{justify-content:center}.bar{flex-wrap:wrap;gap:6px 12px}.cats{flex:1 1 100%}.sortbox{margin-left:auto}}
 
 /* cards */
@@ -117,7 +135,7 @@ dialog::backdrop{background:#0008;backdrop-filter:blur(5px)}
 <body>
 <main>
 <header class="hero">
-<h1>Free Web Apps<span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></h1>
+<h1><span class="free" data-t="Free">Free</span> Web Apps<span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></h1>
 <p class="sub">Handy tools I made for fun and give away for free. No ads, no sign-up, and a new one every day.</p>
 </header>
 
@@ -128,7 +146,12 @@ dialog::backdrop{background:#0008;backdrop-filter:blur(5px)}
 </div>
 <div class="bar">
 <div class="cats" id="cats" role="group" aria-label="Categories"></div>
-<label class="sortbox"><span>Sort</span><select id="sort" aria-label="Sort apps"><option value="new">Newest first</option><option value="az">A to Z</option></select></label>
+<div class="sortbox"><span id="sortLab">Sort</span>
+<button type="button" class="sortbtn" id="sortBtn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="sortLab sortVal"><span id="sortVal">Newest first</span></button>
+<ul class="menu" id="sortMenu" role="listbox" aria-labelledby="sortLab" tabindex="-1" hidden>
+<li role="option" id="so0" data-v="new" aria-selected="true">Newest first</li>
+<li role="option" id="so1" data-v="az" aria-selected="false">A to Z</li>
+</ul></div>
 </div>
 </section>
 
@@ -193,7 +216,7 @@ async function details(url,fb){
 /* ---- presentation ---- */
 const CACHE_KEY="apps.hub.v2";
 const $=id=>document.getElementById(id);
-const msg=$("msg"), grid=$("grid"), q=$("q"), tools=$("tools"), cats=$("cats"), spinBtn=$("spin"), sortSel=$("sort");
+const msg=$("msg"), grid=$("grid"), q=$("q"), tools=$("tools"), cats=$("cats"), spinBtn=$("spin");
 const RED=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const okColor=c=>/^#[0-9a-f]{3,8}$/i.test(c||"");
@@ -214,7 +237,25 @@ function renderCats(){
   cats.innerHTML=names.map(n=>`<button type="button" class="cat-b" data-c="${esc(n)}" aria-pressed="${n===cat}">${esc(n)}<small>${n==="All"?ALL.length:counts[n]}</small></button>`).join("");
 }
 cats.addEventListener("click",e=>{const b=e.target.closest(".cat-b");if(!b)return;cat=b.dataset.c;cats.querySelectorAll(".cat-b").forEach(x=>x.setAttribute("aria-pressed",x===b));renderGrid()});
-sortSel.addEventListener("change",()=>{sort=sortSel.value==="az"?"az":"new";try{localStorage.setItem("apps.hub.sort",sort)}catch(x){}renderGrid()});
+// sort menu: a custom listbox so it looks like the rest of the page (a native <select> opens in the system's own style)
+const sortBtn=$("sortBtn"), sortMenu=$("sortMenu"), sortOpts=[...sortMenu.querySelectorAll("[role=option]")]; let hi=0;
+function syncSort(){sortOpts.forEach(o=>o.setAttribute("aria-selected",o.dataset.v===sort));$("sortVal").textContent=sortOpts.find(o=>o.dataset.v===sort).textContent}
+function mark(){sortOpts.forEach((o,i)=>o.toggleAttribute("data-active",i===hi));sortMenu.setAttribute("aria-activedescendant",sortOpts[hi].id)}
+function openSort(){sortMenu.hidden=false;sortBtn.setAttribute("aria-expanded","true");hi=Math.max(0,sortOpts.findIndex(o=>o.dataset.v===sort));mark();sortMenu.focus()}
+function closeSort(back){sortMenu.hidden=true;sortBtn.setAttribute("aria-expanded","false");if(back)sortBtn.focus()}
+function chooseSort(v){sort=v==="az"?"az":"new";try{localStorage.setItem("apps.hub.sort",sort)}catch(x){}syncSort();closeSort(true);renderGrid()}
+sortBtn.addEventListener("click",()=>sortMenu.hidden?openSort():closeSort(true));
+sortBtn.addEventListener("keydown",e=>{if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();openSort()}});
+sortMenu.addEventListener("keydown",e=>{
+  if(e.key==="ArrowDown"){e.preventDefault();hi=(hi+1)%sortOpts.length;mark()}
+  else if(e.key==="ArrowUp"){e.preventDefault();hi=(hi-1+sortOpts.length)%sortOpts.length;mark()}
+  else if(e.key==="Home"){e.preventDefault();hi=0;mark()} else if(e.key==="End"){e.preventDefault();hi=sortOpts.length-1;mark()}
+  else if(e.key==="Enter"||e.key===" "){e.preventDefault();chooseSort(sortOpts[hi].dataset.v)}
+  else if(e.key==="Escape"){e.preventDefault();closeSort(true)} else if(e.key==="Tab")closeSort(false);
+});
+sortMenu.addEventListener("click",e=>{const o=e.target.closest("[role=option]");if(o)chooseSort(o.dataset.v)});
+sortMenu.addEventListener("pointermove",e=>{const i=sortOpts.indexOf(e.target.closest("[role=option]"));if(i>=0&&i!==hi){hi=i;mark()}});
+document.addEventListener("pointerdown",e=>{if(!sortMenu.hidden&&!e.target.closest(".sortbox"))closeSort(false)});
 q.addEventListener("input",()=>renderGrid());
 
 function renderGrid(){
@@ -263,7 +304,7 @@ pick.addEventListener("click",e=>{if(e.target===pick)pick.close()});
 function paint(apps){
   const key=JSON.stringify(apps.map(({cat,...r})=>r)); if(key===shown) return; shown=key;
   apps.forEach(a=>a.cat=category(a)); ALL=apps;
-  sortSel.value=sort;
+  syncSort();
   if(!apps.length){msg.textContent="No apps found yet. Check back soon.";return}
   tools.hidden=false; renderCats(); renderGrid();
 }
