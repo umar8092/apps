@@ -143,7 +143,7 @@
         facts.push(['In days', C.plural(r.totalDays, 'day')], ['Born on a', r.bornDay]);
         const nextLabel = isToday ? 'Next birthday' : 'Next birthday after that date';
         const nb = r.next.date <= C.MAX_DAY ? 'Turns ' + C.fmtNum(r.next.turning) + ' on ' + D(r.next.date) + ', ' + C.inDaysText(r.next.inDays) +
-            (r.next.inDays >= 14 ? ' (' + C.ymdText(r.next.wait) + ')' : '') : '';
+            (r.next.inDays >= 14 && C.ymdText(r.next.wait) !== C.plural(r.next.inDays, 'day') ? ' (' + C.ymdText(r.next.wait) + ')' : '') : '';
         if (nb) facts.push([nextLabel, nb]);
         let line = (isToday ? 'Today' : 'On ' + D(on)) + ' ' + (isToday ? 'you are' : 'the age is') + ' ' + C.ymdText(r) + (r.bornToday ? '' : ' old') + '.';
         if (r.bornToday) line = 'Born today. Welcome to the world!';

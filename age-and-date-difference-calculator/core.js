@@ -187,7 +187,8 @@
         if (item.kind === 'event') {
             const head = n.inDays === 0 ? 'Today' : n.inDays === 1 ? 'Tomorrow' : n.inDays > 0 ? plural(n.inDays, 'day') + ' to go' : inDaysText(n.inDays);
             // from two weeks away, also say it in months: "(1 month and 11 days)"
-            const extra = Math.abs(n.inDays) >= 14 ? ' (' + ymdText(n.inDays > 0 ? diffYMD(on, item.date, 'last') : diffYMD(item.date, on, 'last')) + ')' : '';
+            const ymd = Math.abs(n.inDays) >= 14 ? ymdText(n.inDays > 0 ? diffYMD(on, item.date, 'last') : diffYMD(item.date, on, 'last')) : '';
+            const extra = ymd && ymd !== plural(Math.abs(n.inDays), 'day') ? ' (' + ymd + ')' : '';
             return { head: head.charAt(0).toUpperCase() + head.slice(1), sub: fmtDate(item.date) + extra, next: n };
         }
         if (n.notYet) return { head: n.inDays === 1 ? 'Tomorrow' : plural(n.inDays, 'day') + ' to go', sub: (item.kind === 'birthday' ? 'Born on ' : 'Starts on ') + fmtDate(item.date), next: n };
