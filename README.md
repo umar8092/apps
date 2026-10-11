@@ -142,6 +142,14 @@ Never forget something on a trip again. Say who is going (adults, children, babi
 
 <a href="trip-packing-checklist/"><img src="trip-packing-checklist/screenshots/phone.png" alt="Trip Packing Checklist screenshot" width="260"></a>
 
+### <img src="age-and-date-difference-calculator/favicon.svg" width="36" height="36" align="center"> [Age and Date Difference Calculator](https://umar8092.github.io/apps/age-and-date-difference-calculator/)
+
+Your exact age in years, months and days today or on any date (like the last date of a job form), the days and working days between two dates, or the date 90 days, 6 months or 10 working days away. Your own days off and holidays, month ends explained, and My dates for birthdays and deadlines with the days left. Private, no sign-up, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/age-and-date-difference-calculator/) &middot; [Details and screenshots](age-and-date-difference-calculator/)
+
+<a href="age-and-date-difference-calculator/"><img src="age-and-date-difference-calculator/screenshots/phone.png" alt="Age and Date Difference Calculator screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

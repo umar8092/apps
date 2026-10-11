@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age and Date Difference Calculator: Exact Age, Days Between Dates, Free</title>
+    <meta name="description" content="Free age and date calculator. Find your exact age in years, months and days on any date, the days and working days between two dates, or the date 90 days or 6 months from now. Save birthdays and deadlines to see the days left. Private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/age-and-date-difference-calculator/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#0ea5e9">
+    <meta name="theme-color" content="#0369a1">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Age and Date Difference Calculator">
+    <meta property="og:url" content="https://umar8092.github.io/apps/age-and-date-difference-calculator/">
+    <meta property="og:title" content="Age and Date Difference Calculator: Exact Age and Days Between Dates">
+    <meta property="og:description" content="Exact age on any date, days and working days between two dates, and the date after adding days, weeks, months or years. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Age and Date Difference Calculator","alternateName":["Age Calculator","Days Between Dates Calculator","Date Calculator","Working Days Calculator","Birthday Countdown"],"url":"https://umar8092.github.io/apps/age-and-date-difference-calculator/","description":"A free age and date calculator: exact age in years, months and days on any date, days and working days between two dates, adding or subtracting days, weeks, months or years, and a saved list of birthdays and deadlines with the days left.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"age calculator, exact age, age on date, days between dates, working days calculator, add days to date, birthday countdown, days until","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I find my age on a certain date, like the last date of a job application?","acceptedAnswer":{"@type":"Answer","text":"Pick Age, type your date of birth, then change Age on to the date the form asks about. Someone born on 20 January 2002 is 24 years, 11 months and 12 days old on 1 January 2027."}},{"@type":"Question","name":"Does the day count include the end date?","acceptedAnswer":{"@type":"Answer","text":"Not unless you tick Count the end date too. From 1 June to 1 November 2026 is 153 days, or 154 days when both dates are counted. The result always says the first and last day it counted."}},{"@type":"Question","name":"What is one month after 31 January?","acceptedAnswer":{"@type":"Answer","text":"28 February (29 February in a leap year), because 31 February does not exist. The app says when it has moved a date to the last day of the month."}},{"@type":"Question","name":"When is the birthday of someone born on 29 February?","acceptedAnswer":{"@type":"Answer","text":"In years without 29 February you can choose 28 February or 1 March. Rules differ between countries, so pick the one you use."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Age and Date Difference Calculator</h1>
+        <p class="sub">Your exact age on any date, the days between two dates, or the date after adding days, weeks, months or years.</p>
+        <p class="today" id="today-line"></p>
+    </header>
+
+    <div class="col-main">
+        <section class="card in-card" aria-label="What do you want to work out?">
+            <div class="tabs" role="tablist" aria-label="What do you want to work out?">
+                <button type="button" role="tab" id="tab-age" aria-controls="panel-age" data-mode="age">Age</button>
+                <button type="button" role="tab" id="tab-between" aria-controls="panel-between" data-mode="between">Days between dates</button>
+                <button type="button" role="tab" id="tab-add" aria-controls="panel-add" data-mode="add">Add or subtract</button>
+            </div>
+
+            <form class="panel" id="panel-age" role="tabpanel" aria-labelledby="tab-age" novalidate autocomplete="off">
+                <label for="birth">Date of birth</label>
+                <input id="birth" type="date" min="1000-01-01" max="9999-12-31">
+                <label for="age-on">Age on</label>
+                <div class="date-row">
+                    <input id="age-on" type="date" min="1000-01-01" max="9999-12-31" aria-describedby="age-on-hint">
+                    <button type="button" class="chip" id="age-on-today">Today</button>
+                </div>
+                <p class="hint" id="age-on-hint">Today, or the date a form asks about, like the last date to apply.</p>
+                <fieldset id="feb29-box" hidden>
+                    <legend>Born on 29 February. In other years the birthday counts on:</legend>
+                    <div class="toggles">
+                        <label><input type="radio" name="rule" value="last" checked> 28 February</label>
+                        <label><input type="radio" name="rule" value="next"> 1 March</label>
+                    </div>
+                </fieldset>
+                <p class="err" id="age-err" role="alert"></p>
+            </form>
+
+            <form class="panel" id="panel-between" role="tabpanel" aria-labelledby="tab-between" novalidate autocomplete="off" hidden>
+                <div class="two">
+                    <div><label for="from">From</label><input id="from" type="date" min="1000-01-01" max="9999-12-31"></div>
+                    <div><label for="to">To</label><input id="to" type="date" min="1000-01-01" max="9999-12-31"></div>
+                </div>
+                <div class="chips" aria-label="Quick picks">
+                    <button type="button" class="chip" id="from-today">From today</button>
+                    <button type="button" class="chip" id="to-today">To today</button>
+                    <button type="button" class="chip" id="swap">Swap dates</button>
+                </div>
+                <label class="check"><input type="checkbox" id="include-end"> Count the end date too (+1 day)</label>
+                <p class="err" id="between-err" role="alert"></p>
+            </form>
+
+            <form class="panel" id="panel-add" role="tabpanel" aria-labelledby="tab-add" novalidate autocomplete="off" hidden>
+                <label for="start">Start date</label>
+                <div class="date-row">
+                    <input id="start" type="date" min="1000-01-01" max="9999-12-31">
+                    <button type="button" class="chip" id="start-today">Today</button>
+                </div>
+                <fieldset>
+                    <legend>Add or subtract?</legend>
+                    <div class="toggles">
+                        <label><input type="radio" name="sign" value="1" checked> Add (later)</label>
+                        <label><input type="radio" name="sign" value="-1"> Subtract (earlier)</label>
+                    </div>
+                </fieldset>
+                <div class="two amount-row">
+                    <div><label for="amount">How many</label><input id="amount" type="text" inputmode="numeric" maxlength="9" placeholder="e.g. 30"></div>
+                    <div><label for="unit">Of what</label>
+                        <select id="unit">
+                            <option value="days">Days</option>
+                            <option value="weeks">Weeks</option>
+                            <option value="months">Months</option>
+                            <option value="years">Years</option>
+                            <option value="workdays">Working days</option>
+                        </select></div>
+                </div>
+                <div class="chips" id="amount-chips" aria-label="Quick picks">
+                    <button type="button" class="chip" data-a="7" data-u="days">7 days</button>
+                    <button type="button" class="chip" data-a="30" data-u="days">30 days</button>
+                    <button type="button" class="chip" data-a="90" data-u="days">90 days</button>
+                    <button type="button" class="chip" data-a="6" data-u="months">6 months</button>
+                    <button type="button" class="chip" data-a="1" data-u="years">1 year</button>
+                    <button type="button" class="chip" data-a="10" data-u="workdays">10 working days</button>
+                </div>
+                <p class="err" id="add-err" role="alert"></p>
+            </form>
+
+            <details class="workdays" id="workdays-box">
+                <summary>Working days: <span id="wd-summary">Monday to Friday</span></summary>
+                <fieldset>
+                    <legend>Days off every week</legend>
+                    <div class="days" id="weekend"></div>
+                </fieldset>
+                <p class="err" id="weekend-err" role="alert"></p>
+                <h3 class="sub-h">Holidays and other days off <span class="opt">(optional)</span></h3>
+                <p class="hint">They are left out of working days.</p>
+                <div class="date-row">
+                    <label class="sr" for="hol-date">Holiday date</label>
+                    <input id="hol-date" type="date" min="1000-01-01" max="9999-12-31">
+                    <button type="button" class="chip" id="hol-add">Add day off</button>
+                </div>
+                <p class="err" id="hol-err" role="alert"></p>
+                <ul class="hols" id="hols"></ul>
+                <p class="msg" id="hol-msg" role="status"></p>
+            </details>
+            <button type="button" id="clear" class="secondary clear">Start over</button>
+            <p class="msg" id="clear-msg" role="status"></p>
+        </section>
+        <section class="card mine" id="mine" aria-labelledby="mine-h">
+            <h2 id="mine-h">My dates</h2>
+            <p class="hint mine-hint">Birthdays, anniversaries and deadlines, with the days left each time you open the app.</p>
+            <ul class="saved" id="saved"></ul>
+            <p class="empty" id="saved-empty">No saved dates yet. Save a birthday from the Age answer, or tap <b>+ Add a date</b>.</p>
+            <p class="msg" id="saved-msg" role="status"></p>
+            <button type="button" id="open-new" class="link">+ Add a date</button>
+            <form id="new-form" class="item-form" novalidate autocomplete="off" hidden>
+                <h3>Add a date</h3>
+                <label for="n-name">Name</label>
+                <input id="n-name" type="text" maxlength="60" placeholder="e.g. Mum's birthday">
+                <label for="n-date">Date</label>
+                <input id="n-date" type="date" min="1000-01-01" max="9999-12-31">
+                <label for="n-kind">What is it?</label>
+                <select id="n-kind">
+                    <option value="birthday">Birthday (every year)</option>
+                    <option value="anniversary">Anniversary (every year)</option>
+                    <option value="event">One date (deadline, trip, exam)</option>
+                </select>
+                <p class="err" id="n-err" role="alert"></p>
+                <div class="form-btns">
+                    <button type="submit" class="primary">Add</button>
+                    <button type="button" id="new-cancel" class="secondary">Cancel</button>
+                </div>
+            </form>
+            <p class="hint">Saved only in this browser on this device. Nothing is sent anywhere, and the app works offline.</p>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card result" id="result" aria-labelledby="res-label" aria-live="polite">
+            <h2 class="big-label" id="res-label">Answer</h2>
+            <p class="big none" id="r-big">Type a date to see the answer</p>
+            <p class="r-line" id="r-line"></p>
+            <dl class="facts" id="r-facts"></dl>
+            <p class="note" id="r-note" hidden></p>
+            <div class="save-box" id="save-box" hidden>
+                <button type="button" id="open-save" class="secondary">Save to My dates</button>
+                <form id="save-form" novalidate autocomplete="off" hidden>
+                    <label for="save-name">Name</label>
+                    <input id="save-name" type="text" maxlength="60">
+                    <p class="err" id="save-err" role="alert"></p>
+                    <div class="form-btns">
+                        <button type="submit" class="primary">Save</button>
+                        <button type="button" id="save-cancel" class="secondary">Cancel</button>
+                    </div>
+                </form>
+                <p class="msg" id="save-msg" role="status"></p>
+            </div>
+            <div class="tool-grid" id="tools">
+                <button type="button" id="copy" class="secondary">Copy answer</button>
+                <a id="mail" class="secondary" href="mailto:">Email answer</a>
+                <button type="button" id="print" class="secondary">Print</button>
+            </div>
+            <p class="msg" id="tools-msg" role="status"></p>
+        </section>
+
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is my age worked out?</summary><p>It counts whole years from your birthday, then whole months, then the days left. Someone born on 15 August 1990 is 36 years, 1 month and 26 days old on 11 October 2026: 36 years takes them to 15 August 2026, one month to 15 September, and 26 more days to 11 October.</p></details>
+        <details><summary>Is the end date counted?</summary><p>Not unless you tick <b>Count the end date too</b>. From 1 June to 1 November 2026 is 153 days; with the end date counted it is 154. The answer always shows the first and last day it counted, so there is no guessing.</p></details>
+        <details><summary>What counts as a working day?</summary><p>Monday to Friday unless you change it under <b>Working days</b>. Pick your own days off (for example Friday and Saturday) and add holidays; they are left out. Adding working days does not count the start date, so 5 working days after Friday 9 October 2026 is Friday 16 October.</p></details>
+        <details><summary>What is one month after 31 January?</summary><p>28 February, or 29 February in a leap year, because 31 February does not exist. The answer says when a date was moved to the last day of the month.</p></details>
+        <details><summary>Born on 29 February?</summary><p>You choose whether your birthday counts on 28 February or 1 March in other years. Rules differ between countries, so pick the one you use.</p></details>
+        <details><summary>Do time zones change the answer?</summary><p>No. The app counts calendar days, so the time of day, summer time and time zones never move a result. "Today" is today's date on your device.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. There is no account. Your dates stay in this browser on this device, and the app works offline once it has loaded.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/age-and-date-difference-calculator">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Age and Date Difference Calculator", "sections": [
+ {"h": "Pick what you want to work out", "steps": ["Tap \"Age\" for an exact age, \"Days between dates\" to count the days from one date to another, or \"Add or subtract\" to find the date a number of days, weeks, months or years away.", "The answer shows straight away as you type. Your dates are kept for next time."]},
+ {"h": "Age", "steps": ["Type the Date of birth.", "\"Age on\" is today. Change it to see the age on another date, like the last date of a job application or an exam form. \"Today\" sets it back.", "The answer gives the age in years, months and days, the total in months, weeks and days, the weekday of birth and the next birthday with the days left.", "Born on 29 February? Choose whether the birthday counts on 28 February or 1 March in other years.", "\"Save to My dates\" keeps the birthday so you can see the days left every time."]},
+ {"h": "Days between dates", "steps": ["Type From and To. \"From today\" and \"To today\" fill in today's date, and \"Swap dates\" swaps them.", "The answer gives the days, the same in months and days, and in weeks and days, plus the working days.", "The end date is not counted unless you tick \"Count the end date too\". The answer always says the first and last day it counted.", "If To is before From, the answer still counts the days and says the dates are the other way round."]},
+ {"h": "Add or subtract", "steps": ["Type the Start date (or tap \"Today\"), pick Add or Subtract, then type How many and pick days, weeks, months, years or working days. The quick picks fill in common ones like 90 days or 6 months.", "Months and years keep the same day of the month. When that day does not exist, like 31 April, the answer uses the last day of the month and says so.", "Working days skip your days off and holidays, and the start date is not counted."]},
+ {"h": "Working days and holidays", "steps": ["Open \"Working days\" to choose the days off every week (Saturday and Sunday unless you change them).", "Under Holidays and other days off, pick a date and tap \"Add day off\". \"Remove\" takes one off the list, and \"Undo\" brings it back.", "These settings are used for working days in both Days between dates and Add or subtract."]},
+ {"h": "My dates", "steps": ["Tap \"+ Add a date\", type a Name, the Date and what it is: a Birthday, an Anniversary or One date such as a deadline or a trip.", "Each saved date shows how many days are left: \"Turns 60 in 154 days\", \"10th anniversary tomorrow\" or \"42 days to go\". Past one-off dates show how long ago they were.", "The soonest is at the top. \"Edit\" changes a date, \"Delete\" removes it and \"Undo\" brings it back."]},
+ {"h": "Share and start over", "steps": ["\"Copy answer\" copies the answer as text, \"Email answer\" opens your mail app with it written and no address filled in, and \"Print\" prints it.", "\"Start over\" clears the dates in the part you are using. \"Undo\" brings them back."]},
+ {"h": "Good to know", "tips": true, "steps": ["Dates are counted on the calendar, so time zones and summer time never change a result.", "Dates from the year 1000 to 9999 work.", "Everything stays in this browser on this device. Nothing is sent anywhere, and the app works offline once it has loaded."]}
+]}</script>
+</body>
+</html>

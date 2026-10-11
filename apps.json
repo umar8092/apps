@@ -100,5 +100,11 @@
     "name": "Trip Packing Checklist",
     "description": "A packing list for your trip with how many of each to pack, one list per person. Tick things off as you pack. Private, no sign-up.",
     "color": "#a855f7"
+  },
+  {
+    "slug": "age-and-date-difference-calculator",
+    "name": "Age and Date Difference Calculator",
+    "description": "Exact age in years, months and days on any date, days and working days between two dates, and the date after adding days or months. Save birthdays and deadlines.",
+    "color": "#0ea5e9"
   }
 ]
