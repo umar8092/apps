@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature Maker for Forms: Signature JPG in 140 × 60 px and 10 to 20 KB</title>
+    <meta name="description" content="Free signature maker for online forms. Sign on the screen or photograph your signature on paper and get a clean signature JPG or see-through PNG in the exact pixels and KB the form asks for, like 140 × 60 px and 10 to 20 KB. Nothing is uploaded. No sign-up, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/signature-maker-for-forms/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#2563eb">
+    <meta name="theme-color" content="#1d4ed8">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Signature Maker for Forms">
+    <meta property="og:url" content="https://umar8092.github.io/apps/signature-maker-for-forms/">
+    <meta property="og:title" content="Signature Maker for Forms: the exact pixels and KB your form asks for">
+    <meta property="og:description" content="Sign on the screen or photograph your signature, and get a clean signature file like 140 × 60 px, 10 to 20 KB. Nothing is uploaded. Free, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Signature Maker for Forms","alternateName":["Signature Resizer 20KB","Online Signature Maker","Signature 140x60 10-20 KB","Transparent Signature PNG"],"url":"https://umar8092.github.io/apps/signature-maker-for-forms/","description":"Sign on the screen or photograph your signature on paper, and get a clean signature JPG or see-through PNG in the exact pixels and KB an online form asks for.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"signature maker, signature resize 20kb, signature 140x60, signature for online form, transparent signature png, draw signature online","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I make a signature of 140 × 60 pixels between 10 KB and 20 KB?","acceptedAnswer":{"@type":"Answer","text":"Sign in the box or choose a photo of your signature on paper. Leave the size on 140 × 60 px, 10 to 20 KB, check the result and tap Download."}},{"@type":"Question","name":"Is my signature uploaded anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. Everything happens in your browser on your device. Your signature is only kept on the device if you tick Remember my signature on this device."}},{"@type":"Question","name":"How do I get a signature with a see-through background?","acceptedAnswer":{"@type":"Answer","text":"Choose See-through PNG for PDFs in the size box. The file has no background, so it can sit on top of a PDF or Word document."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Signature Maker for Forms</h1>
+        <p class="sub">Sign on the screen or use a photo of your signature on paper, and get a clean signature file in the exact pixels and KB the form asks for. Nothing is uploaded.</p>
+    </header>
+
+    <section class="card make" id="make" aria-labelledby="make-h">
+        <h2 id="make-h"><span class="step">1</span> Your signature</h2>
+        <div class="tabs" role="tablist" aria-label="How to make your signature">
+            <button type="button" role="tab" id="tab-draw" aria-controls="panel-draw" aria-selected="true">Sign on screen</button>
+            <button type="button" role="tab" id="tab-photo" aria-controls="panel-photo" aria-selected="false" tabindex="-1">Use a photo</button>
+        </div>
+
+        <div id="panel-draw" role="tabpanel" aria-labelledby="tab-draw">
+            <div class="pad-wrap" id="pad-wrap">
+                <canvas id="pad" role="img" aria-label="Signing box. Sign with your finger, a pen or the mouse."></canvas>
+                <div class="pad-line" aria-hidden="true"><span>&times;</span></div>
+                <p class="pad-hint" id="pad-hint" aria-hidden="true">Sign here</p>
+            </div>
+            <div class="row-btns">
+                <button type="button" class="secondary" id="undo-line" disabled>Undo last line</button>
+                <button type="button" class="secondary" id="clear-pad" disabled>Clear</button>
+            </div>
+            <p class="msg" id="pad-msg" role="status"></p>
+            <fieldset class="seg-field">
+                <legend>Line thickness</legend>
+                <div class="seg">
+                    <input type="radio" name="thick" id="th-thin" value="thin"><label for="th-thin">Thin</label>
+                    <input type="radio" name="thick" id="th-medium" value="medium" checked><label for="th-medium">Medium</label>
+                    <input type="radio" name="thick" id="th-thick" value="thick"><label for="th-thick">Thick</label>
+                </div>
+            </fieldset>
+            <p class="hint">Sign the way you sign on paper. Turn your phone sideways for more room. No mouse or touch screen? Use <b>Use a photo</b>.</p>
+        </div>
+
+        <div id="panel-photo" role="tabpanel" aria-labelledby="tab-photo" hidden>
+            <div id="photo-pick">
+                <input type="file" id="file" class="file-input" accept="image/*,.heic,.heif">
+                <label class="drop" id="drop" for="file">
+                    <svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><path d="M6 15h8l3-5h14l3 5h8v24H6z" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round"/><circle cx="24" cy="26" r="7" fill="none" stroke="currentColor" stroke-width="3.4"/></svg>
+                    <b>Choose a photo of your signature</b>
+                    <span class="drop-sub">or take one, or drag it here</span>
+                </label>
+                <p class="hint">Sign on plain white paper with a dark pen, then take the photo from straight above in good light. Shadows and grey paper are cleaned away.</p>
+            </div>
+            <div id="photo-work" hidden>
+                <canvas id="photo-view" aria-label="Your photo after cleaning. The dashed box shows the part used as your signature."></canvas>
+                <p class="hint" id="crop-hint">The dashed box is the part used as your signature. If it picked up something else, drag a new box around your signature.</p>
+                <div id="clean-row">
+                    <label for="clean" class="first">Clean-up</label>
+                    <input type="range" id="clean" min="1" max="9" step="1" value="5">
+                    <div class="range-ends" aria-hidden="true"><span>Keep faint ink</span><span>Whiter paper</span></div>
+                </div>
+                <div class="row-btns three">
+                    <button type="button" class="secondary" id="rotate">Rotate</button>
+                    <button type="button" class="secondary" id="crop-reset" hidden>Use the whole photo</button>
+                    <button type="button" class="secondary" id="photo-again">Choose another photo</button>
+                </div>
+            </div>
+            <p class="msg" id="photo-msg" role="status"></p>
+        </div>
+
+        <fieldset class="seg-field">
+            <legend>Ink colour</legend>
+            <div class="seg">
+                <input type="radio" name="ink" id="ink-black" value="black" checked><label for="ink-black"><i class="dot" style="background:#111111"></i>Black</label>
+                <input type="radio" name="ink" id="ink-blue" value="blue"><label for="ink-blue"><i class="dot" style="background:#1b3a9e"></i>Blue</label>
+            </div>
+        </fieldset>
+    </section>
+
+    <section class="card size" id="size" aria-labelledby="size-h">
+        <h2 id="size-h"><span class="step">2</span> The size the form asks for</h2>
+        <label for="preset" class="first">Pick the size</label>
+        <select id="preset"></select>
+        <fieldset class="seg-field">
+            <legend>File type</legend>
+            <div class="seg two-lines">
+                <input type="radio" name="fmt" id="fmt-jpg" value="jpg" checked><label for="fmt-jpg">JPG<small>white background</small></label>
+                <input type="radio" name="fmt" id="fmt-png" value="png"><label for="fmt-png">PNG<small>see-through</small></label>
+            </div>
+        </fieldset>
+        <label for="w">Width and height in pixels</label>
+        <div class="two">
+            <div class="money"><input type="text" id="w" inputmode="numeric" autocomplete="off" aria-label="Width in pixels" aria-describedby="px-hint err-px"><span class="suffix">px wide</span></div>
+            <div class="money"><input type="text" id="h" inputmode="numeric" autocomplete="off" aria-label="Height in pixels" aria-describedby="px-hint err-px"><span class="suffix">px high</span></div>
+        </div>
+        <p class="hint" id="px-hint">Leave both empty to keep your signature’s own shape.</p>
+        <p class="err" id="err-px" role="alert"></p>
+        <div class="two kb">
+            <div>
+                <label for="max">Must be under</label>
+                <div class="money"><input type="text" id="max" inputmode="decimal" autocomplete="off" placeholder="no limit" aria-describedby="err-max"><span class="suffix">KB</span></div>
+            </div>
+            <div id="min-row" hidden>
+                <label for="min">At least</label>
+                <div class="money"><input type="text" id="min" inputmode="decimal" autocomplete="off" placeholder="none" aria-describedby="err-min"><span class="suffix">KB</span></div>
+            </div>
+        </div>
+        <button type="button" class="link small" id="add-min">+ Add a smallest size (optional)</button>
+        <p class="err" id="err-max" role="alert"></p>
+        <p class="err" id="err-min" role="alert"></p>
+    </section>
+
+    <section class="card result" id="result" aria-labelledby="res-h">
+        <h2 id="res-h"><span class="step">3</span> Your signature file</h2>
+        <p class="empty" id="res-empty">Sign in box 1, or choose a photo of your signature, and your file appears here ready to download.</p>
+        <div id="res-body" hidden>
+            <div class="preview" id="preview"><img id="res-img" alt="Your signature file, shown larger"></div>
+            <div class="res-info">
+                <p class="r-size" id="res-size"></p>
+                <p class="r-verdict" id="res-verdict"></p>
+                <p class="r-detail" id="res-detail"></p>
+                <div class="real" id="real-wrap"><span>At real size:</span><img id="res-real" alt="Your signature file at its real size"></div>
+            </div>
+            <div class="r-btns">
+                <a class="primary" id="download" href="#" download="signature.jpg">Download</a>
+                <button type="button" class="secondary" id="share" hidden>Share</button>
+                <button type="button" class="secondary" id="copy" hidden>Copy picture</button>
+            </div>
+            <p class="msg" id="res-msg" role="status"></p>
+        </div>
+        <div class="keep">
+            <label class="check"><input type="checkbox" id="remember"> Remember my signature on this device</label>
+            <p class="hint">Saved only in this browser, for your next form. Leave it off on a shared computer.</p>
+        </div>
+        <button type="button" class="danger" id="start-over">Start over</button>
+        <p class="msg" id="start-msg" role="status"></p>
+        <p class="sr-only" id="announce" aria-live="polite"></p>
+    </section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Is my signature uploaded anywhere?</summary><p>No. Everything happens inside your browser, on your device. Nothing is sent anywhere, and once the page has loaded it works offline too. Your signature is kept on the device only if you tick <b>Remember my signature on this device</b>, and unticking it deletes it.</p></details>
+        <details><summary>The form says &ldquo;140 &times; 60 pixels, 10 to 20 KB&rdquo;. What do I pick?</summary><p>Pick <b>140 &times; 60 px, 10 to 20 KB</b> (it is the first choice). For any other size, type the width, height and KB the form gives; <b>+ Add a smallest size</b> is for forms that say &ldquo;at least&rdquo; or &ldquo;between&rdquo;.</p></details>
+        <details><summary>My signature is only 4 KB. How does it reach 10 KB?</summary><p>A small, clean signature is naturally tiny. When a form asks for at least 10 KB, the app adds empty space inside the file. The picture does not change; only the file size does, so the form accepts it.</p></details>
+        <details><summary>Does 1 KB mean 1000 or 1024 bytes?</summary><p>Websites count it differently, so the file passes both ways: <b>under 20 KB</b> means at most 20,000 bytes, and <b>at least 10 KB</b> means at least 10,240 bytes.</p></details>
+        <details><summary>How do I sign a PDF or Word document with it?</summary><p>Pick <b>See-through PNG for PDFs</b>. The file has no background, so it sits on the page without a white box. Download it (or tap <b>Copy picture</b> and paste it), then insert it as a picture in your document or PDF app.</p></details>
+        <details><summary>My photo has lines, shadows or a table in it.</summary><p>The app cleans grey paper and shadows away and ignores marks touching the edge of the photo. If something else is still picked up, drag a box around your signature on the cleaned photo, or move <b>Clean-up</b> towards <b>Whiter paper</b>. Plain white paper and a dark pen work best.</p></details>
+        <details><summary>Is the signature stretched to fit the pixels?</summary><p>No. It is made as big as fits inside the size, with a little space around it, and the rest is background. It never looks squashed.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/signature-maker-for-forms">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Signature Maker for Forms", "sections": [
+ {"h": "1. Make your signature", "steps": ["\"Sign on screen\": sign in the box with your finger, a pen or the mouse. \"Undo last line\" takes back the last line you drew, \"Clear\" empties the box (with Undo).", "\"Line thickness\" makes the whole signature thinner or bolder. Pick \"Thick\" if it looks faint at real size.", "\"Use a photo\": sign on plain white paper with a dark pen, take a photo from straight above, and choose it. Grey paper and shadows are cleaned away.", "On the cleaned photo the dashed box is the part used. If it picked up something else, drag a new box around your signature. \"Use the whole photo\" undoes your box.", "\"Clean-up\" moves between \"Keep faint ink\" (for a light pen) and \"Whiter paper\" (for a grey or lined page). \"Rotate\" turns a sideways photo.", "\"Ink colour\" makes the signature black or blue, whichever the form asks for."]},
+ {"h": "2. Set the size the form asks for", "steps": ["\"Pick the size\" has common sizes, such as 140 × 60 px, 10 to 20 KB. Choosing one fills in the boxes below.", "Or type your own: the width and height in pixels, \"Must be under\" in KB, and \"+ Add a smallest size (optional)\" when the form says \"at least\" or \"between\".", "Leave width and height empty to keep your signature's own shape. Leave \"Must be under\" empty for no limit.", "\"File type\": JPG has a white background, for upload forms. PNG is see-through, to put on a PDF or Word document."]},
+ {"h": "3. Download it", "steps": ["The big number is the file size. A green line such as \"Between 10 KB and 20 KB. Ready to upload.\" means the form will accept it.", "\"At real size\" shows how small it really is. If it is hard to read, choose \"Thick\".", "\"Download\" saves the file (for example signature-140x60.jpg). \"Share\" sends it to another app on a phone, and \"Copy picture\" lets you paste it into a document.", "\"Remember my signature on this device\" keeps it in this browser for your next form. Untick it to delete it.", "\"Start over\" clears the signature, with Undo. Your size is remembered."]},
+ {"h": "Good to know", "tips": true, "steps": ["Nothing is uploaded. Everything happens on your device, and it works offline once loaded.", "The signature is never stretched: it fits inside the size with a little space around it.", "When a form wants at least 10 KB but the signature is smaller, empty space is added inside the file. The picture does not change.", "The size passes whether the website counts 1 KB as 1000 or 1024 bytes."]}
+]}</script>
+</body>
+</html>

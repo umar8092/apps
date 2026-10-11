@@ -150,6 +150,14 @@ Your exact age in years, months and days today or on any date (like the last dat
 
 <a href="age-and-date-difference-calculator/"><img src="age-and-date-difference-calculator/screenshots/phone.png" alt="Age and Date Difference Calculator screenshot" width="260"></a>
 
+### <img src="signature-maker-for-forms/favicon.svg" width="36" height="36" align="center"> [Signature Maker for Forms](https://umar8092.github.io/apps/signature-maker-for-forms/)
+
+Sign on the screen or photograph your signature on paper, and get a clean signature file in the exact pixels and KB an online form asks for, like 140 × 60 px and 10 to 20 KB. Shadows and grey paper are cleaned away, black or blue ink, a see-through PNG for signing documents, and nothing is uploaded. Private, no sign-up, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/signature-maker-for-forms/) &middot; [Details and screenshots](signature-maker-for-forms/)
+
+<a href="signature-maker-for-forms/"><img src="signature-maker-for-forms/screenshots/phone.png" alt="Signature Maker for Forms screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
