@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medication Tracker: Did I Take My Pill? Free Pill Log</title>
+    <meta name="description" content="Free medication tracker and pill log. Tap Taken when you take a dose and see what you have taken today, what is due next, and when it is safe to take the next one. Warns about double doses. Private, no sign-up, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/medication-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#22c55e">
+    <meta name="theme-color" content="#15803d">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Medication Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/medication-tracker/">
+    <meta property="og:title" content="Medication Tracker: Did I Take My Pill?">
+    <meta property="og:description" content="Tap Taken when you take a dose. See what you have taken today, what is due next and when the next dose is safe. Warns about double doses. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Medication Tracker","alternateName":["Pill Tracker","Pill Log","Did I Take My Pill","Medicine Log"],"url":"https://umar8092.github.io/apps/medication-tracker/","description":"A free medication tracker and pill log. Tap Taken for each dose, see what is taken and due today, when the next as-needed dose is allowed, and a history to show your doctor.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"medication tracker, pill tracker, did I take my pill, medicine log, pill reminder, double dose warning, no sign up","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I know if I already took my pill today?","acceptedAnswer":{"@type":"Answer","text":"Tap Taken each time you take a dose. The Today list shows every set time with Taken at and the time, or Not taken yet, so you can check at a glance instead of guessing."}},{"@type":"Question","name":"Does it warn me about a double dose?","acceptedAnswer":{"@type":"Answer","text":"Yes. If you log a dose soon after the last one, or more doses in 24 hours than the limit you set, it asks you to confirm and tells you when the last dose was."}},{"@type":"Question","name":"Can it remind me?","acceptedAnswer":{"@type":"Answer","text":"Yes. Tap Add reminders to my calendar. Your phone's calendar then reminds you at every set time, even when this page is closed."}},{"@type":"Question","name":"Is my information private?","acceptedAnswer":{"@type":"Answer","text":"Yes. There is no account. Everything stays in this browser on this device and nothing is sent anywhere. The app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Medication Tracker</h1>
+        <p class="sub">Tap <b>Taken</b> when you take a dose. See what you have taken today, what is due next, and when it is safe to take the next one.</p>
+    </header>
+
+    <div class="col-main">
+        <section class="card today" id="today" aria-labelledby="today-h">
+            <h2 class="big-label" id="today-h">Today</h2>
+            <p class="big" id="r-big" aria-live="polite">No medicines yet</p>
+            <p class="meta" id="r-next"></p>
+            <p class="msg" id="today-msg" role="status"></p>
+            <div id="intro">
+                <p class="lead">Add each medicine you take below, with the times you take it. Then tap <b>Taken</b> each time you take a dose, and never wonder &ldquo;did I take it?&rdquo; again.</p>
+                <button type="button" id="demo" class="ghost">Try an example</button>
+            </div>
+            <ul class="meds" id="meds"></ul>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card add-card" id="add-card" aria-labelledby="form-h">
+            <form id="form" novalidate autocomplete="off">
+                <h2 id="form-h">Add a medicine</h2>
+                <label for="f-name">Medicine and strength</label>
+                <input id="f-name" type="text" maxlength="60" placeholder="e.g. Metformin 500 mg" enterkeyhint="done">
+
+                <fieldset class="seg-wrap">
+                    <legend>When do you take it?</legend>
+                    <div class="seg">
+                        <label><input type="radio" name="kind" value="times" checked><span>At set times</span></label>
+                        <label><input type="radio" name="kind" value="needed"><span>Only when needed</span></label>
+                    </div>
+                </fieldset>
+
+                <div id="times-box">
+                    <p class="field-h" id="times-h">Times</p>
+                    <div class="presets" role="group" aria-label="Quick pick">
+                        <button type="button" data-preset="1">Once a day</button>
+                        <button type="button" data-preset="2">Twice a day</button>
+                        <button type="button" data-preset="3">3 times</button>
+                        <button type="button" data-preset="4">4 times</button>
+                    </div>
+                    <ul class="times" id="times" aria-labelledby="times-h"></ul>
+                    <button type="button" id="add-time" class="link">+ Add another time</button>
+                    <fieldset class="seg-wrap">
+                        <legend>Which days?</legend>
+                        <div class="seg">
+                            <label><input type="radio" name="every" value="all" checked><span>Every day</span></label>
+                            <label><input type="radio" name="every" value="some"><span>Some days</span></label>
+                        </div>
+                    </fieldset>
+                    <div class="days" id="days" hidden role="group" aria-label="Days of the week">
+                        <label><input type="checkbox" value="1"><span>Mon</span></label>
+                        <label><input type="checkbox" value="2"><span>Tue</span></label>
+                        <label><input type="checkbox" value="3"><span>Wed</span></label>
+                        <label><input type="checkbox" value="4"><span>Thu</span></label>
+                        <label><input type="checkbox" value="5"><span>Fri</span></label>
+                        <label><input type="checkbox" value="6"><span>Sat</span></label>
+                        <label><input type="checkbox" value="0"><span>Sun</span></label>
+                    </div>
+                </div>
+
+                <div id="needed-box" hidden>
+                    <div class="two">
+                        <div>
+                            <label for="f-gap">Wait at least</label>
+                            <select id="f-gap">
+                                <option value="2">2 hours</option>
+                                <option value="3">3 hours</option>
+                                <option value="4" selected>4 hours</option>
+                                <option value="6">6 hours</option>
+                                <option value="8">8 hours</option>
+                                <option value="12">12 hours</option>
+                                <option value="24">24 hours</option>
+                                <option value="custom">Other&hellip;</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="f-max">Most in 24 hours</label>
+                            <select id="f-max">
+                                <option value="">No limit</option>
+                                <option value="1">1 dose</option>
+                                <option value="2">2 doses</option>
+                                <option value="3">3 doses</option>
+                                <option value="4" selected>4 doses</option>
+                                <option value="6">6 doses</option>
+                                <option value="8">8 doses</option>
+                                <option value="custom">Other&hellip;</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="two" id="custom-row" hidden>
+                        <div id="gap-custom-box" hidden>
+                            <label for="f-gap-custom">Hours between doses</label>
+                            <div class="money"><input id="f-gap-custom" type="text" inputmode="decimal" maxlength="6" placeholder="e.g. 5"><span class="suffix" aria-hidden="true">hours</span></div>
+                        </div>
+                        <div id="max-custom-box" hidden>
+                            <label for="f-max-custom">Doses in 24 hours</label>
+                            <input id="f-max-custom" type="text" inputmode="numeric" maxlength="2" placeholder="1 to 24">
+                        </div>
+                    </div>
+                    <p class="hint">Use the numbers on the label or from your doctor or pharmacist. The app warns you if you log a dose sooner or more often than this.</p>
+                </div>
+
+                <button type="button" id="open-who" class="link">+ For someone else (optional)</button>
+                <div id="who-box" hidden>
+                    <label for="f-who">Who is it for?</label>
+                    <input id="f-who" type="text" maxlength="40" placeholder="e.g. Mum">
+                </div>
+                <button type="button" id="open-pills" class="link">+ Count pills left (optional)</button>
+                <div id="pills-box" hidden>
+                    <div class="two">
+                        <div>
+                            <label for="f-left">Pills left now</label>
+                            <input id="f-left" type="text" inputmode="decimal" maxlength="7" placeholder="e.g. 28">
+                        </div>
+                        <div>
+                            <label for="f-per">Pills per dose</label>
+                            <input id="f-per" type="text" inputmode="decimal" maxlength="5" placeholder="1">
+                        </div>
+                    </div>
+                    <p class="hint">Each dose you log takes pills off the count, and you are told when it is time to get more.</p>
+                </div>
+                <button type="button" id="open-end" class="link">+ Last day of a course (optional)</button>
+                <div id="end-box" hidden>
+                    <label for="f-end">Last day</label>
+                    <input id="f-end" type="date">
+                    <p class="hint">For a course such as antibiotics. After this day it stops asking.</p>
+                </div>
+
+                <p class="err" id="form-err" role="alert"></p>
+                <button type="submit" id="save" class="primary">Add medicine</button>
+                <div class="two-btn" id="edit-btns" hidden>
+                    <button type="button" id="cancel-edit" class="secondary">Cancel</button>
+                    <button type="button" id="delete-med" class="danger">Delete medicine</button>
+                </div>
+            </form>
+            <p class="msg" id="form-msg" role="status"></p>
+        </section>
+
+        <section class="card hist" id="hist" aria-labelledby="hist-h">
+            <h2 id="hist-h">History</h2>
+            <label for="range">Show</label>
+            <select id="range">
+                <option value="7">Last 7 days</option>
+                <option value="14">Last 14 days</option>
+                <option value="30">Last 30 days</option>
+            </select>
+            <p class="hist-sum" id="hist-sum"></p>
+            <ol class="days-list" id="days-list"></ol>
+            <div class="tool-grid">
+                <button type="button" id="copy" class="secondary">Copy</button>
+                <a id="mail" class="secondary" href="mailto:">Email</a>
+                <button type="button" id="print" class="secondary">Print</button>
+            </div>
+            <p class="hint">Handy to show your doctor or pharmacist.</p>
+            <p class="msg" id="hist-msg" role="status"></p>
+        </section>
+
+        <section class="card tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Reminders and backup</h2>
+            <button type="button" id="ics" class="secondary">Add reminders to my calendar</button>
+            <p class="hint">Downloads a calendar file. Open it and your calendar reminds you at every set time, even when this page is closed.</p>
+            <div class="two-btn">
+                <button type="button" id="backup" class="secondary">Save a backup</button>
+                <button type="button" id="restore" class="secondary">Restore a backup</button>
+            </div>
+            <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            <button type="button" id="wipe" class="danger wipe">Delete everything</button>
+            <p class="hint">Everything is saved only in this browser on this device. Nothing is sent anywhere.</p>
+            <p class="msg" id="tools-msg" role="status"></p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How do I know if I already took it?</summary><p>Every set time is listed under <b>Today</b>. It says <b>Taken at</b> and the time once you tap <b>Taken</b>, or <b>Not taken yet</b>. If you are about to log a dose soon after the last one, the app stops and tells you when the last dose was.</p></details>
+        <details><summary>I took it but forgot to tap Taken.</summary><p>Tap <b>Taken</b> now, then <b>Change</b> and set the real time. You can also log a dose from yesterday evening the next morning: an unlogged set time stays on the list until the next one is due.</p></details>
+        <details><summary>What about painkillers I only take when needed?</summary><p>Choose <b>Only when needed</b> and set how long to wait between doses and the most doses in 24 hours, as the label says. The app shows when the last dose was and from what time the next one is allowed.</p></details>
+        <details><summary>Can it remind me?</summary><p>Tap <b>Add reminders to my calendar</b>. Your calendar adds a repeating reminder at each set time and alerts you even when this page is closed. A web page alone cannot alert you reliably when it is closed, so this uses your calendar instead.</p></details>
+        <details><summary>Is this medical advice?</summary><p>No. The app only records what you tell it and the limits you set. Always follow your doctor's or pharmacist's instructions and the medicine leaflet. If you think you took too much, contact a doctor, pharmacist or poison centre straight away.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. There is no account. Everything stays in this browser on this device, nothing is sent anywhere, and the app works offline. Use <b>Save a backup</b> before you change phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/medication-tracker">Open source (MIT)</a></footer>
+</main>
+
+<dialog id="confirm" class="confirm" aria-labelledby="c-h">
+    <h2 id="c-h">Log this dose?</h2>
+    <p id="c-text"></p>
+    <div class="two-btn">
+        <button type="button" id="c-no" class="secondary">Cancel</button>
+        <button type="button" id="c-yes" class="primary">Log it anyway</button>
+    </div>
+</dialog>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Medication Tracker", "sections": [
+ {"h": "Add your medicines", "steps": ["Type the medicine and strength, for example Metformin 500 mg.", "Under \"When do you take it?\" choose \"At set times\" for doses at fixed times. Tap a quick pick (\"Once a day\", \"Twice a day\", \"3 times\" or \"4 times\") and change any time, or tap \"+ Add another time\". \"Remove\" takes a time away.", "Taken only on some days, such as once a week? Choose \"Some days\" and tick the days.", "For painkillers and other medicines you take only when you need them, choose \"Only when needed\" and set \"Wait at least\" and \"Most in 24 hours\" from the label or your doctor. \"Other...\" lets you type any number.", "Tap \"Add medicine\". Not sure how it looks? Tap \"Try an example\"."]},
+ {"h": "Optional extras", "steps": ["\"+ For someone else (optional)\": looking after a child or a parent? Type who it is for, and it shows on the medicine.", "\"+ Count pills left (optional)\": type how many pills you have and how many make one dose. Each dose you log takes them off, and you are told when to get more.", "\"+ Last day of a course (optional)\": for antibiotics and other courses. After that day it stops asking."]},
+ {"h": "Every day", "steps": ["Under Today, each medicine has its own box with every set time. Tap \"Taken\" when you take that dose. It changes to \"Taken at\" and the time.", "\"Skip\" marks a dose you are not taking on purpose, so it does not show as forgotten.", "Took it earlier and forgot to log? Tap \"Taken\", then \"Change\" and set the real time. \"Not taken\" removes a dose logged by mistake. \"Undo\" appears right after each change.", "A bedtime dose taken after midnight still counts for the evening before: an unlogged time from yesterday stays on Today until the next set time comes.", "For medicines taken when needed, the box shows when you last took it and from what time the next dose is allowed. Tap \"Taken now\".", "If you log a dose too soon after the last one, or more than your 24-hour limit, the app asks you to confirm and says when the last dose was."]},
+ {"h": "Change or remove a medicine", "steps": ["Tap \"Edit\" on a medicine, change anything and tap \"Save changes\". New times count from today; past days keep the times they had.", "\"Delete medicine\" removes it and its history, with \"Undo\"."]},
+ {"h": "History, reminders and backup", "steps": ["History shows each day: taken (with the time), skipped or not logged. \"Show\" picks 7, 14 or 30 days. \"Copy\", \"Email\" (opens your mail app with no address needed) and \"Print\" are handy for a doctor's visit.", "\"Add reminders to my calendar\" downloads a calendar file. Open it and your phone reminds you at every set time, even when this page is closed.", "\"Save a backup\" downloads a file with everything. \"Restore a backup\" loads it on a new phone or browser. \"Delete everything\" starts again, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["This is a log, not medical advice. Follow your doctor's or pharmacist's instructions and the leaflet.", "Times follow your phone's clock, so when you travel the set times stay at the same local time.", "Everything stays in this browser on this device. Nothing is sent anywhere, and it works offline. Use the same browser each day."]}
+]}</script>
+</body>
+</html>

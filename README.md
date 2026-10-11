@@ -118,12 +118,6 @@ Make a photo smaller than the size an online form allows, like 20 KB, 50 KB, 100
 
 <a href="photo-size-reducer-for-online-forms/"><img src="photo-size-reducer-for-online-forms/screenshots/phone.png" alt="Photo Size Reducer for Online Forms screenshot" width="260"></a>
 
-## Adding an app
-
-Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
-
-Made by [Muhammad Umar](https://github.com/umar8092). Each app is MIT licensed.
-
 ### <img src="recipe-scaler-and-unit-converter/favicon.svg" width="36" height="36" align="center"> [Recipe Scaler and Unit Converter](https://umar8092.github.io/apps/recipe-scaler-and-unit-converter/)
 
 Cook a recipe for more or fewer people. Paste the ingredients, type how many it makes and how many you want, and get every amount in easy kitchen measures (1⅓ cups, not 1.3125). Turns cups into grams or grams into cups, adds °C, °F and gas mark to oven temperatures, tells you what to do with part of an egg, and saves your recipes.
@@ -131,3 +125,17 @@ Cook a recipe for more or fewer people. Paste the ingredients, type how many it 
 [**Open the app**](https://umar8092.github.io/apps/recipe-scaler-and-unit-converter/) &middot; [Details and screenshots](recipe-scaler-and-unit-converter/)
 
 <a href="recipe-scaler-and-unit-converter/"><img src="recipe-scaler-and-unit-converter/screenshots/phone.png" alt="Recipe Scaler and Unit Converter screenshot" width="260"></a>
+
+### <img src="medication-tracker/favicon.svg" width="36" height="36" align="center"> [Medication Tracker](https://umar8092.github.io/apps/medication-tracker/)
+
+Never wonder "did I take my pill?" again. Tap Taken when you take a dose and see every set time for today as taken or not taken yet, what is due next, and, for medicines taken when needed, from what time the next dose is allowed. Warns about double doses, counts pills left, handles bedtime doses after midnight, courses with a last day and weekly medicines. History to show your doctor, calendar reminders, backup. Private, no sign-up, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/medication-tracker/) &middot; [Details and screenshots](medication-tracker/)
+
+<a href="medication-tracker/"><img src="medication-tracker/screenshots/phone.png" alt="Medication Tracker screenshot" width="260"></a>
+
+## Adding an app
+
+Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
+
+Made by [Muhammad Umar](https://github.com/umar8092). Each app is MIT licensed.
