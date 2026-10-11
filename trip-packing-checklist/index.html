@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Packing Checklist: What to Pack and How Many, Free</title>
+    <meta name="description" content="Free trip packing checklist. Say who is going, how many nights and what you will do, and get a packing list with how many of each to pack, one list per person. Tick things off as you pack. Private, no sign-up, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/trip-packing-checklist/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#a855f7">
+    <meta name="theme-color" content="#7e22ce">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Trip Packing Checklist">
+    <meta property="og:url" content="https://umar8092.github.io/apps/trip-packing-checklist/">
+    <meta property="og:title" content="Trip Packing Checklist: What to Pack and How Many">
+    <meta property="og:description" content="Get a packing list for your trip with how many of each to pack, one list per person, and tick things off as you pack. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Trip Packing Checklist","alternateName":["Packing List Generator","Travel Packing List","Holiday Packing Checklist"],"url":"https://umar8092.github.io/apps/trip-packing-checklist/","description":"A free packing list maker. Say who is going, for how many nights and what you will do, and get a checklist with how many of each to pack, one list per person.","applicationCategory":"TravelApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"packing list, packing checklist, travel packing list, holiday packing list, packing list for kids, packing list generator, no sign up","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How many clothes should I pack?","acceptedAnswer":{"@type":"Answer","text":"The app counts the days you are away, including the day you leave and the day you come back. For 5 nights (6 days) that is 7 pairs of underwear and socks (one spare), 6 tops and 3 trousers or skirts. If you can wash clothes there, it packs for one week at most."}},{"@type":"Question","name":"Can I make a packing list for the whole family?","acceptedAnswer":{"@type":"Answer","text":"Yes. Add each traveller as an adult, child or baby. Everyone gets their own list, and shared things like the power bank and sunscreen are in a For everyone list."}},{"@type":"Question","name":"Can I use the list again for the trip home?","acceptedAnswer":{"@type":"Answer","text":"Yes. Tap Untick everything to pack for the way home. All items stay and every tick is cleared."}},{"@type":"Question","name":"Is my list private?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is saved only in this browser on this device, with no account. It works offline once it has loaded."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Trip Packing Checklist</h1>
+        <p class="sub">Say who is going, for how long and what you will do. Get a packing list with how many of each to pack, and tick things off as they go in the bag.</p>
+    </header>
+
+    <div class="col-main">
+        <section class="card trip-card" id="trip-card" aria-labelledby="trip-h">
+            <div id="trip-view" hidden>
+                <h2 id="trip-h">Your trip</h2>
+                <p class="trip-name" id="tv-name" hidden></p>
+                <p class="trip-line" id="tv-line"></p>
+                <p class="trip-people" id="tv-people"></p>
+                <button type="button" id="edit-trip" class="secondary">Change trip or travellers</button>
+            </div>
+
+            <form id="trip-form" novalidate autocomplete="off">
+                <div id="intro">
+                    <p class="lead">Fill in your trip and tap <b>Make my packing list</b>. You can change anything afterwards.</p>
+                    <button type="button" id="demo" class="ghost">Try an example trip</button>
+                </div>
+                <h2 class="step"><span>1</span> Who is going?</h2>
+                <ul class="people" id="people"></ul>
+                <button type="button" id="add-person" class="link">+ Add a traveller</button>
+                <p class="msg" id="people-msg" role="status"></p>
+
+                <h2 class="step"><span>2</span> Your trip</h2>
+                <label for="nights">How many nights?</label>
+                <div class="nights-row">
+                    <input id="nights" type="text" inputmode="numeric" maxlength="3" value="3" aria-describedby="nights-hint">
+                    <span class="unit" aria-hidden="true">nights</span>
+                </div>
+                <div class="chips" id="night-chips" aria-label="Quick picks for nights">
+                    <button type="button" data-n="0">Day trip</button>
+                    <button type="button" data-n="1">1</button>
+                    <button type="button" data-n="2">2</button>
+                    <button type="button" data-n="3">3</button>
+                    <button type="button" data-n="5">5</button>
+                    <button type="button" data-n="7">7</button>
+                    <button type="button" data-n="14">14</button>
+                </div>
+                <p class="hint" id="nights-hint">That is 4 days away, counting the day you leave and the day you come back.</p>
+                <p class="err" id="nights-err" role="alert"></p>
+
+                <fieldset>
+                    <legend>Weather and plans <span>(tick all that fit)</span></legend>
+                    <div class="toggles" id="tags">
+                        <label><input type="checkbox" value="warm"> Warm or sunny</label>
+                        <label><input type="checkbox" value="cold"> Cold or snow</label>
+                        <label><input type="checkbox" value="rain"> Rain likely</label>
+                        <label><input type="checkbox" value="beach"> Beach or pool</label>
+                        <label><input type="checkbox" value="hike"> Hiking or outdoors</label>
+                        <label><input type="checkbox" value="work"> Work or formal</label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Getting there</legend>
+                    <div class="toggles three" id="travel">
+                        <label><input type="radio" name="travel" value="plane" checked> Plane</label>
+                        <label><input type="radio" name="travel" value="car"> Car</label>
+                        <label><input type="radio" name="travel" value="train"> Train or bus</label>
+                    </div>
+                </fieldset>
+
+                <div class="checks">
+                    <label class="check"><input type="checkbox" id="abroad"> Going to another country</label>
+                    <label class="check" id="hand-wrap"><input type="checkbox" id="hand"> Hand luggage only (liquids under 100 ml)</label>
+                    <label class="check"><input type="checkbox" id="laundry"> I can wash clothes there</label>
+                </div>
+                <p class="hint" id="laundry-hint" hidden></p>
+
+                <button type="button" id="open-name" class="link">+ Add a trip name (optional)</button>
+                <div id="name-box" hidden>
+                    <label for="trip-name">Trip name</label>
+                    <input id="trip-name" type="text" maxlength="60" placeholder="e.g. Lisbon in May">
+                </div>
+
+                <p class="err" id="form-err" role="alert"></p>
+                <div class="form-btns">
+                    <button type="submit" id="make" class="primary">Make my packing list</button>
+                    <button type="button" id="cancel-trip" class="secondary" hidden>Cancel</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card list-card" id="list-card" aria-labelledby="list-h" hidden>
+            <div class="list-head">
+                <h2 id="list-h" tabindex="-1">Your packing list</h2>
+                <label class="check small"><input type="checkbox" id="hide-done"> Hide packed items</label>
+            </div>
+            <p class="hint list-hint">Numbers include what you wear on the way. Tap Edit to change a number or to delete something you do not need.</p>
+            <div id="groups"></div>
+            <p class="msg" id="list-msg" role="status"></p>
+
+            <div class="add-box">
+                <button type="button" id="open-add" class="link">+ Add your own item</button>
+                <form id="add-form" novalidate autocomplete="off" hidden>
+                    <h3>Add your own item</h3>
+                    <label for="a-name">Item</label>
+                    <input id="a-name" type="text" maxlength="80" placeholder="e.g. Camera">
+                    <label for="a-qty">How many <span class="opt">(optional)</span></label>
+                    <input id="a-qty" class="short" type="text" inputmode="numeric" maxlength="3" placeholder="none">
+                    <label for="a-who">For</label>
+                    <select id="a-who"></select>
+                    <label for="a-sec">Goes under</label>
+                    <select id="a-sec"></select>
+                    <label class="check"><input type="checkbox" id="a-always"> Add it to every trip I make</label>
+                    <p class="err" id="add-err" role="alert"></p>
+                    <div class="form-btns">
+                        <button type="submit" class="primary">Add to list</button>
+                        <button type="button" id="add-cancel" class="secondary">Close</button>
+                    </div>
+                </form>
+                <p class="msg" id="add-msg" role="status"></p>
+            </div>
+
+            <div class="list-actions">
+                <button type="button" id="untick" class="secondary">Untick everything (pack for the way home)</button>
+                <button type="button" id="new-trip" class="danger">Start a new trip</button>
+            </div>
+            <p class="msg" id="actions-msg" role="status"></p>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card result" id="result" aria-labelledby="res-h">
+            <h2 class="big-label" id="res-h">Packed</h2>
+            <p class="big none" id="r-big" aria-live="polite">No list yet</p>
+            <div class="bar" aria-hidden="true"><i id="r-bar"></i></div>
+            <p class="meta" id="r-meta">Make your list to start ticking things off.</p>
+            <ul class="who-left" id="r-who"></ul>
+            <p class="jobs" id="r-jobs" hidden></p>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share or print</h2>
+            <div class="tool-grid">
+                <button type="button" id="copy" class="secondary">Copy list</button>
+                <a id="mail" class="secondary" href="mailto:">Email list</a>
+                <button type="button" id="print" class="secondary">Print</button>
+            </div>
+            <p class="hint">Your list is saved only in this browser on this device. Nothing is sent anywhere, and it works offline.</p>
+            <p class="msg" id="tools-msg" role="status"></p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does it work out how many to pack?</summary><p>It counts the days you are away, including the day you leave and the day you come back, so 5 nights is 6 days. That gives 6 tops, 3 trousers or skirts and 7 pairs of underwear and socks (one spare). Children get one extra of each for spills. Babies get 6 nappies a day. If you tick <b>I can wash clothes there</b>, clothes are packed for one week at most.</p></details>
+        <details><summary>Do the numbers include what I wear?</summary><p>Yes. Wear one set on the way and pack the rest. Tap <b>Edit</b> on any item to change its number, or to delete it.</p></details>
+        <details><summary>What if my plans change?</summary><p>Tap <b>Change trip or travellers</b>, change the nights, weather or people and tap <b>Update my list</b>. Your ticks, your edits and your own items are kept. Things you deleted stay deleted. If an item now needs more than you packed, it is unticked so you pack the extra.</p></details>
+        <details><summary>Can I add things I always take?</summary><p>Yes. Tap <b>+ Add your own item</b> and tick <b>Add it to every trip I make</b>. It is added to this list and to every new trip from now on.</p></details>
+        <details><summary>How do I pack for the trip home?</summary><p>Tap <b>Untick everything</b>. Every item stays on the list and all ticks are cleared, so you can check you have not left anything behind.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. There is no account. Your list stays in this browser on this device, and the app works offline once it has loaded.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/trip-packing-checklist">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Trip Packing Checklist", "sections": [
+ {"h": "1. Who is going", "steps": ["Each traveller has their own box. Type a name (optional) and pick Adult (teens too), Child, or Baby (still in nappies).", "Tap \"+ Add a traveller\" for each extra person (up to 8). \"Remove\" takes someone off, and \"Undo\" brings them back.", "Everyone gets their own list with their own clothes and things. Shared things like the power bank and sunscreen go in a \"For everyone\" list."]},
+ {"h": "2. Your trip", "steps": ["Type How many nights, or tap a quick pick. \"Day trip\" means no nights away.", "Under Weather and plans, tick everything that fits: warm, cold, rain, beach, hiking or work. Each one adds the right things.", "Pick how you are Getting there: Plane, Car, or Train or bus.", "Tick \"Going to another country\" for passports, plug adapters and travel insurance. \"Hand luggage only\" adds the 100 ml liquids bag.", "Tick \"I can wash clothes there\" on long trips so you only pack clothes for one week.", "Tap \"Make my packing list\"."]},
+ {"h": "Packing", "steps": ["Tick each item as it goes in the bag. The Packed box shows how many are packed and what each person still needs.", "The number after an item, like \"× 6\", is how many to pack, including what you wear on the way.", "\"Edit\" opens the item: change its name or number and tap \"Save\", or tap \"Delete\" to remove it. \"Undo\" brings a deleted item back.", "\"+ Add your own item\" adds anything else, for one person or for everyone. Tick \"Add it to every trip I make\" for things you always take.", "\"Hide packed items\" shows only what is left to pack.", "\"Before you leave home\" is a list of jobs, like locking up. Tick them as you go out of the door."]},
+ {"h": "Changing plans and the way home", "steps": ["Tap \"Change trip or travellers\", change anything and tap \"Update my list\". Your ticks, edits and own items are kept.", "\"Untick everything (pack for the way home)\" keeps the list and clears the ticks.", "\"Start a new trip\" clears this list and keeps your travellers and your every-trip items. Both can be undone."]},
+ {"h": "Share or print", "steps": ["\"Copy list\" copies the list as text, with [x] for packed and [ ] for still to pack.", "\"Email list\" opens your mail app with the list written and no address filled in.", "\"Print\" prints a paper checklist with tick boxes."]},
+ {"h": "Good to know", "tips": true, "steps": ["Clothes are counted from the days away: 5 nights is 6 days, so 6 tops and 7 pairs of underwear (one spare). Children get one extra of each.", "Your list stays in this browser on this device. Nothing is sent anywhere, and the app works offline.", "Use the same browser each time so your list is there when you come back."]}
+]}</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "Trip Packing Checklist",
+  "short_name": "Packing List",
+  "description": "Get a packing list for your trip with how many of each to pack, one list per person, and tick things off as you pack.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1a1024",
+  "theme_color": "#7e22ce",
+  "categories": ["travel", "lifestyle", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

@@ -94,5 +94,11 @@
     "name": "Medication Tracker",
     "description": "Tap Taken when you take a dose and see what is taken today, what is due next and when the next dose is safe. Warns about double doses. Private.",
     "color": "#22c55e"
+  },
+  {
+    "slug": "trip-packing-checklist",
+    "name": "Trip Packing Checklist",
+    "description": "A packing list for your trip with how many of each to pack, one list per person. Tick things off as you pack. Private, no sign-up.",
+    "color": "#a855f7"
   }
 ]

@@ -134,6 +134,14 @@ Never wonder "did I take my pill?" again. Tap Taken when you take a dose and see
 
 <a href="medication-tracker/"><img src="medication-tracker/screenshots/phone.png" alt="Medication Tracker screenshot" width="260"></a>
 
+### <img src="trip-packing-checklist/favicon.svg" width="36" height="36" align="center"> [Trip Packing Checklist](https://umar8092.github.io/apps/trip-packing-checklist/)
+
+Never forget something on a trip again. Say who is going (adults, children, babies), how many nights, the weather and plans, and get a packing list with how many of each to pack, one list per person plus a shared list and jobs before you leave home. Tick things off as you pack, change the trip without losing your ticks, untick everything for the way home. Copy, email or print. Private, no sign-up, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/trip-packing-checklist/) &middot; [Details and screenshots](trip-packing-checklist/)
+
+<a href="trip-packing-checklist/"><img src="trip-packing-checklist/screenshots/phone.png" alt="Trip Packing Checklist screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
