@@ -136,5 +136,11 @@
     "name": "Unit Price Calculator for Shopping",
     "description": "Which pack is cheaper? Type the price and size of each one, in any unit, and see the price per kg, litre or item, the cheapest, and how much more the others cost. Multipacks too.",
     "color": "#7c3aed"
+  },
+  {
+    "slug": "invoice-generator-for-freelancers",
+    "name": "Invoice Generator for Freelancers",
+    "description": "Make an invoice and print it or save it as a PDF. Discount, tax, deposit, numbers that count up, saved clients. No sign-up.",
+    "color": "#059669"
   }
 ]

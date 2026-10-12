@@ -190,6 +190,14 @@ In the shop and not sure which pack is cheaper? Type the price and size from eac
 
 <a href="unit-price-calculator-for-shopping/"><img src="unit-price-calculator-for-shopping/screenshots/phone.png" alt="Unit Price Calculator for Shopping screenshot" width="260"></a>
 
+### <img src="invoice-generator-for-freelancers/favicon.svg" width="36" height="36" align="center"> [Invoice Generator for Freelancers](https://umar8092.github.io/apps/invoice-generator-for-freelancers/)
+
+Need to send an invoice today? Fill in your details, the client and what you are charging for (jobs, hours or products), add a discount, tax, VAT or GST (added on top or already in your prices) and any deposit already paid, and print the invoice or save it as a PDF. Invoice numbers count up by themselves, clients are remembered, and My invoices shows what is paid, due or overdue. No sign-up, no watermark, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/invoice-generator-for-freelancers/) &middot; [Details and screenshots](invoice-generator-for-freelancers/)
+
+<a href="invoice-generator-for-freelancers/"><img src="invoice-generator-for-freelancers/screenshots/phone.png" alt="Invoice Generator for Freelancers screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

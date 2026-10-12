@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Generator for Freelancers: Free, No Sign-Up, Print or PDF</title>
+    <meta name="description" content="Free invoice generator for freelancers. Fill in your details, the client and the items, add a discount, tax or deposit, and print the invoice or save it as a PDF. Invoice numbers count up, clients are remembered. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/invoice-generator-for-freelancers/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#059669">
+    <meta name="theme-color" content="#047857">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Invoice Generator for Freelancers">
+    <meta property="og:url" content="https://umar8092.github.io/apps/invoice-generator-for-freelancers/">
+    <meta property="og:title" content="Invoice Generator for Freelancers: Free, No Sign-Up">
+    <meta property="og:description" content="Make a clean invoice in a minute and print it or save it as a PDF. Discounts, tax, deposits, numbers that count up, saved clients. Free and private.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Invoice Generator for Freelancers","alternateName":["Free Invoice Generator","Invoice Maker","Invoice Template"],"url":"https://umar8092.github.io/apps/invoice-generator-for-freelancers/","description":"Make an invoice with your details, the client, items, discount, tax and deposit, then print it or save it as a PDF. Numbers count up and clients are remembered.","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"free invoice generator, invoice maker, freelance invoice, invoice template, invoice pdf, no sign up","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I save the invoice as a PDF?","acceptedAnswer":{"@type":"Answer","text":"Tap Print or save as PDF. In the print window choose Save as PDF (on a computer or Android) or tap Share and Save to Files (on an iPhone). Only the invoice is printed."}},{"@type":"Question","name":"Is it really free?","acceptedAnswer":{"@type":"Answer","text":"Yes. There is no account, no watermark and no limit. Everything stays in your browser on your device."}},{"@type":"Question","name":"Can I add tax that is already in my prices?","acceptedAnswer":{"@type":"Answer","text":"Yes. Tap + Add tax, type the rate and tick My prices already include this tax. The invoice then shows how much of the total is tax."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Invoice Generator for Freelancers</h1>
+        <p class="sub">Fill in the form, check the invoice, then print it or save it as a PDF. Your details, clients and invoice numbers are remembered.</p>
+    </header>
+
+    <div class="col-main">
+        <section class="card" aria-labelledby="me-h">
+            <h2 id="me-h"><span class="step">1</span> From (you)</h2>
+            <label for="me-name">Your name or business name</label>
+            <input type="text" id="me-name" maxlength="120" autocomplete="organization" placeholder="e.g. Sara Khan Design">
+            <label for="me-details">Your address and contact details</label>
+            <textarea id="me-details" rows="3" maxlength="600" placeholder="Address, email, phone, tax number"></textarea>
+            <div id="logo-box">
+                <button type="button" id="logo-add" class="link">+ Add your logo (optional)</button>
+                <div id="logo-has" hidden>
+                    <img id="logo-img" alt="Your logo">
+                    <button type="button" id="logo-remove" class="link small">Remove logo</button>
+                </div>
+                <input type="file" id="logo-file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" hidden>
+            </div>
+            <p class="msg" id="me-msg" role="status"></p>
+            <p class="hint">Remembered for your next invoice.</p>
+        </section>
+
+        <section class="card" aria-labelledby="to-h">
+            <h2 id="to-h"><span class="step">2</span> Bill to (your client)</h2>
+            <div id="pick-box" hidden>
+                <label for="pick">Pick a saved client</label>
+                <select id="pick"></select>
+            </div>
+            <label for="cl-name">Client name or company</label>
+            <input type="text" id="cl-name" maxlength="120" placeholder="e.g. Blue Bird Cafe">
+            <label for="cl-details">Client address (optional)</label>
+            <textarea id="cl-details" rows="3" maxlength="600" placeholder="Address, contact person, tax number"></textarea>
+            <button type="button" id="cl-email-add" class="link">+ Add client email (optional)</button>
+            <div id="cl-email-box" hidden>
+                <label for="cl-email">Client email</label>
+                <input type="email" id="cl-email" maxlength="200" autocomplete="off" placeholder="e.g. ann@cafe.com">
+            </div>
+            <button type="button" id="cl-forget" class="link small" hidden>Remove this client from saved clients</button>
+            <p class="msg" id="to-msg" role="status"></p>
+        </section>
+
+        <section class="card" aria-labelledby="no-h">
+            <h2 id="no-h"><span class="step">3</span> Invoice number, dates and currency</h2>
+            <label for="number">Invoice number</label>
+            <input type="text" id="number" maxlength="30" autocomplete="off">
+            <p class="err" id="number-err"></p>
+            <div class="two">
+                <div><label for="issue">Invoice date</label><input type="date" id="issue"></div>
+                <div><label for="terms">Payment due</label>
+                    <select id="terms">
+                        <option value="0">On receipt</option>
+                        <option value="7">In 7 days</option>
+                        <option value="14">In 14 days</option>
+                        <option value="15">In 15 days</option>
+                        <option value="30">In 30 days</option>
+                        <option value="45">In 45 days</option>
+                        <option value="60">In 60 days</option>
+                        <option value="custom">On a date I pick</option>
+                    </select>
+                </div>
+            </div>
+            <div id="due-box" hidden><label for="due">Due date</label><input type="date" id="due"></div>
+            <p class="due-line" id="due-line"></p>
+            <p class="err" id="date-err"></p>
+            <div class="two">
+                <div><label for="cur">Currency symbol</label>
+                    <select id="cur">
+                        <option value="">None (plain numbers)</option>
+                        <option value="$">$ (dollar)</option>
+                        <option value="€">€ (euro)</option>
+                        <option value="£">£ (pound)</option>
+                        <option value="₹">₹ (rupee)</option>
+                        <option value="Rs">Rs (rupee)</option>
+                        <option value="¥">¥ (yen, yuan)</option>
+                        <option value="₩">₩ (won)</option>
+                        <option value="₦">₦ (naira)</option>
+                        <option value="₱">₱ (peso)</option>
+                        <option value="R">R (rand)</option>
+                        <option value="R$">R$ (real)</option>
+                        <option value="kr">kr (krona, krone)</option>
+                        <option value="zł">zł (zloty)</option>
+                        <option value="₺">₺ (lira)</option>
+                        <option value="CHF">CHF (franc)</option>
+                        <option value="AED">AED (dirham)</option>
+                        <option value="SAR">SAR (riyal)</option>
+                        <option value="RM">RM (ringgit)</option>
+                    </select></div>
+                <div><label for="style">Number style</label>
+                    <select id="style">
+                        <option value="1,234.56">1,234.56</option>
+                        <option value="1.234,56">1.234,56</option>
+                        <option value="1 234,56">1 234,56</option>
+                    </select></div>
+            </div>
+            <p class="hint">Currency and number style are kept for this invoice and the next ones.</p>
+        </section>
+
+        <section class="card" aria-labelledby="items-h">
+            <h2 id="items-h"><span class="step">4</span> What you are charging for</h2>
+            <p class="hint lead">One row per job, product or block of hours. Leave Qty empty for 1.</p>
+            <ol class="items" id="items"></ol>
+            <button type="button" id="add-item" class="secondary add">+ Add item</button>
+            <p class="msg" id="items-msg" role="status"></p>
+        </section>
+
+        <section class="card" aria-labelledby="extra-h">
+            <h2 id="extra-h"><span class="step">5</span> Discount, tax and deposit</h2>
+            <button type="button" id="disc-add" class="link">+ Add a discount (optional)</button>
+            <div id="disc-box" class="opt" hidden>
+                <div class="opt-head"><b>Discount</b><button type="button" id="disc-rm" class="rm">Remove</button></div>
+                <div class="two">
+                    <div><label for="disc">Discount</label><input type="text" id="disc" inputmode="decimal" maxlength="24" placeholder="e.g. 10"></div>
+                    <div><label for="disc-type">Type</label>
+                        <select id="disc-type"><option value="pct">% of the items</option><option value="amt">Amount off</option></select></div>
+                </div>
+                <p class="err" id="disc-err"></p>
+            </div>
+            <button type="button" id="tax-add" class="link">+ Add tax, VAT or GST (optional)</button>
+            <div id="tax-box" class="opt" hidden>
+                <div class="opt-head"><b>Tax</b><button type="button" id="tax-rm" class="rm">Remove</button></div>
+                <div class="two">
+                    <div><label for="tax-name">Name on the invoice</label><input type="text" id="tax-name" maxlength="30" list="tax-names" placeholder="Tax"></div>
+                    <div><label for="tax-rate">Rate in %</label><input type="text" id="tax-rate" inputmode="decimal" maxlength="12" placeholder="e.g. 8.5"></div>
+                </div>
+                <datalist id="tax-names"><option value="Tax"><option value="Sales tax"><option value="VAT"><option value="GST"><option value="HST"><option value="Service tax"></datalist>
+                <label class="check"><input type="checkbox" id="tax-incl"> My prices already include this tax</label>
+                <p class="hint">To leave one item out of the tax, tick &ldquo;No tax on this item&rdquo; in that item.</p>
+                <p class="err" id="tax-err"></p>
+            </div>
+            <button type="button" id="paid-add" class="link">+ Add a deposit or amount already paid (optional)</button>
+            <div id="paid-box" class="opt" hidden>
+                <div class="opt-head"><b>Already paid</b><button type="button" id="paid-rm" class="rm">Remove</button></div>
+                <label for="paid">Amount the client already paid</label>
+                <div class="money"><span class="sym"></span><input type="text" id="paid" inputmode="decimal" maxlength="24" placeholder="e.g. 300"></div>
+                <p class="err" id="paid-err"></p>
+            </div>
+        </section>
+
+        <section class="card" aria-labelledby="notes-h">
+            <h2 id="notes-h"><span class="step">6</span> Notes and payment details</h2>
+            <label for="notes">Shown at the bottom of the invoice (optional)</label>
+            <textarea id="notes" rows="3" maxlength="1500" placeholder="How to pay you (bank account, PayPal), thank-you note"></textarea>
+            <p class="hint">Kept for your next invoice too.</p>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card result" aria-labelledby="res-h">
+            <h2 id="res-h">Your invoice</h2>
+            <div id="answer" aria-live="polite">
+                <p class="a-head" id="a-head"></p>
+                <p class="a-sub" id="a-sub"></p>
+            </div>
+            <ul class="problems" id="problems"></ul>
+            <div class="paper-wrap"><article class="paper" id="paper" aria-label="Invoice preview"></article></div>
+            <div class="actions">
+                <button type="button" id="print" class="primary">Print or save as PDF</button>
+                <button type="button" id="save" class="secondary">Save to My invoices</button>
+                <a id="mail" class="secondary" href="mailto:">Email the invoice</a>
+                <button type="button" id="copy" class="secondary">Copy as text</button>
+                <button type="button" id="new" class="danger">New invoice</button>
+            </div>
+            <p class="msg" id="act-msg" role="status"></p>
+            <p class="hint" id="pdf-hint">To get a PDF, choose <b>Save as PDF</b> in the print window (on an iPhone: Share, then Save to Files). Email opens your mail app with the invoice written out; attach the PDF if your client wants one.</p>
+        </section>
+
+        <section class="card list-card" aria-labelledby="list-h">
+            <h2 id="list-h">My invoices</h2>
+            <p class="list-sum" id="list-sum"></p>
+            <ol class="saved" id="saved"></ol>
+            <div class="tool-grid">
+                <button type="button" id="backup" class="secondary">Download backup</button>
+                <button type="button" id="restore" class="secondary">Restore backup</button>
+                <input type="file" id="restore-file" accept="application/json,.json" hidden>
+            </div>
+            <p class="msg" id="list-msg" role="status"></p>
+            <p class="hint">Everything is saved only in this browser on this device. Nothing is sent anywhere. Download a backup now and then to keep your invoices safe.</p>
+        </section>
+
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How do I save the invoice as a PDF?</summary><p>Tap <b>Print or save as PDF</b>. In the print window pick <b>Save as PDF</b> as the printer (on a computer or Android phone). On an iPhone or iPad, tap the Share button in the print window and choose <b>Save to Files</b>. Only the invoice is printed, not the form.</p></details>
+        <details><summary>What is the difference between the total and the amount due?</summary><p>The <b>total</b> is the full price of the job after discount and tax. The <b>amount due</b> is what the client still has to pay: the total minus any deposit already paid.</p></details>
+        <details><summary>My prices already include VAT. What do I do?</summary><p>Add the tax, type the rate and tick <b>My prices already include this tax</b>. The total stays the same and the invoice shows how much of it is tax. For 120.00 including 20% VAT, that is 20.00.</p></details>
+        <details><summary>How does the discount work with tax?</summary><p>The discount is taken off first and tax is worked out on what is left. If some items have no tax, the discount is shared across the items by their price, so only the taxed part of the discount lowers the tax.</p></details>
+        <details><summary>How do invoice numbers count up?</summary><p>When you start a <b>New invoice</b>, the number is one more than your latest saved invoice: INV-0009 becomes INV-0010, 2026-099 becomes 2026-100. You can type any number you like; the app warns you if it is already used.</p></details>
+        <details><summary>Can I bill hours or half days?</summary><p>Yes. Type the hours in <b>Qty</b> (for example 12.5) and your hourly rate in <b>Price each</b>. Up to 3 decimals work.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. There is no account and nothing is uploaded. Your invoices stay in this browser on this device. The app works offline once it has loaded. Use <b>Download backup</b> to keep a copy or move to another device.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/invoice-generator-for-freelancers">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Invoice Generator for Freelancers", "sections": [
+ {"h": "Make an invoice", "steps": ["1 From (you): type Your name or business name and Your address and contact details. Tap \"+ Add your logo (optional)\" to put your logo at the top. These are remembered.", "2 Bill to: type the Client name or company and, if you like, the address. Tap \"+ Add client email (optional)\" so Email the invoice fills in their address. Clients you have saved before appear in \"Pick a saved client\".", "3 Invoice number and dates: the number counts up by itself (INV-0001, INV-0002). Pick the Invoice date and when Payment is due, for example In 30 days or On a date I pick.", "4 What you are charging for: one row per job. Type a Description, the Qty (hours, days or pieces; empty means 1) and the Price each. The row shows its amount. Tap \"+ Add item\" for more rows and Remove to delete one (Undo brings it back).", "A price below 0, like -200, takes money off, for example for a credit."]},
+ {"h": "Discount, tax and deposit", "steps": ["\"+ Add a discount (optional)\": a percent of the items or an amount off. It is taken off before tax.", "\"+ Add tax, VAT or GST (optional)\": type the name to print (Tax, VAT, GST) and the Rate in %. Tick \"My prices already include this tax\" if your prices already have it in; the total then stays the same and the invoice shows the tax inside it.", "Tick \"No tax on this item\" in an item to leave it out of the tax.", "\"+ Add a deposit or amount already paid (optional)\": the invoice then shows the total, the amount already paid and the Amount due."]},
+ {"h": "Print, save and send", "steps": ["Your invoice shows the invoice exactly as it will print, with the Amount due and the due date above it.", "Print or save as PDF opens the print window with only the invoice. Choose Save as PDF there. On an iPhone, tap Share and then Save to Files.", "Save to My invoices keeps it in the list below. After that, changes you make are saved by themselves.", "Email the invoice opens your mail app with the invoice written out. It works without a client email too. Attach the PDF if your client wants one.", "Copy as text copies the invoice as plain text for a chat or message.", "New invoice clears the client and items, keeps your details, tax and notes, and gives the next number. Undo brings the last one back."]},
+ {"h": "My invoices", "steps": ["Every saved invoice has its own box with the client, the amount due and whether it is Paid, Due in 5 days or Overdue.", "Open loads it into the form to change or print again. Mark as paid shows PAID on the invoice. Copy as new makes a new invoice with the same client and items and the next number, handy for monthly work.", "Delete removes it; Undo brings it back.", "Download backup saves all your invoices, clients and details in one file. Restore backup loads that file, for example on a new device."]},
+ {"h": "Good to know", "tips": true, "steps": ["Money is worked out to the exact cent. Line amounts and tax round half up.", "Currency symbol (in step 3) adds $, €, £, Rs or another symbol; each invoice keeps its own, so you can bill one client in dollars and another in rupees. Number style switches between 1,234.56, 1.234,56 and 1 234,56. New invoices use your last choice.", "You can type 1250, 1,250.00 or paste $1,250.", "Everything stays in this browser on this device. Nothing is sent anywhere, and it works offline. Download a backup now and then."]}
+]}</script>
+</body>
+</html>
