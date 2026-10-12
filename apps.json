@@ -118,5 +118,11 @@
     "name": "Document Scanner to PDF",
     "description": "Photograph paper pages, crop and clean them, put them in order and save one PDF under the size you need, like 2 MB. Nothing is uploaded.",
     "color": "#65a30d"
+  },
+  {
+    "slug": "expense-and-budget-tracker",
+    "name": "Expense and Budget Tracker",
+    "description": "Log what you spend by category, set a monthly budget for each, and see what is left, how much you can spend a day and a warning before you go over.",
+    "color": "#0d9488"
   }
 ]

@@ -166,6 +166,14 @@ Turn photos of paper pages into one clean PDF. The app finds each page in the ph
 
 <a href="document-scanner-to-pdf/"><img src="document-scanner-to-pdf/screenshots/phone.png" alt="Document Scanner to PDF screenshot" width="260"></a>
 
+### <img src="expense-and-budget-tracker/favicon.svg" width="36" height="36" align="center"> [Expense and Budget Tracker](https://umar8092.github.io/apps/expense-and-budget-tracker/)
+
+Write down what you spend and give each category a monthly budget. See what is left to spend this month, how much that is per day, and a warning as soon as a category is nearly used or over. Refunds, receipts split across categories, months that run from payday to payday, earlier months, backup and restore. Copy, email or print the month. Private, no sign-up, no bank connection, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/expense-and-budget-tracker/) &middot; [Details and screenshots](expense-and-budget-tracker/)
+
+<a href="expense-and-budget-tracker/"><img src="expense-and-budget-tracker/screenshots/phone.png" alt="Expense and Budget Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

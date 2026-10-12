@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense and Budget Tracker: See Where Your Money Goes, Free</title>
+    <meta name="description" content="Free expense and budget tracker. Log what you spend by category, set a monthly budget for each, and see what is left, how much you can spend a day and a warning before you go over. Refunds, split receipts, payday months. Private, no sign-up, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/expense-and-budget-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#0d9488">
+    <meta name="theme-color" content="#0f766e">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Expense and Budget Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/expense-and-budget-tracker/">
+    <meta property="og:title" content="Expense and Budget Tracker: See Where Your Money Goes">
+    <meta property="og:description" content="Log what you spend, set a monthly budget per category, and see what is left and how much you can spend a day. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Expense and Budget Tracker","alternateName":["Monthly Budget Tracker","Spending Tracker","Expense Tracker No Sign Up"],"url":"https://umar8092.github.io/apps/expense-and-budget-tracker/","description":"A free expense tracker with a monthly budget for each category. See what is left, how much you can spend a day, and a warning before you go over.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"expense tracker, budget tracker, monthly budget app, spending tracker no sign up, budget by category","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I set a monthly budget for each category?","acceptedAnswer":{"@type":"Answer","text":"In Categories and monthly budgets, type an amount next to each category, for example 400 for Groceries. Leave it empty for no limit. The same budgets apply every month."}},{"@type":"Question","name":"My salary comes on the 25th. Can my month run from payday to payday?","acceptedAnswer":{"@type":"Answer","text":"Yes. Set My month starts on day to 25. Each budget month then runs from the 25th to the 24th of the next month."}},{"@type":"Question","name":"How do I record a refund?","acceptedAnswer":{"@type":"Answer","text":"Choose Money back (refund) above the amount. A refund lowers what you have spent in that category."}},{"@type":"Question","name":"Is my spending private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything is saved only in this browser on this device. There is no account and no bank connection, and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Expense and Budget Tracker</h1>
+        <p class="sub">Write down what you spend, give each category a monthly budget, and see what is left before you run out.</p>
+    </header>
+
+    <div class="col-side">
+        <section class="card result" id="summary" aria-labelledby="m-label">
+            <div class="month-nav">
+                <button type="button" id="prev" class="nav-btn" aria-label="Previous month">&#8249;</button>
+                <h2 id="m-label" aria-live="polite">October 2026</h2>
+                <button type="button" id="next" class="nav-btn" aria-label="Next month">&#8250;</button>
+            </div>
+            <button type="button" id="to-now" class="link center" hidden>Back to this month</button>
+            <p class="big-label" id="big-label">Left to spend</p>
+            <p class="big" id="big" aria-live="polite">0.00</p>
+            <p class="meta" id="meta"></p>
+            <div class="bar" id="bar-wrap" aria-hidden="true"><i id="bar"></i></div>
+            <p class="per-day" id="per-day"></p>
+            <ul class="alerts" id="alerts" aria-live="polite"></ul>
+            <button type="button" id="go-budgets" class="link">+ Set monthly budgets (optional)</button>
+            <p class="msg warn" id="save-warn" role="status" hidden>This browser is not saving your expenses (private mode or storage blocked). They stay only until you close this page.</p>
+        </section>
+
+        <section class="card cats-card" aria-labelledby="bycat-h">
+            <h2 id="bycat-h">By category</h2>
+            <ul class="cat-list" id="cat-list"></ul>
+            <p class="empty" id="cat-empty">Nothing spent yet this month.</p>
+        </section>
+    </div>
+
+    <div class="col-main">
+        <section class="card add-card" aria-labelledby="form-h">
+            <div id="intro">
+                <p class="lead">Each time you pay for something, add it here: how much and what it was for. The app adds it up for the month.</p>
+                <button type="button" id="demo" class="ghost">Try an example month</button>
+            </div>
+            <form id="form" novalidate autocomplete="off">
+                <h2 id="form-h">Add an expense</h2>
+                <div class="kind" role="radiogroup" aria-label="Money spent or money back">
+                    <label><input type="radio" name="kind" value="spent" id="k-spent" checked><span>Money spent</span></label>
+                    <label><input type="radio" name="kind" value="refund" id="k-refund"><span>Money back (refund)</span></label>
+                </div>
+                <div class="two">
+                    <div>
+                        <label for="f-amount" id="amount-label">Amount</label>
+                        <div class="money"><span class="sym" aria-hidden="true"></span><input id="f-amount" type="text" inputmode="decimal" maxlength="16" placeholder="e.g. 12.50"></div>
+                    </div>
+                    <div>
+                        <label for="f-date">Date</label>
+                        <input id="f-date" type="date" min="2000-01-01" max="2100-12-31">
+                    </div>
+                </div>
+                <div id="one-cat">
+                    <label for="f-cat">Category</label>
+                    <select id="f-cat"></select>
+                </div>
+                <button type="button" id="open-split" class="link">+ Split across categories (optional)</button>
+                <div id="split-box" hidden>
+                    <p class="split-h">Split this amount</p>
+                    <ul class="parts" id="parts"></ul>
+                    <button type="button" id="add-part" class="link small">+ Add another part</button>
+                    <p class="split-status" id="split-status" aria-live="polite"></p>
+                    <button type="button" id="close-split" class="link small">Do not split</button>
+                </div>
+                <button type="button" id="open-note" class="link">+ Add a note (optional)</button>
+                <div id="note-box" hidden>
+                    <label for="f-note">Note</label>
+                    <input id="f-note" type="text" maxlength="80" placeholder="e.g. Lunch with Sam">
+                </div>
+                <p class="err" id="form-err" role="alert"></p>
+                <div class="form-btns">
+                    <button type="submit" id="save" class="primary">Add expense</button>
+                    <button type="button" id="cancel-edit" class="secondary" hidden>Cancel</button>
+                </div>
+            </form>
+            <p class="msg" id="add-msg" role="status"></p>
+        </section>
+
+        <section class="card list-card" aria-labelledby="list-h">
+            <h2 id="list-h">Expenses <span class="count" id="list-n"></span></h2>
+            <div class="filter" id="filter-row">
+                <label for="filter">Show</label>
+                <select id="filter"></select>
+            </div>
+            <div id="list"></div>
+            <p class="empty" id="list-empty">No expenses this month yet.</p>
+            <p class="msg" id="list-msg" role="status"></p>
+        </section>
+    </div>
+
+    <div class="col-side2">
+        <section class="card budgets-card" id="budgets" aria-labelledby="bud-h">
+            <h2 id="bud-h">Categories and monthly budgets</h2>
+            <p class="hint top">Type how much you want to spend in each category a month. Leave it empty for no limit. The same budgets apply every month.</p>
+            <ul class="cat-edit-list" id="cat-edit"></ul>
+            <p class="total-budget" id="total-budget"></p>
+            <button type="button" id="add-cat" class="link">+ Add a category</button>
+            <p class="msg" id="cat-msg" role="status"></p>
+            <label for="start-day">My month starts on day</label>
+            <select id="start-day"></select>
+            <p class="hint">Paid on the 25th? Choose 25 so each month runs from payday to payday.</p>
+        </section>
+
+        <section class="card tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share, backup and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur">
+                <option value="">None (plain numbers)</option>
+                <option value="$">$ (dollar)</option>
+                <option value="€">€ (euro)</option>
+                <option value="£">£ (pound)</option>
+                <option value="₹">₹ (rupee)</option>
+                <option value="Rs">Rs (rupee)</option>
+                <option value="¥">¥ (yen, yuan)</option>
+                <option value="₩">₩ (won)</option>
+                <option value="₦">₦ (naira)</option>
+                <option value="₱">₱ (peso)</option>
+                <option value="R">R (rand)</option>
+                <option value="kr">kr (krona, krone)</option>
+                <option value="CHF">CHF (franc)</option>
+                <option value="AED">AED (dirham)</option>
+                <option value="SAR">SAR (riyal)</option>
+                <option value="RM">RM (ringgit)</option>
+            </select>
+            <p class="tool-h">This month&rsquo;s summary</p>
+            <div class="tool-grid">
+                <button type="button" id="copy" class="secondary">Copy</button>
+                <a id="mail" class="secondary" href="mailto:">Email</a>
+                <button type="button" id="print" class="secondary">Print</button>
+            </div>
+            <p class="tool-h">Backup</p>
+            <div class="tool-grid two-col">
+                <button type="button" id="backup" class="secondary">Save a backup file</button>
+                <button type="button" id="restore" class="secondary">Restore from a backup</button>
+            </div>
+            <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            <p class="hint">Your expenses are saved only in this browser on this device. Nothing is sent anywhere. Save a backup now and then, or to move to another phone.</p>
+            <button type="button" id="wipe" class="danger">Delete everything</button>
+            <p class="msg" id="tools-msg" role="status"></p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>What does &ldquo;left to spend&rdquo; mean?</summary><p>It is all your category budgets added together, minus everything you have spent this month in any category (refunds taken off). The line under it says how much that is per day for the days left, today included, rounded down so you never go over.</p></details>
+        <details><summary>When does a category turn yellow or red?</summary><p>Yellow means <b>nearly used</b>: 80% or more of its budget is spent. Red means it is <b>over</b> its budget, and the app says by how much. You also get a message as soon as an expense takes a category past 80% or over.</p></details>
+        <details><summary>What happens at the end of the month?</summary><p>Nothing to do. A new month starts with the same budgets and nothing spent. Use the arrows next to the month to look back at earlier months; all your expenses stay.</p></details>
+        <details><summary>My salary comes on the 25th. Can my month start then?</summary><p>Yes. Set <b>My month starts on day</b> to 25. Each budget month then runs from the 25th to the 24th of the next month, and the days left count to your next payday.</p></details>
+        <details><summary>One receipt had food and household things. How do I split it?</summary><p>Type the total, tap <b>+ Split across categories</b>, and give each part a category and an amount. Leave one part empty and it gets whatever is left. The app checks the parts add up to the total.</p></details>
+        <details><summary>How do I record a refund?</summary><p>Choose <b>Money back (refund)</b> above the amount. It is taken off what you spent in that category this month and shows in green.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. No account and no bank connection: you type what you spend. It is saved only in this browser on this device and works offline. Use <b>Save a backup file</b> to keep a copy or move it to another device.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/expense-and-budget-tracker">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Expense and Budget Tracker", "sections": [
+ {"h": "Add what you spend", "steps": ["Type the Amount, check the Date (today is filled in), pick the Category and tap \"Add expense\". Enter also adds it.", "Want to remember what it was? Tap \"+ Add a note (optional)\", for example Lunch with Sam.", "Got money back for something? Choose \"Money back (refund)\" first. It is taken off that category and shows in green.", "One receipt for several things? Tap \"+ Split across categories (optional)\", give each part a category and an amount. Leave one part empty to give it the rest. \"Do not split\" goes back to one category.", "Not sure how it looks? Tap \"Try an example month\"."]},
+ {"h": "Set your budgets", "steps": ["In \"Categories and monthly budgets\", type how much you want to spend a month in each category. Leave it empty for no limit.", "Rename a category by typing over its name. \"+ Add a category\" adds your own, and \"Delete\" removes one: its expenses move to Other, and Undo brings it back.", "\"My month starts on day\" sets when your month begins. Choose your payday, for example 25, to budget from payday to payday."]},
+ {"h": "See where you stand", "steps": ["The top shows what is Left to spend this month, what you spent out of your whole budget, and how much that is per day for the days left, today included.", "By category shows each category with a bar: green is fine, yellow is nearly used (80% or more), red is over budget.", "The arrows next to the month show earlier and later months. \"Back to this month\" returns to today.", "The Expenses list shows each expense of the month, newest first, grouped by day. \"Show\" picks one category only."]},
+ {"h": "Fix a mistake", "steps": ["Tap \"Edit\" on an expense, change anything, and tap \"Save changes\". \"Cancel\" leaves it as it was.", "Tap \"Delete\" to remove an expense, and \"Undo\" to bring it back."]},
+ {"h": "Share, backup and settings", "steps": ["\"Currency symbol\" adds $, €, £, ₹ or another symbol to every amount. None shows plain numbers. It is remembered.", "Copy, Email and Print share the summary of the month you are looking at. Email opens your mail app with no address filled in.", "\"Save a backup file\" downloads all your expenses and budgets. \"Restore from a backup\" loads such a file and replaces what is here, with Undo.", "\"Delete everything\" empties the app, also with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["Amounts are kept to the exact cent, so totals always add up.", "Your data stays in this browser on this device. Nothing is sent anywhere, and the app works offline.", "Use the same browser each time, and save a backup now and then."]}
+]}</script>
+</body>
+</html>
