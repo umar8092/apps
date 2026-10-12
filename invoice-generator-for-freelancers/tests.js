@@ -6,6 +6,7 @@
 
         // typed numbers
         check('price 1250, 1,250.00, $1,250, 1.250,00 -> 125000 cents', ['1250', '1,250.00', '$1,250', '1.250,00', ' 1250 '].every(v => C.parsePrice(v).v === 125000));
+        check('letters inside a number are rejected (1e5, 12abc34) but a currency word around it is fine (Rs 500, 500 kr)', C.parsePrice('1e5').err === 'nan' && C.parsePrice('12abc34').err === 'nan' && C.parsePrice('Rs 500').v === 50000 && C.parsePrice('500 kr').v === 50000);
         check('price 2,5 -> 250; 0.995 -> 100 (half a cent up); 33.333 -> 3333', C.parsePrice('2,5').v === 250 && C.parsePrice('0.995').v === 100 && C.parsePrice('33.333').v === 3333);
         check('price -50 and (50) are credits of -5000; -0.005 -> -1', C.parsePrice('-50').v === -5000 && C.parsePrice('(50)').v === -5000 && C.parsePrice('-0.005').v === -1);
         check('price blank, words, huge', C.parsePrice('').blank && C.parsePrice('abc').err === 'nan' && C.parsePrice('20000000').err === 'big' && C.parsePrice('99999999999999999').err === 'big');

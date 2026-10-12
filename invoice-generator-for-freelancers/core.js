@@ -20,7 +20,10 @@
         if (!s) return { blank: true };
         let neg = false;
         if (/^\(.*\)$/.test(s) || /^[^\d]*-/.test(s) || /\d\s*-$/.test(s)) neg = true;
-        s = s.replace(/[\s  ']/g, '').replace(/[^\d.,]/g, '');
+        s = s.replace(/[\s  ']/g, '');
+        // letters are fine around the number (Rs 500, 500 kr) but not inside it: 1e5 or 12abc34 must not be read as 15 or 1234
+        if (/[A-Za-z]/.test(s.replace(/^[^\d.,]+/, '').replace(/[^\d.,]+$/, ''))) return { err: 'nan' };
+        s = s.replace(/[^\d.,]/g, '');
         if (!/\d/.test(s)) return { err: 'nan' };
         const commaDec = opt.style && opt.style !== '1,234.56';
         const lastDot = s.lastIndexOf('.'), lastComma = s.lastIndexOf(',');
