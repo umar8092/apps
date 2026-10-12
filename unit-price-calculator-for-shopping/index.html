@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Price Calculator for Shopping: Which Pack Is Cheaper?</title>
+    <meta name="description" content="Free unit price calculator for shopping. Type the price and size of two or more packs and see which is cheapest per kg, litre, oz or item, by how much, and what the same amount would cost. Multipacks, mixed units. Private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/unit-price-calculator-for-shopping/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#7c3aed">
+    <meta name="theme-color" content="#6d28d9">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Unit Price Calculator for Shopping">
+    <meta property="og:url" content="https://umar8092.github.io/apps/unit-price-calculator-for-shopping/">
+    <meta property="og:title" content="Unit Price Calculator for Shopping: Which Pack Is Cheaper?">
+    <meta property="og:description" content="Compare the price per kg, litre, oz or item of two or more packs and see which is cheapest and by how much. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Unit Price Calculator for Shopping","alternateName":["Which Is Cheaper Calculator","Price Per Unit Calculator","Unit Price Comparison"],"url":"https://umar8092.github.io/apps/unit-price-calculator-for-shopping/","description":"Compare two or more packs by price per kg, litre, oz or item and see which is cheapest, by how much, and what the same amount would cost.","applicationCategory":"ShoppingApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"unit price calculator, which is cheaper, price per kg calculator, price per ounce, compare prices, multipack calculator","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I know which pack is cheaper?","acceptedAnswer":{"@type":"Answer","text":"Type the price and the size of each pack. The app works out the price per kg, litre, oz or item for each one and tells you which is cheapest and by what percentage."}},{"@type":"Question","name":"Can I compare grams with ounces?","acceptedAnswer":{"@type":"Answer","text":"Yes. Each pack can have its own unit. Grams, kilograms, ounces and pounds are all converted before comparing, and so are millilitres, litres, fluid ounces, pints and gallons."}},{"@type":"Question","name":"How do I enter a multipack or a 3 for 5 offer?","acceptedAnswer":{"@type":"Answer","text":"Tap It is a multipack or multi-buy, type how many are in the pack and the size of one. For 3 for 5.00, type the price 5.00, how many 3 and the size of one."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Unit Price Calculator for Shopping</h1>
+        <p class="sub">Which pack is cheaper? Type the price and size of each one and see the price per kg, litre or item.</p>
+    </header>
+
+    <div class="col-main">
+        <section class="card items-card" aria-labelledby="items-h">
+            <h2 id="items-h">Packs to compare</h2>
+            <div id="intro">
+                <p class="lead">Type the price and size from each label. Each pack can use its own unit, for example 500 g and 2 lb.</p>
+                <button type="button" id="demo" class="ghost">Try an example</button>
+            </div>
+            <ol class="items" id="items"></ol>
+            <button type="button" id="add-item" class="secondary add">+ Add another pack</button>
+            <p class="msg" id="items-msg" role="status"></p>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card result" id="result" aria-labelledby="res-h">
+            <h2 id="res-h">Which is cheaper?</h2>
+            <div id="per-box" hidden>
+                <label for="per">Show the price per</label>
+                <select id="per"></select>
+            </div>
+            <div id="verdict" aria-live="polite">
+                <p class="v-head" id="v-head">Fill in two packs to compare.</p>
+                <p class="v-sub" id="v-sub">Each needs a price and a size.</p>
+            </div>
+            <ol class="ranked" id="ranked"></ol>
+            <ul class="notes" id="notes"></ul>
+        </section>
+
+        <section class="card tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur">
+                <option value="">None (plain numbers)</option>
+                <option value="$">$ (dollar)</option>
+                <option value="€">€ (euro)</option>
+                <option value="£">£ (pound)</option>
+                <option value="₹">₹ (rupee)</option>
+                <option value="Rs">Rs (rupee)</option>
+                <option value="¥">¥ (yen, yuan)</option>
+                <option value="₩">₩ (won)</option>
+                <option value="₦">₦ (naira)</option>
+                <option value="₱">₱ (peso)</option>
+                <option value="R">R (rand)</option>
+                <option value="kr">kr (krona, krone)</option>
+                <option value="CHF">CHF (franc)</option>
+                <option value="AED">AED (dirham)</option>
+                <option value="SAR">SAR (riyal)</option>
+                <option value="RM">RM (ringgit)</option>
+            </select>
+            <div class="tool-grid">
+                <button type="button" id="copy" class="secondary">Copy result</button>
+                <a id="mail" class="secondary" href="mailto:">Email result</a>
+                <button type="button" id="restart" class="danger">Start over</button>
+            </div>
+            <p class="hint">Saved only in this browser on this device, so it is still here next time. Nothing is sent anywhere.</p>
+            <p class="msg" id="tools-msg" role="status"></p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>What is a unit price?</summary><p>It is the price for the same amount of each product, for example per kg, per litre or per item. A big pack is not always cheaper: comparing the price per kg shows the real deal.</p></details>
+        <details><summary>What does &ldquo;The same 1.2 kg bought this way costs&rdquo; mean?</summary><p>It is what you would pay for the same amount as the cheapest pack if you bought it at this pack&rsquo;s price per kg. The difference is what the cheapest pack saves you.</p></details>
+        <details><summary>How do I enter a multipack or a &ldquo;3 for 5&rdquo; offer?</summary><p>Tap <b>+ It is a multipack or multi-buy</b>. For 6 cans of 330 ml at 4.50, type price 4.50, size 330 ml and how many 6. For &ldquo;3 for 5.00&rdquo;, type price 5.00, how many 3 and the size of one.</p></details>
+        <details><summary>Why is one pack &ldquo;not compared&rdquo;?</summary><p>A weight cannot be compared with a liquid, a length or a number of items. Change that pack&rsquo;s unit so all packs are measured the same way, for example all in g or kg.</p></details>
+        <details><summary>Which fluid ounce does it use?</summary><p><b>fl oz</b> is the US fluid ounce (29.57 ml) used on US labels. Pick <b>UK fl oz</b> (28.41 ml) for British labels. Pints are UK (568 ml) or US (473 ml); you choose which.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. There is no account. What you type stays in this browser on this device, and the app works offline once it has loaded, so it works in a shop with no signal.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/unit-price-calculator-for-shopping">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Unit Price Calculator for Shopping", "sections": [
+ {"h": "Compare packs", "steps": ["Each pack has its own box, A, B, C. Type its Price and its Size from the label, and pick the unit (g, kg, oz, lb, ml, L, fl oz, pints, m, ft or items).", "Each pack can use a different unit. 500 g and 2 lb are converted before comparing.", "The line at the bottom of each box shows that pack's price per kg (or per litre, per item, and so on) as soon as it is filled in.", "Tap \"+ Add another pack\" to compare up to 10. Tap \"Remove\" to take one away, and \"Undo\" to bring it back.", "Tap \"+ Add a name (optional)\" in a box to call it, for example, Big bag or Brand X. Without a name it is called Item A, Item B and so on.", "Not sure how it works? Tap \"Try an example\"."]},
+ {"h": "Multipacks and offers", "steps": ["Tap \"+ It is a multipack or multi-buy (optional)\" and type How many in the pack. The Size is then the size of one, for example 6 × 330 ml.", "For an offer like 3 for 5.00, type the Price 5.00, How many 3, and the size of one."]},
+ {"h": "Read the answer", "steps": ["Which is cheaper? names the cheapest pack and its price per unit, and how much more the next one costs, in percent.", "The list ranks every pack from cheapest to dearest. Each one says how much more it costs per unit, and what the same amount as the cheapest pack would cost bought that way.", "\"Show the price per\" changes the unit of the answer, for example per kg, per 100 g, per lb or per oz. It is remembered.", "If two packs cost exactly the same per unit, it says so.", "A pack in a different kind of unit (for example litres when the others are in kg) is not compared, and the app says which one to change."]},
+ {"h": "Share and settings", "steps": ["\"Currency symbol\" adds $, €, £, ₹ or another symbol to every price. None shows plain numbers. It is remembered.", "\"Copy result\" copies the answer as text. \"Email result\" opens your mail app with the answer written and no address filled in.", "\"Start over\" clears every pack. Tap \"Undo\" if you did not mean it."]},
+ {"h": "Good to know", "tips": true, "steps": ["Prices are worked to the cent. The price per unit shows more decimals when two packs would otherwise look the same, or when it is very small, like the price per sheet.", "You can type 2,49 or 2.49, and paste prices with a symbol such as $2.49.", "The cheapest per unit is only a better deal if you will use it all before it goes off.", "Everything stays in this browser on this device. Nothing is sent anywhere, and it works offline."]}
+]}</script>
+</body>
+</html>

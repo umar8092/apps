@@ -182,6 +182,14 @@ Saving for a trip, a deposit, a laptop or a rainy day? Add the goal and see exac
 
 <a href="savings-goal-planner/"><img src="savings-goal-planner/screenshots/phone.png" alt="Savings Goal Planner screenshot" width="260"></a>
 
+### <img src="unit-price-calculator-for-shopping/favicon.svg" width="36" height="36" align="center"> [Unit Price Calculator for Shopping](https://umar8092.github.io/apps/unit-price-calculator-for-shopping/)
+
+In the shop and not sure which pack is cheaper? Type the price and size from each label, in grams, kilos, ounces, pounds, litres, fluid ounces or a number of items, and see the price per kg, litre or item of each, which one is cheapest, how much more the others cost in percent, and what the same amount would cost. Multipacks and "3 for 5" offers too. Private, no sign-up, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/unit-price-calculator-for-shopping/) &middot; [Details and screenshots](unit-price-calculator-for-shopping/)
+
+<a href="unit-price-calculator-for-shopping/"><img src="unit-price-calculator-for-shopping/screenshots/phone.png" alt="Unit Price Calculator for Shopping screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

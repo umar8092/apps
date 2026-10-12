@@ -130,5 +130,11 @@
     "name": "Savings Goal Planner",
     "description": "See exactly how much to save each month or week to reach your goal by a date, or when a set amount gets you there. Several goals, money in and out, interest.",
     "color": "#ca8a04"
+  },
+  {
+    "slug": "unit-price-calculator-for-shopping",
+    "name": "Unit Price Calculator for Shopping",
+    "description": "Which pack is cheaper? Type the price and size of each one, in any unit, and see the price per kg, litre or item, the cheapest, and how much more the others cost. Multipacks too.",
+    "color": "#7c3aed"
   }
 ]
