@@ -1,0 +1,15 @@
+{
+  "name": "Savings Goal Planner",
+  "short_name": "Savings Goals",
+  "description": "See exactly how much to save each month or week to reach your goal by a date, or when a set amount gets you there.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1c170b",
+  "theme_color": "#a16207",
+  "categories": ["finance", "productivity", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

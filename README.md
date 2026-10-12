@@ -174,6 +174,14 @@ Write down what you spend and give each category a monthly budget. See what is l
 
 <a href="expense-and-budget-tracker/"><img src="expense-and-budget-tracker/screenshots/phone.png" alt="Expense and Budget Tracker screenshot" width="260"></a>
 
+### <img src="savings-goal-planner/favicon.svg" width="36" height="36" align="center"> [Savings Goal Planner](https://umar8092.github.io/apps/savings-goal-planner/)
+
+Saving for a trip, a deposit, a laptop or a rainy day? Add the goal and see exactly how much to save every month, every 2 weeks or every week to reach it by a date, or the date a set amount gets you there, with the exact number of payments and a smaller last one when it does not divide evenly. Several goals, each with its own settings, money in and out, optional interest. Copy, email or print the plan. Private, no sign-up, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/savings-goal-planner/) &middot; [Details and screenshots](savings-goal-planner/)
+
+<a href="savings-goal-planner/"><img src="savings-goal-planner/screenshots/phone.png" alt="Savings Goal Planner screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

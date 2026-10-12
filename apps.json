@@ -124,5 +124,11 @@
     "name": "Expense and Budget Tracker",
     "description": "Log what you spend by category, set a monthly budget for each, and see what is left, how much you can spend a day and a warning before you go over.",
     "color": "#0d9488"
+  },
+  {
+    "slug": "savings-goal-planner",
+    "name": "Savings Goal Planner",
+    "description": "See exactly how much to save each month or week to reach your goal by a date, or when a set amount gets you there. Several goals, money in and out, interest.",
+    "color": "#ca8a04"
   }
 ]

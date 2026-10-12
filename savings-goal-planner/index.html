@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Goal Planner: How Much to Save Each Month, Free</title>
+    <meta name="description" content="Free savings goal planner. Enter what you are saving for, the amount and the date, and see exactly how much to save each month or week, or how soon a set amount gets you there. Several goals, money in and out, interest. Private, no sign-up, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/savings-goal-planner/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#ca8a04">
+    <meta name="theme-color" content="#a16207">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Savings Goal Planner">
+    <meta property="og:url" content="https://umar8092.github.io/apps/savings-goal-planner/">
+    <meta property="og:title" content="Savings Goal Planner: How Much to Save Each Month">
+    <meta property="og:description" content="See exactly how much to save each month or week to reach your goal by a date, or when a set amount gets you there. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Savings Goal Planner","alternateName":["Savings Goal Calculator","How Much to Save Per Month","Savings Tracker"],"url":"https://umar8092.github.io/apps/savings-goal-planner/","description":"A free savings goal planner. See how much to save each month or week to reach a goal by a date, or when a set amount gets you there, and track the money you put in.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"savings goal calculator, how much to save per month, savings planner, savings tracker, save for a trip","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much do I need to save each month to reach my goal?","acceptedAnswer":{"@type":"Answer","text":"Add the goal amount, what you have saved and the date, and choose Reach it by a date. The app counts your payments from today to that date and gives the exact amount, for example 8 payments of 225.00 for 1,800.00 still needed."}},{"@type":"Question","name":"When will I reach my goal if I save a set amount?","acceptedAnswer":{"@type":"Answer","text":"Choose Save a set amount and type what you can save each time. The app shows the date of the payment that reaches the goal and how big the last payment needs to be."}},{"@type":"Question","name":"Does it count interest?","acceptedAnswer":{"@type":"Answer","text":"Only if you add it. Tap Add interest and type the yearly rate of your savings account. Interest is added each time you save."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your goals are saved only in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Savings Goal Planner</h1>
+        <p class="sub">Saving for a trip, a deposit or a rainy day? See exactly how much to put away each month, or when you will get there.</p>
+    </header>
+
+    <div class="col-main">
+        <section class="card goals-card" aria-labelledby="goals-h">
+            <h2 id="goals-h">Your goals <span class="count" id="goals-n"></span></h2>
+            <div id="intro">
+                <p class="lead">Add what you are saving for. The app works out how much to save each time, or when you will reach it, and keeps track as you put money in.</p>
+                <button type="button" id="demo" class="ghost">Try three example goals</button>
+            </div>
+            <ul class="goals" id="goals"></ul>
+            <p class="msg" id="goals-msg" role="status"></p>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card result" id="summary" aria-labelledby="sum-h" hidden>
+            <h2 class="big-label" id="sum-h">All your goals</h2>
+            <p class="big" id="sum-saved" aria-live="polite">0.00</p>
+            <p class="meta" id="sum-meta"></p>
+            <div class="bar" aria-hidden="true"><i id="sum-bar"></i></div>
+            <p class="per-month" id="sum-month"></p>
+        </section>
+
+        <section class="card add-card" aria-labelledby="form-h">
+            <form id="form" novalidate autocomplete="off">
+                <h2 id="form-h">Add a savings goal</h2>
+                <label for="f-name">What are you saving for?</label>
+                <input id="f-name" type="text" maxlength="50" placeholder="e.g. Trip to Japan">
+                <div class="two">
+                    <div>
+                        <label for="f-target">Goal amount</label>
+                        <div class="money"><span class="sym" aria-hidden="true"></span><input id="f-target" type="text" inputmode="decimal" maxlength="16" placeholder="e.g. 3000"></div>
+                    </div>
+                    <div>
+                        <label for="f-start">Saved so far</label>
+                        <div class="money"><span class="sym" aria-hidden="true"></span><input id="f-start" type="text" inputmode="decimal" maxlength="16" placeholder="0"></div>
+                    </div>
+                </div>
+                <p class="q">How do you want to plan?</p>
+                <div class="kind" role="radiogroup" aria-label="How do you want to plan?">
+                    <label><input type="radio" name="mode" value="date" id="m-date" checked><span>Reach it by a date</span></label>
+                    <label><input type="radio" name="mode" value="amount" id="m-amount"><span>Save a set amount</span></label>
+                </div>
+                <div class="two">
+                    <div id="date-box">
+                        <label for="f-date">Goal date</label>
+                        <input id="f-date" type="date" min="2000-01-01" max="2125-12-31">
+                    </div>
+                    <div id="pay-box" hidden>
+                        <label for="f-pay">I can save</label>
+                        <div class="money"><span class="sym" aria-hidden="true"></span><input id="f-pay" type="text" inputmode="decimal" maxlength="16" placeholder="e.g. 200"></div>
+                    </div>
+                    <div>
+                        <label for="f-freq">How often</label>
+                        <select id="f-freq">
+                            <option value="month">Every month</option>
+                            <option value="2weeks">Every 2 weeks</option>
+                            <option value="week">Every week</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" id="open-rate" class="link">+ Add interest (optional)</button>
+                <div id="rate-box" hidden>
+                    <label for="f-rate">Interest a year</label>
+                    <div class="money narrow"><input id="f-rate" type="text" inputmode="decimal" maxlength="7" placeholder="e.g. 4.5"><span class="suffix" aria-hidden="true">%</span></div>
+                    <p class="hint">From your savings account. It is added each time you save.</p>
+                    <button type="button" id="close-rate" class="link small">No interest</button>
+                </div>
+                <p class="err" id="form-err" role="alert"></p>
+                <div class="form-btns" id="form-btns">
+                    <button type="submit" id="save" class="primary">Add goal</button>
+                    <button type="button" id="cancel-edit" class="secondary" hidden>Cancel</button>
+                </div>
+            </form>
+            <p class="msg" id="add-msg" role="status"></p>
+        </section>
+
+        <section class="card tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur">
+                <option value="">None (plain numbers)</option>
+                <option value="$">$ (dollar)</option>
+                <option value="€">€ (euro)</option>
+                <option value="£">£ (pound)</option>
+                <option value="₹">₹ (rupee)</option>
+                <option value="Rs">Rs (rupee)</option>
+                <option value="¥">¥ (yen, yuan)</option>
+                <option value="₩">₩ (won)</option>
+                <option value="₦">₦ (naira)</option>
+                <option value="₱">₱ (peso)</option>
+                <option value="R">R (rand)</option>
+                <option value="kr">kr (krona, krone)</option>
+                <option value="CHF">CHF (franc)</option>
+                <option value="AED">AED (dirham)</option>
+                <option value="SAR">SAR (riyal)</option>
+                <option value="RM">RM (ringgit)</option>
+            </select>
+            <div class="tool-grid">
+                <button type="button" id="copy" class="secondary">Copy plan</button>
+                <a id="mail" class="secondary" href="mailto:">Email plan</a>
+                <button type="button" id="print" class="secondary">Print</button>
+            </div>
+            <p class="hint">Your goals are saved only in this browser on this device. Nothing is sent anywhere.</p>
+            <p class="msg warn" id="save-warn" role="status" hidden>This browser is not saving your goals (private mode or storage blocked). They stay only until you close this page.</p>
+            <button type="button" id="wipe" class="danger">Delete all goals</button>
+            <p class="msg" id="tools-msg" role="status"></p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is the amount to save worked out?</summary><p>The app counts your payments from today (the first one is today) to the goal date: every month on the same day, every 2 weeks or every week. It then finds the smallest amount, to the cent, that reaches the goal. When the amount does not divide evenly, the last payment is a little smaller, and the app says so.</p></details>
+        <details><summary>I already put money in this month. Does it count?</summary><p>Yes. Tap <b>Add money</b> on the goal. It is added to what you have saved, and the next payment moves to one month (or 2 weeks, or a week) after it, so the plan does not ask you to pay twice.</p></details>
+        <details><summary>What if I take money out?</summary><p>Tap <b>Take money out</b>. What you have saved goes down and the plan works out the new amount you need to save from now on.</p></details>
+        <details><summary>How is interest counted?</summary><p>Only if you add it. The yearly rate is split over your payments (divided by 12 for every month, 26 for every 2 weeks, 52 for every week) and added to what you have saved before each payment, rounded to the cent. Real accounts can work a little differently, so treat interest as an estimate.</p></details>
+        <details><summary>The goal date has passed. What now?</summary><p>The goal says how much you still need. Tap <b>Edit</b> and choose a later date, or switch to <b>Save a set amount</b> to see when you will get there.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. No account and no bank connection. Your goals stay in this browser on this device, and the app works offline once it has loaded.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/savings-goal-planner">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Savings Goal Planner", "sections": [
+ {"h": "Add a goal", "steps": ["Type what you are saving for, the Goal amount and what you have Saved so far (leave it empty if nothing yet).", "Choose \"Reach it by a date\" and pick the Goal date to see how much to save each time.", "Or choose \"Save a set amount\" and type what you can save in \"I can save\" to see when you will reach it.", "\"How often\" sets how often you put money away: every month, every 2 weeks (for example each payday) or every week.", "Saving in an account that pays interest? Tap \"+ Add interest (optional)\" and type the yearly rate. \"No interest\" removes it.", "Tap \"Add goal\". Not sure how it looks? Tap \"Try three example goals\"."]},
+ {"h": "Read the answer", "steps": ["Each goal sits in its own box with what you have saved, a bar, and the answer in big letters.", "By a date: how much to save each time, how many payments, and the date of the last one. If the amount does not divide evenly, the last payment is a little smaller.", "A set amount: the date you reach the goal, how many payments, and how much the last one needs to be.", "Next payment says when to put money in next. Goal reached means you have enough, and how much extra.", "All your goals, at the top, adds up what you have saved and about how much you save in total each month."]},
+ {"h": "Keep it up to date", "steps": ["Put money in? Tap \"Add money\" on the goal, type the amount and tap \"Save\". The plan starts again from the new amount, and the next payment moves on.", "Took money out? Tap \"Take money out\". You cannot take out more than is saved.", "\"Money in and out\" lists every change. \"Delete\" removes one, with Undo.", "\"Edit\" changes the goal (name, amount, date, how often, interest). \"Delete\" removes the goal, and \"Undo\" brings it back."]},
+ {"h": "Share and settings", "steps": ["\"Currency symbol\" adds $, €, £, ₹ or another symbol to every amount. None shows plain numbers. It is remembered.", "\"Copy plan\", \"Email plan\" and \"Print\" share all your goals and what to save. Email opens your mail app with no address filled in.", "\"Delete all goals\" empties the app, with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["Amounts are worked out to the exact cent, so the payments always add up to the goal.", "The plan updates by itself every day, counting from today.", "Your goals stay in this browser on this device. Nothing is sent anywhere, and the app works offline."]}
+]}</script>
+</body>
+</html>
