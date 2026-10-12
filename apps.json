@@ -142,5 +142,11 @@
     "name": "Invoice Generator for Freelancers",
     "description": "Make an invoice and print it or save it as a PDF. Discount, tax, deposit, numbers that count up, saved clients. No sign-up.",
     "color": "#059669"
+  },
+  {
+    "slug": "qr-code-generator-for-links-and-wi-fi",
+    "name": "QR Code Generator for Links and Wi-Fi",
+    "description": "Make a QR code for a link, your Wi-Fi, a contact, a phone number, a text message or an email. Never expires, no sign-up, nothing uploaded. PNG, SVG or print.",
+    "color": "#4f46e5"
   }
 ]

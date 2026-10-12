@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator for Links and Wi-Fi: Free, Never Expires</title>
+    <meta name="description" content="Free QR code generator for a link, your Wi-Fi, a contact card, a phone number, a text message, an email or plain text. The code never expires, there is no sign-up and nothing is sent anywhere. Download PNG or SVG, or print a Wi-Fi card.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/qr-code-generator-for-links-and-wi-fi/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#4f46e5">
+    <meta name="theme-color" content="#4338ca">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="QR Code Generator for Links and Wi-Fi">
+    <meta property="og:url" content="https://umar8092.github.io/apps/qr-code-generator-for-links-and-wi-fi/">
+    <meta property="og:title" content="QR Code Generator for Links and Wi-Fi: Free, Never Expires">
+    <meta property="og:description" content="Make a QR code for a link, Wi-Fi, contact, phone, text message or email. Never expires, no sign-up, nothing uploaded. PNG, SVG or print.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"QR Code Generator for Links and Wi-Fi","alternateName":["Free QR Code Generator","Wi-Fi QR Code Generator","QR Code Maker"],"url":"https://umar8092.github.io/apps/qr-code-generator-for-links-and-wi-fi/","description":"Make a QR code for a link, Wi-Fi network, contact card, phone number, text message, email or text. Static codes that never expire, made on your device.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"qr code generator, free qr code, wifi qr code, qr code that never expires, vcard qr code, qr code maker no sign up","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Will my QR code expire?","acceptedAnswer":{"@type":"Answer","text":"No. The link, Wi-Fi details or contact are written straight into the code. There is no redirect through a website, so it keeps working for as long as the link itself works."}},{"@type":"Question","name":"How do I make a QR code for my Wi-Fi?","acceptedAnswer":{"@type":"Answer","text":"Choose Wi-Fi, type the network name and password exactly as they are, and pick the security (most home and cafe networks use WPA2 or WPA3). Guests point their phone camera at the code and tap Join."}},{"@type":"Question","name":"How big should I print a QR code?","acceptedAnswer":{"@type":"Answer","text":"At least 2 cm (0.8 in) wide for a short link held close to the phone. The app tells you a minimum for your code; print bigger for posters seen from a distance."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>QR Code Generator for Links and Wi-Fi</h1>
+        <p class="sub">Make a QR code for a link, your Wi-Fi, a contact, a phone number or a message. It never expires, and nothing is sent anywhere.</p>
+    </header>
+
+    <div class="col-main">
+        <section class="card what" aria-labelledby="what-h">
+            <h2 id="what-h">What should the code do?</h2>
+            <div class="types" role="radiogroup" aria-labelledby="what-h" id="types">
+                <label class="chip"><input type="radio" name="type" value="link" checked><span>Open a link</span></label>
+                <label class="chip"><input type="radio" name="type" value="wifi"><span>Join Wi-Fi</span></label>
+                <label class="chip"><input type="radio" name="type" value="contact"><span>Save a contact</span></label>
+                <label class="chip"><input type="radio" name="type" value="phone"><span>Call a number</span></label>
+                <label class="chip"><input type="radio" name="type" value="sms"><span>Send a text message</span></label>
+                <label class="chip"><input type="radio" name="type" value="email"><span>Send an email</span></label>
+                <label class="chip"><input type="radio" name="type" value="text"><span>Show some text</span></label>
+            </div>
+
+            <div class="panel" data-type="link">
+                <label for="link-url">Link (web address)</label>
+                <input type="text" id="link-url" data-f="url" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" placeholder="example.com/menu">
+                <p class="err" data-err="url"></p>
+                <p class="hint">Paste the whole link from your browser. It can be a menu, a review page, a form, a video or a shop.</p>
+            </div>
+
+            <div class="panel" data-type="wifi" hidden>
+                <label for="wifi-ssid">Network name</label>
+                <input type="text" id="wifi-ssid" data-f="ssid" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Cafe Guest">
+                <p class="err" data-err="ssid"></p>
+                <label for="wifi-sec">Security</label>
+                <select id="wifi-sec" data-f="security">
+                    <option value="WPA">WPA2 or WPA3 (most networks)</option>
+                    <option value="WEP">WEP (very old routers)</option>
+                    <option value="nopass">None (open network, no password)</option>
+                </select>
+                <div id="wifi-pw-box">
+                    <label for="wifi-pw">Password</label>
+                    <div class="pw-row">
+                        <input type="password" id="wifi-pw" data-f="password" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Wi-Fi password">
+                        <button type="button" class="pw-show" id="pw-show" aria-pressed="false" aria-controls="wifi-pw">Show</button>
+                    </div>
+                    <p class="err" data-err="password"></p>
+                </div>
+                <label class="check"><input type="checkbox" id="wifi-hidden" data-f="hidden"> Hidden network (it does not show in the Wi-Fi list)</label>
+                <p class="hint">Type the name and password exactly, with the same capital letters. They are on the sticker on the router.</p>
+            </div>
+
+            <div class="panel" data-type="contact" hidden>
+                <div class="two">
+                    <div><label for="c-first">First name</label><input type="text" id="c-first" data-f="first" autocomplete="given-name" placeholder="Sara"></div>
+                    <div><label for="c-last">Last name</label><input type="text" id="c-last" data-f="last" autocomplete="family-name" placeholder="Khan"></div>
+                </div>
+                <p class="err" data-err="first"></p>
+                <label for="c-mobile">Mobile number</label>
+                <input type="tel" id="c-mobile" data-f="mobile" autocomplete="tel" placeholder="+92 300 1234567">
+                <p class="err" data-err="mobile"></p>
+                <label for="c-email">Email</label>
+                <input type="email" id="c-email" data-f="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="sara@example.com">
+                <p class="err" data-err="email"></p>
+                <label for="c-org">Company</label>
+                <input type="text" id="c-org" data-f="org" autocomplete="organization" placeholder="Khan Bakery">
+                <button type="button" class="link" id="c-more-btn" aria-expanded="false" aria-controls="c-more">+ Add more details (optional)</button>
+                <div id="c-more" hidden>
+                    <label for="c-title">Job title</label>
+                    <input type="text" id="c-title" data-f="title" placeholder="Owner">
+                    <label for="c-work">Work phone</label>
+                    <input type="tel" id="c-work" data-f="work" placeholder="+92 42 1234567">
+                    <p class="err" data-err="work"></p>
+                    <label for="c-web">Website</label>
+                    <input type="text" id="c-web" data-f="website" inputmode="url" autocapitalize="off" spellcheck="false" placeholder="example.com">
+                    <label for="c-addr">Address</label>
+                    <textarea id="c-addr" data-f="address" rows="2" placeholder="12 Mall Road, Lahore"></textarea>
+                    <label for="c-note">Note</label>
+                    <input type="text" id="c-note" data-f="note" placeholder="Open 9 to 5">
+                </div>
+                <p class="hint">Scanning it offers to save you in the phone's contacts. Fill in only what you want to share.</p>
+            </div>
+
+            <div class="panel" data-type="phone" hidden>
+                <label for="p-num">Phone number</label>
+                <input type="tel" id="p-num" data-f="number" autocomplete="tel" placeholder="+44 20 7946 0958">
+                <p class="err" data-err="number"></p>
+                <p class="hint">Scanning it opens the phone's dialler with this number ready to call.</p>
+            </div>
+
+            <div class="panel" data-type="sms" hidden>
+                <label for="s-num">Send to phone number</label>
+                <input type="tel" id="s-num" data-f="number" autocomplete="tel" placeholder="+1 555 0100">
+                <p class="err" data-err="number"></p>
+                <label for="s-msg">Message (optional)</label>
+                <textarea id="s-msg" data-f="message" rows="2" placeholder="JOIN"></textarea>
+                <p class="hint">Scanning it opens the messages app with the number and message filled in. The person still taps send.</p>
+            </div>
+
+            <div class="panel" data-type="email" hidden>
+                <label for="e-to">Send to email address</label>
+                <input type="email" id="e-to" data-f="to" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="help@example.com">
+                <p class="err" data-err="to"></p>
+                <button type="button" class="link" id="e-more-btn" aria-expanded="false" aria-controls="e-more">+ Add a subject and message (optional)</button>
+                <div id="e-more" hidden>
+                    <label for="e-sub">Subject</label>
+                    <input type="text" id="e-sub" data-f="subject" placeholder="Booking request">
+                    <label for="e-body">Message</label>
+                    <textarea id="e-body" data-f="body" rows="3" placeholder="Hello,"></textarea>
+                </div>
+                <p class="hint">Scanning it opens the mail app with the email written. The person still taps send.</p>
+            </div>
+
+            <div class="panel" data-type="text" hidden>
+                <label for="t-text">Text</label>
+                <textarea id="t-text" data-f="text" rows="4" placeholder="Locker code 4471. Back door is on the left."></textarea>
+                <p class="err" data-err="text"></p>
+                <p class="hint">Scanning it shows this text on the phone. Works without internet.</p>
+            </div>
+
+            <ul class="notes" id="notes" aria-live="polite"></ul>
+        </section>
+
+        <section class="card look" aria-labelledby="look-h">
+            <h2 id="look-h">Colours and size</h2>
+            <div class="two">
+                <div><label for="fg">Dots colour</label><input type="color" id="fg" value="#000000"></div>
+                <div><label for="bg">Background colour</label><input type="color" id="bg" value="#ffffff"></div>
+            </div>
+            <label class="check"><input type="checkbox" id="transparent"> See-through background (for putting on your own design)</label>
+            <p class="warn" id="colour-warn" role="status"></p>
+            <button type="button" class="link small" id="colour-reset">Back to black on white</button>
+            <label for="ecl">Error correction</label>
+            <select id="ecl">
+                <option value="L">Low: smallest code, for screens</option>
+                <option value="M" selected>Medium: good for most uses</option>
+                <option value="Q">Quartile: for printing on paper</option>
+                <option value="H">High: for stickers that may get scratched or dirty</option>
+            </select>
+            <p class="hint">Higher error correction still scans when part of the code is damaged, but makes it a little denser.</p>
+            <label for="size">Picture size for downloads</label>
+            <select id="size">
+                <option value="256">Small, 256 × 256 pixels (web, chat)</option>
+                <option value="512">Medium, 512 × 512 pixels</option>
+                <option value="1024" selected>Large, 1024 × 1024 pixels (documents)</option>
+                <option value="2048">Print, 2048 × 2048 pixels (posters)</option>
+                <option value="own">Own size…</option>
+            </select>
+            <div id="own-box" hidden>
+                <label for="own">Width in pixels (64 to 4096)</label>
+                <input type="text" id="own" inputmode="numeric" placeholder="800">
+                <p class="err" id="own-err"></p>
+            </div>
+            <p class="hint">SVG files have no fixed size and stay sharp at any size, so use SVG for big printing.</p>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card result" aria-labelledby="res-h">
+            <h2 id="res-h">Your QR code</h2>
+            <div class="preview" id="preview">
+                <img id="qr-img" alt="" hidden>
+                <p class="empty" id="qr-empty">Type a link to see its QR code here.</p>
+            </div>
+            <p class="does" id="does" aria-live="polite"></p>
+            <div id="cap-wrap">
+                <button type="button" class="link" id="cap-btn" aria-expanded="false" aria-controls="cap-box">+ Add words under the code (optional)</button>
+                <div id="cap-box" hidden>
+                    <label for="caption">Words under the code</label>
+                    <input type="text" id="caption" maxlength="80" placeholder="Scan for our menu">
+                </div>
+                <label class="check" id="wifi-text-box" hidden><input type="checkbox" id="wifi-text" checked> Show the network name and password under the code</label>
+            </div>
+            <div class="actions">
+                <button type="button" class="primary" id="dl-png">Download PNG</button>
+                <button type="button" class="secondary" id="dl-svg">Download SVG</button>
+                <button type="button" class="secondary" id="copy-img">Copy picture</button>
+                <button type="button" class="secondary" id="share" hidden>Share</button>
+                <button type="button" class="secondary" id="print">Print</button>
+            </div>
+            <label for="copies">Print on one page</label>
+            <select id="copies">
+                <option value="1">1 large code</option>
+                <option value="4">4 codes (to cut out)</option>
+                <option value="6">6 codes (to cut out)</option>
+            </select>
+            <p class="hint" id="print-hint">Before printing many, test the code with your own phone camera.</p>
+            <p class="msg" id="res-msg" role="status"></p>
+            <details class="inside">
+                <summary>What is inside the code</summary>
+                <pre id="payload"></pre>
+            </details>
+        </section>
+
+        <section class="card saved" aria-labelledby="saved-h">
+            <h2 id="saved-h">My QR codes</h2>
+            <label for="save-name">Name (optional)</label>
+            <input type="text" id="save-name" maxlength="80" placeholder="Cafe Wi-Fi">
+            <div class="save-row">
+                <button type="button" class="secondary" id="save">Save to My QR codes</button>
+                <button type="button" class="secondary" id="save-new" hidden>Save as a new code</button>
+            </div>
+            <p class="msg" id="saved-msg" role="status"></p>
+            <ul class="saved-list" id="saved-list"></ul>
+            <p class="hint" id="saved-empty">Nothing saved yet. Save a code to open it again later and reprint it.</p>
+            <button type="button" class="danger" id="restart">Start over</button>
+            <p class="hint">Everything stays in this browser on this device. Nothing is sent anywhere.</p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Will my QR code stop working?</summary><p>No. What you type is written straight into the code. There is no short link through this website and no account to run out, so it keeps working for as long as your link, Wi-Fi password or number stays the same. If you change your Wi-Fi password, make a new code.</p></details>
+        <details><summary>How do guests join my Wi-Fi with it?</summary><p>They open the camera on an iPhone or Android phone, point it at the code and tap the Wi-Fi notice that appears. Type the network name and password exactly, with the same capitals and spaces, or the phone cannot join.</p></details>
+        <details><summary>How big should I print it?</summary><p>At least the width the app shows under the code, never under 2 cm (0.8 in). For a poster seen from a distance, make it about a tenth of that distance wide: 30 cm (1 ft) for 3 m (10 ft). Use Download SVG for large printing.</p></details>
+        <details><summary>Can I use my own colours?</summary><p>Yes, as long as the dots stay dark and the background light. Many phone cameras cannot read light dots on a dark background, so the app warns you.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. There is no account. The code is made on your device, nothing is sent anywhere, and the app works offline once it has loaded.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/qr-code-generator-for-links-and-wi-fi">Open source (MIT)</a> &middot; QR library by <a href="https://www.nayuki.io/page/qr-code-generator-library">Project Nayuki</a> (MIT)</footer>
+</main>
+<div id="print-area" aria-hidden="true"></div>
+<script src="qrcodegen.js"></script>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use QR Code Generator for Links and Wi-Fi", "sections": [
+ {"h": "Make a code", "steps": ["Under \"What should the code do?\" choose Open a link, Join Wi-Fi, Save a contact, Call a number, Send a text message, Send an email or Show some text.", "Fill in the boxes. The code appears under \"Your QR code\" as you type, with a line saying what it does when scanned.", "Open a link: paste the web address. If it has no https:// at the start, it is added for you.", "Join Wi-Fi: type the Network name and Password exactly as on the router sticker, and choose the Security (WPA2 or WPA3 for most networks, None for an open network). Tick Hidden network only if it does not show in the phone's Wi-Fi list.", "Save a contact: type a name or a company, and any of the mobile, email and company. Tap \"+ Add more details (optional)\" for job title, work phone, website, address and a note.", "Call a number and Send a text message: type the number, best with the country code such as +44. Send an email: type the address, and tap \"+ Add a subject and message (optional)\" if you want them filled in.", "A red line under a box says what to fix. A yellow note is a warning: the code still works, but check it."]},
+ {"h": "Download, print and share", "steps": ["\"Download PNG\" saves a picture for documents, chats and websites. \"Download SVG\" saves a file that stays sharp at any size, best for printing.", "\"Copy picture\" copies the code so you can paste it into a document or chat. \"Share\" (on phones) sends it to another app.", "\"Print\" prints only the code. Choose \"Print on one page\": 1 large code, or 4 or 6 to cut out.", "Tap \"+ Add words under the code (optional)\" to print a line such as Scan for our menu under the code.", "For Wi-Fi, \"Show the network name and password under the code\" prints them too, so people whose phone cannot scan can still type them. Untick it to keep the password off the paper.", "The line under the code says how small you can print it. Always test it with your own phone camera before printing many."]},
+ {"h": "Colours and size", "steps": ["\"Dots colour\" and \"Background colour\" change the colours. Keep the dots dark and the background light, or phones may not read it; the app warns you.", "\"See-through background\" leaves the background empty in PNG and SVG files, for placing on your own design. \"Back to black on white\" resets the colours.", "\"Error correction\": Medium suits most uses. Choose High for stickers that may get scratched, or Low for the smallest code on a screen.", "\"Picture size for downloads\" sets the PNG width in pixels. Choose \"Own size…\" to type any width from 64 to 4096."]},
+ {"h": "My QR codes", "steps": ["Type a Name (optional) and tap \"Save to My QR codes\" to keep the code, its colours and its words.", "Tap \"Open\" on a saved code to see or reprint it. After changing it, tap \"Save changes\", or \"Save as a new code\" to keep both.", "\"Delete\" removes a saved code; tap \"Undo\" if you did not mean it.", "\"Start over\" clears what you typed in every kind of code. Colours, size and saved codes stay. Tap \"Undo\" to bring it back."]},
+ {"h": "Good to know", "tips": true, "steps": ["The code never expires: what you typed is inside the code itself, with no website in between.", "\"What is inside the code\" shows the exact text a phone reads, if you want to check it.", "If you change your Wi-Fi password or the link, make and print a new code.", "Very long text makes a dense code that is hard to scan. If it is too long for one code, the app says so.", "Everything stays in this browser on this device, including Wi-Fi passwords you type. Nothing is sent anywhere, and the app works offline."]}
+]}</script>
+</body>
+</html>

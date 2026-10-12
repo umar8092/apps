@@ -198,6 +198,14 @@ Need to send an invoice today? Fill in your details, the client and what you are
 
 <a href="invoice-generator-for-freelancers/"><img src="invoice-generator-for-freelancers/screenshots/phone.png" alt="Invoice Generator for Freelancers screenshot" width="260"></a>
 
+### <img src="qr-code-generator-for-links-and-wi-fi/favicon.svg" width="36" height="36" align="center"> [QR Code Generator for Links and Wi-Fi](https://umar8092.github.io/apps/qr-code-generator-for-links-and-wi-fi/)
+
+Need a QR code for your menu link, your guest Wi-Fi, a contact card, a phone number, a text message or an email? Type it and the code appears straight away. Download it as PNG or SVG, copy it, or print a card with the Wi-Fi name and password under it. The code never expires because nothing goes through a website, and you can save your codes to reprint later. No sign-up, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/qr-code-generator-for-links-and-wi-fi/) &middot; [Details and screenshots](qr-code-generator-for-links-and-wi-fi/)
+
+<a href="qr-code-generator-for-links-and-wi-fi/"><img src="qr-code-generator-for-links-and-wi-fi/screenshots/phone.png" alt="QR Code Generator for Links and Wi-Fi screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
