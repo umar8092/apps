@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Scanner to PDF: Photos to One PDF, Free</title>
+    <meta name="description" content="Free document scanner in your browser. Photograph paper pages, crop and straighten them, make them clean and readable, put them in order and save one PDF under the size you need, like 2 MB or 10 MB. Nothing is uploaded. No sign-up, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/document-scanner-to-pdf/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#65a30d">
+    <meta name="theme-color" content="#4d7c0f">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Document Scanner to PDF">
+    <meta property="og:url" content="https://umar8092.github.io/apps/document-scanner-to-pdf/">
+    <meta property="og:title" content="Document Scanner to PDF: Photos to One PDF">
+    <meta property="og:description" content="Photograph paper pages, crop and clean them, put them in order and save one PDF under the size you need. Nothing is uploaded.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Document Scanner to PDF","alternateName":["Scan to PDF","Photos to PDF","Image to PDF converter","Phone document scanner"],"url":"https://umar8092.github.io/apps/document-scanner-to-pdf/","description":"A free document scanner in the browser. Photograph pages, crop and straighten them, clean them up, reorder them and save one PDF under a size limit. Nothing is uploaded.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"document scanner, scan to pdf, photos to pdf, combine photos into one pdf, pdf under 2 mb, scan documents with phone, no upload","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I turn several photos into one PDF?","acceptedAnswer":{"@type":"Answer","text":"Tap Take a photo for each page, or Choose photos to pick several at once. Check the corners of each page, put the pages in order with Up and Down, then tap Make the PDF and Download PDF."}},{"@type":"Question","name":"How do I get the PDF under 2 MB or 10 MB?","acceptedAnswer":{"@type":"Answer","text":"Pick the limit under Must be under before you tap Make the PDF. The app makes the pages smaller step by step until the whole PDF fits, and tells you if it cannot fit while staying readable."}},{"@type":"Question","name":"Are my documents uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Everything happens on your device. The pages are kept only in this browser until you tap Start over, and the app works offline once it has loaded."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Document Scanner to PDF</h1>
+        <p class="sub">Photograph paper pages, crop and clean them, put them in order and save one PDF under the size you need. Nothing is uploaded.</p>
+    </header>
+
+    <div class="col-main">
+        <section class="card add-card" aria-labelledby="add-h">
+            <h2 id="add-h">Add pages</h2>
+            <p class="lead" id="add-lead">Lay each page flat on a darker surface in good light, then take a photo of it. Or choose photos you already have.</p>
+            <div class="add-btns">
+                <button type="button" id="cam-btn" class="primary file-btn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h4l2-3h6l2 3h4v11H3z"/><circle cx="12" cy="13" r="3.5"/></svg>Take a photo</button>
+                <input id="camera" class="file-input" tabindex="-1" aria-hidden="true" type="file" accept="image/*" capture="environment">
+                <button type="button" id="files-btn" class="secondary file-btn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 16l5-5 4 4 3-3 6 6"/></svg>Choose photos</button>
+                <input id="files" class="file-input" tabindex="-1" aria-hidden="true" type="file" accept="image/*,.heic,.heif" multiple>
+            </div>
+            <p class="hint drop-hint" id="drop-hint">You can also drop photos here or paste one.</p>
+            <button type="button" id="demo" class="ghost">Try with example pages</button>
+            <p class="msg" id="add-msg" role="status"></p>
+        </section>
+
+        <section class="card editor" id="editor" aria-labelledby="ed-h" hidden>
+            <h2 id="ed-h">Fix page 1</h2>
+            <p class="hint ed-hint" id="ed-hint">Drag the 4 circles onto the corners of the page. The page is straightened by itself.</p>
+            <div class="ed-body">
+            <div class="ed-photo">
+            <div class="stage-wrap">
+                <div class="stage" id="stage">
+                    <canvas id="ed-photo" aria-hidden="true"></canvas>
+                    <svg id="ed-svg" aria-hidden="true"><path id="ed-shade" fill-rule="evenodd"/><polygon id="ed-quad"/></svg>
+                    <button type="button" class="handle" data-i="0" aria-label="Top left corner. Use the arrow keys to move it."></button>
+                    <button type="button" class="handle" data-i="1" aria-label="Top right corner. Use the arrow keys to move it."></button>
+                    <button type="button" class="handle" data-i="2" aria-label="Bottom right corner. Use the arrow keys to move it."></button>
+                    <button type="button" class="handle" data-i="3" aria-label="Bottom left corner. Use the arrow keys to move it."></button>
+                    <canvas id="loupe" class="loupe" width="220" height="220" aria-hidden="true" hidden></canvas>
+                </div>
+            </div>
+            <div class="two-btn">
+                <button type="button" id="ed-find" class="secondary">Find the page again</button>
+                <button type="button" id="ed-whole" class="secondary">Use the whole photo</button>
+            </div>
+            </div>
+            <div class="ed-side">
+            <fieldset class="looks">
+                <legend>How the page looks</legend>
+                <label class="look"><input type="radio" name="look" value="color"><span><b>Clean colour</b><small>White paper, colours kept</small></span></label>
+                <label class="look"><input type="radio" name="look" value="bw"><span><b>Black and white</b><small>Sharpest text, smallest file</small></span></label>
+                <label class="look"><input type="radio" name="look" value="grey"><span><b>Grey</b><small>Clean, no colour</small></span></label>
+                <label class="look"><input type="radio" name="look" value="photo"><span><b>Photo as is</b><small>No changes, for pictures</small></span></label>
+            </fieldset>
+            <button type="button" id="ed-all" class="link">Use this look on all pages</button>
+            <h3 class="prev-h">The page will look like this</h3>
+            <div class="turns">
+                <button type="button" id="ed-left" class="secondary" aria-label="Turn the page left"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4v6h6"/><path d="M4.5 10A8 8 0 1 1 6 17"/></svg>Turn left</button>
+                <button type="button" id="ed-right" class="secondary" aria-label="Turn the page right"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 4v6h-6"/><path d="M19.5 10A8 8 0 1 0 18 17"/></svg>Turn right</button>
+            </div>
+            <div class="preview"><canvas id="ed-prev" role="img" aria-label="The finished page"></canvas></div>
+            </div>
+            </div>
+            <p class="msg" id="ed-msg" role="status"></p>
+            <button type="button" id="ed-done" class="primary">Done</button>
+        </section>
+
+        <section class="card pages-card" id="pages-card" aria-labelledby="pages-h" hidden>
+            <h2 id="pages-h">Your pages <span class="count" id="pages-n"></span></h2>
+            <p class="hint top-hint">The PDF has the pages in this order. Use Up and Down to change it.</p>
+            <ol class="pages" id="pages"></ol>
+            <p class="msg" id="pages-msg" role="status"></p>
+            <button type="button" id="restart" class="danger">Start over</button>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card pdf-card" id="pdf-card" aria-labelledby="pdf-h">
+            <h2 id="pdf-h">Save as one PDF</h2>
+            <p class="ready" id="ready">Add at least one page first.</p>
+            <label for="name">File name</label>
+            <div class="money"><input id="name" type="text" maxlength="80" autocomplete="off" spellcheck="false" placeholder="scan"><span class="suffix" aria-hidden="true">.pdf</span></div>
+            <label for="paper">Paper size</label>
+            <select id="paper">
+                <option value="a4">A4</option>
+                <option value="letter">US Letter</option>
+                <option value="fit">Same shape as each page</option>
+            </select>
+            <label for="limit">Must be under</label>
+            <select id="limit">
+                <option value="0">No size limit</option>
+                <option value="1000000">1 MB</option>
+                <option value="2000000">2 MB</option>
+                <option value="5000000">5 MB</option>
+                <option value="10000000">10 MB (most email)</option>
+                <option value="20000000">20 MB</option>
+                <option value="25000000">25 MB (Gmail, Outlook)</option>
+                <option value="custom">Other size…</option>
+            </select>
+            <div id="custom-box" hidden>
+                <label for="custom">Size limit</label>
+                <div class="money"><input id="custom" type="text" inputmode="decimal" maxlength="6" placeholder="e.g. 3"><span class="suffix" aria-hidden="true">MB</span></div>
+                <p class="err" id="custom-err" role="alert"></p>
+            </div>
+            <button type="button" id="make" class="primary make">Make the PDF</button>
+            <p class="msg" id="make-msg" role="status" aria-live="polite"></p>
+
+            <div class="result" id="result" hidden>
+                <p class="res-label" id="res-label">Your PDF</p>
+                <p class="big" id="res-size"></p>
+                <p class="verdict" id="res-verdict"></p>
+                <p class="res-detail" id="res-detail"></p>
+                <div class="two-btn">
+                    <a id="download" class="primary" href="#" download="scan.pdf">Download PDF</a>
+                    <button type="button" id="share" class="secondary" hidden>Share</button>
+                </div>
+                <p class="msg" id="res-msg" role="status"></p>
+            </div>
+            <p class="hint" id="privacy">Your pages stay only in this browser on this device until you tap Start over. Nothing is uploaded.</p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How do I get a good scan?</summary><p>Put the page flat on a darker table or floor, in daylight or under a bright lamp, and hold the phone straight above it. The app finds the page by itself when it is lighter than what it lies on. If it misses, tap <b>Edit</b> and drag the 4 circles onto the corners.</p></details>
+        <details><summary>Which look should I pick?</summary><p><b>Clean colour</b> makes the paper white and keeps stamps, signatures and photos in colour. <b>Black and white</b> gives the sharpest text and the smallest file, best for typed letters and forms. <b>Grey</b> is in between. <b>Photo as is</b> changes nothing, for photos and pictures.</p></details>
+        <details><summary>How do I get under a size limit, like 2 MB?</summary><p>Choose it under <b>Must be under</b> before you tap <b>Make the PDF</b>. The app lowers the picture quality and then the size step by step until the whole PDF fits, and says how much it had to shrink. If it cannot fit and stay readable, it says so: remove a page, pick Black and white, or make two PDFs.</p></details>
+        <details><summary>What about an ID card, front and back?</summary><p>Take a photo of each side as its own page, and pick <b>Photo as is</b> for a side with a photo on it so the photo is not lightened. With A4 or US Letter each side fills the width of its own page. Pick <b>Same shape as each page</b> to keep the card shape instead.</p></details>
+        <details><summary>Are my documents private?</summary><p>Yes. Nothing is uploaded: the pages are worked on and turned into a PDF on your device. They are kept in this browser so a reload does not lose them, until you tap <b>Start over</b>. The app works offline once it has loaded.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/document-scanner-to-pdf">Open source (MIT)</a></footer>
+    <p class="sr-only" id="announce" aria-live="polite"></p>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Document Scanner to PDF", "sections": [
+ {"h": "Add your pages", "steps": ["Lay the page flat on a darker table in good light. Tap \"Take a photo\" and photograph it from straight above.", "Already have photos? Tap \"Choose photos\" and pick one or many. On a computer you can also drop photos on the page or paste one.", "The app finds the page in each photo, cuts away the table and straightens it.", "One new photo opens \"Fix page\" so you can check it. Tap \"Done\" when it looks right, then take the next photo.", "Not sure how it works? Tap \"Try with example pages\"."]},
+ {"h": "Fix a page", "steps": ["Tap \"Edit\" on a page. Drag the 4 circles onto the corners of the paper. A zoomed view shows the corner under your finger.", "\"Find the page again\" puts the circles back where the app found the page. \"Use the whole photo\" keeps everything.", "Under \"How the page looks\" pick Clean colour (white paper, colours kept), Black and white (sharpest text, smallest file), Grey, or Photo as is.", "\"Use this look on all pages\" gives every page, and new pages, the same look.", "\"Turn left\" and \"Turn right\" turn a page that is on its side or upside down. The picture under \"The page will look like this\" shows the result.", "Tap \"Done\" to go back to your pages."]},
+ {"h": "Put the pages in order", "steps": ["The PDF has the pages in the order of the list under \"Your pages\".", "\"Up\" and \"Down\" move a page. \"Delete\" removes it, and \"Undo\" brings it back.", "\"Start over\" removes all pages for a new document. It can be undone too."]},
+ {"h": "Save the PDF", "steps": ["Type a File name if you like, for example Lease and ID. Empty gives scan and today's date.", "\"Paper size\": A4 or US Letter puts each page on a full sheet. \"Same shape as each page\" makes every PDF page the shape of the photo you cropped, good for receipts and ID cards.", "\"Must be under\": pick the largest size allowed, for example 10 MB for most email or 2 MB for many upload forms. \"Other size…\" lets you type any size.", "Tap \"Make the PDF\". You see the size, the number of pages and whether it is under your limit.", "Tap \"Download PDF\" to save it, or \"Share\" to send it straight to an app (on phones that allow it).", "Change anything after that and tap \"Make the PDF\" again."]},
+ {"h": "Good to know", "tips": true, "steps": ["Nothing is uploaded. Pages are worked on and saved only in this browser on this device, so a reload does not lose them.", "1 MB here means 1,000,000 bytes, the smaller meaning, so the PDF also fits forms that count 1 MB as 1,048,576 bytes.", "If the PDF cannot get under your limit and stay readable, the app says so. Remove a page, pick Black and white, or make two PDFs.", "Up to 60 pages in one PDF. iPhone HEIC photos open in Safari; in other browsers choose a JPG or a screenshot."]}
+]}</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "Document Scanner to PDF",
+  "short_name": "Scan to PDF",
+  "description": "Photograph paper pages, crop and clean them, put them in order and save one PDF under the size you need. Nothing is uploaded.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#131809",
+  "theme_color": "#4d7c0f",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

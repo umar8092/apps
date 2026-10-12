@@ -158,6 +158,14 @@ Sign on the screen or photograph your signature on paper, and get a clean signat
 
 <a href="signature-maker-for-forms/"><img src="signature-maker-for-forms/screenshots/phone.png" alt="Signature Maker for Forms screenshot" width="260"></a>
 
+### <img src="document-scanner-to-pdf/favicon.svg" width="36" height="36" align="center"> [Document Scanner to PDF](https://umar8092.github.io/apps/document-scanner-to-pdf/)
+
+Turn photos of paper pages into one clean PDF. The app finds each page in the photo, cuts away the table and straightens it, makes the paper white and the text dark, lets you put the pages in order and saves one PDF under the size you need, like 2 MB for a form or 10 MB for email. A signed lease, an ID card front and back, receipts. Nothing is uploaded. Private, no sign-up, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/document-scanner-to-pdf/) &middot; [Details and screenshots](document-scanner-to-pdf/)
+
+<a href="document-scanner-to-pdf/"><img src="document-scanner-to-pdf/screenshots/phone.png" alt="Document Scanner to PDF screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
