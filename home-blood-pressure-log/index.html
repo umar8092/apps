@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Blood Pressure Log: Average for Your Doctor, Free</title>
+    <meta name="description" content="Free home blood pressure log. Type each reading from your monitor and see your average, morning and evening averages and what the numbers mean (UK/Europe or US guide). Print or email the list for your doctor. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/home-blood-pressure-log/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#dc2626">
+    <meta name="theme-color" content="#c62828">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Home Blood Pressure Log">
+    <meta property="og:url" content="https://umar8092.github.io/apps/home-blood-pressure-log/">
+    <meta property="og:title" content="Home Blood Pressure Log: Your Average for the Doctor">
+    <meta property="og:description" content="Log your home blood pressure readings in seconds, see your average and what it means, and print or email the list for your doctor. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Home Blood Pressure Log","alternateName":["Blood Pressure Tracker","BP Log","Blood Pressure Diary","Home Blood Pressure Monitoring Log"],"url":"https://umar8092.github.io/apps/home-blood-pressure-log/","description":"A free home blood pressure log. Type each reading and see the average, the morning and evening averages, the highest and lowest reading and the range in plain words, then print, email or download the list for your doctor.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"blood pressure log, home blood pressure monitoring, blood pressure average calculator, blood pressure diary printable, BP tracker","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I work out my average home blood pressure?","acceptedAnswer":{"@type":"Answer","text":"Add up all the top numbers and divide by how many readings there are, then do the same for the bottom numbers. The app does this for you for the days you choose, and UK doctors usually ask you to leave out the first day of a 7-day check."}},{"@type":"Question","name":"What home blood pressure is too high?","acceptedAnswer":{"@type":"Answer","text":"UK and European guides (NICE, ESH) count a home average of 135/85 or higher as raised. The US guide (American Heart Association) uses 130/80. Your doctor may give you your own target."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. The readings stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Home Blood Pressure Log</h1>
+        <p class="sub">Type each reading from your monitor. See your average and what it means, then print or email the list for your doctor.</p>
+    </header>
+
+    <nav class="people" id="people" aria-label="Whose readings" hidden></nav>
+
+    <div class="col-main">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a reading</h2>
+            <div class="two">
+                <div class="field">
+                    <label for="sys">Top number <span class="lt">(systolic)</span></label>
+                    <input id="sys" type="text" inputmode="numeric" maxlength="24" autocomplete="off" placeholder="e.g. 128" aria-describedby="sys-err">
+                    <p class="err" id="sys-err" role="alert"></p>
+                </div>
+                <div class="field">
+                    <label for="dia">Bottom number <span class="lt">(diastolic)</span></label>
+                    <input id="dia" type="text" inputmode="numeric" maxlength="24" autocomplete="off" placeholder="e.g. 82" aria-describedby="dia-err">
+                    <p class="err" id="dia-err" role="alert"></p>
+                </div>
+            </div>
+            <button type="button" class="secondary small" id="swap" hidden>Swap the two numbers</button>
+            <button type="button" class="link" id="pulse-open">+ Add pulse (optional)</button>
+            <div class="field" id="pulse-box" hidden>
+                <label for="pulse">Pulse <span class="lt">(beats a minute, optional)</span></label>
+                <input id="pulse" type="text" inputmode="numeric" maxlength="24" autocomplete="off" placeholder="e.g. 70" aria-describedby="pulse-err">
+                <p class="err" id="pulse-err" role="alert"></p>
+            </div>
+            <p class="when-line">Taken: <b id="when-text">now</b> <button type="button" class="link inline" id="when-open">Change time</button></p>
+            <div class="field" id="when-box" hidden>
+                <label for="when">Date and time taken</label>
+                <input id="when" type="datetime-local" aria-describedby="when-err">
+                <p class="err" id="when-err" role="alert"></p>
+                <button type="button" class="link" id="when-now">Use the time now</button>
+            </div>
+            <button type="button" class="link" id="more-open">+ Add arm or note (optional)</button>
+            <div id="more-box" hidden>
+                <div class="two">
+                    <div class="field">
+                        <label for="arm">Arm</label>
+                        <select id="arm"><option value="">Not noted</option><option value="L">Left arm</option><option value="R">Right arm</option></select>
+                    </div>
+                    <div class="field">
+                        <label for="note">Note</label>
+                        <input id="note" type="text" maxlength="200" autocomplete="off" placeholder="e.g. after coffee">
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="primary" id="save">Save reading</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Person and settings</h2>
+            <label for="name">Name <span class="lt">(shown on the printout, optional)</span></label>
+            <input id="name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Sara Khan">
+            <label for="guide">What the numbers mean, by</label>
+            <select id="guide">
+                <option value="nice">UK and Europe home guide (raised from 135/85)</option>
+                <option value="aha">US guide, AHA (high from 130/80)</option>
+            </select>
+            <button type="button" class="link" id="target-open">+ Add your doctor's target (optional)</button>
+            <div id="target-box" hidden>
+                <p class="hint top">Your doctor's target, for example "under 140/90".</p>
+                <div class="two">
+                    <div class="field"><label for="t-sys">Top under</label><input id="t-sys" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="e.g. 140"></div>
+                    <div class="field"><label for="t-dia">Bottom under</label><input id="t-dia" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="e.g. 90"></div>
+                </div>
+                <p class="err" id="t-err" role="alert"></p>
+                <button type="button" class="link" id="target-remove">Remove the target</button>
+            </div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="person-add">+ Add another person</button>
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="person-remove" hidden>Remove this person</button>
+            <button type="button" class="danger" id="wipe">Delete all readings</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h">Your average</h2>
+            <div class="period">
+                <div class="field">
+                    <label for="period">Readings from</label>
+                    <select id="period">
+                        <option value="7">Last 7 days</option>
+                        <option value="14">Last 14 days</option>
+                        <option value="30">Last 30 days</option>
+                        <option value="90">Last 90 days</option>
+                        <option value="all">All readings</option>
+                        <option value="dates">Choose the dates</option>
+                    </select>
+                </div>
+                <div class="field check-field">
+                    <label class="check"><input type="checkbox" id="skip"> <span>Leave out the first day <span class="lt">(UK doctors ask for this)</span></span></label>
+                </div>
+            </div>
+            <div class="two" id="dates-box" hidden>
+                <div class="field"><label for="from">From</label><input id="from" type="date"></div>
+                <div class="field"><label for="to">To</label><input id="to" type="date"></div>
+            </div>
+            <p class="err" id="dates-err" role="alert"></p>
+            <div id="sum-empty" class="empty">
+                <p class="big muted">No readings yet</p>
+                <p class="meta" id="sum-empty-text">Add a reading above. Most doctors ask for 2 readings a minute apart, morning and evening, for a week.</p>
+            </div>
+            <div id="sum-body" hidden>
+                <p class="big"><span id="avg">0/0</span> <span class="unit">mmHg</span></p>
+                <p class="lvl" id="avg-lvl"></p>
+                <p class="meta" id="avg-meta"></p>
+                <p class="target" id="target-line" hidden></p>
+                <p class="meta" id="skip-note" hidden></p>
+                <div class="warn" id="sum-warn" role="alert" hidden></div>
+                <div class="tiles">
+                    <div class="tile"><span class="t-label">Morning average</span><span class="t-val" id="t-am">-</span><span class="t-sub" id="t-am-n"></span></div>
+                    <div class="tile"><span class="t-label">Evening average</span><span class="t-val" id="t-pm">-</span><span class="t-sub" id="t-pm-n"></span></div>
+                    <div class="tile"><span class="t-label">Highest</span><span class="t-val" id="t-hi">-</span><span class="t-sub" id="t-hi-when"></span></div>
+                    <div class="tile"><span class="t-label">Lowest</span><span class="t-val" id="t-lo">-</span><span class="t-sub" id="t-lo-when"></span></div>
+                </div>
+                <h3 class="small-h">Readings in each range</h3>
+                <ul class="counts" id="counts"></ul>
+                <figure class="chart" id="chart-fig">
+                    <svg id="chart" role="img" aria-labelledby="chart-cap" viewBox="0 0 600 240" preserveAspectRatio="none"></svg>
+                    <figcaption id="chart-cap"><span class="key sys"></span>Top number <span class="key dia"></span>Bottom number <span class="key line"></span><span id="line-label">Raised from 135/85</span></figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="card share" id="share" aria-labelledby="share-h">
+            <h2 id="share-h">Share with your doctor</h2>
+            <p class="hint top" id="share-hint">Uses the readings from the days chosen above.</p>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="print">Print or save as PDF</button>
+                <a class="secondary" id="email" href="mailto:">Email</a>
+                <button type="button" class="secondary" id="copy">Copy as text</button>
+                <button type="button" class="secondary" id="csv">Download spreadsheet</button>
+            </div>
+            <div class="msg" id="share-msg" role="status" aria-live="polite"></div>
+        </section>
+
+    </div>
+
+    <section class="card list" id="list" aria-labelledby="list-h">
+        <h2 id="list-h">Readings</h2>
+        <p class="hint top" id="list-hint">Readings from the days chosen above, newest first.</p>
+        <div id="days"></div>
+        <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How should I take my blood pressure at home?</summary><p>Sit for 5 minutes first with your back supported, feet flat and arm resting at heart height. No coffee, smoking or exercise in the 30 minutes before. Take 2 readings about a minute apart, in the morning before tablets and food, and in the evening. Add both readings to the log.</p></details>
+        <details><summary>How is the average worked out?</summary><p>All the top numbers are added up and divided by how many readings there are, then the same for the bottom numbers. The result is rounded to a whole number (0.5 rounds up). Morning is 4:00 to 11:59; evening is 12:00 until 3:59 at night, so a reading at 12:30 a.m. counts as the evening before.</p></details>
+        <details><summary>Why leave out the first day?</summary><p>The first day's readings are often higher while you get used to the monitor. UK guidance (NICE) asks for at least 4 days, ideally 7, of morning and evening readings, and for the first day to be left out of the average. Tick <b>Leave out the first day</b> to do this.</p></details>
+        <details><summary>What do the ranges mean?</summary><p><b>UK and Europe home guide</b> (NICE, ESH), for home averages: normal under 135/85, stage 1 range from 135/85, stage 2 range from 150/95, very high from 180/120. <b>US guide</b> (American Heart Association): normal under 120/80, elevated 120 to 129 with under 80, stage 1 130 to 139 or 80 to 89, stage 2 from 140/90, severe over 180 or over 120. Under 90/60 is shown as low in both. Only one number needs to be in a higher range for the reading to count in it.</p></details>
+        <details><summary>A reading was very high. What should I do?</summary><p>If you also have chest pain, shortness of breath, back pain, weakness or numbness, a change in vision or trouble speaking, call emergency services. If not, sit quietly for 5 minutes and measure again. If it is still very high, contact your doctor the same day.</p></details>
+        <details><summary>Can I log for two people?</summary><p>Yes. Tap <b>+ Add another person</b> in Person and settings. Each person has their own readings, guide and target. Tap a name at the top to switch.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>The readings stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+        <details><summary>Is this medical advice?</summary><p>No. It is a log and a calculator to help you and your doctor. Follow your doctor's advice and targets.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/home-blood-pressure-log">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Home Blood Pressure Log", "sections": [
+ {"h": "Add a reading", "steps": ["Type the Top number (systolic) and the Bottom number (diastolic) from your monitor, then tap \"Save reading\" (or press Enter).", "You can also paste or type \"128/82\" or \"128/82/70\" into the first box; the numbers are split into the boxes for you.", "\"+ Add pulse (optional)\" adds the pulse box. Once opened it stays open for next time.", "\"Change time\" sets an earlier date and time, for a reading you forgot to log. \"Use the time now\" goes back to now.", "\"+ Add arm or note (optional)\" records the arm and a short note such as \"after coffee\".", "After saving, the message says the range of that reading. Tap \"Undo\" if it was a mistake."]},
+ {"h": "Read your average", "steps": ["\"Readings from\" chooses the days: the last 7, 14, 30 or 90 days, all readings, or \"Choose the dates\".", "The big number is the average of all readings in those days. The line under it says what it means using your guide, and how many readings and days it used.", "Tick \"Leave out the first day\" for a doctor's 7-day check; the app says which day was left out.", "Morning average and Evening average, Highest and Lowest are shown in the boxes. \"Readings in each range\" counts the readings in each range, and the chart shows them over time with the line where readings count as raised.", "If you added your doctor's target, a line says whether the average is under it."]},
+ {"h": "Fix or delete readings", "steps": ["The Readings list shows each day with its morning and evening readings, and their average when there are two or more.", "Tap \"Edit\" on a reading to change the numbers, time, arm or note, then \"Save\". \"Cancel\" or Escape leaves it as it was.", "Tap \"Delete\" to remove a reading. \"Undo\" brings it back."]},
+ {"h": "Share with your doctor", "steps": ["\"Print or save as PDF\" prints a one-page summary and a table of the readings for the chosen days.", "\"Email\" opens your mail app with the summary and readings; you do not need to type an address first.", "\"Copy as text\" copies the same text to paste into a message.", "\"Download spreadsheet\" saves a CSV file that opens in Excel, Numbers or Google Sheets."]},
+ {"h": "People and settings", "steps": ["\"Name\" is printed on the report.", "\"What the numbers mean, by\" chooses the UK and Europe home guide or the US guide (AHA).", "\"+ Add your doctor's target (optional)\" adds a target such as under 140/90.", "\"+ Add another person\" gives someone else their own readings, guide and target. Tap a name at the top to switch. The \"Remove\" button with their name removes that person, with Undo.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another device, with Undo.", "\"Delete all readings\" (with two or more people: \"Delete all of\" and the name) empties that person's log, with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["Morning is 4:00 to 11:59. Evening is 12:00 until 3:59 at night, so a reading after midnight counts with the evening before.", "Averages are rounded to whole numbers, as monitors show them.", "Everything stays on this device and works offline. Your data is never sent anywhere.", "This is not medical advice. Very high readings show what to do; follow your doctor's advice."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

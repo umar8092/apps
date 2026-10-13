@@ -222,6 +222,14 @@ A calendar for rotating shift rotas: 4 on 4 off, days and nights, Pitman, DuPont
 
 <a href="shift-work-calendar/"><img src="shift-work-calendar/screenshots/phone.png" alt="Shift Work Calendar screenshot" width="260"></a>
 
+### <img src="home-blood-pressure-log/favicon.svg" width="36" height="36" align="center"> [Home Blood Pressure Log](https://umar8092.github.io/apps/home-blood-pressure-log/)
+
+A log for home blood pressure readings. Type the two numbers from your monitor (and the pulse if you like) and see your average, your morning and evening averages, the highest and lowest reading and what the numbers mean, by the UK and Europe home guide or the US guide. Leave out the first day for a doctor's 7-day check, add your doctor's target, and print, email or download the list for your appointment. No sign-up, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/home-blood-pressure-log/) &middot; [Details and screenshots](home-blood-pressure-log/)
+
+<a href="home-blood-pressure-log/"><img src="home-blood-pressure-log/screenshots/phone.png" alt="Home Blood Pressure Log screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

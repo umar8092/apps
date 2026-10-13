@@ -160,5 +160,11 @@
     "name": "Shift Work Calendar",
     "description": "Enter your rotating rota once (4 on 4 off, days and nights, Pitman, DuPont, 24 on 48 off or your own) and see your shift on any date, your next day off, and the days you and your partner are both off.",
     "color": "#c2185b"
+  },
+  {
+    "slug": "home-blood-pressure-log",
+    "name": "Home Blood Pressure Log",
+    "description": "Type each blood pressure reading and see your average, morning and evening averages and what the numbers mean (UK/Europe or US guide). Print or email the list for your doctor.",
+    "color": "#dc2626"
   }
 ]
