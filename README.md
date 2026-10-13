@@ -206,6 +206,14 @@ Need a QR code for your menu link, your guest Wi-Fi, a contact card, a phone num
 
 <a href="qr-code-generator-for-links-and-wi-fi/"><img src="qr-code-generator-for-links-and-wi-fi/screenshots/phone.png" alt="QR Code Generator for Links and Wi-Fi screenshot" width="260"></a>
 
+### <img src="baby-feeding-and-nappy-tracker/favicon.svg" width="36" height="36" align="center"> [Baby Feeding and Nappy Tracker](https://umar8092.github.io/apps/baby-feeding-and-nappy-tracker/)
+
+A tap-to-log baby tracker for tired parents. Breast feed timer for each side, bottles in ml or oz, wet and dirty nappies and sleep. The top shows how long since the last feed and which side to offer next, and the day box adds up feeds, nappies and sleep for the doctor. Twins each get their own log. No sign-up, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/baby-feeding-and-nappy-tracker/) &middot; [Details and screenshots](baby-feeding-and-nappy-tracker/)
+
+<a href="baby-feeding-and-nappy-tracker/"><img src="baby-feeding-and-nappy-tracker/screenshots/phone.png" alt="Baby Feeding and Nappy Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

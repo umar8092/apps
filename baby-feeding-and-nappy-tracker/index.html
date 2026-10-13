@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby Feeding and Nappy Tracker: Last Feed, Side, Nappies, Free</title>
+    <meta name="description" content="Free baby feeding and nappy (diaper) tracker. One tap logs a breast feed with a timer for each side, a bottle, a wet or dirty nappy or a nap. See how long since the last feed, which side to offer next and today's totals for the doctor. Twins, no sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/baby-feeding-and-nappy-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#f2705e">
+    <meta name="theme-color" content="#d9534a">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Baby Feeding and Nappy Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/baby-feeding-and-nappy-tracker/">
+    <meta property="og:title" content="Baby Feeding and Nappy Tracker: When Was the Last Feed?">
+    <meta property="og:description" content="One tap to log feeds (left or right side with a timer, or a bottle), nappies and sleep. See how long since the last feed and which side is next. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Baby Feeding and Nappy Tracker","alternateName":["Baby Feeding Tracker","Breastfeeding Timer","Diaper Tracker","Newborn Feeding Log"],"url":"https://umar8092.github.io/apps/baby-feeding-and-nappy-tracker/","description":"A free baby feeding, nappy (diaper) and sleep log. Breast feed timer for each side, bottles in ml or oz, wet and dirty nappies, time since the last feed, which side to offer next and daily totals.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"baby feeding tracker, breastfeeding timer, which side did I feed last, diaper tracker, nappy log, newborn feeding log, twins feeding tracker","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I know which side to feed on next?","acceptedAnswer":{"@type":"Answer","text":"The app looks at the last breast feed. If the baby fed on both sides it suggests the side the baby finished on, because that breast was emptied less. If the baby fed on one side only it suggests the other side."}},{"@type":"Question","name":"Is the time since the last feed counted from the start or the end?","acceptedAnswer":{"@type":"Answer","text":"From the start of the last feed, which is how midwives and doctors usually count feeds (for example every 2 to 3 hours)."}},{"@type":"Question","name":"Can I track twins?","acceptedAnswer":{"@type":"Answer","text":"Yes. Add another baby and each one gets its own log, its own timers and its own totals."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Baby Feeding and Nappy Tracker</h1>
+        <p class="sub">When was the last feed, and which side is next? Tap to log feeds, nappies and sleep.</p>
+    </header>
+
+    <nav class="babies" id="babies" aria-label="Choose a baby" hidden></nav>
+
+    <div class="col-main">
+        <section class="card status" id="status" aria-labelledby="st-h">
+            <h2 class="st-label" id="st-h">Last feed</h2>
+            <p class="big" id="st-big">No feeds yet</p>
+            <p class="meta" id="st-meta">Tap Left or Right below when the baby starts feeding.</p>
+            <p class="chip" id="st-next" hidden></p>
+            <ul class="st-more" id="st-more"></ul>
+        </section>
+
+        <section class="card now" aria-labelledby="now-h">
+            <h2 id="now-h">Log now</h2>
+
+            <div class="block" id="breast-block">
+                <h3>Breast feed</h3>
+                <div id="breast-idle">
+                    <p class="hint top">Tap the side the baby starts on. The timer runs until you tap Stop.</p>
+                    <div class="sides">
+                        <button type="button" class="side" id="start-L"><span class="s-name">Left</span><span class="s-tag" id="tag-L"></span></button>
+                        <button type="button" class="side" id="start-R"><span class="s-name">Right</span><span class="s-tag" id="tag-R"></span></button>
+                    </div>
+                </div>
+                <div id="breast-run" class="run" hidden>
+                    <p class="run-state" id="run-state">Feeding on the left</p>
+                    <p class="run-clock" id="run-clock">0:00</p>
+                    <div class="side-clocks">
+                        <p id="clock-L" class="sc"><span>Left</span><b>0:00</b></p>
+                        <p id="clock-R" class="sc"><span>Right</span><b>0:00</b></p>
+                    </div>
+                    <p class="msg warn" id="run-warn" hidden></p>
+                    <div class="run-btns">
+                        <button type="button" class="secondary" id="switch">Switch to right</button>
+                        <button type="button" class="secondary" id="pause">Pause</button>
+                    </div>
+                    <button type="button" class="primary" id="stop">Stop and save feed</button>
+                    <button type="button" class="link center" id="discard">Discard this feed</button>
+                </div>
+            </div>
+
+            <div class="block">
+                <h3>Bottle</h3>
+                <div class="bottle-row">
+                    <div class="amt">
+                        <label for="b-amount">Amount</label>
+                        <div class="money"><input id="b-amount" type="text" inputmode="decimal" maxlength="7" placeholder="e.g. 90"><span class="suffix" id="b-unit">ml</span></div>
+                    </div>
+                    <div class="milk">
+                        <label for="b-milk">Milk</label>
+                        <select id="b-milk">
+                            <option value="formula">Formula</option>
+                            <option value="breast">Breast milk</option>
+                        </select>
+                    </div>
+                </div>
+                <p class="err" id="b-err" role="alert"></p>
+                <button type="button" class="primary" id="b-save">Save bottle</button>
+            </div>
+
+            <div class="block">
+                <h3>Nappy</h3>
+                <div class="nappies">
+                    <button type="button" class="secondary nap" id="n-wet">Wet</button>
+                    <button type="button" class="secondary nap" id="n-dirty">Dirty</button>
+                    <button type="button" class="secondary nap" id="n-both">Wet + dirty</button>
+                </div>
+            </div>
+
+            <div class="block">
+                <h3>Sleep</h3>
+                <button type="button" class="secondary" id="sleep-start">Baby fell asleep</button>
+                <div id="sleep-run" class="run small" hidden>
+                    <p class="run-state">Asleep for</p>
+                    <p class="run-clock" id="sleep-clock">0:00</p>
+                    <p class="msg warn" id="sleep-warn" hidden></p>
+                    <button type="button" class="primary" id="sleep-stop">Baby woke up</button>
+                    <button type="button" class="link center" id="sleep-discard">Discard this sleep</button>
+                </div>
+            </div>
+            <p class="msg" id="now-msg" role="status"></p>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card day" aria-labelledby="day-h">
+            <div class="day-nav">
+                <button type="button" class="nav" id="prev" aria-label="Day before">&lsaquo;</button>
+                <h2 id="day-h">Today</h2>
+                <button type="button" class="nav" id="next" aria-label="Day after">&rsaquo;</button>
+            </div>
+            <div class="totals" id="totals"></div>
+            <p class="avg" id="avg"></p>
+            <p class="last24" id="last24"></p>
+            <ol class="entries" id="entries"></ol>
+            <p class="empty" id="empty">Nothing logged on this day.</p>
+            <button type="button" class="ghost" id="add-earlier">+ Add an earlier feed, nappy or sleep</button>
+            <p class="msg" id="day-msg" role="status"></p>
+        </section>
+
+        <section class="card editor" id="editor" aria-labelledby="ed-h" hidden>
+            <form id="form" novalidate autocomplete="off">
+                <h2 id="ed-h">Add an earlier entry</h2>
+                <div class="kind four" role="radiogroup" aria-label="What happened?">
+                    <label><input type="radio" name="etype" value="breast" checked><span>Breast feed</span></label>
+                    <label><input type="radio" name="etype" value="bottle"><span>Bottle</span></label>
+                    <label><input type="radio" name="etype" value="nappy"><span>Nappy</span></label>
+                    <label><input type="radio" name="etype" value="sleep"><span>Sleep</span></label>
+                </div>
+                <label for="e-start" id="e-start-l">Started at</label>
+                <input id="e-start" type="datetime-local">
+                <div id="e-breast">
+                    <div class="two">
+                        <div><label for="e-left">Left side</label><div class="money"><input id="e-left" type="text" inputmode="numeric" maxlength="3" placeholder="0"><span class="suffix">min</span></div></div>
+                        <div><label for="e-right">Right side</label><div class="money"><input id="e-right" type="text" inputmode="numeric" maxlength="3" placeholder="0"><span class="suffix">min</span></div></div>
+                    </div>
+                    <label for="e-first">Started on</label>
+                    <select id="e-first"><option value="L">Left side</option><option value="R">Right side</option></select>
+                </div>
+                <div id="e-bottle" hidden>
+                    <div class="two">
+                        <div><label for="e-amount">Amount</label><div class="money"><input id="e-amount" type="text" inputmode="decimal" maxlength="7" placeholder="e.g. 90"><span class="suffix" id="e-unit">ml</span></div></div>
+                        <div><label for="e-milk">Milk</label><select id="e-milk"><option value="formula">Formula</option><option value="breast">Breast milk</option></select></div>
+                    </div>
+                </div>
+                <div id="e-nappy" hidden>
+                    <p class="q">The nappy was</p>
+                    <div class="kind three" role="radiogroup" aria-label="The nappy was">
+                        <label><input type="radio" name="enappy" value="wet" checked><span>Wet</span></label>
+                        <label><input type="radio" name="enappy" value="dirty"><span>Dirty</span></label>
+                        <label><input type="radio" name="enappy" value="both"><span>Wet + dirty</span></label>
+                    </div>
+                </div>
+                <div id="e-sleep" hidden>
+                    <label for="e-end">Woke up at</label>
+                    <input id="e-end" type="datetime-local">
+                </div>
+                <button type="button" class="link" id="open-note">+ Add a note (optional)</button>
+                <div id="note-box" hidden>
+                    <label for="e-note">Note</label>
+                    <input id="e-note" type="text" maxlength="200" placeholder="e.g. spat up a little">
+                </div>
+                <p class="err" id="e-err" role="alert"></p>
+                <div class="two-btn">
+                    <button type="submit" class="primary" id="e-save">Save</button>
+                    <button type="button" class="secondary" id="e-cancel">Cancel</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share and settings</h2>
+            <label for="baby-name">Baby's name</label>
+            <input id="baby-name" type="text" maxlength="30" placeholder="Baby">
+            <label for="unit">Bottle amounts in</label>
+            <select id="unit">
+                <option value="ml">ml (millilitres)</option>
+                <option value="oz">oz (fluid ounces)</option>
+            </select>
+            <div class="tool-grid">
+                <button type="button" id="copy" class="secondary">Copy day</button>
+                <a id="mail" class="secondary" href="mailto:">Email day</a>
+                <button type="button" id="print" class="secondary">Print day</button>
+            </div>
+            <button type="button" id="add-baby" class="ghost">+ Add another baby (twins)</button>
+            <button type="button" id="remove-baby" class="secondary" hidden>Remove this baby</button>
+            <div class="tool-grid two-only">
+                <button type="button" id="backup" class="secondary">Save a backup file</button>
+                <button type="button" id="restore" class="secondary">Restore a backup</button>
+            </div>
+            <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            <p class="hint">Everything is saved only in this browser on this device. Nothing is sent anywhere.</p>
+            <p class="msg warn" id="save-warn" role="status" hidden>This browser is not saving (private mode or storage blocked). Your log stays only until you close this page.</p>
+            <button type="button" id="wipe" class="danger">Delete this baby's whole log</button>
+            <p class="msg" id="tools-msg" role="status"></p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Which side should I offer next?</summary><p>The app looks at the last breast feed. If the baby fed on both sides, it suggests the side the baby finished on, because that breast was emptied less. If the baby fed on one side only, it suggests the other side. It is a reminder, not a rule: follow your midwife's advice.</p></details>
+        <details><summary>Is "Last feed" counted from the start or the end?</summary><p>From the start of the feed. Midwives and doctors usually count feeds that way, for example "every 2 to 3 hours" means from the start of one feed to the start of the next.</p></details>
+        <details><summary>I forgot to stop the timer.</summary><p>Tap <b>Stop and save feed</b>, then tap <b>Edit</b> on the feed in the day's list and type the real minutes for each side. The app also warns you when a timer has been running for a long time.</p></details>
+        <details><summary>I forgot to log a feed or nappy.</summary><p>Tap <b>+ Add an earlier feed, nappy or sleep</b>, choose what happened and set the time.</p></details>
+        <details><summary>How are the day's totals counted?</summary><p>A feed or nappy counts on the day it started, by this phone's clock. Sleep is split at midnight, so a night's sleep counts partly on each day. <b>Last 24 hours</b> counts back 24 hours from now, which is what a doctor or health visitor often asks.</p></details>
+        <details><summary>Can I use it for twins?</summary><p>Yes. Tap <b>+ Add another baby (twins)</b>. Each baby gets its own log, timers and totals, and you switch with the names at the top. Both can feed at the same time.</p></details>
+        <details><summary>Is it private? Will it work at night with no signal?</summary><p>Everything stays in this browser on this device: no account, nothing uploaded. Once it has loaded, it works offline. Use <b>Save a backup file</b> now and then, or before changing phones.</p></details>
+        <details><summary>Is this medical advice?</summary><p>No. It is a log to help you remember and to show your midwife, health visitor or doctor. If you are worried about your baby's feeding, nappies or sleep, contact them.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/baby-feeding-and-nappy-tracker">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Baby Feeding and Nappy Tracker", "sections": [
+ {"h": "Breast feed", "steps": ["Tap Left or Right under Breast feed when the baby starts. The side marked \"Offer next\" is the one the app suggests.", "The big clock shows the whole feed, and the small clocks show the time on each side.", "Changing sides? Tap \"Switch to right\" (or left). Baby took a break? Tap \"Pause\", then \"Resume\".", "Tap \"Stop and save feed\" when the baby is done. \"Discard this feed\" throws away a timer started by mistake.", "The timer keeps going if you lock the phone or close the page."]},
+ {"h": "Bottle, nappy and sleep", "steps": ["Bottle: type the Amount, choose Formula or Breast milk and tap \"Save bottle\". The last amount is filled in for next time.", "Nappy: one tap on Wet, Dirty or \"Wet + dirty\" saves it straight away.", "Sleep: tap \"Baby fell asleep\", then \"Baby woke up\" to save the sleep.", "Every save shows a message with Undo in case you tapped the wrong button."]},
+ {"h": "Read the answer", "steps": ["Last feed, at the top, says how long ago the last feed started, what it was, and which side to offer next.", "Below it: the last nappy and, while the baby sleeps, how long the baby has been asleep.", "The day box shows Feeds, Breast time, Bottles, Wet and Dirty nappies and Sleep for that day, the average time between feeds, and the Last 24 hours.", "Use the arrows beside the day to see earlier days."]},
+ {"h": "Fix or add entries", "steps": ["Tap \"Edit\" on any entry in the day's list to change the time, minutes, amount or nappy, then \"Save\".", "Tap \"Delete\" to remove an entry. Undo brings it back.", "Forgot something? Tap \"+ Add an earlier feed, nappy or sleep\", choose what happened, set the time and tap \"Save\"."]},
+ {"h": "Twins, sharing and settings", "steps": ["\"Baby's name\" names the baby. \"+ Add another baby (twins)\" adds a second baby with its own log and timers; tap a name at the top to switch. \"Remove this baby\" removes one, with Undo.", "\"Bottle amounts in\" switches between ml and oz.", "\"Copy day\", \"Email day\" and \"Print day\" share the chosen day's totals and list, for example with your midwife or doctor. Email opens your mail app with no address filled in.", "\"Save a backup file\" downloads everything. \"Restore a backup\" loads that file on this or another phone, with Undo.", "\"Delete this baby's whole log\" empties the log, with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["A feed or nappy counts on the day it started. Sleep is split at midnight.", "Everything stays on this device and works offline. Nothing is sent anywhere.", "This is a log, not medical advice. If you are worried, call your midwife, health visitor or doctor."]}
+]}</script>
+</body>
+</html>
