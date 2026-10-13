@@ -28,7 +28,7 @@ You have just seen a positive test. Your last period started on 1 September 2026
 - **Start over** clears everything for a new date, with Undo if you tapped it by mistake.
 - **Remembers your date** on your device so it is there next visit.
 - **Sensible with odd input.** A date in the future, a blank scan, or a date more than 42 weeks ago gets a clear message instead of a wrong answer.
-- **Private, offline and installable.** Light and dark mode, phone friendly. No currency, no ads, no tracking.
+- **Private, offline and installable.** Light and dark mode, phone friendly. No currency, no ads, no tracking of your data.
 - **Back to all apps.** A "← All apps" button at the top of the page.
 - **Light and dark mode switch.** It follows your device until you choose, and remembers your choice in every app.
 

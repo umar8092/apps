@@ -39,6 +39,7 @@ function staticChecks() {
     if (!/<meta\s+name=["']app-color["']\s+content=["']#[0-9a-f]{6}/i.test(html)) fail('index.html needs <meta name="app-color" content="#hex">');
     if (!/<a[^>]*class=["']back["'][^>]*href=["']\.\.\/["']/.test(html) && !/<a[^>]*href=["']\.\.\/["'][^>]*class=["']back["']/.test(html)) fail('missing the "← All apps" back link (a.back to ../)');
     if (!/src=["']\.\.\/help\.js["']/.test(html)) fail('missing <script src="../help.js">');
+    if (!/data-goatcounter=["']https:\/\/umar8092\.goatcounter\.com\/count["']/.test(html)) fail('missing the GoatCounter visit counter: add <script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script> before </body>');
     const hd = html.match(/<script[^>]*id=["']help-data["'][^>]*>([\s\S]*?)<\/script>/);
     if (!hd) fail('missing help-data JSON block'); else { try { const d = JSON.parse(hd[1]); if (!d.title || !(d.sections || []).length) fail('help-data needs a title and sections'); } catch (e) { fail('help-data is not valid JSON'); } }
     if (/innerHTML\s*=/.test(['script.js', 'app.js', 'core.js'].filter(has).map(f => fs.readFileSync(path.join(dir, f), 'utf8')).join('\n') + html)) notes.push('NOTE: innerHTML found; confirm no user-typed text goes through it (use textContent)');
@@ -62,6 +63,7 @@ async function pageChecks(base) {
     const browser = await pw.chromium.launch(process.env.CHROME ? { executablePath: process.env.CHROME } : {});
     for (const scheme of ['dark', 'light']) {
         const ctx = await browser.newContext({ colorScheme: scheme, viewport: { width: 1280, height: 800 } });
+        await ctx.route(/goatcounter\.com|gc\.zgo\.at/, r => r.fulfill({ status: 200, contentType: 'application/javascript', body: '' })); // tests must not count as visits
         const page = await ctx.newPage();
         let tag = '';
         page.on('pageerror', e => fail(tag + 'page error: ' + e.message));
@@ -113,7 +115,7 @@ async function pageChecks(base) {
         await ctx.close();
     }
     // reload with corrupt saved state must not crash
-    const ctx = await browser.newContext(), page = await ctx.newPage(); const errs = []; page.on('pageerror', e => errs.push(e.message));
+    const ctx = await browser.newContext(); await ctx.route(/goatcounter\.com|gc\.zgo\.at/, r => r.fulfill({ status: 200, contentType: 'application/javascript', body: '' })); const page = await ctx.newPage(); const errs = []; page.on('pageerror', e => errs.push(e.message));
     await page.goto(url); await page.evaluate(s => { Object.keys(localStorage).filter(k => k.startsWith(s + '.')).forEach(k => localStorage.setItem(k, '{bad')); localStorage.setItem(s + '.state', '{bad'); }, slug);
     await page.reload({ waitUntil: 'networkidle' }); if (errs.length) fail('corrupt saved state crashes the page: ' + errs[0]);
     await browser.close();

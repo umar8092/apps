@@ -39,7 +39,7 @@ More worked answers:
 - **Copy, email or print** the answer (email opens your mail app with no address needed).
 - **Start over** with **Undo**. Everything you type is kept for next time.
 - **Exact.** Whole calendar days only, so time zones and summer time never move a result. Dates from the year 1000 to 9999. At midnight the page moves on to the new day by itself.
-- **Private.** Everything stays in this browser on this device. Nothing is sent anywhere.
+- **Private.** Everything stays in this browser on this device. Your data is never sent anywhere.
 - **Works offline and installable.** Phone friendly, with a two-column layout on laptops.
 - **Back to all apps.** A "← All apps" button at the top of the page.
 - **Light and dark mode switch.** It follows your device until you choose, and remembers your choice in every app.

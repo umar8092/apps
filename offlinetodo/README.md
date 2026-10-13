@@ -1,6 +1,6 @@
 # To-Do List
 
-A **free online to-do list with no registration**. It works offline, it's private, and your tasks stay on your own device. No account, no ads, no tracking.
+A **free online to-do list with no registration**. It works offline, it's private, and your tasks stay on your own device. No account, no ads, no tracking of your data.
 
 **Live demo:** [umar8092.github.io/apps/offlinetodo](https://umar8092.github.io/apps/offlinetodo/)
 
@@ -15,7 +15,7 @@ The app follows your device's light or dark setting, and the button at the top s
 - **Help button.** Tap **Help** at the top for a short how-to written for this app, and tap **All apps** to go back to the list.
 - **Works offline.** After the first visit it opens and works with no connection.
 - **No registration.** No account, email or password. Open it and start.
-- **Private.** Tasks are saved only in your browser. Nothing is sent anywhere, and the app makes no network requests except loading its own files.
+- **Private.** Tasks are saved only in your browser. Your tasks are never sent anywhere. Besides loading its own files, the page makes one anonymous visit-count request (page, country and device, never your tasks).
 - **Installable.** Add it to your home screen or desktop and it opens like a normal app.
 - **Due dates** with labels like "Due today", "Due tomorrow" and "Overdue 3 days".
 - **Priorities** (Low, Normal, High).

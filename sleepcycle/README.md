@@ -18,7 +18,7 @@ You must wake at 6:30 AM. Sleep Cycle Calculator tells you when to **get into be
 - **I need to wake up at...** gives the times to get into bed. **I'm going to bed at...** gives the times to set your alarm, and **Use the time now** fills in the current time. Each card shows the hours of sleep and when you will be asleep.
 - A nap tip: about 20 minutes, or a full 90-minute cycle, avoids waking in deep sleep.
 - Settings: minutes to fall asleep, cycle length (default 90), and 12 or 24 hour clock. They are remembered on your device.
-- Works offline and installable. Private: nothing leaves your device.
+- Works offline and installable. Private: your data never leaves your device.
 - **Back to all apps.** A "← All apps" button at the top of the page.
 
 ## Run it yourself

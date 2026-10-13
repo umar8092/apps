@@ -1,6 +1,6 @@
 # Time Zone Meeting Planner
 
-A free **meeting planner for people in different time zones**. Add everyone's city and when each person works (office hours, an evening shift, a night shift, or any hours you set), and it finds the best time to meet inside **everyone's own** working hours, with each person's local time and day. Daylight saving is handled by using each city's real clock on the day you pick. Copy the result, email it, or add it to your calendar. Works offline, no sign-up, no ads, nothing leaves your device.
+A free **meeting planner for people in different time zones**. Add everyone's city and when each person works (office hours, an evening shift, a night shift, or any hours you set), and it finds the best time to meet inside **everyone's own** working hours, with each person's local time and day. Daylight saving is handled by using each city's real clock on the day you pick. Copy the result, email it, or add it to your calendar. Works offline, no sign-up, no ads, your data never leaves your device.
 
 **Live demo:** [umar8092.github.io/apps/time-zone-meeting-planner](https://umar8092.github.io/apps/time-zone-meeting-planner/)
 

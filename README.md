@@ -227,3 +227,11 @@ A calendar for rotating shift rotas: 4 on 4 off, days and nights, Pitman, DuPont
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
 
 Made by [Muhammad Umar](https://github.com/umar8092). Each app is MIT licensed.
+
+## Visitor counting
+
+Every app page and the hub load [GoatCounter](https://www.goatcounter.com) (cookie-free) to count visits: the page, the visitor's country, device and browser, and where they came from. Nothing you type into an app is ever sent anywhere. New apps must include the snippet (`scripts/check-app.js` checks for it):
+
+```html
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+```

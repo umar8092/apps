@@ -32,7 +32,7 @@ Every downloaded picture in the checks is scanned back with a QR reader and must
 - **What is inside the code** shows the exact text a phone reads.
 - **Help button.** Tap **Help** at the top for a short how-to written for this app, and tap **All apps** to go back to the list.
 - **Light and dark mode switch.** It follows your device until you choose, and remembers your choice in every app.
-- **Private.** Everything is made on your device and saved only in this browser. Nothing is sent anywhere.
+- **Private.** Everything is made on your device and saved only in this browser. Your data is never sent anywhere.
 - **Works offline and installable.**
 
 ## Run it yourself

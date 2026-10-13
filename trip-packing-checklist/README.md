@@ -37,7 +37,7 @@ More worked answers:
 - **Change the trip any time.** Your ticks, edits, deletions and own items are kept, and items that now need more are unticked.
 - **The way home and the next trip.** **Untick everything** to pack for the way home. **Start a new trip** keeps your travellers and every-trip items. Both can be undone.
 - **Share or print.** Copy the list as text with [x] and [ ], email it (no address needed), or print a paper checklist.
-- **Private.** Everything stays in this browser on this device. Nothing is sent anywhere.
+- **Private.** Everything stays in this browser on this device. Your data is never sent anywhere.
 - **Works offline and installable.** Phone friendly, with a two-column layout on laptops.
 - **Back to all apps.** A "← All apps" button at the top of the page.
 - **Light and dark mode switch.** It follows your device until you choose, and remembers your choice in every app.

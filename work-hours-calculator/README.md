@@ -34,7 +34,7 @@ Other cases it handles: a finish earlier than the start (shift past midnight), s
 - **Week by week.** Pick any week, go to the previous or next one. Each week is saved on your device.
 - **Try an example week** button shows a worked result before you type anything.
 - **Fill the week** (open at the top) with the same hours for Monday to Friday or all 7 days.
-- **Copy, email or print** the timesheet. Email opens your mail app with the text written and no recipient needed. Nothing is sent by the app.
+- **Copy, email or print** the timesheet. Email opens your mail app with the text written and no recipient needed. The app never sends the email itself.
 - **Start a new week** clears the week, with Undo.
 - **Private.** Everything is worked out on your device.
 - **Works offline and installable.** Light and dark mode switch, phone and desktop layouts.

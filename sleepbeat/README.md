@@ -1,6 +1,6 @@
 # Heartbeat Sound
 
-A free, calming **heartbeat sound** you can loop all night, for sleep, newborns, puppies, focus and relaxation. No ads, no sign-up, no tracking. Everything runs in your browser.
+A free, calming **heartbeat sound** you can loop all night, for sleep, newborns, puppies, focus and relaxation. No ads, no sign-up, no tracking of your data. Everything runs in your browser.
 
 **Live demo:** [umar8092.github.io/apps/sleepbeat](https://umar8092.github.io/apps/sleepbeat/)
 
