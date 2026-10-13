@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Lent and Borrowed Tracker: Who Owes You, Free</title>
+    <meta name="description" content="Free IOU tracker for money you lend to friends and family or borrow. Each person shows what they still owe you or you owe them, with part repayments, pay-back-by dates and a polite reminder message to send. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/money-lent-and-borrowed-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#b8612e">
+    <meta name="theme-color" content="#9c4a17">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Money Lent and Borrowed Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/money-lent-and-borrowed-tracker/">
+    <meta property="og:title" content="Money Lent and Borrowed Tracker: See Who Still Owes What">
+    <meta property="og:description" content="Track money you lend to friends and family, or borrow. See who still owes what, record part repayments and send a polite reminder. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Money Lent and Borrowed Tracker","alternateName":["IOU Tracker","Who Owes Me","Money Lending Tracker","Debt Tracker for Friends"],"url":"https://umar8092.github.io/apps/money-lent-and-borrowed-tracker/","description":"A free tracker for money lent to and borrowed from friends, family and colleagues. Each person has a running balance with part repayments, pay-back-by dates and a reminder message.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"IOU tracker, who owes me money, money lent tracker, track money lent to friends, borrowed money tracker","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I keep track of money I lent to friends?","acceptedAnswer":{"@type":"Answer","text":"Each time you lend money, add it with the person's name, the amount and the date. When they pay some back, add that too. The app keeps a running balance for each person, such as Bilal owes you 3,500."}},{"@type":"Question","name":"What if I lent and borrowed with the same person?","acceptedAnswer":{"@type":"Answer","text":"Both go on the same person and the app shows only the difference, so if you lent 5,000 and borrowed 1,000 it says they owe you 4,000."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Names and amounts stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Money Lent and Borrowed Tracker</h1>
+        <p class="sub">Write down money you lend to friends and family, or borrow from them. See who still owes what and send a polite reminder.</p>
+    </header>
+
+    <section class="card totals" id="totals" aria-labelledby="totals-h">
+        <h2 id="totals-h" class="vh">Totals</h2>
+        <div class="tot-grid">
+            <div class="tot to-me"><span class="t-label">Owed to you</span><span class="t-val" id="t-tome">0</span><span class="t-sub" id="t-tome-n">nobody owes you</span></div>
+            <div class="tot i-owe"><span class="t-label">You owe</span><span class="t-val" id="t-iowe">0</span><span class="t-sub" id="t-iowe-n">you owe nobody</span></div>
+        </div>
+        <p class="late" id="t-late" hidden></p>
+    </section>
+
+    <div class="col-main">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add money lent or borrowed</h2>
+            <label for="who">Person</label>
+            <input id="who" type="text" maxlength="60" autocomplete="off" list="who-list" placeholder="e.g. Bilal" aria-describedby="who-err who-note">
+            <datalist id="who-list"></datalist>
+            <p class="err" id="who-err" role="alert"></p>
+            <p class="hint" id="who-note"></p>
+
+            <fieldset class="kinds">
+                <legend>What happened?</legend>
+                <label class="kind"><input type="radio" name="kind" value="lent" checked><span>I lent them money</span></label>
+                <label class="kind"><input type="radio" name="kind" value="repaid"><span>They paid me back</span></label>
+                <label class="kind"><input type="radio" name="kind" value="borrowed"><span>I borrowed from them</span></label>
+                <label class="kind"><input type="radio" name="kind" value="paid"><span>I paid them back</span></label>
+            </fieldset>
+
+            <label for="amount">Amount</label>
+            <div class="amount-row">
+                <span class="cur-tag" id="cur-tag" hidden></span>
+                <input id="amount" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 5000" aria-describedby="amount-err">
+            </div>
+            <p class="err" id="amount-err" role="alert"></p>
+            <button type="button" class="link" id="all-back" hidden>Paid back in full</button>
+
+            <p class="when-line">Date: <b id="date-text">today</b> <button type="button" class="link inline" id="date-open">Change date</button></p>
+            <div class="field" id="date-box" hidden>
+                <label for="date">Date it happened</label>
+                <input id="date" type="date" aria-describedby="date-err">
+                <p class="err" id="date-err" role="alert"></p>
+                <button type="button" class="link" id="date-today">Use today</button>
+            </div>
+
+            <button type="button" class="link" id="due-open">+ Add a pay-back-by date (optional)</button>
+            <div class="field" id="due-box" hidden>
+                <label for="due">Pay back by</label>
+                <input id="due" type="date" aria-describedby="due-err">
+                <p class="err" id="due-err" role="alert"></p>
+                <button type="button" class="link" id="due-clear">Remove the date</button>
+            </div>
+
+            <button type="button" class="link" id="note-open">+ Add a note (optional)</button>
+            <div class="field" id="note-box" hidden>
+                <label for="note">Note</label>
+                <input id="note" type="text" maxlength="200" autocomplete="off" placeholder="e.g. for the rent">
+            </div>
+
+            <p class="preview" id="preview" aria-live="polite"></p>
+            <button type="button" class="primary" id="save">Save</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share, backup and settings</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy-all">Copy the list</button>
+                <button type="button" class="secondary" id="email-all">Email the list</button>
+                <button type="button" class="secondary" id="print-all">Print or save as PDF</button>
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <p class="hint">Shown with every amount. A person can have their own currency: tap "Change name or currency" in their box.</p>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="card list" id="list" aria-labelledby="list-h">
+        <div class="list-top">
+            <h2 id="list-h">People</h2>
+            <div class="sort-field" id="sort-wrap" hidden>
+                <label for="sort">Sort</label>
+                <select id="sort">
+                    <option value="owed">Most owed first</option>
+                    <option value="recent">Latest change first</option>
+                    <option value="name">Name, A to Z</option>
+                </select>
+            </div>
+        </div>
+        <div class="field" id="find-wrap" hidden>
+            <label for="find" class="vh">Find a person</label>
+            <input id="find" type="search" maxlength="60" autocomplete="off" placeholder="Find a person">
+        </div>
+        <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+        <p class="empty" id="empty">Nobody here yet. Add the first money you lent or borrowed, and the person gets their own box here with what they owe.</p>
+        <div class="people" id="people"></div>
+        <details class="settled" id="settled-wrap" hidden>
+            <summary id="settled-sum">Settled up</summary>
+            <div class="people" id="settled"></div>
+        </details>
+    </section>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does it work out what someone owes?</summary><p>Money you lent and money you paid back to them count for you; money they paid back and money you borrowed count the other way. The difference is the balance, for example lent 5,000, paid back 1,500: <b>Bilal owes you 3,500</b>. If you lent and borrowed with the same person, only the difference is shown.</p></details>
+        <details><summary>They paid back more than they owed. What happens?</summary><p>The box turns round and says you now owe them the extra, for example <b>You owe Bilal 500</b>. Before you save, the line above the Save button shows what the balance will be.</p></details>
+        <details><summary>What is the pay-back-by date?</summary><p>An optional date the money should come back. The person's box shows the days left or how many days late it is, and it is used in the reminder message. Once the money is all paid back the date no longer shows.</p></details>
+        <details><summary>How do I send a reminder?</summary><p>Tap <b>Reminder message</b> in the person's box. A polite message with the amount and dates is written for you; change it if you like, then tap <b>Copy</b>, <b>Share</b> (WhatsApp, SMS and other apps on phones) or <b>Email</b>.</p></details>
+        <details><summary>Can I use different currencies?</summary><p>Yes. Choose the currency symbol for the app, and give a person their own currency with <b>Change name or currency</b>. Totals in different currencies are shown side by side and never added together.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Names and amounts stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/money-lent-and-borrowed-tracker">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Money Lent and Borrowed Tracker", "sections": [
+ {"h": "Add money lent or borrowed", "steps": ["Type the Person's name. Names you used before are suggested, and the line under the box says whether it is someone new or someone already in your list.", "Under \"What happened?\" choose \"I lent them money\", \"They paid me back\", \"I borrowed from them\" or \"I paid them back\".", "Type the Amount, such as 5000, 5,000 or 12.50, and tap \"Save\" (or press Enter).", "The line above \"Save\" shows the balance after this, such as \"After this: Bilal owes you 3,500\".", "\"Paid back in full\" fills in the whole amount still owed when you choose a pay-back option.", "\"Change date\" records money from an earlier day. Future dates are refused.", "\"+ Add a pay-back-by date (optional)\" and \"+ Add a note (optional)\" add a date the money should come back and a short note such as \"for the rent\".", "After saving, tap \"Undo\" in the message if it was a mistake."]},
+ {"h": "Each person's box", "steps": ["The top of each box says who owes who, such as \"Bilal owes you 3,500\" or \"You owe Sara 2,000\", and the pay-back-by date with the days left or days late.", "\"Add for Bilal\" (with their name) fills the form with that person.", "\"Paid back in full\" records the whole balance as paid back, so the person is settled up. \"Undo\" brings the balance back.", "\"Reminder message\" writes a polite message with the amount and dates. Change it if you like, then \"Copy\", \"Share\" or \"Email\" it.", "\"History\" lists every entry with the balance after it. \"Edit\" changes an entry (Escape cancels) and \"Delete\" removes it, with \"Undo\". \"Copy history\" copies the list as text.", "\"Change name or currency\" renames the person or gives them their own currency. \"Delete person\" removes them and all their entries, with \"Undo\"."]},
+ {"h": "Totals and the list", "steps": ["\"Owed to you\" adds up what everyone owes you, and \"You owe\" what you owe others. Different currencies are shown side by side.", "People who owe nothing move to \"Settled up\" at the bottom. Tap it to see them.", "\"Sort\" orders the boxes by most owed, latest change or name. With many people, \"Find a person\" narrows the list."]},
+ {"h": "Share, backup and settings", "steps": ["\"Copy the list\", \"Email the list\" and \"Print or save as PDF\" share everyone's balance. Email works without typing an address first.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another device, with \"Undo\".", "\"Currency symbol\" adds a symbol such as $ or Rs to every amount, or none for plain numbers.", "\"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["If someone pays back more than they owed, their box says you now owe them the extra.", "Amounts are counted in whole cents, so the balances are exact.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

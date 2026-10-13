@@ -1,0 +1,15 @@
+{
+  "name": "Money Lent and Borrowed Tracker",
+  "short_name": "Money Lent",
+  "description": "Track money you lend to friends and family or borrow, see who still owes what, and send a polite reminder.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#25170e",
+  "theme_color": "#9c4a17",
+  "categories": ["finance", "productivity", "lifestyle"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

@@ -172,5 +172,11 @@
     "name": "Daily Habit and Water Tracker",
     "description": "Tap to log glasses of water and daily habits, see what is left for today, your streaks and your week. Every day, some days or 3 times a week.",
     "color": "#0891b2"
+  },
+  {
+    "slug": "money-lent-and-borrowed-tracker",
+    "name": "Money Lent and Borrowed Tracker",
+    "description": "Write down money you lend to friends and family, or borrow. Each person shows what they still owe, with part repayments, pay-back-by dates and a reminder message.",
+    "color": "#b8612e"
   }
 ]

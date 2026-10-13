@@ -238,6 +238,14 @@ A habit tracker and water tracker. Tap to log each glass of water, your steps, r
 
 <a href="daily-habit-and-water-tracker/"><img src="daily-habit-and-water-tracker/screenshots/phone.png" alt="Daily Habit and Water Tracker screenshot" width="260"></a>
 
+### <img src="money-lent-and-borrowed-tracker/favicon.svg" width="36" height="36" align="center"> [Money Lent and Borrowed Tracker](https://umar8092.github.io/apps/money-lent-and-borrowed-tracker/)
+
+Write down money you lend to friends, family or colleagues, or borrow from them. Each person gets their own box saying what they still owe you or you owe them, with part repayments, pay-back-by dates and a polite reminder message to copy or share.
+
+[**Open the app**](https://umar8092.github.io/apps/money-lent-and-borrowed-tracker/) &middot; [Details and screenshots](money-lent-and-borrowed-tracker/)
+
+<a href="money-lent-and-borrowed-tracker/"><img src="money-lent-and-borrowed-tracker/screenshots/phone.png" alt="Money Lent and Borrowed Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
