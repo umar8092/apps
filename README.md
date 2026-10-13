@@ -214,6 +214,14 @@ A tap-to-log baby tracker for tired parents. Breast feed timer for each side, bo
 
 <a href="baby-feeding-and-nappy-tracker/"><img src="baby-feeding-and-nappy-tracker/screenshots/phone.png" alt="Baby Feeding and Nappy Tracker screenshot" width="260"></a>
 
+### <img src="shift-work-calendar/favicon.svg" width="36" height="36" align="center"> [Shift Work Calendar](https://umar8092.github.io/apps/shift-work-calendar/)
+
+A calendar for rotating shift rotas: 4 on 4 off, days and nights, Pitman, DuPont, 24 on 48 off or your own pattern. See which shift you are on any date, whether you are at work right now, your next day off, and the days you and your partner are both off. Mark swaps and holidays, and add your shifts to your phone's calendar. No sign-up, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/shift-work-calendar/) &middot; [Details and screenshots](shift-work-calendar/)
+
+<a href="shift-work-calendar/"><img src="shift-work-calendar/screenshots/phone.png" alt="Shift Work Calendar screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

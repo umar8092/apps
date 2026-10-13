@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shift Work Calendar: Rotating Rota, Next Day Off, Free</title>
+    <meta name="description" content="Free shift work calendar for rotating rotas: 4 on 4 off, days and nights, Pitman 2-2-3, DuPont, 24 on 48 off or your own. See which shift you are on any date, your next day off, and days off together with your partner. No sign-up, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/shift-work-calendar/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#c2185b">
+    <meta name="theme-color" content="#c2185b">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Shift Work Calendar">
+    <meta property="og:url" content="https://umar8092.github.io/apps/shift-work-calendar/">
+    <meta property="og:title" content="Shift Work Calendar: which shift am I on, and when is my next day off?">
+    <meta property="og:description" content="Enter your rota once and see your shifts for any date, your next day off, and the days you and your partner are both off. Free, private, works offline.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Shift Work Calendar","alternateName":["Shift Rota Calendar","Rotating Shift Calendar","4 on 4 off Calendar"],"url":"https://umar8092.github.io/apps/shift-work-calendar/","description":"A free shift calendar for rotating shift patterns. See which shift you are on any date, your next day off and days off together.","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"shift calendar, rota calendar, 4 on 4 off calendar, pitman schedule, dupont schedule, nurse shift calendar, 24 on 48 off","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I find which shift I am on a certain date?","acceptedAnswer":{"@type":"Answer","text":"Pick your pattern (for example 4 on, 4 off) and the date day 1 of it fell on. The calendar then shows your shift for every date, forwards and backwards. Tap any day, or type a date in Go to a date."}},{"@type":"Question","name":"Can my partner and I see the days we are both off?","acceptedAnswer":{"@type":"Answer","text":"Yes. Tap + Add a person and give them their own pattern and shift times. The calendar marks the days you are all off and Today shows the next one."}},{"@type":"Question","name":"What if I swap a shift or take a holiday?","acceptedAnswer":{"@type":"Answer","text":"Tap that day in the calendar and choose the shift you are really on, Holiday or leave, or Sick. Back to pattern undoes it. Your pattern is not changed."}},{"@type":"Question","name":"Is my rota private?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is kept only on your device and nothing is sent anywhere. The app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Shift Work Calendar</h1>
+        <p class="sub">Enter your rota once. See your shift on any date, your next day off, and days off together.</p>
+    </header>
+
+    <div class="col-a">
+        <section class="card today" id="today" aria-live="polite">
+            <h2 id="today-title">Today</h2>
+            <div id="today-list"></div>
+            <div id="together" class="together" hidden></div>
+        </section>
+
+        <section class="card setup" id="setup" aria-labelledby="setup-title">
+            <h2 id="setup-title">Your shift pattern</h2>
+            <div class="people" id="people" role="group" aria-label="Whose pattern to change" hidden></div>
+            <div class="person" id="person">
+                <label for="p-name">Name</label>
+                <input id="p-name" type="text" maxlength="30" autocomplete="off" placeholder="e.g. Me">
+
+                <label for="p-preset">Pattern</label>
+                <select id="p-preset"></select>
+
+                <p class="mini-label" id="seq-label">Your pattern, day by day</p>
+                <ol class="seq" id="p-seq" aria-labelledby="seq-label"></ol>
+                <p class="hint" id="seq-info"></p>
+
+                <p class="mini-label" id="add-label">Add a day to the end:</p>
+                <div class="adders" id="p-add" role="group" aria-labelledby="add-label"></div>
+                <div class="seq-tools">
+                    <button type="button" class="secondary" id="p-undo-last">Remove last day</button>
+                    <button type="button" class="secondary" id="p-clear">Clear pattern</button>
+                </div>
+
+                <label for="p-start">Day 1 of the pattern is on</label>
+                <input id="p-start" type="date" min="1900-01-01" max="2200-12-31">
+                <p class="check" id="p-check"></p>
+
+                <h3 class="types-title">Shift times</h3>
+                <p class="hint top">Used for the hours and the calendar file. Leave the times empty if you do not need them.</p>
+                <ul class="types" id="p-types"></ul>
+                <label for="p-addtype">Add a shift type</label>
+                <select id="p-addtype"></select>
+
+                <button type="button" class="danger" id="p-remove" hidden>Remove this person</button>
+            </div>
+            <button type="button" class="ghost" id="add-person">+ Add a person (partner, flatmate)</button>
+            <p class="hint" id="people-hint">Each person gets their own pattern and shift times. The calendar then shows the days you are all off.</p>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card calendar" id="calendar" aria-labelledby="month-title">
+            <div class="cal-nav">
+                <button type="button" class="nav-btn" id="prev" aria-label="Previous month">&lsaquo;</button>
+                <h2 id="month-title">Month</h2>
+                <button type="button" class="nav-btn" id="next" aria-label="Next month">&rsaquo;</button>
+            </div>
+            <div class="cal-jump">
+                <button type="button" class="secondary" id="to-today">Today</button>
+                <label class="inline" for="goto">Go to a date</label>
+                <input id="goto" type="date" min="1900-01-01" max="2200-12-31">
+            </div>
+            <table class="grid" id="grid"><thead><tr id="grid-head"></tr></thead><tbody id="grid-body"></tbody></table>
+            <p class="legend" id="legend"></p>
+
+            <div class="day" id="day" hidden>
+                <div class="day-head"><h3 id="day-title">Day</h3><button type="button" class="link" id="day-close">Close</button></div>
+                <div id="day-list"></div>
+            </div>
+
+            <div id="totals" class="totals"></div>
+            <label for="week-start">Weeks start on</label>
+            <select id="week-start"><option value="1">Monday</option><option value="0">Sunday</option></select>
+        </section>
+
+        <section class="card tools" id="tools">
+            <h2>Share and save</h2>
+            <div class="btns3">
+                <button type="button" class="secondary" id="copy">Copy this month</button>
+                <a class="secondary" id="email" href="#">Email this month</a>
+                <button type="button" class="secondary" id="print">Print this month</button>
+            </div>
+            <h3>Put my shifts in my phone's calendar</h3>
+            <div class="ics-row">
+                <div id="ics-who-wrap" hidden><label for="ics-who">Whose shifts</label><select id="ics-who"></select></div>
+                <div><label for="ics-range">For</label>
+                    <select id="ics-range"><option value="1">This month</option><option value="3" selected>The next 3 months</option><option value="6">The next 6 months</option><option value="12">The next 12 months</option></select></div>
+            </div>
+            <button type="button" class="primary" id="ics">Download calendar file (.ics)</button>
+            <p class="hint">Open the file to add each shift to Google, Apple or Outlook calendar. Days off are left out. Downloading again after a change updates the same shifts in most calendar apps.</p>
+            <h3>Backup</h3>
+            <div class="btns2">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore from a backup</button>
+            </div>
+            <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            <button type="button" class="danger" id="reset">Start over</button>
+        </section>
+    </div>
+
+    <p class="msg" id="msg" role="status" aria-live="polite" hidden><span id="msg-text"></span> <button type="button" class="link inline-btn" id="msg-undo" hidden>Undo</button></p>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How do I find which shift I am on a certain date?</summary><p>Pick your <b>Pattern</b> and the date <b>Day 1 of the pattern is on</b>. The calendar shows every date, forwards and backwards. Tap a day, or type a date in <b>Go to a date</b>.</p></details>
+        <details><summary>My rota is not in the list.</summary><p>Choose <b>My own pattern</b>, then tap the shift buttons in order (for example Day, Day, Night, Night, Off, Off) to build it, up to 14 weeks long. Add your own shift types, such as a twilight shift, under <b>Add a shift type</b>.</p></details>
+        <details><summary>What is "day 1" of my pattern?</summary><p>Any date when your pattern starts again from the beginning. If today is your second night, pick the date of your first day shift of this run. The line under the date shows what today is, so you can check.</p></details>
+        <details><summary>I swapped a shift or booked a holiday.</summary><p>Tap that day in the calendar and choose what you are really doing. Changed days get a small dot. <b>Back to pattern</b> undoes it.</p></details>
+        <details><summary>Do night shifts count on the right day?</summary><p>A night shift belongs to the day it starts. Between midnight and the end of the shift, Today shows that you are still at work.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. Your rota stays on this device and nothing is sent anywhere. It works offline after the first visit.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/shift-work-calendar">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Shift Work Calendar", "sections": [
+ {"h": "Set up your rota (once)", "steps": ["Under Your shift pattern, type your name and choose your Pattern, for example 2 days, 2 nights, 4 off.", "Not in the list? Choose My own pattern and tap the buttons under Add a day to the end in order (Day, Night, Off and so on). Remove last day and Clear pattern fix mistakes. Tap a day in the pattern to change or delete just that day.", "Set Day 1 of the pattern is on to a date when your pattern starts from the beginning. The line under it says which shift today is, so you can check it is right.", "Under Shift times, change the start and end of each shift. Night shifts can end the next morning. Add a shift type adds Early, Late, 24-hour or one with your own name."]},
+ {"h": "Read your shifts", "steps": ["Today shows your shift today, whether you are at work right now, your next day off and how many days off in a row, or your next shift if you are off.", "The calendar shows a coloured box for every shift. Use the arrows to change month, Today to come back, or Go to a date to jump to any date.", "Tap a day to see the shift, its times and which day of the pattern it is.", "Under the calendar you see the month's shifts, hours and days off."]},
+ {"h": "Swaps, holidays and sick days", "steps": ["Tap the day, then choose what you are really doing under Change this day: another shift, Off, Holiday or leave, or Sick.", "Changed days get a small dot. Back to pattern puts the day back as your pattern says. Your pattern itself does not change."]},
+ {"h": "Partner or flatmate", "steps": ["Tap + Add a person (partner, flatmate). Each person has their own pattern, day 1 and shift times. Tap a name at the top of Your shift pattern to change that person.", "Today shows the next day you are all off, and the calendar marks those days with a green outline.", "Remove this person takes them out. Undo brings them back."]},
+ {"h": "Share and save", "steps": ["Copy this month, Email this month and Print this month share the month's shifts.", "Download calendar file (.ics) adds the shifts to your phone's calendar for the months you pick. Days off are left out.", "Save a backup file keeps your rota for a new phone. Restore from a backup loads it again. Start over clears everything, and Undo brings it back."]},
+ {"h": "Good to know", "tips": true, "steps": ["Your rota is kept only on this device. Nothing is sent anywhere, and the app works offline.", "Dates never move with time zones or summer time: a shift on 14 October is always on 14 October."]}
+]}</script>
+</body>
+</html>
