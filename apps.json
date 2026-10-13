@@ -166,5 +166,11 @@
     "name": "Home Blood Pressure Log",
     "description": "Type each blood pressure reading and see your average, morning and evening averages and what the numbers mean (UK/Europe or US guide). Print or email the list for your doctor.",
     "color": "#dc2626"
+  },
+  {
+    "slug": "daily-habit-and-water-tracker",
+    "name": "Daily Habit and Water Tracker",
+    "description": "Tap to log glasses of water and daily habits, see what is left for today, your streaks and your week. Every day, some days or 3 times a week.",
+    "color": "#0891b2"
   }
 ]

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Habit and Water Tracker: Streaks, Free and Private</title>
+    <meta name="description" content="Free daily habit and water tracker. Tap to log glasses of water, steps, reading or any habit, see what is left for today, your streaks and your week. Every day, some days or 3 times a week. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/daily-habit-and-water-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#0891b2">
+    <meta name="theme-color" content="#0e7490">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Daily Habit and Water Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/daily-habit-and-water-tracker/">
+    <meta property="og:title" content="Daily Habit and Water Tracker: Tap, Track, Keep the Streak">
+    <meta property="og:description" content="Log water and daily habits with one tap, see what is left for today, your streaks and your week. Free, private, no sign-up, works offline.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Daily Habit and Water Tracker","alternateName":["Habit Tracker","Water Intake Tracker","Drink Water Reminder","Streak Tracker"],"url":"https://umar8092.github.io/apps/daily-habit-and-water-tracker/","description":"A free habit tracker and water intake tracker. Tap to log each glass of water or any habit, see what is left for today, streaks, a weekly table and a 12-week history.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"habit tracker, water tracker, drink water tracker, daily habit tracker free, streak tracker, no sign up","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the streak work?","acceptedAnswer":{"@type":"Answer","text":"The streak counts the days in a row you kept the habit. Days the habit is not planned and days you mark as skipped (ill, travelling) never break it. Today only adds to it once done. Habits planned a number of times a week count weeks in a row."}},{"@type":"Question","name":"Can I track water in glasses or ml?","acceptedAnswer":{"@type":"Answer","text":"Yes. Choose Count up to a goal, then glasses, cups, ml or oz, and how much each tap adds, for example 250 ml."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your habits stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Daily Habit and Water Tracker</h1>
+        <p class="sub">Tap to log water and daily habits. See what is left for today, your streaks and your week.</p>
+    </header>
+
+    <div class="col-main">
+        <section class="card day-card" id="day-card" aria-labelledby="day-title">
+            <div class="day-nav">
+                <button type="button" class="nav-btn" id="prev" aria-label="Earlier day">&lsaquo;</button>
+                <div class="day-label">
+                    <h2 id="day-title">Today</h2>
+                    <p id="day-date"></p>
+                </div>
+                <button type="button" class="nav-btn" id="next" aria-label="Later day">&rsaquo;</button>
+            </div>
+            <p class="past-note" id="past-note" hidden>You are changing an earlier day. <button type="button" class="link inline" id="to-today">Back to today</button></p>
+            <div id="sum-box">
+                <p class="big" id="sum-big"></p>
+                <div class="track" aria-hidden="true"><span class="bar" id="sum-bar"></span></div>
+                <p class="meta" id="sum-meta"></p>
+            </div>
+            <p class="msg" id="storage-msg" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="habits" id="habits-sec" aria-labelledby="habits-h">
+            <h2 id="habits-h" class="sr">Your habits</h2>
+            <p class="msg" id="list-msg" role="status" aria-live="polite"></p>
+            <div class="card empty" id="empty" hidden>
+                <p class="big muted">No habits yet</p>
+                <p class="meta">Pick one below, like <b>Drink water</b>, or type your own.</p>
+            </div>
+            <p class="hint hidden-note" id="hidden-note" hidden></p>
+            <ul class="habit-list" id="list"></ul>
+        </section>
+
+        <button type="button" class="primary add-open" id="add-open">+ Add a habit</button>
+
+        <section class="card form" id="form" aria-labelledby="form-h" hidden>
+            <h2 id="form-h">Add a habit</h2>
+            <div id="picks-box">
+                <p class="hint top">Quick picks (you can change them before saving):</p>
+                <div class="picks" id="picks"></div>
+            </div>
+            <label for="f-name">What is the habit?</label>
+            <input id="f-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Drink water" aria-describedby="f-name-err">
+            <p class="err" id="f-name-err" role="alert"></p>
+
+            <fieldset class="kinds">
+                <legend>How do you want to track it?</legend>
+                <label class="kind"><input type="radio" name="kind" value="check" checked> <span><b>Tick it off when done</b><span class="lt">Take vitamins, stretch, no sugar</span></span></label>
+                <label class="kind"><input type="radio" name="kind" value="count"> <span><b>Count up to a goal</b><span class="lt">8 glasses of water, 10,000 steps, 20 minutes reading</span></span></label>
+                <label class="kind"><input type="radio" name="kind" value="limit"> <span><b>Keep under a limit</b><span class="lt">No more than 2 coffees or 1 hour of games</span></span></label>
+            </fieldset>
+
+            <div id="amount-box" hidden>
+                <div class="two">
+                    <div class="field">
+                        <label for="f-target" id="f-target-label">Goal each day</label>
+                        <input id="f-target" type="text" inputmode="numeric" maxlength="12" autocomplete="off" placeholder="e.g. 8" aria-describedby="f-target-err">
+                    </div>
+                    <div class="field">
+                        <label for="f-unit">Counted in</label>
+                        <select id="f-unit">
+                            <option value="glasses">glasses</option>
+                            <option value="cups">cups</option>
+                            <option value="ml">ml</option>
+                            <option value="oz">oz</option>
+                            <option value="minutes">minutes</option>
+                            <option value="pages">pages</option>
+                            <option value="steps">steps</option>
+                            <option value="km">km</option>
+                            <option value="miles">miles</option>
+                            <option value="times">times</option>
+                            <option value="other">Other (type it)</option>
+                        </select>
+                    </div>
+                </div>
+                <p class="err" id="f-target-err" role="alert"></p>
+                <div class="field" id="unit-own-box" hidden>
+                    <label for="f-unit-own">Your own unit</label>
+                    <input id="f-unit-own" type="text" maxlength="20" autocomplete="off" placeholder="e.g. cigarettes" aria-describedby="f-unit-err">
+                    <p class="err" id="f-unit-err" role="alert"></p>
+                </div>
+                <label for="f-step">Each + tap adds</label>
+                <input id="f-step" type="text" inputmode="numeric" maxlength="12" autocomplete="off" placeholder="e.g. 1" aria-describedby="f-step-err">
+                <p class="err" id="f-step-err" role="alert"></p>
+            </div>
+
+            <label for="f-sched">Which days?</label>
+            <select id="f-sched">
+                <option value="daily">Every day</option>
+                <option value="days">Only on some days</option>
+                <option value="week">A number of times a week (any days)</option>
+            </select>
+            <div id="days-box" hidden>
+                <div class="days" id="f-days" role="group" aria-label="Days of the week"></div>
+                <p class="err" id="f-days-err" role="alert"></p>
+            </div>
+            <div class="field" id="times-box" hidden>
+                <label for="f-times">How many times a week?</label>
+                <select id="f-times">
+                    <option value="1">Once a week</option>
+                    <option value="2">2 times a week</option>
+                    <option value="3" selected>3 times a week</option>
+                    <option value="4">4 times a week</option>
+                    <option value="5">5 times a week</option>
+                    <option value="6">6 times a week</option>
+                </select>
+            </div>
+            <p class="hint" id="sched-hint"></p>
+
+            <fieldset class="colors">
+                <legend>Colour</legend>
+                <div class="swatches" id="f-colors"></div>
+            </fieldset>
+
+            <button type="button" class="link" id="start-open">+ Started earlier? (optional)</button>
+            <div class="field" id="start-box" hidden>
+                <label for="f-start">Started on</label>
+                <input id="f-start" type="date" aria-describedby="f-start-err">
+                <p class="hint">Days before this are not counted. Set it earlier to fill in days you already did.</p>
+                <p class="err" id="f-start-err" role="alert"></p>
+            </div>
+
+            <div id="edit-extra" hidden>
+                <label class="check"><input type="checkbox" id="f-all"> <span>Use the new goal and days for earlier days too <span class="lt">(otherwise changes count from today)</span></span></label>
+                <div class="two move">
+                    <button type="button" class="secondary small" id="f-up">Move up</button>
+                    <button type="button" class="secondary small" id="f-down">Move down</button>
+                </div>
+            </div>
+
+            <div class="two form-btns">
+                <button type="button" class="secondary" id="f-cancel">Cancel</button>
+                <button type="button" class="primary" id="f-save">Save habit</button>
+            </div>
+            <button type="button" class="danger" id="f-delete" hidden>Delete this habit</button>
+            <p class="msg" id="form-msg" role="status" aria-live="polite"></p>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card week" id="week" aria-labelledby="week-h">
+            <h2 id="week-h">This week</h2>
+            <p class="hint top" id="week-range"></p>
+            <div id="week-empty" class="hint">Your habits will show here, one row each.</div>
+            <table class="wk" id="wk" hidden>
+                <thead><tr id="wk-head"><th scope="col" class="wk-name">Habit</th></tr></thead>
+                <tbody id="wk-body"></tbody>
+            </table>
+            <p class="legend" id="legend" hidden><span><i class="c met"></i>Done</span><span><i class="c missed"></i>Missed</span><span><i class="c skip"></i>Skipped</span><span><i class="c rest"></i>Not planned</span><span><i class="c todo"></i>To do</span></p>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy this week</button>
+                <a class="secondary" id="email" href="mailto:">Email this week</a>
+                <button type="button" class="secondary" id="print">Print this week</button>
+            </div>
+            <p class="msg" id="share-msg" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Settings and backup</h2>
+            <label for="ws">Weeks start on</label>
+            <select id="ws">
+                <option value="1">Monday</option>
+                <option value="0">Sunday</option>
+            </select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete all habits</button>
+            <p class="msg" id="set-msg" role="status" aria-live="polite"></p>
+        </section>
+    </div>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does the streak work?</summary><p>The streak counts the days in a row you kept the habit. Days the habit is not planned (for example the weekend for a weekdays-only habit) and days you mark with <b>Skip this day</b> (ill, travelling) never break it. Today only adds to the streak once it is done, so an empty morning does not reset it. A "Keep under a limit" habit counts finished days only. A habit planned a number of times a week counts weeks in a row.</p></details>
+        <details><summary>How much water should I drink?</summary><p>There is no single right amount; it depends on your size, the weather and how active you are, and food gives some water too. Many health services suggest about 6 to 8 glasses (1.5 to 2 litres) a day for adults. Set the goal you or your doctor choose. If you have a heart or kidney condition, ask your doctor first.</p></details>
+        <details><summary>I forgot to log yesterday. Can I fix it?</summary><p>Yes. Tap <b>&lsaquo;</b> at the top, or tap the day in a habit's week strip, then log as usual. <b>Back to today</b> returns. To fill in days before you added the habit, tap <b>Edit</b> and set <b>Started on</b> earlier.</p></details>
+        <details><summary>I changed my goal. Do old days change?</summary><p>No. A new goal or new days count from today, so past days keep the goal they had. Tick <b>Use the new goal and days for earlier days too</b> if you were fixing a mistake.</p></details>
+        <details><summary>Can it remind me?</summary><p>Open <b>Details</b> on a habit, choose a time and tap <b>Add reminder to my calendar</b>. Your calendar app then reminds you on the planned days. Web pages cannot reliably send reminders on their own, so the calendar does it.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your habits stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection, and you can add it to your home screen. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/daily-habit-and-water-tracker">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Daily Habit and Water Tracker", "sections": [
+ {"h": "Add a habit", "steps": ["Tap \"+ Add a habit\". Tap a quick pick such as \"Drink water\" or type your own name in \"What is the habit?\".", "\"How do you want to track it?\": \"Tick it off when done\" for things done once a day, \"Count up to a goal\" for things like 8 glasses or 10,000 steps, \"Keep under a limit\" for things like no more than 2 coffees.", "For counting, set \"Goal each day\" (or \"Most each day\" for a limit), what it is \"Counted in\" (glasses, ml, steps, minutes or your own word) and how much \"Each + tap adds\", for example 250 ml.", "\"Which days?\": \"Every day\", \"Only on some days\" (tap the days, such as Mon, Wed, Fri) or \"A number of times a week\" on any days.", "Pick a colour and tap \"Save habit\". \"+ Started earlier? (optional)\" lets you fill in days you already did."]},
+ {"h": "Log your day", "steps": ["For a tick habit, tap \"Mark as done\". Tap \"Done\" again to take it back.", "For a counting habit, tap the + button (for example \"+ 1 glass\") each time, or \"-\" to take one off. \"Type the amount\" sets an exact number, like 8,432 steps from your phone.", "The line under the name says what is left, such as \"5 of 8 glasses, 3 glasses to go\". The box at the top says how many of today's habits are done.", "\"Skip this day\" marks a day you could not do it (ill, travelling). It does not break the streak. Tap \"Undo skip\" to take it back.", "Every change shows \"Undo\" for a moment."]},
+ {"h": "Earlier days and history", "steps": ["Tap \"‹\" and \"›\" at the top, or a day in a habit's week strip, to see and change an earlier day. \"Back to today\" returns.", "\"Details\" shows the streak now, the best streak, how often you kept it in the last 30 days (or weeks) and a 12-week grid. Tap \"Hide details\" to close it.", "\"This week\" shows every habit in a table: a tick for done, a dash for missed, S for skipped and a dot for not planned. Weeks start on Monday or Sunday, as set in \"Settings and backup\"."]},
+ {"h": "Change, move or delete", "steps": ["Tap \"Edit\" on a habit to change its name, goal, days or colour. Changes count from today, so earlier days keep their old goal, unless you tick \"Use the new goal and days for earlier days too\".", "\"Move up\" and \"Move down\" change the order. \"Delete this habit\" removes it and its history, with Undo."]},
+ {"h": "Share, remind and back up", "steps": ["\"Copy this week\", \"Email this week\" (no address needed) and \"Print this week\" share the week you are looking at.", "In \"Details\", choose a time and tap \"Add reminder to my calendar\" to get a reminder on the planned days from your calendar app.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with Undo. \"Delete all habits\" starts again, with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["Days the habit is not planned and skipped days never break a streak. Today only adds once done.", "Days are calendar days on your phone, so travelling to another time zone never moves what you logged.", "Everything stays on this device and works offline. Your data is never sent anywhere.", "Water needs differ from person to person; ask your doctor if you have a heart or kidney condition."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

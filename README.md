@@ -230,6 +230,14 @@ A log for home blood pressure readings. Type the two numbers from your monitor (
 
 <a href="home-blood-pressure-log/"><img src="home-blood-pressure-log/screenshots/phone.png" alt="Home Blood Pressure Log screenshot" width="260"></a>
 
+### <img src="daily-habit-and-water-tracker/favicon.svg" width="36" height="36" align="center"> [Daily Habit and Water Tracker](https://umar8092.github.io/apps/daily-habit-and-water-tracker/)
+
+A habit tracker and water tracker. Tap to log each glass of water, your steps, reading or any habit, and see what is left for today, your streaks and a table of your week. Each habit has its own goal and days (every day, some days or 3 times a week), skipped days never break a streak, and there is a calendar reminder. No sign-up, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/daily-habit-and-water-tracker/) &middot; [Details and screenshots](daily-habit-and-water-tracker/)
+
+<a href="daily-habit-and-water-tracker/"><img src="daily-habit-and-water-tracker/screenshots/phone.png" alt="Daily Habit and Water Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
