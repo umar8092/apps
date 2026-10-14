@@ -338,7 +338,7 @@
         $('add-form').hidden = true; $('add-open').hidden = false;
         ['a-name', 'a-date', 'a-time', 'a-place', 'a-topics'].forEach(i => { $(i).value = ''; });
         $('a-rev').value = '1'; $('a-more').hidden = true; $('a-more-open').hidden = false;
-        setErr($('a-name'), 'a-name-err', ''); setErr($('a-date'), 'a-date-err', '');
+        setErr($('a-name'), 'a-name-err', ''); setErr($('a-date'), 'a-date-err', ''); setErr($('a-topics'), 'a-topics-err', '');
     }
     function addExam() {
         today = C.todayOf();
@@ -348,7 +348,8 @@
         if (r.error) { (r.field === 'name' ? name : date).focus(); return; }
         if (state.exams.length >= C.MAX_EXAMS) { setErr(name, 'a-name-err', 'You have ' + C.MAX_EXAMS + ' exams. Delete a finished one first.'); return; }
         const tp = C.parseTopics($('a-topics').value, []);
-        if (tp.names.length > C.MAX_TOPICS) { setErr(name, 'a-name-err', 'That is ' + tp.names.length + ' topics. Keep it to ' + C.MAX_TOPICS + ' per exam.'); return; }
+        if (tp.names.length > C.MAX_TOPICS) { setErr($('a-topics'), 'a-topics-err', 'That is ' + tp.names.length + ' topics. Keep it to ' + C.MAX_TOPICS + ' per exam.'); $('a-topics').focus(); return; }
+        setErr($('a-topics'), 'a-topics-err', '');
         const t = $('a-time').value;
         const e = { id: nextId('e'), name: r.name, date: date.value, time: /^\d{2}:\d{2}$/.test(t) ? t : '', place: C.clean($('a-place').value, C.MAX_PLACE), rev: +$('a-rev').value, topics: [] };
         e.topics = tp.names.map(n => ({ id: nextId('t'), name: n, done: null }));

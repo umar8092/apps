@@ -79,7 +79,8 @@
                     </div>
                 </div>
                 <label for="a-topics">Topics to study</label>
-                <textarea id="a-topics" rows="5" placeholder="One per line, e.g.&#10;Algebra&#10;Geometry&#10;Statistics" aria-describedby="a-topics-hint"></textarea>
+                <textarea id="a-topics" rows="5" placeholder="One per line, e.g.&#10;Algebra&#10;Geometry&#10;Statistics" aria-describedby="a-topics-hint a-topics-err"></textarea>
+                <p class="err" id="a-topics-err" role="alert"></p>
                 <p class="hint" id="a-topics-hint">One per line, or separated by commas. You can paste a list from your syllabus. You can also add them later.</p>
                 <label for="a-rev">Revision days before the exam</label>
                 <select id="a-rev"></select>
