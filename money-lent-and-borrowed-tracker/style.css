@@ -98,7 +98,7 @@ button:disabled { opacity: .45; cursor: default; }
 .tot.to-me { border-color: var(--to-me); }
 .tot.i-owe { border-color: var(--i-owe); }
 .t-label { font-size: .85rem; font-weight: 700; color: var(--muted); }
-.t-val { font-size: clamp(1.35rem, 6.5vw, 2rem); font-weight: 800; line-height: 1.2; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.t-val { font-size: clamp(1.05rem, 5vw, 2rem); font-weight: 800; line-height: 1.2; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .to-me .t-val { color: var(--to-me); } .i-owe .t-val { color: var(--i-owe); }
 .t-sub { font-size: .85rem; color: var(--muted); overflow-wrap: anywhere; }
 .late { margin: .7rem 0 0; padding: .5rem .7rem; border-radius: 12px; background: var(--warn-bg); font-weight: 700; border-left: 5px solid var(--i-owe); }

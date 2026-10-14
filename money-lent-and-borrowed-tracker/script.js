@@ -457,4 +457,5 @@
 
     load(); wire(); render(); updateForm();
     if (!storageOK) say($('add-msg'), 'This browser is not letting the app save (private mode or blocked storage). Everything works, but it will be gone when you close the page.');
+    if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
 })();
