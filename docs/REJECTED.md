@@ -11,3 +11,4 @@ Weak, niche or one-off. Many sites already do them, and nobody keeps them.
 - Passport photo maker with face detection and background removal: needs a heavy ML model to do well; a weak version would be worse than the Photo Size Reducer's exact-pixel crop.
 - Bill due-date reminder for rent and utilities: the Subscription Tracker already lists any repeating payment with its next date and reminders; extend it instead.
 - Quote or estimate maker as its own app: the Invoice Generator for Freelancers already has the form, items, tax and print; add a "Quote" document type there instead.
+- Road-Trip Fuel Cost Calculator (taken off the queue 2026-10-15): a single formula (distance x fuel use x price) that many sites and map apps already give, used once per trip; the Fuel Log and Car Running Cost Tracker already shows real cost per km.

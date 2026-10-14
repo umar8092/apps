@@ -270,6 +270,14 @@ For students with exams coming up. Add each exam and its topics (paste them from
 
 <a href="study-planner-and-exam-countdown/"><img src="study-planner-and-exam-countdown/screenshots/phone.png" alt="Study Planner and Exam Countdown screenshot" width="260"></a>
 
+### <img src="weekly-meal-planner-with-shopping-list/favicon.svg" width="36" height="36" align="center"> [Weekly Meal Planner with Shopping List](https://umar8092.github.io/apps/weekly-meal-planner-with-shopping-list/)
+
+Plan the week's meals, each for its own number of people, and get one shopping list with every ingredient added up and sorted by aisle. Tick off in the shop, copy, email or print. Works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/weekly-meal-planner-with-shopping-list/) &middot; [Details and screenshots](weekly-meal-planner-with-shopping-list/)
+
+<a href="weekly-meal-planner-with-shopping-list/"><img src="weekly-meal-planner-with-shopping-list/screenshots/phone.png" alt="Weekly Meal Planner with Shopping List screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

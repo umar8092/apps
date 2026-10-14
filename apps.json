@@ -196,5 +196,11 @@
     "name": "Study Planner and Exam Countdown",
     "description": "Add your exams and their topics. See the days left to each exam and a day-by-day study plan that fits every topic in before the exam, with revision days.",
     "color": "#7048e8"
+  },
+  {
+    "slug": "weekly-meal-planner-with-shopping-list",
+    "name": "Weekly Meal Planner with Shopping List",
+    "description": "Pick what you eat each day of the week and for how many people. Get one shopping list with every ingredient added up and sorted by aisle, to tick off, copy or email.",
+    "color": "#ae3ec9"
   }
 ]

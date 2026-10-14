@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Meal Planner with Shopping List: Plan Dinners, Get One List</title>
+    <meta name="description" content="Free weekly meal planner. Pick what you eat each day, for how many people, and get one shopping list with every ingredient added up and sorted by aisle. Tick items off in the shop, copy or email the list. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/weekly-meal-planner-with-shopping-list/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#ae3ec9">
+    <meta name="theme-color" content="#862e9c">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Weekly Meal Planner with Shopping List">
+    <meta property="og:url" content="https://umar8092.github.io/apps/weekly-meal-planner-with-shopping-list/">
+    <meta property="og:title" content="Weekly Meal Planner with Shopping List">
+    <meta property="og:description" content="Plan the week's meals and get one shopping list with every ingredient added up, sorted by aisle. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Weekly Meal Planner with Shopping List","alternateName":["Meal Planner","Weekly Dinner Planner","Meal Plan Shopping List Maker","Family Meal Planner"],"url":"https://umar8092.github.io/apps/weekly-meal-planner-with-shopping-list/","description":"A free weekly meal planner. Pick meals for each day and get one shopping list with every ingredient added up and sorted by aisle.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"meal planner, weekly meal planner, meal plan shopping list, dinner planner, grocery list from meal plan, family meal planner","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the meal planner make the shopping list?","acceptedAnswer":{"@type":"Answer","text":"It reads the ingredients of every meal on the week, works them out for the number of people eating each meal, and adds up the same ingredient: 1 onion on Monday and 2 onions on Thursday become 3 onions."}},{"@type":"Question","name":"Can I cook for a different number of people on one day?","acceptedAnswer":{"@type":"Answer","text":"Yes. Each meal on the plan has its own number of people, so Sunday lunch for 8 needs twice the ingredients of the same recipe for 4."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your meals and lists stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Weekly Meal Planner with Shopping List</h1>
+        <p class="sub">Pick what you will eat each day. Get one shopping list with every ingredient added up.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your plan will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card week" id="week" aria-labelledby="week-h">
+            <h2 id="week-h">Your week</h2>
+            <div class="week-nav">
+                <button type="button" class="secondary small" id="prev" aria-label="Week before">&lsaquo; Before</button>
+                <p class="week-range" id="week-range" aria-live="polite"></p>
+                <button type="button" class="secondary small" id="next" aria-label="Week after">After &rsaquo;</button>
+            </div>
+            <button type="button" class="link center" id="this-week" hidden>Back to this week</button>
+            <div class="week-set">
+                <div class="field">
+                    <label for="people" id="people-l">Usually cooking for</label>
+                    <div class="stepper">
+                        <button type="button" class="step" data-for="people" data-d="-1" aria-label="One person fewer">&minus;</button>
+                        <input id="people" type="text" inputmode="numeric" maxlength="3" autocomplete="off" aria-describedby="people-err">
+                        <button type="button" class="step" data-for="people" data-d="1" aria-label="One person more">+</button>
+                        <span class="unit">people</span>
+                    </div>
+                    <p class="err" id="people-err" role="alert"></p>
+                </div>
+                <fieldset class="slots-set">
+                    <legend>Meals to plan each day</legend>
+                    <div class="chips" id="slot-chips"></div>
+                </fieldset>
+            </div>
+            <div class="msg" id="week-msg" role="status" aria-live="polite"></div>
+            <ol class="days" id="days"></ol>
+            <div class="row-btns">
+                <button type="button" class="secondary" id="copy-last">Copy last week's meals</button>
+                <button type="button" class="secondary" id="clear-week">Clear this week</button>
+            </div>
+
+            <div class="panel pick" id="pick" hidden>
+                <h3 id="pick-h">Add a meal</h3>
+                <label for="p-meal">Meal</label>
+                <select id="p-meal"></select>
+                <div id="p-new" hidden>
+                    <label for="p-name">Name of the new meal</label>
+                    <input id="p-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Chicken curry" aria-describedby="p-name-err">
+                    <p class="err" id="p-name-err" role="alert"></p>
+                    <label for="p-makes">The recipe makes</label>
+                    <div class="stepper">
+                        <button type="button" class="step" data-for="p-makes" data-d="-1" aria-label="One portion fewer">&minus;</button>
+                        <input id="p-makes" type="text" inputmode="numeric" maxlength="3" autocomplete="off" aria-describedby="p-makes-err">
+                        <button type="button" class="step" data-for="p-makes" data-d="1" aria-label="One portion more">+</button>
+                        <span class="unit">portions</span>
+                    </div>
+                    <p class="err" id="p-makes-err" role="alert"></p>
+                    <label for="p-ing">Ingredients</label>
+                    <textarea id="p-ing" rows="5" placeholder="One per line, e.g.&#10;600 g chicken&#10;2 onions&#10;1 tin coconut milk"></textarea>
+                    <p class="hint">One per line, amount first or last. You can paste a recipe's list. You can also add them later in My meals.</p>
+                </div>
+                <div id="p-other" hidden>
+                    <label for="p-note">What is it?</label>
+                    <input id="p-note" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Takeaway pizza" aria-describedby="p-note-err">
+                    <p class="err" id="p-note-err" role="alert"></p>
+                </div>
+                <div id="p-people-wrap">
+                    <label for="p-people">How many people eat it</label>
+                    <div class="stepper">
+                        <button type="button" class="step" data-for="p-people" data-d="-1" aria-label="One person fewer">&minus;</button>
+                        <input id="p-people" type="text" inputmode="numeric" maxlength="3" autocomplete="off" aria-describedby="p-people-err p-people-hint">
+                        <button type="button" class="step" data-for="p-people" data-d="1" aria-label="One person more">+</button>
+                        <span class="unit">people</span>
+                    </div>
+                    <p class="err" id="p-people-err" role="alert"></p>
+                    <p class="hint" id="p-people-hint"></p>
+                </div>
+                <div class="two" id="p-move" hidden>
+                    <div class="field">
+                        <label for="p-day">Day</label>
+                        <select id="p-day"></select>
+                    </div>
+                    <div class="field">
+                        <label for="p-slot">Meal time</label>
+                        <select id="p-slot"></select>
+                    </div>
+                </div>
+                <div class="row-btns">
+                    <button type="button" class="primary" id="p-save">Add</button>
+                    <button type="button" class="secondary" id="p-cancel">Cancel</button>
+                </div>
+                <button type="button" class="danger" id="p-remove" hidden>Take it off the plan</button>
+            </div>
+        </section>
+
+        <section class="card meals" id="meals" aria-labelledby="meals-h">
+            <h2 id="meals-h">My meals</h2>
+            <p class="hint top">The meals you cook and what goes in them. Pick them on the days of your week.</p>
+            <div class="msg" id="meals-msg" role="status" aria-live="polite"></div>
+            <div id="find-wrap" hidden>
+                <label for="find">Find a meal</label>
+                <input id="find" type="search" maxlength="40" autocomplete="off" placeholder="Type part of the name">
+            </div>
+            <p class="empty" id="meals-empty"></p>
+            <ul class="meal-list" id="meal-list"></ul>
+            <button type="button" class="secondary" id="examples" hidden>Add 7 example meals</button>
+            <button type="button" class="primary" id="meal-add">+ Add a meal</button>
+
+            <div class="panel" id="meal-form" hidden>
+                <h3 id="mf-h">Add a meal</h3>
+                <label for="m-name">Name of the meal</label>
+                <input id="m-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Spaghetti bolognese" aria-describedby="m-name-err">
+                <p class="err" id="m-name-err" role="alert"></p>
+                <label for="m-makes">The recipe makes</label>
+                <div class="stepper">
+                    <button type="button" class="step" data-for="m-makes" data-d="-1" aria-label="One portion fewer">&minus;</button>
+                    <input id="m-makes" type="text" inputmode="numeric" maxlength="3" autocomplete="off" aria-describedby="m-makes-err">
+                    <button type="button" class="step" data-for="m-makes" data-d="1" aria-label="One portion more">+</button>
+                    <span class="unit">portions</span>
+                </div>
+                <p class="err" id="m-makes-err" role="alert"></p>
+                <label for="m-ing">Ingredients</label>
+                <textarea id="m-ing" rows="7" placeholder="One per line, e.g.&#10;500 g beef mince&#10;1 onion&#10;1 tin chopped tomatoes&#10;Salt and pepper" aria-describedby="m-ing-hint"></textarea>
+                <p class="hint" id="m-ing-hint">One per line, amount first or last. You can paste a recipe's list; bullets and headings are ignored.</p>
+                <div class="preview" id="m-preview" hidden>
+                    <h4>Goes on the shopping list as</h4>
+                    <ul id="m-preview-list"></ul>
+                </div>
+                <div class="row-btns">
+                    <button type="button" class="primary" id="m-save">Save meal</button>
+                    <button type="button" class="secondary" id="m-cancel">Cancel</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card list" id="list" aria-labelledby="list-h">
+            <h2 id="list-h">Shopping list</h2>
+            <p class="list-sum" id="list-sum"></p>
+            <div id="list-days-wrap" hidden>
+                <label for="list-days">Shopping for</label>
+                <select id="list-days"></select>
+            </div>
+            <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+            <p class="empty" id="list-empty"></p>
+            <div id="groups"></div>
+            <div class="got" id="got-wrap" hidden>
+                <h3 class="got-h" id="got-h"></h3>
+                <ul class="items" id="got-list"></ul>
+            </div>
+            <label for="extra">Add something else to buy</label>
+            <div class="extra-row">
+                <input id="extra" type="text" maxlength="120" autocomplete="off" placeholder="e.g. Toilet roll, 2 litres milk" aria-describedby="extra-err">
+                <button type="button" class="primary small" id="extra-add">Add</button>
+            </div>
+            <p class="err" id="extra-err" role="alert"></p>
+            <div class="tool-grid list-tools">
+                <button type="button" class="secondary" id="copy">Copy the list</button>
+                <button type="button" class="secondary" id="share" hidden>Share the list</button>
+                <a class="secondary" id="email" href="mailto:">Email the list</a>
+                <button type="button" class="secondary" id="print">Print the week and list</button>
+                <button type="button" class="secondary" id="untick">Untick everything</button>
+            </div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Settings and backup</h2>
+            <label for="wstart">My week starts on</label>
+            <select id="wstart"></select>
+            <p class="hint">Choose your shopping day, so the list covers the days until your next shop.</p>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is the shopping list made?</summary><p>It reads the ingredients of every meal on the week, works them out for the number of people eating that meal, and adds up the same ingredient. 1 onion on Monday and 2 onions on Thursday become <b>Onions: 3</b>. Under each item you can see which meals need it.</p></details>
+        <details><summary>How are amounts worked out for more or fewer people?</summary><p>Each meal says how many portions the recipe makes, and each meal on the plan says how many people eat it. A curry that makes 4, cooked for 6, needs 1.5 times every ingredient: 2 onions become 3. Halves and quarters are shown as ½ and ¼, with "buy 2" when you cannot buy part of one.</p></details>
+        <details><summary>Why does an item show two amounts, like "2 cups + 300 ml"?</summary><p>Amounts are only added together when the answer is exact: grams with kilograms, ml with litres, teaspoons with tablespoons and cups. Cups and ml, or "1 tin" and "400 g", stay side by side so nothing is guessed wrongly. Pounds and grams are added as "about".</p></details>
+        <details><summary>What about salt, oil and things I already have?</summary><p>Ingredients with no amount, such as "Salt" or "Olive oil", go on the list once with no amount. Tick anything you already have at home before you go; it moves to <b>Got it</b>.</p></details>
+        <details><summary>I shop on Saturday. Can my week start then?</summary><p>Yes. In <b>Settings and backup</b> set <b>My week starts on</b> to your shopping day, and the week and the list run from that day. In the middle of the week you can also choose <b>Shopping for: Today to ...</b> to leave out the days that have passed.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your meals and lists stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection, so the list works in a shop with no signal. Save a backup file before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/weekly-meal-planner-with-shopping-list">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Weekly Meal Planner with Shopping List", "sections": [
+ {"h": "Plan your week", "steps": ["\"Your week\" shows seven days. Use \"Before\" and \"After\" to change week, and \"Back to this week\" to come back.", "Set \"Usually cooking for\" to how many people normally eat. New meals on the plan start with this number.", "Under \"Meals to plan each day\" tap Breakfast, Lunch, Dinner or Snacks to show those meal times. Dinner is shown at first.", "Tap \"+ Add dinner\" (or lunch, and so on) on a day. Pick one of your meals, \"Leftovers\", \"Eating out\", \"Something else\" or \"A new meal\", set \"How many people eat it\" and tap \"Add\".", "You can add more than one thing to a meal time, such as a curry and a rice dish."]},
+ {"h": "Change the plan", "steps": ["Tap a meal on a day to change it: a different meal, how many people, or move it to another day or meal time. Tap \"Save\".", "\"Take it off the plan\" or the cross next to a meal removes it, with \"Undo\".", "\"Copy last week's meals\" puts last week's meals on the same days of this week. \"Clear this week\" empties the week. Both can be undone."]},
+ {"h": "My meals", "steps": ["\"+ Add a meal\" saves a meal with its name, how many portions the recipe makes, and its ingredients, one per line, such as \"500 g beef mince\" or \"Onions 2\".", "\"Goes on the shopping list as\" shows how each line is read, so you can fix it before saving.", "\"Add 7 example meals\" gives you some everyday meals to start with. Change or delete them as you like.", "Each meal box shows its ingredients and which days of the week it is on. \"Edit\" changes it, \"Delete\" removes it from the plan too, with \"Undo\"."]},
+ {"h": "Shopping list", "steps": ["The list adds up the ingredients of every meal in the week, for the number of people eating each one, sorted by aisle.", "Under each item you can see which meals need it, such as \"Mon: Spaghetti bolognese\".", "Tick what you already have at home, then what you put in the trolley. Ticked items move to \"Got it\". Tick again to bring one back.", "\"Add something else to buy\" adds things that are not in a meal, such as toilet roll. The cross removes it.", "In the middle of the week, \"Shopping for\" can leave out the days that have passed.", "\"Copy the list\", \"Share the list\" and \"Email the list\" send the items still to buy, with the week's meals. Email works without typing an address first. \"Print the week and list\" prints both on paper.", "\"Untick everything\" starts the ticks again."]},
+ {"h": "Settings and backup", "steps": ["\"My week starts on\" sets the first day of each week. Choose your shopping day.", "\"Save a backup file\" and \"Restore a backup\" move everything to another device.", "\"Delete everything\" starts again, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Amounts are added only when the answer is exact, so \"2 cups + 300 ml\" stays as two parts. Halves show as ½ with \"buy 2\" when you cannot buy half of one.", "Lines with no amount, such as \"Salt\", go on the list once.", "\"Leftovers\", \"Eating out\" and \"Something else\" add nothing to the list.", "Today is marked on the week, and the app moves on by itself at midnight.", "Everything stays on this device and works offline, also in a shop with no signal. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
