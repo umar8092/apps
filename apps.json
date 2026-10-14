@@ -184,5 +184,11 @@
     "name": "Prayer Times and Qibla Direction",
     "description": "Today's five prayer times for your city with a countdown to the next one, a month timetable to print and the Qibla direction. Hanafi or standard Asr, works offline.",
     "color": "#0f766e"
+  },
+  {
+    "slug": "fuel-log-and-car-running-cost-tracker",
+    "name": "Fuel Log and Car Running Cost Tracker",
+    "description": "Log each fill-up and car cost. See your fuel use per tank (km/L, L/100 km or mpg), fuel cost per km or mile, all running costs and what you spent this month. Several cars.",
+    "color": "#4b6584"
   }
 ]

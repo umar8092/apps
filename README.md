@@ -254,6 +254,14 @@ Today's Fajr, Sunrise, Dhuhr, Asr, Maghrib and Isha times for your city, with "N
 
 <a href="prayer-times-and-qibla-direction/"><img src="prayer-times-and-qibla-direction/screenshots/phone.png" alt="Prayer Times and Qibla Direction screenshot" width="260"></a>
 
+### <img src="fuel-log-and-car-running-cost-tracker/favicon.svg" width="36" height="36" align="center"> [Fuel Log and Car Running Cost Tracker](https://umar8092.github.io/apps/fuel-log-and-car-running-cost-tracker/)
+
+Log each fill-up and car cost. See how far your car goes on its fuel per tank (km/L, L/100 km or mpg), whether it is getting worse, the fuel cost and the all-in running cost per km or mile, and what you spent this month and this year. Part fills, missed fill-ups, trip meters, several cars, CSV export. No ads, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/fuel-log-and-car-running-cost-tracker/) &middot; [Details and screenshots](fuel-log-and-car-running-cost-tracker/)
+
+<a href="fuel-log-and-car-running-cost-tracker/"><img src="fuel-log-and-car-running-cost-tracker/screenshots/phone.png" alt="Fuel Log and Car Running Cost Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

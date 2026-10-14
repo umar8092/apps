@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuel Log and Car Running Cost Tracker: km/L, mpg, Cost per km</title>
+    <meta name="description" content="Free fuel log for drivers. Log each fill-up and car cost to see your fuel use per tank (km/L, L/100 km or mpg), the fuel cost per km or mile, all running costs and what you spent this month. Several cars, no sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/fuel-log-and-car-running-cost-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#4b6584">
+    <meta name="theme-color" content="#2f4a6e">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Fuel Log and Car Running Cost Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/fuel-log-and-car-running-cost-tracker/">
+    <meta property="og:title" content="Fuel Log and Car Running Cost Tracker: What Your Car Really Costs">
+    <meta property="og:description" content="Log fill-ups and car costs. See km/L, L/100 km or mpg per tank, fuel cost per km or mile, and what you spent this month. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Fuel Log and Car Running Cost Tracker","alternateName":["Fuel Log","Mileage Tracker","Fuel Economy Tracker","Petrol Cost Tracker","Car Expense Tracker"],"url":"https://umar8092.github.io/apps/fuel-log-and-car-running-cost-tracker/","description":"A free fuel log. Log each fill-up and car cost to see fuel use per tank, fuel cost per km or mile, all running costs and monthly spending, for one or several cars.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"fuel log, mileage tracker, km per litre calculator, mpg tracker, fuel cost per km, car running costs, petrol log","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I work out my car's fuel use?","acceptedAnswer":{"@type":"Answer","text":"Fill the tank to full and write down the odometer. Next time you fill to full, the distance driven divided by the fuel you put in is your fuel use, for example 480 km on 40 litres is 12.0 km/L (8.3 L/100 km). This app does it for you each time you log a full tank."}},{"@type":"Question","name":"What if I only put some fuel in?","acceptedAnswer":{"@type":"Answer","text":"Untick Filled the tank to full. That fuel is added to the next full tank, so the result stays right."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your fill-ups stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Fuel Log and Car Running Cost Tracker</h1>
+        <p class="sub">Log each fill-up and car cost. See how far your car goes on its fuel, what it costs per km and what you spent this month.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. What you log will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <section class="card carbar" id="carbar" aria-labelledby="car-h">
+        <h2 id="car-h" class="vh">Your car</h2>
+        <div class="car-row">
+            <div class="car-pick">
+                <label for="car" id="car-label">Car</label>
+                <select id="car" hidden></select>
+                <b class="car-name" id="car-name"></b>
+            </div>
+            <div class="car-btns">
+                <button type="button" class="secondary small" id="car-edit">Car settings</button>
+                <button type="button" class="secondary small" id="car-add">+ Add a car</button>
+            </div>
+        </div>
+        <p class="hint" id="car-units"></p>
+        <div class="panel" id="car-panel" hidden>
+            <h3 id="car-panel-h">Car settings</h3>
+            <label for="cp-name">Name</label>
+            <input id="cp-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Honda City" aria-describedby="cp-name-err">
+            <p class="err" id="cp-name-err" role="alert"></p>
+            <div class="two">
+                <div class="field">
+                    <label for="cp-du">Distance in</label>
+                    <select id="cp-du"><option value="km">Kilometres (km)</option><option value="mi">Miles</option></select>
+                </div>
+                <div class="field">
+                    <label for="cp-vu">Fuel bought in</label>
+                    <select id="cp-vu"><option value="L">Litres</option><option value="usgal">US gallons</option><option value="ukgal">UK gallons</option></select>
+                </div>
+            </div>
+            <label for="cp-eco">Show fuel use as</label>
+            <select id="cp-eco">
+                <option value="kmL">km per litre (km/L)</option>
+                <option value="L100">Litres per 100 km (L/100 km)</option>
+                <option value="mpgus">Miles per US gallon (mpg US)</option>
+                <option value="mpguk">Miles per UK gallon (mpg UK)</option>
+                <option value="miL">Miles per litre</option>
+            </select>
+            <p class="hint">Changing these only changes how numbers are shown. Nothing you logged is lost.</p>
+            <div class="row-btns">
+                <button type="button" class="primary small" id="cp-save">Save car</button>
+                <button type="button" class="secondary small" id="cp-cancel">Cancel</button>
+            </div>
+            <button type="button" class="danger" id="cp-delete">Delete this car and its log</button>
+        </div>
+    </section>
+
+    <div class="col-main">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Log a fill-up or cost</h2>
+            <fieldset class="modes" id="modes">
+                <legend class="vh">What are you logging?</legend>
+                <label class="mode"><input type="radio" name="mode" value="fill" checked><span>Fill-up</span></label>
+                <label class="mode"><input type="radio" name="mode" value="cost"><span>Other cost</span></label>
+            </fieldset>
+            <p class="editing" id="editing" hidden></p>
+
+            <p class="when-line">Date: <b id="date-text">today</b> <button type="button" class="link inline" id="date-open">Change date</button></p>
+            <div class="field" id="date-box" hidden>
+                <label for="date">Date</label>
+                <input id="date" type="date" aria-describedby="date-err">
+                <p class="err" id="date-err" role="alert"></p>
+                <button type="button" class="link" id="date-today">Use today</button>
+            </div>
+
+            <div id="fill-fields">
+                <label for="odo" id="odo-label">Odometer (km)</label>
+                <input id="odo" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 45935" aria-describedby="odo-err odo-hint">
+                <p class="err" id="odo-err" role="alert"></p>
+                <p class="hint" id="odo-hint">The total distance on the dashboard.</p>
+                <button type="button" class="link" id="read-switch">Use the trip meter instead</button>
+
+                <div class="fuel-grid">
+                    <div class="field">
+                        <label for="vol" id="vol-label">Fuel (litres)</label>
+                        <input id="vol" type="text" inputmode="decimal" maxlength="14" autocomplete="off" placeholder="e.g. 40" aria-describedby="vol-err">
+                    </div>
+                    <div class="field">
+                        <label for="total">Total paid</label>
+                        <div class="amount-row"><span class="cur-tag" id="cur-tag" hidden></span><input id="total" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 9100" aria-describedby="vol-err"></div>
+                    </div>
+                    <div class="field">
+                        <label for="price" id="price-label">Price per litre</label>
+                        <input id="price" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 290" aria-describedby="vol-err">
+                    </div>
+                </div>
+                <p class="hint">Fill in any two of these three. The third is worked out for you.</p>
+                <p class="err" id="vol-err" role="alert"></p>
+
+                <label class="check"><input type="checkbox" id="full" checked><span>Filled the tank to full</span></label>
+                <p class="hint" id="full-hint">Untick if you only put some fuel in. It is added to the next full tank.</p>
+                <button type="button" class="link" id="more-open">+ Missed a fill-up, or add a note (optional)</button>
+                <div class="field" id="more-box" hidden>
+                    <label class="check"><input type="checkbox" id="missed"><span>I forgot to log a fill-up before this one</span></label>
+                    <p class="hint">The tank with the missing fill-up is skipped, so your fuel use is not thrown off.</p>
+                    <label for="note">Note</label>
+                    <input id="note" type="text" maxlength="200" autocomplete="off" placeholder="e.g. long motorway trip">
+                </div>
+            </div>
+
+            <div id="cost-fields" hidden>
+                <label for="cat">What for</label>
+                <select id="cat"></select>
+                <label for="amount">Amount</label>
+                <div class="amount-row"><span class="cur-tag" id="cur-tag2" hidden></span><input id="amount" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 6000" aria-describedby="amount-err"></div>
+                <p class="err" id="amount-err" role="alert"></p>
+                <button type="button" class="link" id="cmore-open">+ Add the odometer or a note (optional)</button>
+                <div class="field" id="cmore-box" hidden>
+                    <label for="codo" id="codo-label">Odometer (km)</label>
+                    <input id="codo" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 46000" aria-describedby="codo-err">
+                    <p class="err" id="codo-err" role="alert"></p>
+                    <label for="cnote">Note</label>
+                    <input id="cnote" type="text" maxlength="200" autocomplete="off" placeholder="e.g. oil and filter change">
+                </div>
+            </div>
+
+            <div class="preview" id="preview" aria-live="polite"></div>
+            <button type="button" class="primary" id="save">Save fill-up</button>
+            <button type="button" class="secondary" id="cancel-edit" hidden>Cancel editing</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share, backup and settings</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy the summary</button>
+                <button type="button" class="secondary" id="email">Email the summary</button>
+                <button type="button" class="secondary" id="print">Print or save as PDF</button>
+                <button type="button" class="secondary" id="csv">Download for a spreadsheet (CSV)</button>
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <p class="hint">Shown with every amount, or choose none for plain numbers.</p>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card results" id="results" aria-labelledby="res-h">
+            <h2 id="res-h">How your car is doing</h2>
+            <p class="empty" id="res-empty"></p>
+            <div class="tiles" id="tiles">
+                <div class="tile big"><span class="t-label">Last full tank</span><span class="t-val" id="r-last">–</span><span class="t-sub" id="r-last-sub"></span></div>
+                <div class="tile"><span class="t-label">Average fuel use</span><span class="t-val" id="r-avg">–</span><span class="t-sub" id="r-avg-sub"></span></div>
+                <div class="tile"><span class="t-label" id="r-fuelkm-label">Fuel cost per km</span><span class="t-val" id="r-fuelkm">–</span><span class="t-sub" id="r-fuelkm-sub"></span></div>
+                <div class="tile"><span class="t-label" id="r-allkm-label">All costs per km</span><span class="t-val" id="r-allkm">–</span><span class="t-sub" id="r-allkm-sub"></span></div>
+            </div>
+            <h3 class="sub-h" id="spend-h">Money spent on this car</h3>
+            <div class="spend" id="spend"></div>
+            <div id="trend-wrap" hidden>
+                <h3 class="sub-h">Fuel use per tank, newest first</h3>
+                <p class="hint" id="trend-hint">A longer bar means more distance from the same fuel. Bars below your average are marked.</p>
+                <ol class="trend" id="trend"></ol>
+            </div>
+        </section>
+
+        <section class="card log" id="log" aria-labelledby="log-h">
+            <div class="list-top">
+                <h2 id="log-h">Log</h2>
+                <div class="sort-field" id="show-wrap" hidden>
+                    <label for="show">Show</label>
+                    <select id="show"><option value="all">Everything</option><option value="fill">Fill-ups</option><option value="cost">Other costs</option></select>
+                </div>
+            </div>
+            <div class="msg" id="log-msg" role="status" aria-live="polite"></div>
+            <p class="empty" id="log-empty">Nothing logged for this car yet. Your fill-ups and costs appear here, newest first, each in its own box.</p>
+            <ul class="entries" id="entries"></ul>
+            <button type="button" class="secondary" id="more" hidden>Show more</button>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is the fuel use worked out?</summary><p>The "full to full" way that is used by mechanics and car magazines. Fill the tank to full and log it. Next time you fill to full, the distance since then divided by all the fuel you put in is your fuel use. For example 480 km on 40 litres is <b>12.0 km/L</b>, the same as 8.3 L/100 km. Your first full tank is the starting point, so the first result shows on the second full tank.</p></details>
+        <details><summary>I only put in some fuel. What do I do?</summary><p>Untick <b>Filled the tank to full</b>. That fuel is added to the next full tank, so the result for that tank is still right.</p></details>
+        <details><summary>I forgot to log a fill-up. Is my fuel use now wrong?</summary><p>Tick <b>I forgot to log a fill-up before this one</b> (under "+ Missed a fill-up, or add a note"). That one tank is skipped instead of showing a wrong number, and the next full tank counts again.</p></details>
+        <details><summary>I only know what I paid, like Rs 5,000. Is that enough?</summary><p>Type the <b>Total paid</b> and the <b>Price per litre</b>, and the fuel is worked out for you (5,000 at 280 is 17.857 litres). Any two of fuel, price and total are enough.</p></details>
+        <details><summary>What is in "All costs per km"?</summary><p>Every fuel fill-up after your first one plus all your other costs (service, tyres, insurance and so on), divided by the distance you have logged. It is what each km or mile really costs you. Fuel cost per km counts only fuel.</p></details>
+        <details><summary>Can I use miles, gallons or mpg?</summary><p>Yes. Tap <b>Car settings</b> to choose kilometres or miles, litres or US or UK gallons, and to show fuel use as km/L, L/100 km, mpg (US or UK) or miles per litre. Each car has its own settings, and changing them never changes what you logged.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your fill-ups stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/fuel-log-and-car-running-cost-tracker">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Fuel Log and Car Running Cost Tracker", "sections": [
+ {"h": "Log a fill-up", "steps": ["Each time you buy fuel, choose \"Fill-up\".", "Type the Odometer: the total distance on the dashboard. If you reset the trip meter at every fill-up instead, tap \"Use the trip meter instead\" and type the distance since your last fill-up.", "Fill in any two of Fuel, Total paid and Price per litre. The third is worked out for you, for example Total paid 5,000 at 280 per litre is 17.857 litres.", "Leave \"Filled the tank to full\" ticked when you filled up to the top. Untick it for a part fill; that fuel is added to the next full tank.", "The box above the Save button shows what this tank comes to before you save, such as \"This tank: 12.0 km/L over 480 km\".", "Tap \"Save fill-up\" (or press Enter). \"Change date\" logs a fill-up from an earlier day. After saving, \"Undo\" takes it back."]},
+ {"h": "Other costs", "steps": ["Choose \"Other cost\" for service, repairs, tyres, insurance, tax, parking and tolls, car wash or a loan payment.", "Pick \"What for\", type the Amount and tap \"Save cost\". \"+ Add the odometer or a note (optional)\" keeps the reading and a short note with it."]},
+ {"h": "How your car is doing", "steps": ["\"Last full tank\" is the fuel use of your latest full tank and how it compares with your average. It needs two full tanks.", "\"Average fuel use\" is all your counted tanks together.", "\"Fuel cost per km\" (or per mile) counts only fuel. \"All costs per km\" adds every other cost too, so it is what each km really costs.", "\"Money spent on this car\" shows this month, last month and this year, split into fuel and other costs.", "\"Fuel use per tank\" draws each tank as a bar so you can see if it is getting worse."]},
+ {"h": "The log", "steps": ["Every fill-up and cost has its own box, newest first, with what it came to.", "\"Edit\" loads it into the form above; change it and tap \"Save changes\", or \"Cancel editing\". \"Delete\" removes it, with \"Undo\".", "\"Show\" lists everything, only fill-ups or only other costs."]},
+ {"h": "Cars, sharing and backup", "steps": ["\"Car settings\" renames the car and sets km or miles, litres or gallons, and how fuel use is shown (km/L, L/100 km, mpg US or UK, miles per litre).", "\"+ Add a car\" adds another car with its own log and settings. Pick the car at the top.", "\"Copy the summary\", \"Email the summary\" and \"Print or save as PDF\" share the results and the log of the car shown. Email works without typing an address first.", "\"Download for a spreadsheet (CSV)\" saves the log for Excel or Google Sheets, for example for business mileage.", "\"Save a backup file\" saves all cars; \"Restore a backup\" loads it on this or another device, with \"Undo\".", "\"Currency symbol\" adds a symbol such as Rs or $ to every amount. \"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Your first full tank is the starting point, so fuel use shows from the second full tank on.", "If you forgot to log a fill-up, tick \"I forgot to log a fill-up before this one\" so that tank is skipped instead of showing a wrong number.", "An odometer lower than an earlier fill-up is refused, so a typo cannot spoil your results.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

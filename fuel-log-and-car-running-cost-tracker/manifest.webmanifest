@@ -1,0 +1,15 @@
+{
+  "name": "Fuel Log and Car Running Cost Tracker",
+  "short_name": "Fuel Log",
+  "description": "Log fill-ups and car costs to see your fuel use per tank, fuel cost per km or mile, and what your car really costs.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#162131",
+  "theme_color": "#2f4a6e",
+  "categories": ["utilities", "finance", "travel"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
