@@ -246,6 +246,14 @@ Write down money you lend to friends, family or colleagues, or borrow from them.
 
 <a href="money-lent-and-borrowed-tracker/"><img src="money-lent-and-borrowed-tracker/screenshots/phone.png" alt="Money Lent and Borrowed Tracker screenshot" width="260"></a>
 
+### <img src="prayer-times-and-qibla-direction/favicon.svg" width="36" height="36" align="center"> [Prayer Times and Qibla Direction](https://umar8092.github.io/apps/prayer-times-and-qibla-direction/)
+
+Today's Fajr, Sunrise, Dhuhr, Asr, Maghrib and Isha times for your city, with "Next: Asr at 4:28 pm, in 1 h 12 min", a month timetable to print, a calendar file with an alert at each prayer, and the Qibla direction with a phone compass. Karachi, Muslim World League, ISNA, Umm al-Qura and 10 more methods, Hanafi or standard Asr, minutes to match your mosque. No ads, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/prayer-times-and-qibla-direction/) &middot; [Details and screenshots](prayer-times-and-qibla-direction/)
+
+<a href="prayer-times-and-qibla-direction/"><img src="prayer-times-and-qibla-direction/screenshots/phone.png" alt="Prayer Times and Qibla Direction screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

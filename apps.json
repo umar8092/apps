@@ -178,5 +178,11 @@
     "name": "Money Lent and Borrowed Tracker",
     "description": "Write down money you lend to friends and family, or borrow. Each person shows what they still owe, with part repayments, pay-back-by dates and a reminder message.",
     "color": "#b8612e"
+  },
+  {
+    "slug": "prayer-times-and-qibla-direction",
+    "name": "Prayer Times and Qibla Direction",
+    "description": "Today's five prayer times for your city with a countdown to the next one, a month timetable to print and the Qibla direction. Hanafi or standard Asr, works offline.",
+    "color": "#0f766e"
   }
 ]

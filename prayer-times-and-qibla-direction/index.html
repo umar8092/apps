@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Times and Qibla Direction: Free, No Ads</title>
+    <meta name="description" content="The five prayer times for today (Fajr, Dhuhr, Asr, Maghrib, Isha) for your city, a countdown to the next prayer, a month timetable to print and the Qibla direction with a compass. Karachi, Muslim World League, ISNA, Umm al-Qura and more, Hanafi or standard Asr. No ads, no sign-up, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/prayer-times-and-qibla-direction/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#0f766e">
+    <meta name="theme-color" content="#0f766e">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Prayer Times and Qibla Direction">
+    <meta property="og:url" content="https://umar8092.github.io/apps/prayer-times-and-qibla-direction/">
+    <meta property="og:title" content="Prayer Times and Qibla Direction: Today's Namaz Times Where You Are">
+    <meta property="og:description" content="The five prayer times for your city with a countdown to the next one, a month timetable and the Qibla direction. Free, no ads, private, works offline.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Prayer Times and Qibla Direction","alternateName":["Namaz Timings","Salah Times","Qibla Finder","Prayer Timetable"],"url":"https://umar8092.github.io/apps/prayer-times-and-qibla-direction/","description":"Free prayer times for any city with Fajr, Sunrise, Dhuhr, Asr, Maghrib and Isha, a countdown to the next prayer, a month timetable, a calendar file and the Qibla direction.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"prayer times, namaz timings, salah times, qibla direction, qibla finder, fajr time, maghrib time, prayer timetable","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why are my mosque's times a few minutes different?","acceptedAnswer":{"@type":"Answer","text":"Mosques often add a few minutes for safety or use a different calculation method. Choose the method used in your country and use Adjust minutes to match your mosque."}},{"@type":"Question","name":"What is the difference between Hanafi and standard Asr?","acceptedAnswer":{"@type":"Answer","text":"Standard Asr (Shafi'i, Maliki, Hanbali) starts when a shadow is as long as the object plus its noon shadow. Hanafi Asr starts when it is twice as long, usually 40 to 80 minutes later."}},{"@type":"Question","name":"Does it work offline?","acceptedAnswer":{"@type":"Answer","text":"Yes. Once a place is saved, all times and the Qibla are worked out on your device with no connection. Only searching for a new city needs the internet."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Prayer Times and Qibla Direction</h1>
+        <p class="sub">Today's five prayer times where you are, how long until the next one, and which way to face.</p>
+    </header>
+
+    <div class="col col-a">
+    <section class="card place" id="place" aria-labelledby="place-h" tabindex="-1">
+        <h2 id="place-h">Your place</h2>
+        <div class="places" id="places"></div>
+        <button type="button" class="link-btn" id="add-open" hidden>+ Add another place</button>
+        <div class="add" id="add">
+            <label for="q">Find your city or town</label>
+            <div class="row">
+                <input id="q" type="search" maxlength="80" autocomplete="off" enterkeyhint="search" placeholder="e.g. Karachi">
+                <button type="button" class="btn primary" id="search">Search</button>
+            </div>
+            <div class="msg" id="search-msg" role="status" aria-live="polite"></div>
+            <ul class="results" id="results" aria-label="Places found"></ul>
+            <div class="or">
+                <button type="button" class="btn" id="locate">Use my location</button>
+                <button type="button" class="link-btn" id="manual-open" aria-expanded="false">+ Enter latitude and longitude instead</button>
+            </div>
+            <div class="manual" id="manual" hidden>
+                <div class="two">
+                    <div class="field"><label for="m-lat">Latitude</label><input id="m-lat" type="text" inputmode="decimal" maxlength="20" placeholder="e.g. 24.86"></div>
+                    <div class="field"><label for="m-lon">Longitude</label><input id="m-lon" type="text" inputmode="decimal" maxlength="20" placeholder="e.g. 67.00"></div>
+                </div>
+                <label for="m-tz">Time zone</label>
+                <select id="m-tz"></select>
+                <label for="m-name">Name for this place (optional)</label>
+                <input id="m-name" type="text" maxlength="60" placeholder="e.g. Home">
+                <p class="err" id="m-err" role="alert"></p>
+                <button type="button" class="btn primary" id="m-add">Add this place</button>
+            </div>
+            <button type="button" class="link-btn" id="add-close" hidden>Cancel</button>
+        </div>
+        <div class="msg" id="place-msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="card times" id="times" aria-labelledby="times-h">
+        <div class="times-top"><h2 id="times-h">Prayer times today</h2><button type="button" class="link-btn" id="change-place" hidden>Change place</button></div>
+        <p class="empty" id="times-empty">Choose your city above (or tap <b>Use my location</b>) and today's prayer times appear here.</p>
+        <div id="times-body" hidden>
+            <p class="date-line"><span id="d-greg"></span><span class="hijri" id="d-hijri"></span></p>
+            <div class="next" id="next" aria-live="polite">
+                <p class="next-main" id="next-main"></p>
+                <p class="next-sub" id="next-sub"></p>
+            </div>
+            <p class="other-day" id="other-day" hidden>You are looking at another day. <button type="button" class="link-btn" id="to-today2">Back to today</button></p>
+            <p class="warn" id="polar" hidden></p>
+            <ol class="plist" id="plist"></ol>
+            <p class="zone" id="zone"></p>
+            <div class="daynav">
+                <button type="button" class="btn" id="prev-day" aria-label="Day before">&lsaquo; Day before</button>
+                <label class="vh" for="day">Show the times for a date</label>
+                <input id="day" type="date" min="1950-01-01" max="2150-12-31">
+                <button type="button" class="btn" id="next-day" aria-label="Next day">Next day &rsaquo;</button>
+            </div>
+            <div class="actions">
+                <button type="button" class="btn" id="copy-day">Copy times</button>
+                <button type="button" class="btn" id="share-day" hidden>Share</button>
+                <button type="button" class="btn" id="email-day">Email</button>
+            </div>
+            <div class="msg" id="day-msg" role="status" aria-live="polite"></div>
+            <p class="method-line" id="method-line"></p>
+        </div>
+    </section>
+
+    </div>
+    <div class="col col-b">
+    <section class="card qibla" id="qibla" aria-labelledby="qibla-h" hidden>
+        <h2 id="qibla-h">Qibla direction</h2>
+        <div class="qwrap">
+            <svg class="dial" id="dial" viewBox="0 0 200 200" role="img" aria-labelledby="q-main">
+                <g id="dial-rot">
+                    <circle cx="100" cy="100" r="92" class="ring"/>
+                    <g class="ticks" id="ticks"></g>
+                    <text x="100" y="27" class="cardinal n">N</text><text x="175" y="105" class="cardinal">E</text>
+                    <text x="100" y="182" class="cardinal">S</text><text x="25" y="105" class="cardinal">W</text>
+                    <g id="arrow"><line x1="100" y1="100" x2="100" y2="40" class="shaft"/><path d="M100 30 L89 50 L111 50 Z" class="head"/>
+                        <rect x="92" y="18" width="16" height="12" rx="2" class="kaaba"/></g>
+                    <circle cx="100" cy="100" r="5" class="hub"/>
+                </g>
+                <path d="M100 2 L94 12 L106 12 Z" class="top-mark" id="top-mark" visibility="hidden"/>
+            </svg>
+            <div class="qtext">
+                <p class="q-main" id="q-main"></p>
+                <p class="q-sub" id="q-sub"></p>
+                <p class="q-how" id="q-how"></p>
+                <button type="button" class="btn primary" id="compass">Use phone compass</button>
+                <p class="q-live" id="q-live" role="status" aria-live="polite"></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="card settings" id="settings" aria-labelledby="settings-h" hidden>
+        <h2 id="settings-h">Settings for this place</h2>
+        <label for="method">Calculation method</label>
+        <select id="method"></select>
+        <p class="hint" id="method-hint"></p>
+        <div class="custom" id="custom" hidden>
+            <div class="two">
+                <div class="field"><label for="c-fajr">Fajr angle (degrees)</label><input id="c-fajr" type="number" min="10" max="22" step="0.1" inputmode="decimal"></div>
+                <div class="field"><label for="c-isha">Isha angle (degrees)</label><input id="c-isha" type="number" min="10" max="22" step="0.1" inputmode="decimal"></div>
+            </div>
+            <label class="check"><input type="checkbox" id="c-ishamin-on"> Isha a set number of minutes after Maghrib instead</label>
+            <div class="field" id="c-ishamin-wrap" hidden><label for="c-ishamin">Minutes after Maghrib</label><input id="c-ishamin" type="number" min="1" max="180" step="1" inputmode="numeric"></div>
+            <p class="err" id="c-err" role="alert"></p>
+        </div>
+        <label for="asr">Asr time</label>
+        <select id="asr">
+            <option value="standard">Standard: Shafi'i, Maliki, Hanbali (earlier)</option>
+            <option value="hanafi">Hanafi (later)</option>
+        </select>
+        <details class="more" id="adj-box">
+            <summary>Adjust minutes to match your mosque</summary>
+            <p class="hint">Add or take away minutes from any time, for example +2 for Maghrib. Allowed: -60 to +60.</p>
+            <div class="adj" id="adj"></div>
+            <button type="button" class="link-btn" id="adj-reset">Set all to 0</button>
+        </details>
+        <details class="more" id="hl-box">
+            <summary>Far north or south</summary>
+            <p class="hint" id="hl-hint">In summer, places far from the equator may have no real night, so Fajr and Isha are worked out with a rule.</p>
+            <label for="highlat">Rule for Fajr and Isha</label>
+            <select id="highlat">
+                <option value="angle">Angle-based (recommended)</option>
+                <option value="seventh">One-seventh of the night</option>
+                <option value="middle">Middle of the night</option>
+            </select>
+        </details>
+        <h3>For all places</h3>
+        <div class="two">
+            <div class="field"><label for="clock">Clock</label><select id="clock"><option value="12">12-hour (5:13 pm)</option><option value="24">24-hour (17:13)</option></select></div>
+            <div class="field"><label for="hijri-adj">Islamic date</label><select id="hijri-adj">
+                <option value="-2">2 days earlier</option><option value="-1">1 day earlier</option><option value="0">As calculated</option><option value="1">1 day later</option><option value="2">2 days later</option></select></div>
+        </div>
+        <p class="hint">Change the Islamic date if the moon was sighted on a different day where you live.</p>
+    </section>
+
+    </div>
+
+    <section class="card month" id="month" aria-labelledby="month-h" hidden>
+        <div class="month-top">
+            <button type="button" class="btn icon" id="prev-month" aria-label="Month before">&lsaquo;</button>
+            <h2 id="month-h">Month timetable</h2>
+            <button type="button" class="btn icon" id="next-month" aria-label="Next month">&rsaquo;</button>
+        </div>
+        <p class="hint" id="month-sub"></p>
+        <table class="mtable" id="mtable">
+            <thead><tr><th scope="col">Date</th><th scope="col">Fajr</th><th scope="col">Sun&shy;rise</th><th scope="col">Dhuhr</th><th scope="col">Asr</th><th scope="col">Magh&shy;rib</th><th scope="col">Isha</th></tr></thead>
+            <tbody id="mbody"></tbody>
+        </table>
+        <div class="actions">
+            <button type="button" class="btn" id="print-month">Print or save as PDF</button>
+            <button type="button" class="btn" id="copy-month">Copy the month</button>
+            <button type="button" class="btn" id="ics-month">Add to my calendar (.ics)</button>
+        </div>
+        <p class="hint">The calendar file adds the five prayers of every day in this month to your phone or computer calendar, each with an alert at the time.</p>
+        <div class="msg" id="month-msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Why are my mosque's times a few minutes different?</summary><p>Mosques often add a few minutes for safety, or follow a different method. Pick the method used in your country under <b>Calculation method</b>, then use <b>Adjust minutes to match your mosque</b>. Each saved place keeps its own settings.</p></details>
+        <details><summary>Which method should I choose?</summary><p>The app picks the usual one for the country you search: Karachi for Pakistan, India and Bangladesh; Umm al-Qura for Saudi Arabia; ISNA for the USA and Canada; Muslim World League for most other places. The methods differ mainly in how dark the sky must be for Fajr and Isha.</p></details>
+        <details><summary>Hanafi or standard Asr?</summary><p>Standard Asr (Shafi'i, Maliki, Hanbali) starts when a shadow is as long as the object plus its noon shadow. Hanafi Asr starts when it is twice as long, usually 40 to 80 minutes later. Most people in Pakistan, India, Bangladesh and Afghanistan follow Hanafi.</p></details>
+        <details><summary>When does Sehri end and when is Iftar?</summary><p>Sehri (suhoor) ends at <b>Fajr</b> and Iftar is at <b>Maghrib</b>. Many people stop eating a few minutes before Fajr to be safe.</p></details>
+        <details><summary>How do I use the Qibla direction without a compass?</summary><p>The angle is measured clockwise from true north. Face north, then turn right by that many degrees. On a phone, <b>Use phone compass</b> turns the dial so the arrow points to the Kaaba; keep the phone flat and away from metal, and move it in a figure 8 if it seems wrong.</p></details>
+        <details><summary>Will it call the adhan?</summary><p>A web page cannot play the adhan when it is closed. Tap <b>Add to my calendar (.ics)</b> and your phone's calendar gives an alert at each prayer time.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your places and settings stay in this browser on this device: no account, and your data is never sent anywhere. Searching for a city sends only the name you type to Open-Meteo. Once a place is saved, every time and the Qibla are worked out on your device with no connection.</p></details>
+    </section>
+    <footer>Place search by <a href="https://open-meteo.com/" rel="noopener">Open-Meteo</a> &middot; <a href="https://github.com/umar8092/apps/tree/main/prayer-times-and-qibla-direction">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Prayer Times and Qibla Direction", "sections": [
+ {"h": "Choose your place", "steps": ["Type your city or town under \"Find your city or town\" and tap \"Search\" (or press Enter), then tap the right place in the list.", "Or tap \"Use my location\" and allow location once. Your position is only used on this device.", "No connection? Tap \"+ Enter latitude and longitude instead\", type them, choose the time zone and tap \"Add this place\".", "Every place you add is kept in its own box under \"Your place\". Tap \"Show\" to switch, \"Remove\" to delete it (with \"Undo\"), and \"+ Add another place\" for more, for example home and a city you travel to."]},
+ {"h": "Prayer times", "steps": ["The big line shows the next prayer and how long until it, such as \"Next: Asr at 4:28 pm, in 1 h 12 min\". It updates by itself.", "The list shows Fajr, Sunrise, Dhuhr, Asr, Maghrib and Isha. The prayer whose time it is now is marked \"Now\" and the next one \"Next\". Fajr time ends at Sunrise.", "\"Day before\", \"Next day\" and the date box show another day. \"Back to today\" returns.", "\"Copy times\", \"Share\" and \"Email\" send the day's times as text. Email works without typing an address first.", "The times are in the place's own local time, also when your phone is set to another time zone. Summer time is included."]},
+ {"h": "Qibla direction", "steps": ["The dial shows the direction of the Kaaba in Makkah as degrees clockwise from north, with the distance.", "On a phone tap \"Use phone compass\": hold the phone flat and turn until the arrow points to the top of the screen and it says \"You are facing the Qibla\".", "Without a compass: face north and turn right by the number of degrees shown."]},
+ {"h": "Settings for this place", "steps": ["\"Calculation method\" is chosen for the country you searched; change it to the one your mosque or country uses. \"My own angles\" lets you type your own Fajr and Isha angles, or Isha a set number of minutes after Maghrib.", "\"Asr time\": Standard (Shafi'i, Maliki, Hanbali) or Hanafi, which is later.", "\"Adjust minutes to match your mosque\" adds or takes away minutes from any time.", "\"Far north or south\" sets the rule for Fajr and Isha in places with very short summer nights.", "\"Clock\" (12 or 24 hours) and \"Islamic date\" (to match the local moon sighting) apply to all places."]},
+ {"h": "Month timetable", "steps": ["Shows every day of the month with today highlighted. Use the arrows for other months.", "\"Print or save as PDF\" prints the timetable, \"Copy the month\" copies it as text.", "\"Add to my calendar (.ics)\" downloads a calendar file with the five prayers of each day and an alert at each time. Open it to add them to your calendar."]},
+ {"h": "Good to know", "tips": true, "steps": ["Sehri ends at Fajr and Iftar is at Maghrib.", "Times are worked out on your device with the standard sun formulas, so they can differ by a minute or two from a printed timetable. Use the minute adjustments to match your mosque.", "Once a place is saved, the app works offline. Only searching for a city needs a connection, and it sends only the name you type. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
