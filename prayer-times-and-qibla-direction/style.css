@@ -51,6 +51,7 @@ input[type=text], input[type=search], input[type=number], input[type=date], sele
        background: var(--field); border: 1px solid var(--line); border-radius: 12px; }
 input[type=date] { -webkit-appearance: none; appearance: none; display: block; }
 input[type=date]::-webkit-date-and-time-value { text-align: left; }
+.daynav input[type=date] { grid-column: 1 / -1; grid-row: 1; }
 input[aria-invalid="true"] { border-color: var(--bad); }
 input:disabled { opacity: .5; }
 select option { color: #111; background: #fff; }
@@ -121,7 +122,7 @@ input:focus-visible, button:focus-visible, select:focus-visible, summary:focus-v
 .prow .next-tag { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
 .zone, .method-line, .hint, .msg { overflow-wrap: anywhere; }
 .zone { margin: .7rem 0 0; font-size: .86rem; color: var(--muted); }
-.daynav { display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: .5rem; margin-top: .9rem; align-items: center; }
+.daynav { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: .5rem; margin-top: .9rem; align-items: center; }
 .actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .8rem; }
 .actions .btn { flex: 1 1 auto; }
 .method-line { margin: .8rem 0 0; font-size: .86rem; color: var(--muted); }
