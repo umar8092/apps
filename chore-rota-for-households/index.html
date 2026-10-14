@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chore Rota for Households: Fair Weekly Chore Chart</title>
+    <meta name="description" content="Free chore rota for flatmates and families. Add the people and the chores, and get a fair weekly rota that rotates by itself, with heavy jobs counted as more work. Mark someone away, swap a job, tick jobs done, copy it to the group chat or print it for the fridge. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/chore-rota-for-households/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#40a02b">
+    <meta name="theme-color" content="#2f7d1f">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chore Rota for Households">
+    <meta property="og:url" content="https://umar8092.github.io/apps/chore-rota-for-households/">
+    <meta property="og:title" content="Chore Rota for Households">
+    <meta property="og:description" content="A fair weekly chore rota for flatmates and families that rotates by itself. Away weeks, swaps, tick-off and a printable chart. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Chore Rota for Households","alternateName":["Chore Rota","Chore Chart Generator","Flatmate Cleaning Rota","Family Chore Chart","House Chore Schedule"],"url":"https://umar8092.github.io/apps/chore-rota-for-households/","description":"A free chore rota for flatmates and families. Add people and chores and get a fair weekly rota that rotates, with away weeks, swaps and a printable chart.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"chore rota, cleaning rota, chore chart, flatmate chores, roommate chore chart, family chore chart, house chores schedule","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the chore rota decide who does what?","acceptedAnswer":{"@type":"Answer","text":"Each chore is Light (1 point), Medium (2) or Heavy (3). Every week the jobs go to whoever has done the fewest points so far, and nobody gets the same job twice in a row when someone else can take it. So the jobs rotate and the work evens out."}},{"@type":"Question","name":"What happens when someone is away?","acceptedAnswer":{"@type":"Answer","text":"Tap Mark away on their name. Their jobs go to the people at home that week, and they do not have to make up for it when they come back."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. The names and chores stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Chore Rota for Households</h1>
+        <p class="sub">Who does which chore this week, shared fairly and rotating every week.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. The rota will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card week" id="week" aria-labelledby="week-h">
+            <h2 id="week-h">This week</h2>
+            <div class="week-nav">
+                <button type="button" class="secondary small" id="prev" aria-label="Week before">&lsaquo; Before</button>
+                <p class="week-range" id="week-range" aria-live="polite"></p>
+                <button type="button" class="secondary small" id="next" aria-label="Week after">After &rsaquo;</button>
+            </div>
+            <button type="button" class="link center" id="this-week" hidden>Back to this week</button>
+            <p class="week-sum" id="week-sum"></p>
+            <div class="bar" id="bar" hidden><span id="bar-fill"></span></div>
+            <p class="note" id="last-note" hidden></p>
+            <div class="msg" id="week-msg" role="status" aria-live="polite"></div>
+            <div class="start-here" id="start-here" hidden>
+                <p class="start-h">Make your rota in two steps</p>
+                <ol>
+                    <li id="step-people">Add the people who share the chores, in <a href="#people">People</a>.</li>
+                    <li id="step-chores">Add the chores, in <a href="#chores">Chores</a>, or tap "Add 8 example chores".</li>
+                </ol>
+                <p class="hint">The rota appears here straight away and moves on by itself every week.</p>
+            </div>
+            <ul class="who-list" id="who-list"></ul>
+            <div class="person-box nobody" id="nobody" hidden>
+                <h3>Nobody free</h3>
+                <p class="hint">Everyone who can do these is away. Tap "Change" to give one to someone at home.</p>
+                <ul class="jobs" id="nobody-jobs"></ul>
+            </div>
+            <div class="tool-grid week-tools" id="week-tools">
+                <button type="button" class="secondary" id="copy">Copy this week</button>
+                <button type="button" class="secondary" id="share" hidden>Share this week</button>
+                <a class="secondary" id="email" href="mailto:">Email this week</a>
+                <button type="button" class="secondary" id="print">Print 4 weeks for the fridge</button>
+            </div>
+        </section>
+
+        <section class="card coming" id="coming" aria-labelledby="coming-h">
+            <h2 id="coming-h">Coming weeks</h2>
+            <p class="hint top">Plan ahead: tap a week to open it, mark who is away or swap a job.</p>
+            <ol class="coming-list" id="coming-list"></ol>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card people" id="people" aria-labelledby="people-h">
+            <h2 id="people-h">People</h2>
+            <div class="msg" id="people-msg" role="status" aria-live="polite"></div>
+            <ul class="box-list" id="people-list"></ul>
+            <label for="p-name">Add a person</label>
+            <div class="add-row">
+                <input id="p-name" type="text" maxlength="200" autocomplete="off" placeholder="Name, e.g. Sam" aria-describedby="p-name-err p-name-hint">
+                <button type="button" class="primary small" id="p-add">Add</button>
+            </div>
+            <p class="err" id="p-name-err" role="alert"></p>
+            <p class="hint" id="p-name-hint">Add several at once: Ali, Sam, Zoe</p>
+        </section>
+
+        <section class="card chores" id="chores" aria-labelledby="chores-h">
+            <h2 id="chores-h">Chores</h2>
+            <p class="hint top">Light = 1 point, Medium = 2, Heavy = 3. The rota shares the points fairly, so a heavy job counts as more work.</p>
+            <div class="msg" id="chores-msg" role="status" aria-live="polite"></div>
+            <ul class="box-list" id="chore-list"></ul>
+            <button type="button" class="secondary" id="examples" hidden>Add 8 example chores</button>
+            <button type="button" class="primary" id="c-open">+ Add a chore</button>
+
+            <div class="panel" id="c-form" hidden>
+                <h3 id="c-form-h">Add a chore</h3>
+                <label for="c-name">Chore</label>
+                <input id="c-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Clean the bathroom" aria-describedby="c-name-err">
+                <p class="err" id="c-name-err" role="alert"></p>
+                <label for="c-every">How often</label>
+                <select id="c-every">
+                    <option value="d">Every day (one person for the whole week)</option>
+                    <option value="1">Every week</option>
+                    <option value="2">Every 2 weeks</option>
+                    <option value="4">Every 4 weeks</option>
+                    <option value="c">Every ... weeks (type a number)</option>
+                </select>
+                <div class="custom" id="c-custom" hidden>
+                    <label for="c-weeks">Every how many weeks</label>
+                    <div class="inline">
+                        <input id="c-weeks" type="text" inputmode="numeric" maxlength="2" autocomplete="off" aria-describedby="c-weeks-err">
+                        <span class="unit">weeks (1 to 12)</span>
+                    </div>
+                    <p class="err" id="c-weeks-err" role="alert"></p>
+                </div>
+                <fieldset class="effort-set">
+                    <legend>How much work is it</legend>
+                    <div class="chips" id="c-effort" role="radiogroup">
+                        <button type="button" class="chip" data-e="1" role="radio" aria-checked="false">Light<small>1 point</small></button>
+                        <button type="button" class="chip" data-e="2" role="radio" aria-checked="true">Medium<small>2 points</small></button>
+                        <button type="button" class="chip" data-e="3" role="radio" aria-checked="false">Heavy<small>3 points</small></button>
+                    </div>
+                </fieldset>
+                <button type="button" class="link" id="c-only-open">+ Only some people can do this (optional)</button>
+                <fieldset class="only-set" id="c-only" hidden>
+                    <legend>Who can do it</legend>
+                    <div class="only-list" id="c-only-list"></div>
+                    <p class="hint">For example, only the adults clean the oven. Leave everyone ticked if anyone can.</p>
+                    <p class="err" id="c-only-err" role="alert"></p>
+                </fieldset>
+                <div class="row-btns">
+                    <button type="button" class="primary" id="c-save">Add chore</button>
+                    <button type="button" class="secondary" id="c-cancel">Cancel</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Settings and backup</h2>
+            <label for="wstart">Weeks start on</label>
+            <select id="wstart"></select>
+            <p class="hint">Choose the day you swap jobs. Changing it starts the rota again from this week.</p>
+            <button type="button" class="secondary" id="restart">Start the rota again from this week</button>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does it decide who does what?</summary><p>Each chore is Light (1 point), Medium (2) or Heavy (3). Every week the jobs, heaviest first, go to whoever has done the fewest points so far, and nobody gets the same job twice in a row when someone else can take it. With 4 people and 4 chores, everyone does every chore once every 4 weeks.</p></details>
+        <details><summary>What if we have more chores than people, or more people than chores?</summary><p>Both work. With more chores, people get two or more jobs a week, balanced by points. With more people, someone has a week off now and then, and it is always a different person.</p></details>
+        <details><summary>Someone is away. Who does their jobs?</summary><p>Tap <b>Mark away</b> on their name (use <b>After</b> to mark a holiday in later weeks). Their jobs go to the people at home that week, and they do not have to make up for it when they come back.</p></details>
+        <details><summary>Two of us want to swap. Is that unfair later?</summary><p>Tap <b>Change</b> next to the job and pick who does it this week. If one person ends up doing more, the rota gives them less in the following weeks, so it evens out.</p></details>
+        <details><summary>What about jobs done every day, like washing up?</summary><p>Choose <b>Every day (one person for the whole week)</b>. One person does it every day that week, and someone else the next week. Mark it Heavy if it is a lot of work.</p></details>
+        <details><summary>We all use our own phones. How do we share it?</summary><p>One person keeps the rota and taps <b>Copy this week</b> or <b>Share this week</b> to post it in the group chat, or prints 4 weeks for the fridge. To move the rota to another phone, use <b>Save a backup file</b> and <b>Restore a backup</b>.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>The names and chores stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/chore-rota-for-households">Open source (MIT)</a></footer>
+</main>
+<div class="print-area" id="print-area" aria-hidden="true"></div>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Chore Rota for Households", "sections": [
+ {"h": "Set up the rota", "steps": ["In \"People\", type a name in \"Add a person\" and tap \"Add\". You can add several at once, such as \"Ali, Sam, Zoe\".", "In \"Chores\", tap \"+ Add a chore\". Type the chore, choose \"How often\" and \"How much work is it\" (Light, Medium or Heavy), and tap \"Add chore\".", "\"Add 8 example chores\" adds everyday chores such as cleaning the bathroom and taking out the bins. Change or remove them as you like.", "If only some people can do a chore, tap \"+ Only some people can do this (optional)\" and untick the others."]},
+ {"h": "This week", "steps": ["Each person has their own box with their jobs for the week. The line at the top says how many jobs there are and how many are done.", "Tick a job when it is done. Ticks are for this week and earlier weeks only.", "\"Mark away\" on a person gives their jobs to the people at home that week. It then says \"Away: tap if home\"; tap it to bring them back. Use \"After\" to mark a holiday in later weeks.", "\"Change\" next to a job lets you pick someone else for that job this week, for a swap. \"Back to the rota\" in the same list undoes it.", "\"Before\" and \"After\" move between weeks, and \"Back to this week\" comes back. In \"Coming weeks\", tap a week to open it."]},
+ {"h": "Share it", "steps": ["\"Copy this week\", \"Share this week\" and \"Email this week\" send the week's jobs for each person, ready for the group chat. Email works without typing an address first.", "\"Print 4 weeks for the fridge\" prints the week shown and the 3 after it, with boxes to tick."]},
+ {"h": "Change people and chores", "steps": ["\"Rename\" changes a person's name. \"Remove\" takes them off the rota from this week, with \"Undo\". Earlier weeks keep what they showed.", "On a chore, \"Edit\" changes its name, how often or how much work it is, and \"Remove\" takes it off, with \"Undo\".", "Each person's box shows how many jobs and points they have done so far, and weeks away."]},
+ {"h": "Settings and backup", "steps": ["\"Weeks start on\" sets the day the jobs change over. Changing it starts the rota again from this week, with \"Undo\".", "\"Start the rota again from this week\" forgets who did what before, with \"Undo\".", "\"Save a backup file\" and \"Restore a backup\" move the rota to another device.", "\"Delete everything\" starts again, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The rota is fair by points: Light = 1, Medium = 2, Heavy = 3. Jobs go to whoever has done the fewest points so far, and nobody gets the same job twice in a row when someone else can.", "Weeks away do not count against anyone.", "\"Every 2 weeks\" and \"Every 4 weeks\" jobs only show up in the weeks they are due.", "The app moves to the next week by itself.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

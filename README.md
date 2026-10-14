@@ -278,6 +278,14 @@ Plan the week's meals, each for its own number of people, and get one shopping l
 
 <a href="weekly-meal-planner-with-shopping-list/"><img src="weekly-meal-planner-with-shopping-list/screenshots/phone.png" alt="Weekly Meal Planner with Shopping List screenshot" width="260"></a>
 
+### <img src="chore-rota-for-households/favicon.svg" width="36" height="36" align="center"> [Chore Rota for Households](https://umar8092.github.io/apps/chore-rota-for-households/)
+
+A fair weekly chore rota for flatmates and families that rotates by itself. Heavy jobs count as more work, away weeks and swaps are handled, tick jobs done, copy it to the group chat or print it for the fridge.
+
+[**Open the app**](https://umar8092.github.io/apps/chore-rota-for-households/) &middot; [Details and screenshots](chore-rota-for-households/)
+
+<a href="chore-rota-for-households/"><img src="chore-rota-for-households/screenshots/phone.png" alt="Chore Rota for Households screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

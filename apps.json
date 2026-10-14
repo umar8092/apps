@@ -202,5 +202,11 @@
     "name": "Weekly Meal Planner with Shopping List",
     "description": "Pick what you eat each day of the week and for how many people. Get one shopping list with every ingredient added up and sorted by aisle, to tick off, copy or email.",
     "color": "#ae3ec9"
+  },
+  {
+    "slug": "chore-rota-for-households",
+    "name": "Chore Rota for Households",
+    "description": "Add the people and the chores and get a fair weekly rota that rotates by itself, with heavy jobs counted as more work. Mark someone away, swap a job, tick jobs done, copy or print it.",
+    "color": "#40a02b"
   }
 ]
