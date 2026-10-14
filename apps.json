@@ -190,5 +190,11 @@
     "name": "Fuel Log and Car Running Cost Tracker",
     "description": "Log each fill-up and car cost. See your fuel use per tank (km/L, L/100 km or mpg), fuel cost per km or mile, all running costs and what you spent this month. Several cars.",
     "color": "#4b6584"
+  },
+  {
+    "slug": "study-planner-and-exam-countdown",
+    "name": "Study Planner and Exam Countdown",
+    "description": "Add your exams and their topics. See the days left to each exam and a day-by-day study plan that fits every topic in before the exam, with revision days.",
+    "color": "#7048e8"
   }
 ]

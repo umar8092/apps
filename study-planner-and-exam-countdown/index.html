@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Planner and Exam Countdown: Daily Revision Timetable</title>
+    <meta name="description" content="Free study planner for students. Add your exams and their topics, see how many days are left to each exam and get a day-by-day revision timetable that spreads the topics evenly, with revision days before each exam. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/study-planner-and-exam-countdown/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#7048e8">
+    <meta name="theme-color" content="#5b36d1">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Study Planner and Exam Countdown">
+    <meta property="og:url" content="https://umar8092.github.io/apps/study-planner-and-exam-countdown/">
+    <meta property="og:title" content="Study Planner and Exam Countdown: What to Study Today">
+    <meta property="og:description" content="Add your exams and topics. See the days left to each exam and a daily revision timetable that fits every topic in before the exam. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Study Planner and Exam Countdown","alternateName":["Revision Timetable Maker","Exam Countdown","Study Timetable Planner","Exam Study Planner"],"url":"https://umar8092.github.io/apps/study-planner-and-exam-countdown/","description":"A free study planner. Add your exams and their topics to see the days left to each exam and a day-by-day revision timetable with revision days before each exam.","applicationCategory":"EducationalApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"study planner, exam countdown, revision timetable, study timetable maker, exam planner, revision planner","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the study planner spread my topics?","acceptedAnswer":{"@type":"Answer","text":"Earliest exam first, as evenly as the dates allow. Each day gets the number of topics that keeps every exam on track, so every topic is finished before the revision days of its exam."}},{"@type":"Question","name":"What if I fall behind?","acceptedAnswer":{"@type":"Answer","text":"Nothing is lost. Topics you did not tick are spread again over the days that are left, every time you open the app."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your exams stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Study Planner and Exam Countdown</h1>
+        <p class="sub">Add your exams and the topics to study. See the days left to each exam and exactly what to study today.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your exams will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-side">
+        <section class="card today" id="today" aria-labelledby="today-h">
+            <h2 id="today-h">Today</h2>
+            <p class="today-date" id="today-date"></p>
+            <ul class="countdown" id="countdown" aria-label="Days left to each exam"></ul>
+            <h3 class="sub-h" id="today-sub">Study today</h3>
+            <p class="empty" id="today-empty"></p>
+            <ul class="items" id="today-items"></ul>
+            <p class="today-progress" id="today-progress" aria-live="polite"></p>
+        </section>
+
+        <section class="card plan" id="plan" aria-labelledby="plan-h">
+            <h2 id="plan-h">Study plan, day by day</h2>
+            <p class="plan-sum" id="plan-sum"></p>
+            <ul class="plan-notes" id="plan-notes"></ul>
+            <ol class="days" id="days"></ol>
+            <button type="button" class="secondary" id="more" hidden>Show more days</button>
+        </section>
+    </div>
+
+    <div class="col-main">
+        <section class="card exams" id="exams" aria-labelledby="exams-h">
+            <h2 id="exams-h">Your exams</h2>
+            <div class="msg" id="exams-msg" role="status" aria-live="polite"></div>
+            <ul class="exam-list" id="exam-list"></ul>
+            <button type="button" class="primary" id="add-open">+ Add an exam</button>
+
+            <div class="panel add" id="add-form" hidden>
+                <h3 id="add-h">Add an exam</h3>
+                <label for="a-name">Subject or exam</label>
+                <input id="a-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Maths" aria-describedby="a-name-err">
+                <p class="err" id="a-name-err" role="alert"></p>
+                <label for="a-date">Exam date</label>
+                <input id="a-date" type="date" aria-describedby="a-date-err">
+                <p class="err" id="a-date-err" role="alert"></p>
+                <button type="button" class="link" id="a-more-open">+ Add the time and place (optional)</button>
+                <div class="two" id="a-more" hidden>
+                    <div class="field">
+                        <label for="a-time">Time</label>
+                        <input id="a-time" type="time">
+                    </div>
+                    <div class="field">
+                        <label for="a-place">Place</label>
+                        <input id="a-place" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Hall 3">
+                    </div>
+                </div>
+                <label for="a-topics">Topics to study</label>
+                <textarea id="a-topics" rows="5" placeholder="One per line, e.g.&#10;Algebra&#10;Geometry&#10;Statistics" aria-describedby="a-topics-hint"></textarea>
+                <p class="hint" id="a-topics-hint">One per line, or separated by commas. You can paste a list from your syllabus. You can also add them later.</p>
+                <label for="a-rev">Revision days before the exam</label>
+                <select id="a-rev"></select>
+                <p class="hint">Days kept free of new topics, to go over everything just before the exam.</p>
+                <div class="row-btns">
+                    <button type="button" class="primary" id="a-save">Add exam</button>
+                    <button type="button" class="secondary" id="a-cancel">Cancel</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="card studydays" id="studydays" aria-labelledby="sd-h">
+            <h2 id="sd-h">When you can study</h2>
+            <fieldset class="week">
+                <legend>Days I don't study</legend>
+                <div class="chips" id="week"></div>
+            </fieldset>
+            <p class="err" id="week-err" role="alert"></p>
+            <p class="hint" id="week-hint">Tap a day to keep it free every week. Nothing is planned on those days.</p>
+            <label for="off-date">Other days off</label>
+            <div class="off-row">
+                <input id="off-date" type="date" aria-describedby="off-err">
+                <button type="button" class="secondary small" id="off-add">Add day off</button>
+            </div>
+            <p class="err" id="off-err" role="alert"></p>
+            <p class="hint">For a wedding, a trip or a sports day. Topics move to other days.</p>
+            <ul class="offs" id="offs"></ul>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share and backup</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy the plan</button>
+                <button type="button" class="secondary" id="email">Email the plan</button>
+                <button type="button" class="secondary" id="print">Print or save as PDF</button>
+                <button type="button" class="secondary" id="cal">Add exams to my calendar</button>
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How are my topics spread over the days?</summary><p>Earliest exam first, and as evenly as the dates allow. Each day gets the number of topics that keeps every exam on track: topics left divided by study days left. For example 8 Maths topics over 10 study days is about one a day, and they are all done before the Maths revision day.</p></details>
+        <details><summary>What is a revision day?</summary><p>A day just before an exam with no new topics for that exam, kept to go over everything again. Each exam has its own number of revision days (0 to 14), set when you add it or with <b>Edit exam</b>. If there are not enough days left, the app uses fewer and tells you.</p></details>
+        <details><summary>I fell behind. What happens?</summary><p>Nothing is lost. Topics you did not tick are spread again over the study days that are left, every time you open the app. If it gets too busy, the plan says so.</p></details>
+        <details><summary>I studied ahead. Does that count?</summary><p>Yes. Tick any topic in <b>Your exams</b> or in the plan. Topics you tick today stay on today's list, and the rest of the plan gets lighter.</p></details>
+        <details><summary>One chapter is much bigger than the others.</summary><p>Split it into two topics, such as "Organic chemistry 1" and "Organic chemistry 2", with <b>Add or edit topics</b>. Each topic gets its own day.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your exams stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/study-planner-and-exam-countdown">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Study Planner and Exam Countdown", "sections": [
+ {"h": "Add your exams", "steps": ["Tap \"+ Add an exam\". Type the Subject or exam (such as Maths) and pick the Exam date.", "Type the Topics to study, one per line or separated by commas. You can paste a list from your syllabus; bullets and numbers are removed for you.", "\"+ Add the time and place (optional)\" keeps the start time and room with the exam.", "Revision days before the exam are days kept free of new topics for that exam, so you can go over everything. 1 is the usual choice. Each exam has its own.", "Tap \"Add exam\". Add every exam the same way; each one gets its own box."]},
+ {"h": "Today and the countdown", "steps": ["The top of \"Today\" shows every coming exam and how many days are left, such as \"Maths: in 12 days\".", "\"Study today\" lists the topics to study today. Tick each one when you have studied it.", "A line such as \"Revise Maths: go over all 8 topics\" is a revision day. \"EXAM: Maths\" is the exam itself."]},
+ {"h": "The study plan", "steps": ["\"Study plan, day by day\" shows every day from today to your last exam, with its topics, revision days, exams and rest days.", "The line at the top says how many topics a day it comes to, such as \"Up to 2 topics a day\", and warns you if an exam has no study days left.", "Topics you skip are spread again over the days that are left. Topics you study ahead can be ticked anywhere; the rest of the plan gets lighter."]},
+ {"h": "Change an exam", "steps": ["\"Add or edit topics\" opens the topic list as text: add lines, change a name, change the order or delete a line, then tap \"Save topics\". Ticks are kept for topics you did not rename.", "\"Edit exam\" changes the subject, date, time, place and revision days.", "\"Delete\" removes the exam and its topics, with \"Undo\"."]},
+ {"h": "When you can study", "steps": ["Under \"Days I don't study\" tap a weekday, such as Friday, to keep it free every week.", "\"Other days off\" adds one date, such as a wedding. Remove it with the cross next to it.", "The plan moves the topics to your other days at once."]},
+ {"h": "Share and backup", "steps": ["\"Copy the plan\" and \"Email the plan\" share the countdown and the day-by-day plan. Email works without typing an address first.", "\"Print or save as PDF\" prints the plan to put on your wall.", "\"Add exams to my calendar\" downloads a calendar file with every exam and a reminder the day before.", "\"Save a backup file\" and \"Restore a backup\" move everything to another device. \"Delete everything\" starts again, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The plan follows your device's date, so it moves on by itself every day.", "Split a big chapter into two topics to give it two days.", "Exams that have passed move to the bottom of the list. Delete them when you no longer need them.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

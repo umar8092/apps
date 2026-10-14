@@ -262,6 +262,14 @@ Log each fill-up and car cost. See how far your car goes on its fuel per tank (k
 
 <a href="fuel-log-and-car-running-cost-tracker/"><img src="fuel-log-and-car-running-cost-tracker/screenshots/phone.png" alt="Fuel Log and Car Running Cost Tracker screenshot" width="260"></a>
 
+### <img src="study-planner-and-exam-countdown/favicon.svg" width="36" height="36" align="center"> [Study Planner and Exam Countdown](https://umar8092.github.io/apps/study-planner-and-exam-countdown/)
+
+For students with exams coming up. Add each exam and its topics (paste them from your syllabus) and see how many days are left to each exam and exactly what to study today. The day-by-day plan spreads the topics evenly, earliest exam first, keeps revision days before each exam and moves topics around your days off. No ads, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/study-planner-and-exam-countdown/) &middot; [Details and screenshots](study-planner-and-exam-countdown/)
+
+<a href="study-planner-and-exam-countdown/"><img src="study-planner-and-exam-countdown/screenshots/phone.png" alt="Study Planner and Exam Countdown screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
