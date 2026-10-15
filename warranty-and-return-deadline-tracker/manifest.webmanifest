@@ -1,0 +1,15 @@
+{
+  "name": "Warranty and Return Deadline Tracker",
+  "short_name": "Warranty Tracker",
+  "description": "The last day to return what you bought, and when each warranty ends.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#33170a",
+  "theme_color": "#d9480f",
+  "categories": ["lifestyle", "productivity", "shopping"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

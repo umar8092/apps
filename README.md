@@ -286,6 +286,14 @@ A fair weekly chore rota for flatmates and families that rotates by itself. Heav
 
 <a href="chore-rota-for-households/"><img src="chore-rota-for-households/screenshots/phone.png" alt="Chore Rota for Households screenshot" width="260"></a>
 
+### <img src="warranty-and-return-deadline-tracker/favicon.svg" width="36" height="36" align="center"> [Warranty and Return Deadline Tracker](https://umar8092.github.io/apps/warranty-and-return-deadline-tracker/)
+
+See the last day to return each thing you bought and when its warranty ends, most urgent first. Delivery dates, extended warranties, receipt photos kept on your device, calendar reminders and a copy-ready summary for a claim.
+
+[**Open the app**](https://umar8092.github.io/apps/warranty-and-return-deadline-tracker/) &middot; [Details and screenshots](warranty-and-return-deadline-tracker/)
+
+<a href="warranty-and-return-deadline-tracker/"><img src="warranty-and-return-deadline-tracker/screenshots/phone.png" alt="Warranty and Return Deadline Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
