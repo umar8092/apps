@@ -232,5 +232,11 @@
     "name": "Net Worth Tracker",
     "description": "List what you own and what you owe, update the balances once a month and see your net worth, the change since last time and a line over time. No bank login, private, works offline.",
     "color": "#2f9e44"
+  },
+  {
+    "slug": "period-and-ovulation-calendar",
+    "name": "Period and Ovulation Calendar",
+    "description": "Tap the day each period starts and see when the next one is due, your likely fertile days and ovulation, and if your period is late. Private, on your device.",
+    "color": "#e64980"
   }
 ]

@@ -318,6 +318,14 @@ Paying off debt or building savings and want one number that shows progress? Lis
 
 <a href="net-worth-tracker/"><img src="net-worth-tracker/screenshots/phone.png" alt="Net Worth Tracker screenshot" width="260"></a>
 
+### <img src="period-and-ovulation-calendar/favicon.svg" width="36" height="36" align="center"> [Period and Ovulation Calendar](https://umar8092.github.io/apps/period-and-ovulation-calendar/)
+
+Want to know when your next period is due without giving your data to a company? Tap the day each period starts. See the next expected period with your usual range, your likely fertile days and ovulation day, which day of your cycle it is, and "Period is 3 days late" when it is. Log symptoms and notes, add the next periods to your calendar, copy or print a summary for a doctor, pause while pregnant or breastfeeding. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/period-and-ovulation-calendar/) &middot; [Details and screenshots](period-and-ovulation-calendar/)
+
+<a href="period-and-ovulation-calendar/"><img src="period-and-ovulation-calendar/screenshots/phone.png" alt="Period and Ovulation Calendar screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Period and Ovulation Calendar: Private Period Tracker, Free</title>
+    <meta name="description" content="Free private period tracker and ovulation calendar. Tap the day each period starts and see when the next one is due, your likely fertile window and ovulation day, your average cycle and if your period is late. No account, your data stays on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/period-and-ovulation-calendar/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#e64980">
+    <meta name="theme-color" content="#d6336c">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Period and Ovulation Calendar">
+    <meta property="og:url" content="https://umar8092.github.io/apps/period-and-ovulation-calendar/">
+    <meta property="og:title" content="Period and Ovulation Calendar: Private Period Tracker">
+    <meta property="og:description" content="See when your next period is due, your fertile window and if you are late. No account, your data stays on your device.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Period and Ovulation Calendar","alternateName":["Private Period Tracker","Ovulation Calculator","Menstrual Cycle Calendar","Fertile Window Calculator"],"url":"https://umar8092.github.io/apps/period-and-ovulation-calendar/","description":"A free private period tracker. Log the day each period starts and see the next expected period, the likely fertile window and ovulation day, your average cycle and if your period is late.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"period tracker, ovulation calendar, private period tracker no account, fertile window calculator, next period date, period late calculator, cycle length","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is my next period worked out?","acceptedAnswer":{"@type":"Answer","text":"The app adds your average cycle length (the days from the start of one period to the start of the next, over your last six cycles) to the day your last period started. With cycles of 28, 29, 27, 30 and 29 days the average is 29, so a period that started on 1 October is next expected on 30 October, usually between 28 and 31 October."}},{"@type":"Question","name":"How is the fertile window worked out?","acceptedAnswer":{"@type":"Answer","text":"Ovulation usually happens about 14 days before the next period starts. The fertile window is the 5 days before ovulation, ovulation day and the day after, widened by how much your cycles vary. It is an estimate and not birth control."}},{"@type":"Question","name":"Is my data private?","acceptedAnswer":{"@type":"Answer","text":"Yes. There is no account. What you log stays in this browser on this device and is never sent anywhere. You can save a backup file to keep a copy."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Period and Ovulation Calendar</h1>
+        <p class="sub">When your next period is due, your likely fertile days and whether you are late. Private: everything stays on this device.</p>
+    </header>
+
+    <div class="col-main">
+        <section class="card setup" id="setup" aria-labelledby="setup-h" hidden>
+            <h2 id="setup-h">Get started</h2>
+            <form id="setup-form" novalidate>
+                <label for="s-start">When did your last period start?</label>
+                <input id="s-start" type="date" min="1950-01-01">
+                <label for="s-cycle">How many days from the start of one period to the next, usually?</label>
+                <select id="s-cycle"></select>
+                <label for="s-len">How many days does your period usually last?</label>
+                <select id="s-len"></select>
+                <p class="err" id="setup-err" role="alert"></p>
+                <button type="submit" class="primary" id="setup-go">Show my calendar</button>
+            </form>
+            <button type="button" class="ghost" id="demo">Try an example first</button>
+            <p class="hint">Not sure about the numbers? Leave them as they are. After you log your next period the app uses your own cycles instead.</p>
+        </section>
+
+        <section class="card today" id="today" aria-labelledby="t-big" hidden>
+            <p class="t-date" id="t-date"></p>
+            <h2 class="t-big" id="t-big" aria-live="polite"></h2>
+            <p class="t-sub" id="t-sub"></p>
+            <div class="keys" id="keys">
+                <div class="key k-period"><span>Next period</span><b id="k-next"></b><small id="k-next-sub"></small></div>
+                <div class="key k-fertile"><span>Likely fertile days</span><b id="k-fert"></b><small id="k-fert-sub"></small></div>
+            </div>
+            <p class="basis" id="basis"></p>
+            <p class="flag" id="flag" hidden></p>
+            <button type="button" class="primary" id="started-today">My period started today</button>
+            <button type="button" class="secondary" id="resume" hidden>Resume predictions</button>
+            <p class="disclaimer">Estimates from your past cycles. Not medical advice and not birth control.</p>
+        </section>
+
+        <section class="card cal" id="cal" aria-labelledby="cal-h" hidden>
+            <div class="cal-top">
+                <button type="button" class="nav" id="prev" aria-label="Previous month">&lsaquo;</button>
+                <h2 id="cal-h" aria-live="polite"></h2>
+                <button type="button" class="nav" id="next" aria-label="Next month">&rsaquo;</button>
+            </div>
+            <div class="wk" id="wk" aria-hidden="true"></div>
+            <div class="grid" id="grid" role="group" aria-labelledby="cal-h"></div>
+            <ul class="legend" aria-label="What the colours mean">
+                <li><i class="lg logged"></i>Period</li>
+                <li><i class="lg predicted"></i>Expected period</li>
+                <li><i class="lg fertile"></i>Fertile</li>
+                <li><i class="lg ovu"></i>Ovulation</li>
+                <li><i class="lg notes"></i>Notes</li>
+            </ul>
+            <button type="button" class="link center" id="go-today">Back to today</button>
+
+            <div class="day" id="day" aria-labelledby="day-h">
+                <h3 id="day-h"></h3>
+                <p class="day-what" id="day-what"></p>
+                <div class="day-btns">
+                    <button type="button" class="primary" id="day-start">My period started this day</button>
+                    <button type="button" class="secondary del" id="day-del">Delete this period</button>
+                </div>
+                <p class="err" id="day-err" role="alert"></p>
+                <div id="day-notes">
+                    <p class="mini-h" id="sym-h">How did you feel? (optional)</p>
+                    <div class="chips" id="chips" role="group" aria-labelledby="sym-h"></div>
+                    <label for="day-note">Note (optional)</label>
+                    <textarea id="day-note" maxlength="300" rows="2" placeholder="e.g. took a painkiller"></textarea>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card hist" id="hist" aria-labelledby="hist-h" hidden>
+            <h2 id="hist-h">Your periods <span class="count" id="hist-n"></span></h2>
+            <div class="stats" id="stats">
+                <div><span>Average cycle</span><b id="st-avg"></b></div>
+                <div><span>Shortest to longest</span><b id="st-range"></b></div>
+                <div><span>Period lasts</span><b id="st-len"></b></div>
+            </div>
+            <p class="flag" id="st-note" hidden></p>
+            <form class="add" id="add-form" novalidate>
+                <label for="add-date">Add a period you forgot to log (first day)</label>
+                <div class="add-row">
+                    <input id="add-date" type="date" min="1950-01-01">
+                    <button type="submit" class="secondary" id="add-btn">Add</button>
+                </div>
+                <p class="err" id="add-err" role="alert"></p>
+            </form>
+            <ul class="plist" id="plist"></ul>
+            <button type="button" class="link center" id="more" hidden></button>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Calendar, sharing and settings</h2>
+            <div id="tools-data">
+                <button type="button" class="secondary" id="ics">Add next 3 periods to my calendar</button>
+                <label class="check"><input type="checkbox" id="ics-fertile"> Also add the fertile windows</label>
+                <div class="tool-grid">
+                    <button type="button" class="secondary" id="copy">Copy summary</button>
+                    <a class="secondary" id="mail" href="mailto:">Email summary</a>
+                    <button type="button" class="secondary" id="print">Print</button>
+                    <button type="button" class="secondary" id="export">Save backup file</button>
+                </div>
+            </div>
+            <button type="button" class="secondary wide" id="import">Load backup file</button>
+            <input type="file" id="import-file" accept=".json,application/json" hidden>
+
+            <h3 class="set-h">Settings</h3>
+            <label class="check pause"><input type="checkbox" id="paused"> Pregnant, breastfeeding or on hormonal birth control: pause predictions</label>
+            <label for="set-cycle">Usual cycle length (used until you have logged 2 periods)</label>
+            <select id="set-cycle"></select>
+            <label for="set-len">Usual period length (for each new period you log)</label>
+            <select id="set-len"></select>
+            <label for="set-week">Week starts on</label>
+            <select id="set-week"><option value="1">Monday</option><option value="0">Sunday</option></select>
+            <p class="hint">What you log is saved only in this browser on this device. Your data is never sent anywhere. Save a backup file now and then, or to move to another phone or computer.</p>
+            <p class="msg warn" id="save-warn" role="status" hidden>This browser is not saving your data (private mode or storage blocked). It stays only until you close this page. Use Save backup file to keep it.</p>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <p class="msg" id="tools-msg" role="status"></p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is my next period worked out?</summary><p>A cycle is the days from the first day of one period to the first day of the next. The app takes the average of your last six cycles and adds it to the day your last period started. With cycles of 28, 29, 27, 30 and 29 days the average is 29, so a period that started on 1 October is next expected on 30 October. Your shortest and longest cycles give the usual range: 28 to 31 October.</p></details>
+        <details><summary>How is the fertile window worked out?</summary><p>The egg is usually released (ovulation) about 14 days before the next period. Sperm can live up to 5 days, so the fertile window is the 5 days before ovulation, ovulation day and the day after. If your cycles vary, the window is widened to cover your shortest and longest cycle. Clear, stretchy discharge is a sign you are near ovulation; you can tick it on the day.</p></details>
+        <details><summary>Can I use this as birth control?</summary><p>No. Calendar estimates are not reliable enough to prevent pregnancy, because ovulation can come early or late in any cycle. Use contraception and talk to a doctor or nurse about what suits you.</p></details>
+        <details><summary>My period is late. What now?</summary><p>A few days late is common, especially with stress, illness, travel or a change in weight. If you could be pregnant, a home pregnancy test is reliable from the day your period was due. If you are not pregnant and periods are often more than a week late, or cycles are shorter than 21 or longer than 35 days, mention it to a doctor.</p></details>
+        <details><summary>I missed logging a period, or I was pregnant. Will it spoil my average?</summary><p>Add the missed period with <b>Add a period you forgot to log</b>. If you cannot remember it, tick <b>Don't count the gap before this period</b> on the period after the gap. Gaps of 90 days or more are left out by themselves. While pregnant or breastfeeding, tick <b>pause predictions</b> in Settings.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. No account and no sign-up. What you log stays in this browser on this device and is never sent anywhere. The app works offline once it has loaded. Use <b>Save backup file</b> to keep a copy or move to another device.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/period-and-ovulation-calendar">Open source (MIT)</a></footer>
+</main>
+<div class="toast" id="toast" role="status" hidden><span id="toast-text"></span><button type="button" id="toast-undo">Undo</button></div>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Period and Ovulation Calendar", "sections": [
+ {"h": "Start", "steps": ["Under \"Get started\" pick the day your last period started, how many days there usually are from the start of one period to the next (leave 28 if you are not sure) and how many days it usually lasts. Tap \"Show my calendar\".", "Want to look around first? Tap \"Try an example first\". \"Delete everything\" clears the example."]},
+ {"h": "Log each period", "steps": ["On the day your period starts, tap \"My period started today\".", "Forgot? Tap that day in the calendar and then \"My period started this day\", or use \"Add a period you forgot to log\" under Your periods.", "Log only the first day. If it lasted longer or shorter than usual, change \"Lasted\" in that period's box.", "Logged one by mistake? Tap \"Delete\" in its box, or \"Delete this period\" in the calendar. Undo puts it back."]},
+ {"h": "Read the result", "steps": ["The top box says which day of your cycle it is today and when your next period is expected, or that it is late and by how many days.", "\"Next period\" shows the expected day and the usual range, from your shortest and longest cycle.", "\"Likely fertile days\" is when you are most likely to get pregnant, with the likely ovulation day.", "In the calendar: filled pink days are logged periods, outlined days are expected periods, green days are fertile, the ring marks ovulation and a small dot means you wrote a note.", "\"Your periods\" lists every period with the days since the one before, your average cycle, the shortest and longest, and how long your period lasts."]},
+ {"h": "Symptoms and notes", "steps": ["Tap any past day or today in the calendar, then tap how you felt (Cramps, Headache and so on) or type a note. It is saved as you go."]},
+ {"h": "Calendar, sharing and settings", "steps": ["\"Add next 3 periods to my calendar\" downloads a calendar file with a reminder the evening before each one. Tick \"Also add the fertile windows\" to include those.", "\"Copy summary\", \"Email summary\" and \"Print\" give a list of your periods, cycle lengths and notes, for example for a doctor. Email opens your mail app with no address filled in.", "\"Save backup file\" downloads everything. \"Load backup file\" puts it back on this or another device, with Undo.", "Pregnant, breastfeeding or on hormonal birth control? Tick \"pause predictions\". When your next period comes, log it and predictions start again.", "\"Week starts on\" changes the first column of the calendar."]},
+ {"h": "Good to know", "tips": true, "steps": ["The more periods you log, the better the estimates. The average uses your last six cycles.", "A cycle shorter than 21 days or longer than 35 days is marked short or long. If that happens often, mention it to a doctor.", "If you missed logging a period or were pregnant, tick \"Don't count the gap before this period\" on the next one, so the long gap does not spoil your average. Gaps of 90 days or more are left out by themselves.", "These are estimates, not medical advice and not birth control.", "What you log stays in this browser on this device. Your data is never sent anywhere, and the app works offline."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

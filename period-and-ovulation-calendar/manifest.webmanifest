@@ -1,0 +1,15 @@
+{
+  "name": "Period and Ovulation Calendar",
+  "short_name": "Period Calendar",
+  "description": "See when your next period is due, your likely fertile days and if you are late. Private, on your device.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#23101b",
+  "theme_color": "#d6336c",
+  "categories": ["health", "lifestyle", "medical"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
