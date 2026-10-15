@@ -93,9 +93,10 @@ label.radio input, label.check input { width: 22px; height: 22px; margin: 0; acc
 /* boxes: one per entry, client or total */
 .box-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .6rem; }
 .box { border: 1px solid var(--line); border-radius: 14px; padding: .75rem .85rem .8rem; background: var(--field); min-width: 0; }
-.e-top { display: flex; justify-content: space-between; align-items: baseline; gap: .6rem; }
+.e-top { display: flex; justify-content: space-between; align-items: baseline; gap: .2rem .6rem; flex-wrap: wrap; }
 .e-who { min-width: 0; display: flex; flex-direction: column; }
 .e-who strong, .e-top > strong { overflow-wrap: anywhere; min-width: 0; }
+.e-top > strong:first-child, .e-top > .e-who { flex: 1 1 9rem; }
 .e-task { color: var(--muted); overflow-wrap: anywhere; }
 .e-dur { font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .e-info { margin: .3rem 0 0; color: var(--muted); font-size: .9rem; overflow-wrap: anywhere; }

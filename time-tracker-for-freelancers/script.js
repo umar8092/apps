@@ -64,7 +64,7 @@
         f.querySelectorAll('[data-f]').forEach(function (x) { if (/INPUT|SELECT/.test(x.tagName) && x.type !== 'checkbox') x.id = uid + '-' + x.dataset.f; });
         f.querySelectorAll('label[data-for]').forEach(function (l) { l.htmlFor = uid + '-' + l.dataset.for; });
         var q = function (n) { return f.querySelector('[data-f="' + n + '"]'); };
-        T.SYMBOLS.forEach(function (s) { var o = el('option', null, s || 'None (plain numbers)'); o.value = s; q('sym').appendChild(o); });
+        T.SYMBOLS.forEach(function (s) { var o = el('option', null, s || 'None'); o.value = s; q('sym').appendChild(o); });
         q('name').value = client ? client.name : '';
         q('rate').value = client && client.rate ? T.fmtMoney(client.rate, '') : '';
         q('sym').value = client ? client.sym : (S.lastSym != null ? S.lastSym : '');
