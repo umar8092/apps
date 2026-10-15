@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contraction Timer for Labour: Is It Time to Go to Hospital?</title>
+    <meta name="description" content="Free contraction timer for labour. Tap when a contraction starts and when it ends, see how long each lasts and how far apart they are, and get a plain answer when your 5-1-1 rule (or your own) is reached. Note when waters break, copy or email the log for your midwife. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/contraction-timer-for-labour/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#d6336c">
+    <meta name="theme-color" content="#c2255c">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Contraction Timer for Labour">
+    <meta property="og:url" content="https://umar8092.github.io/apps/contraction-timer-for-labour/">
+    <meta property="og:title" content="Contraction Timer for Labour">
+    <meta property="og:description" content="Tap when a contraction starts and ends. See how long and how far apart they are, and a plain answer when your 5-1-1 rule is reached. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Contraction Timer for Labour","alternateName":["Contraction Timer","Labour Contraction Counter","5-1-1 Contraction Timer","Labor Contraction Timer"],"url":"https://umar8092.github.io/apps/contraction-timer-for-labour/","description":"A free contraction timer: tap at the start and end of each contraction, see how long and how far apart they are, and a plain answer when your 5-1-1 (or own) rule is reached. Private on your device.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"contraction timer, labour contractions, labor contraction timer, 5-1-1 rule, when to go to hospital, contraction counter","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the 5-1-1 rule?","acceptedAnswer":{"@type":"Answer","text":"Contractions that come every 5 minutes or closer, each lasting about 1 minute, for 1 hour. Many midwives and hospitals ask you to call when you reach it. Use the rule you were given."}},{"@type":"Question","name":"How is the time apart measured?","acceptedAnswer":{"@type":"Answer","text":"From the start of one contraction to the start of the next, the way midwives count."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your log stays in this browser on this device. There is no account and the timer works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Contraction Timer for Labour</h1>
+        <p class="sub">Tap when a contraction starts and again when it ends. See if it is time to call your midwife or hospital.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. The log will be lost if you close or reload it. Use "Copy the log" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card timer" id="timer-card" aria-labelledby="timer-h">
+            <h2 id="timer-h" class="sr-only">Time a contraction</h2>
+            <p class="state-label" id="state-label">Ready</p>
+            <p class="clock" id="clock" aria-live="off">0:00</p>
+            <button type="button" class="tap start" id="tap">Contraction started</button>
+            <p class="hint center" id="tap-hint">Tap the moment a contraction begins.</p>
+            <p class="warn-box" id="run-long" hidden></p>
+
+            <div id="forgot-wrap" hidden>
+                <button type="button" class="link-btn" id="forgot" aria-expanded="false" aria-controls="forgot-box">Forgot to tap when it ended?</button>
+                <div class="sub-box" id="forgot-box" hidden>
+                    <label for="forgot-len">How long did it last? <span class="opt">(minutes:seconds)</span></label>
+                    <input type="text" id="forgot-len" inputmode="numeric" maxlength="12" autocomplete="off" placeholder="1:05">
+                    <p class="hint" id="forgot-read"></p>
+                    <p class="err" id="forgot-err" role="alert"></p>
+                    <div class="row-btns">
+                        <button type="button" class="primary" id="forgot-save">Save with this length</button>
+                        <button type="button" class="secondary" id="forgot-drop">It was not a contraction</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="last-box" id="last-box" hidden>
+                <p class="last-line" id="last-line"></p>
+                <p class="strength-q" id="strength-q">How strong was it? <span class="opt">(optional)</span></p>
+                <div class="chips" role="group" aria-labelledby="strength-q">
+                    <button type="button" class="chip" data-strength="mild" aria-pressed="false">Mild</button>
+                    <button type="button" class="chip" data-strength="medium" aria-pressed="false">Medium</button>
+                    <button type="button" class="chip" data-strength="strong" aria-pressed="false">Strong</button>
+                </div>
+            </div>
+            <label class="check" id="wake-wrap" hidden><input type="checkbox" id="wake"> Keep the screen on while this page is open</label>
+        </section>
+
+        <section class="card log" id="log-card" aria-labelledby="log-h">
+            <h2 id="log-h">Your contractions <span class="count" id="log-count"></span></h2>
+            <p class="hint" id="log-empty">Nothing timed yet. Each contraction you time shows here, newest first, with how long it lasted and how far apart it was from the one before.</p>
+            <ol class="items" id="items" reversed></ol>
+            <div class="row-btns">
+                <button type="button" class="secondary" id="add-missed">+ Add one I missed</button>
+                <button type="button" class="secondary" id="add-note">+ Add a note (waters broke, a call...)</button>
+            </div>
+            <div id="form-home"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card verdict" id="verdict" aria-labelledby="verdict-h">
+            <h2 id="verdict-h">Is it time to go?</h2>
+            <p class="verdict-head" id="v-head" role="status" aria-live="polite"></p>
+            <p class="verdict-text" id="v-text"></p>
+            <ul class="checks" id="v-checks" hidden>
+                <li id="c-apart"><span class="mark" aria-hidden="true"></span><span class="ctext"></span></li>
+                <li id="c-len"><span class="mark" aria-hidden="true"></span><span class="ctext"></span></li>
+                <li id="c-hold"><span class="mark" aria-hidden="true"></span><span class="ctext"></span></li>
+            </ul>
+            <p class="hint" id="v-first"></p>
+            <p class="warn-box" id="v-waters" hidden></p>
+            <div class="callnow">
+                <p><strong>Call now, whatever the timing,</strong> if your waters break, you are bleeding, the baby is moving less, the pain does not stop between contractions, you feel unwell, or you were told to come in sooner.</p>
+            </div>
+            <p class="hint">This timer is not medical advice. Follow what your midwife, doctor or hospital told you.</p>
+        </section>
+
+        <section class="card rule" id="rule-card" aria-labelledby="rule-h">
+            <h2 id="rule-h">Your rule for calling</h2>
+            <label for="rule-preset">When to call or go in</label>
+            <select id="rule-preset">
+                <option value="511">5-1-1: every 5 min, lasting 1 min, for 1 hour</option>
+                <option value="411">4-1-1: every 4 min, lasting 1 min, for 1 hour</option>
+                <option value="311">3-1-1: every 3 min, lasting 1 min, for 1 hour</option>
+                <option value="custom">My own rule</option>
+            </select>
+            <div class="custom" id="custom" hidden>
+                <div class="trio">
+                    <div><label for="r-apart">Apart, at most <span class="opt">(min)</span></label><input type="number" id="r-apart" min="1" max="15" step="0.5" inputmode="decimal"></div>
+                    <div><label for="r-last">Lasting, at least <span class="opt">(sec)</span></label><input type="number" id="r-last" min="20" max="180" step="5" inputmode="numeric"></div>
+                    <div><label for="r-hold">For <span class="opt">(min)</span></label><input type="number" id="r-hold" min="10" max="240" step="5" inputmode="numeric"></div>
+                </div>
+                <p class="err" id="rule-err" role="alert"></p>
+            </div>
+            <p class="hint" id="rule-words"></p>
+            <p class="hint">Use the rule your midwife or hospital gave you. If this is not your first baby or you live far away, they may want you to come sooner: choose "My own rule".</p>
+        </section>
+
+        <section class="card share" id="share-card" aria-labelledby="share-h">
+            <h2 id="share-h">Share the log</h2>
+            <p class="hint">Midwives often ask how far apart and how long your contractions are. Read it out, or send it.</p>
+            <div class="row-btns">
+                <button type="button" class="secondary" id="copy">Copy the log</button>
+                <a class="secondary" id="email" href="mailto:?subject=Contraction%20log">Email the log</a>
+                <button type="button" class="secondary" id="share" hidden>Share&hellip;</button>
+            </div>
+            <p class="msg" id="share-msg" role="status" aria-live="polite"></p>
+            <button type="button" class="danger-link" id="reset">Start again (clear the log)</button>
+        </section>
+    </div>
+
+    <section class="faq" aria-labelledby="faq-h">
+        <h2 id="faq-h">Questions</h2>
+        <details><summary>What is the 5-1-1 rule?</summary><p>Contractions that come every 5 minutes or closer, each lasting about 1 minute, and that keep going like that for 1 hour. Many midwives and hospitals ask you to call when you reach it. Others use 4-1-1, 3-1-1, or ask you to come sooner. Use the rule you were given.</p></details>
+        <details><summary>How is "apart" measured?</summary><p>From the start of one contraction to the start of the next, the way midwives count. A contraction that started at 02:00 and the next at 02:05 are 5:00 apart, however long each one lasted.</p></details>
+        <details><summary>When does the app say the rule is reached?</summary><p>When, over the last hour (or your own length), contractions came on average as close as your rule or closer, lasted on average as long or longer, and you have been timing for the whole hour. Averages are used because real contractions are never exactly even.</p></details>
+        <details><summary>I closed the page or my phone locked. Is the timing lost?</summary><p>No. The log and a contraction you are timing are saved on this device, and the clock carries on from the right time when you come back.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. Your log stays in this browser on this device. There is no account, your data is never sent anywhere, and the timer works offline once opened.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/contraction-timer-for-labour">Open source (MIT)</a></footer>
+</main>
+
+<div class="toast" id="toast" hidden role="status" aria-live="polite"><span id="toast-text"></span><button type="button" id="toast-undo">Undo</button></div>
+
+<form class="sub-box edit-form" id="edit-form" hidden novalidate>
+    <h3 id="edit-h">Change this contraction</h3>
+    <div class="pair">
+        <div><label for="e-start">Started at</label><input type="time" id="e-start" step="1"></div>
+        <div><label for="e-len">Lasted <span class="opt">(min:sec)</span></label><input type="text" id="e-len" inputmode="numeric" maxlength="12" autocomplete="off" placeholder="1:05"></div>
+    </div>
+    <p class="hint" id="e-read"></p>
+    <label for="e-strength">How strong <span class="opt">(optional)</span></label>
+    <select id="e-strength"><option value="">Not noted</option><option value="mild">Mild</option><option value="medium">Medium</option><option value="strong">Strong</option></select>
+    <p class="err" id="e-err" role="alert"></p>
+    <div class="row-btns">
+        <button type="submit" class="primary" id="e-save">Save</button>
+        <button type="button" class="secondary" id="e-cancel">Cancel</button>
+        <button type="button" class="danger-link" id="e-delete">Delete this contraction</button>
+    </div>
+</form>
+
+<form class="sub-box note-form" id="note-form" hidden novalidate>
+    <h3 id="n-h">Add a note</h3>
+    <div class="pair">
+        <div><label for="n-kind">What happened</label>
+            <select id="n-kind"><option value="waters">Waters broke</option><option value="called">Called midwife or hospital</option><option value="left">Left for hospital</option><option value="bleeding">Bleeding</option><option value="other">Something else</option></select></div>
+        <div><label for="n-at">At</label><input type="time" id="n-at"></div>
+    </div>
+    <label for="n-text">Details <span class="opt">(optional)</span></label>
+    <input type="text" id="n-text" maxlength="200" autocomplete="off" placeholder="For example: clear fluid">
+    <p class="err" id="n-err" role="alert"></p>
+    <div class="row-btns">
+        <button type="submit" class="primary" id="n-save">Save note</button>
+        <button type="button" class="secondary" id="n-cancel">Cancel</button>
+        <button type="button" class="danger-link" id="n-delete" hidden>Delete this note</button>
+    </div>
+</form>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Contraction Timer for Labour", "sections": [
+ {"h": "Time each contraction", "steps": ["When a contraction begins, tap \"Contraction started\". The big clock shows how long it has been going.", "When it ends, tap \"Contraction ended\". It is added to \"Your contractions\" with how long it lasted and how far apart it was from the one before.", "Between contractions the clock shows the time since the last one started, so you can see the next one coming.", "After each one you can tap \"Mild\", \"Medium\" or \"Strong\" if you like. Tap it again to clear it.", "Under 5 seconds is not saved, so a mistaken double tap does no harm. \"Undo\" brings it back.", "Forgot to tap when it ended? Tap \"Forgot to tap when it ended?\", type how long it lasted (for example 1:05) and tap \"Save with this length\". \"It was not a contraction\" throws the timing away, with \"Undo\".", "Tick \"Keep the screen on while this page is open\" so the phone does not lock between contractions (on phones that allow it)."]},
+ {"h": "Is it time to go?", "steps": ["This box answers in plain words, for example \"Your 5-1-1 rule is reached. Call your midwife or hospital now.\"", "Under it you see each part of your rule with a tick or a cross: how far apart they are on average, how long they last on average, and how long you have been timing.", "\"Apart\" is from the start of one contraction to the start of the next, the way midwives count.", "If no contraction comes for twice your rule's gap, the box says they have slowed down or stopped.", "\"Rule first reached at\" shows the time it was first reached, to tell your midwife.", "Always call straight away if your waters break, you are bleeding, the baby moves less, or the pain does not stop, whatever the timing says."]},
+ {"h": "Fix, add and note", "steps": ["Tap \"Change\" on a contraction to fix \"Started at\", \"Lasted\" or \"How strong\", or tap \"Delete this contraction\". Deleting has \"Undo\".", "Tap \"+ Add one I missed\" to add a contraction you did not time: type when it started and how long it lasted. A time later than now means yesterday.", "Tap \"+ Add a note (waters broke, a call...)\" to note waters breaking, a call to the hospital, leaving for hospital, bleeding or anything else, with the time. Notes show in the list among the contractions."]},
+ {"h": "Your rule and the log", "steps": ["Under \"Your rule for calling\" choose 5-1-1, 4-1-1 or 3-1-1, or \"My own rule\" and type the minutes apart, seconds lasting and how many minutes it must keep going. Your choice is remembered.", "\"Copy the log\" copies every contraction and note as plain text to paste into a message. \"Email the log\" opens your email with it written in; you add the address. \"Share\" appears on phones that can share.", "\"Start again (clear the log)\" empties the list, for example after a false alarm. \"Undo\" brings it back."]},
+ {"h": "Good to know", "tips": true, "steps": ["The rule uses averages over the last hour, because real contractions are never exactly even.", "Timing keeps going if you close the page or the phone locks, and everything is still there when you come back.", "Contractions more than 30 minutes apart start a new stretch, so yesterday's false alarm does not count toward today's hour.", "Everything stays on this device and works offline. Your data is never sent anywhere.", "This timer is not medical advice."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

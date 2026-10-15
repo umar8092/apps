@@ -302,6 +302,14 @@ One tap starts a timer for a client, or add time afterwards. See the hours and m
 
 <a href="time-tracker-for-freelancers/"><img src="time-tracker-for-freelancers/screenshots/phone.png" alt="Time Tracker for Freelancers screenshot" width="260"></a>
 
+### <img src="contraction-timer-for-labour/favicon.svg" width="36" height="36" align="center"> [Contraction Timer for Labour](https://umar8092.github.io/apps/contraction-timer-for-labour/)
+
+Tap when a contraction starts and when it ends. See how long each lasts, how far apart they are, and a plain answer when your 5-1-1 rule (or the one your midwife gave you) is reached. Note when waters break, fix a missed tap, and copy or email the log for your midwife.
+
+[**Open the app**](https://umar8092.github.io/apps/contraction-timer-for-labour/) &middot; [Details and screenshots](contraction-timer-for-labour/)
+
+<a href="contraction-timer-for-labour/"><img src="contraction-timer-for-labour/screenshots/phone.png" alt="Contraction Timer for Labour screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

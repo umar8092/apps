@@ -220,5 +220,11 @@
     "name": "Time Tracker for Freelancers",
     "description": "Start a timer for a client or add time afterwards, and see the hours and money per client, each with its own rate and rounding. Copy the hours as invoice lines and mark them as billed.",
     "color": "#1c7ed6"
+  },
+  {
+    "slug": "contraction-timer-for-labour",
+    "name": "Contraction Timer for Labour",
+    "description": "Tap when a contraction starts and ends. See how long and how far apart they are, and a plain answer when your 5-1-1 rule (or your own) is reached. Note when waters break and send the log to your midwife.",
+    "color": "#d6336c"
   }
 ]
