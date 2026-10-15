@@ -294,6 +294,14 @@ See the last day to return each thing you bought and when its warranty ends, mos
 
 <a href="warranty-and-return-deadline-tracker/"><img src="warranty-and-return-deadline-tracker/screenshots/phone.png" alt="Warranty and Return Deadline Tracker screenshot" width="260"></a>
 
+### <img src="time-tracker-for-freelancers/favicon.svg" width="36" height="36" align="center"> [Time Tracker for Freelancers](https://umar8092.github.io/apps/time-tracker-for-freelancers/)
+
+One tap starts a timer for a client, or add time afterwards. See the hours and money per client this week or month, each client with its own rate, currency and rounding, copy them as invoice lines, mark them as billed and download a spreadsheet.
+
+[**Open the app**](https://umar8092.github.io/apps/time-tracker-for-freelancers/) &middot; [Details and screenshots](time-tracker-for-freelancers/)
+
+<a href="time-tracker-for-freelancers/"><img src="time-tracker-for-freelancers/screenshots/phone.png" alt="Time Tracker for Freelancers screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

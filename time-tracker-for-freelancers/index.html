@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Tracker for Freelancers: Hours and Money per Client</title>
+    <meta name="description" content="Free time tracker for freelancers. Start a timer for a client, or add time afterwards, and see the hours and money per client this week or month, rounded your client's way. Copy the hours as invoice lines, mark them as billed, download a spreadsheet. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/time-tracker-for-freelancers/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#1c7ed6">
+    <meta name="theme-color" content="#1971c2">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Time Tracker for Freelancers">
+    <meta property="og:url" content="https://umar8092.github.io/apps/time-tracker-for-freelancers/">
+    <meta property="og:title" content="Time Tracker for Freelancers">
+    <meta property="og:description" content="One tap starts a timer for a client. See the hours and money per client, each with its own rate and rounding, and copy them as invoice lines. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Time Tracker for Freelancers","alternateName":["Freelance Time Tracker","Billable Hours Tracker","Timesheet per Client","Hours Tracker for Invoices"],"url":"https://umar8092.github.io/apps/time-tracker-for-freelancers/","description":"A free time tracker for freelancers: a timer per client, time added afterwards, hours and money per client with each client's own rate and rounding, invoice lines to copy, private on your device.","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"time tracker, freelance time tracking, billable hours, hourly rate, timesheet, invoice hours, client hours","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is the money worked out?","acceptedAnswer":{"@type":"Answer","text":"Each piece of time is rounded the client's way (exact minutes, or up to the next 6, 15 or 30 minutes), the time for each kind of work is added up, and that time is multiplied by the client's hourly rate. 3 hours 45 minutes at 40.00 an hour is 150.00."}},{"@type":"Question","name":"What if I forget to stop the timer?","acceptedAnswer":{"@type":"Answer","text":"Tap I forgot to stop, choose the time you really stopped, and save. After 8 hours the app asks by itself."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your clients, rates and hours stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Time Tracker for Freelancers</h1>
+        <p class="sub">Track your hours for each client and see what to bill.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your hours will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card timer" id="timer-card" aria-labelledby="timer-h">
+            <h2 id="timer-h">Track time now</h2>
+
+            <div class="running" id="running" hidden>
+                <p class="clock" id="clock" aria-live="off">0:00:00</p>
+                <p class="run-what" id="run-what"></p>
+                <p class="hint" id="run-since"></p>
+                <p class="warn-box" id="run-long" hidden></p>
+                <div class="row-btns">
+                    <button type="button" class="primary stop" id="stop">Stop and save</button>
+                    <button type="button" class="secondary" id="forgot">I forgot to stop</button>
+                </div>
+                <div class="forgot-box" id="forgot-box" hidden>
+                    <p class="hint">Choose when you really stopped. Only the time until then is saved.</p>
+                    <div class="pair">
+                        <div><label for="stop-date">Stopped on</label><input type="date" id="stop-date"></div>
+                        <div><label for="stop-time">At</label><input type="time" id="stop-time"></div>
+                    </div>
+                    <p class="err" id="stop-err" role="alert"></p>
+                    <div class="row-btns">
+                        <button type="button" class="primary" id="stop-at">Save with this stop time</button>
+                        <button type="button" class="secondary" id="discard">Throw this timer away</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="start-form" id="start-form">
+                <label for="t-client" id="t-client-l">Client</label>
+                <select id="t-client"></select>
+                <div class="new-client" id="t-new" hidden></div>
+                <label for="t-task">What are you working on? <span class="opt">(optional)</span></label>
+                <input type="text" id="t-task" maxlength="80" autocomplete="off" list="task-list" placeholder="For example: Logo redesign">
+                <datalist id="task-list"></datalist>
+                <p class="err" id="t-err" role="alert"></p>
+                <button type="button" class="primary big" id="start">Start timer</button>
+            </div>
+            <div class="msg" id="timer-msg" role="status" aria-live="polite"></div>
+
+            <button type="button" class="link-btn" id="show-add" aria-expanded="false" aria-controls="add-form">+ Add time afterwards</button>
+            <form class="add-form" id="add-form" hidden novalidate>
+                <h3>Add time afterwards</h3>
+                <label for="a-client">Client</label>
+                <select id="a-client"></select>
+                <div class="new-client" id="a-new" hidden></div>
+                <label for="a-task">What did you work on? <span class="opt">(optional)</span></label>
+                <input type="text" id="a-task" maxlength="80" autocomplete="off" list="task-list" placeholder="For example: Logo redesign">
+                <label for="a-date">Day</label>
+                <input type="date" id="a-date">
+                <fieldset class="mode">
+                    <legend>Time</legend>
+                    <label class="radio"><input type="radio" name="a-mode" value="times" checked> Start and finish</label>
+                    <label class="radio"><input type="radio" name="a-mode" value="length"> Just how long</label>
+                </fieldset>
+                <div class="pair" id="a-times">
+                    <div><label for="a-start">Start</label><input type="time" id="a-start"></div>
+                    <div><label for="a-finish">Finish</label><input type="time" id="a-finish"></div>
+                </div>
+                <div id="a-length-wrap" hidden>
+                    <label for="a-length">How long</label>
+                    <input type="text" id="a-length" inputmode="decimal" autocomplete="off" maxlength="20" placeholder="1:30 or 1h 30m">
+                </div>
+                <p class="preview" id="a-preview" aria-live="polite"></p>
+                <p class="err" id="a-err" role="alert"></p>
+                <div class="row-btns">
+                    <button type="submit" class="primary">Add time</button>
+                    <button type="button" class="secondary" id="a-cancel">Close</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card entries" id="entries" aria-labelledby="entries-h">
+            <h2 id="entries-h">Your time</h2>
+            <div class="msg" id="entries-msg" role="status" aria-live="polite"></div>
+            <p class="empty" id="entries-empty">No time yet. Choose a client and tap "Start timer", or add time you already worked with "+ Add time afterwards".</p>
+            <div id="days"></div>
+            <button type="button" class="secondary" id="more-days" hidden>Show earlier days</button>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card totals" id="totals" aria-labelledby="totals-h">
+            <h2 id="totals-h">What to bill</h2>
+            <label for="period">Show</label>
+            <select id="period">
+                <option value="week">This week</option>
+                <option value="lastweek">Last week</option>
+                <option value="month">This month</option>
+                <option value="lastmonth">Last month</option>
+                <option value="unbilled">Not billed yet (all dates)</option>
+                <option value="custom">Choose dates</option>
+            </select>
+            <div class="pair" id="custom-dates" hidden>
+                <div><label for="from">From</label><input type="date" id="from"></div>
+                <div><label for="to">To</label><input type="date" id="to"></div>
+            </div>
+            <p class="range" id="range"></p>
+            <div class="msg" id="totals-msg" role="status" aria-live="polite"></div>
+            <div class="grand" id="grand"></div>
+            <ul class="box-list" id="client-totals"></ul>
+            <p class="empty" id="totals-empty" hidden></p>
+            <button type="button" class="secondary" id="csv" hidden>Download a spreadsheet of these hours</button>
+        </section>
+
+        <section class="card clients" id="clients" aria-labelledby="clients-h">
+            <h2 id="clients-h">Clients and rates</h2>
+            <p class="hint">Each client has its own hourly rate, currency and rounding.</p>
+            <div class="msg" id="clients-msg" role="status" aria-live="polite"></div>
+            <ul class="box-list" id="client-list"></ul>
+            <p class="empty" id="clients-empty">No clients yet. Add one here, or choose "+ New client" when you start the timer.</p>
+            <button type="button" class="secondary" id="add-client">+ Add a client</button>
+            <div class="new-client" id="c-new" hidden></div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="settings-h">
+            <h2 id="settings-h">Settings and backup</h2>
+            <label for="week-start">My week starts on</label>
+            <select id="week-start">
+                <option value="1">Monday</option>
+                <option value="0">Sunday</option>
+                <option value="6">Saturday</option>
+            </select>
+            <div class="row-btns">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+            </div>
+            <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="settings-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq" aria-labelledby="faq-h">
+        <h2 id="faq-h">Questions</h2>
+        <details><summary>How is the money worked out?</summary><p>Each piece of time is rounded the client's way (exact minutes, or up to the next 6, 15 or 30 minutes). The time for each kind of work is added up and multiplied by the client's hourly rate, to the cent. 3 h 45 min at 40.00 an hour is 150.00.</p></details>
+        <details><summary>What does "Mark as billed" do?</summary><p>It marks that client's time in the chosen dates as billed, so it is not billed twice. "Not billed yet" then leaves it out. Billed time keeps the rate and rounding it was billed with, even if you change them later. Use "Undo" straight away, or "Edit" on an entry and untick "Already billed".</p></details>
+        <details><summary>I raised my rate. What happens to old hours?</summary><p>When you change a client's rate, "Also use the new rate for time not billed yet" decides whether hours you have not billed change too. Billed hours never change.</p></details>
+        <details><summary>I forgot to stop the timer. What now?</summary><p>Tap <b>I forgot to stop</b>, choose when you really stopped, and tap <b>Save with this stop time</b>. After 8 hours the app asks by itself. Time past midnight belongs to the day you started.</p></details>
+        <details><summary>Can I start a timer for another client?</summary><p>Choose the other client and tap <b>Stop and switch</b>. The first timer is saved and the new one starts, so you never run two at once.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your clients, rates and hours stay in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to move them to a new phone or computer. Once loaded, the app works with no connection, and the timer keeps counting even when the page is closed.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/time-tracker-for-freelancers">Open source (MIT)</a></footer>
+</main>
+
+<template id="client-form-tpl">
+    <div class="client-form">
+        <label data-for="name">Client name</label>
+        <input type="text" data-f="name" maxlength="40" autocomplete="off" placeholder="For example: Acme Ltd">
+        <div class="pair">
+            <div><label data-for="rate">Rate per hour <span class="opt">(optional)</span></label><input type="text" data-f="rate" inputmode="decimal" autocomplete="off" maxlength="16" placeholder="40.00"></div>
+            <div><label data-for="sym">Currency symbol</label><select data-f="sym"></select></div>
+        </div>
+        <p class="hint" data-f="rate-read"></p>
+        <label data-for="round">Round each entry</label>
+        <select data-f="round">
+            <option value="0">Exact minutes</option>
+            <option value="6">Up to the next 6 min (0.1 h)</option>
+            <option value="15">Up to the next 15 min</option>
+            <option value="30">Up to the next 30 min</option>
+        </select>
+        <label class="check" data-f="apply-wrap" hidden><input type="checkbox" data-f="apply" checked> Also use the new rate for time not billed yet</label>
+        <p class="err" data-f="err" role="alert"></p>
+        <div class="row-btns" data-f="btns">
+            <button type="button" class="primary" data-f="save">Save client</button>
+            <button type="button" class="secondary" data-f="cancel">Cancel</button>
+        </div>
+    </div>
+</template>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Time Tracker for Freelancers", "sections": [
+ {"h": "Track time now", "steps": ["Choose the \"Client\". The first time, choose \"+ New client\" and type the client name, the \"Rate per hour\" if you charge by the hour, the \"Currency symbol\" and how to \"Round each entry\".", "Type what you are working on in \"What are you working on?\" if you like. Earlier answers are suggested.", "Tap \"Start timer\". The clock counts even if you close the page or lock the phone.", "Tap \"Stop and save\" when you finish. Under 30 seconds is not saved, so a mistaken tap does no harm.", "To work for another client, choose them and tap \"Stop and switch\". The first timer is saved and the new one starts.", "Forgot to stop? Tap \"I forgot to stop\", choose \"Stopped on\" and \"At\", then \"Save with this stop time\". After 8 hours the app asks by itself. \"Throw this timer away\" deletes it, with \"Undo\"."]},
+ {"h": "Add time afterwards", "steps": ["Tap \"+ Add time afterwards\", choose the client, the work and the \"Day\".", "Choose \"Start and finish\" and pick both times, or \"Just how long\" and type it, for example 1:30, 1h 30m, 1.5 or 45m.", "A finish earlier than the start means you worked past midnight, and the line above \"Add time\" says so.", "If the time overlaps something already saved, you see a warning, but you can still add it."]},
+ {"h": "Your time", "steps": ["Your time is listed by day, newest first, with each day's total.", "Each entry shows the client, the work, the times and how long. \"Billed\" or \"Not charged\" shows when it applies.", "\"Continue\" starts the timer again for the same client and work.", "\"Edit\" changes anything, including \"Charge for this time\" and \"Already billed\". \"Delete\" removes it, with \"Undo\".", "\"Show earlier days\" shows older weeks."]},
+ {"h": "What to bill", "steps": ["Choose what to \"Show\": this or last week, this or last month, \"Not billed yet (all dates)\", or \"Choose dates\".", "Each client shows the hours worked, the hours charged after rounding and the money, with one line for each kind of work.", "\"Copy invoice lines\" copies the lines ready to paste into an invoice. \"Email\" opens your email with them; you add the address.", "\"Mark as billed\" marks those hours as billed, with \"Undo\".", "\"Download a spreadsheet of these hours\" saves every entry in the dates as a CSV file."]},
+ {"h": "Clients and settings", "steps": ["\"Edit\" on a client changes the name, rate, currency and rounding. A new rate can also apply to time not billed yet.", "\"Delete\" on a client deletes it and its time, with \"Undo\".", "\"My week starts on\" sets Monday, Sunday or Saturday for \"This week\".", "\"Save a backup file\" and \"Restore a backup\" move everything to another device. \"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Rounding is done on each entry: 1 h 07 min rounded up to 15 minutes is charged as 1 h 15 min.", "Money is worked out to the cent: 3 h 45 min at 40.00 an hour is 150.00.", "A client with no rate shows hours only.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -214,5 +214,11 @@
     "name": "Warranty and Return Deadline Tracker",
     "description": "Add what you bought and when, and see the last day to return it and when its warranty ends, most urgent first. Keep a receipt photo, add calendar reminders and copy the details for a claim.",
     "color": "#e8590c"
+  },
+  {
+    "slug": "time-tracker-for-freelancers",
+    "name": "Time Tracker for Freelancers",
+    "description": "Start a timer for a client or add time afterwards, and see the hours and money per client, each with its own rate and rounding. Copy the hours as invoice lines and mark them as billed.",
+    "color": "#1c7ed6"
   }
 ]
