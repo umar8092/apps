@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Net Worth Tracker: What You Own Minus What You Owe, Free</title>
+    <meta name="description" content="Free net worth tracker. List what you own (bank, savings, pension, home, car) and what you owe (mortgage, loans, cards), update the balances once a month and see your net worth, the change since last time and a line over time. No bank login, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/net-worth-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#2f9e44">
+    <meta name="theme-color" content="#2b8a3e">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Net Worth Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/net-worth-tracker/">
+    <meta property="og:title" content="Net Worth Tracker: What You Own Minus What You Owe">
+    <meta property="og:description" content="Update your balances once a month and see your net worth, the change since last time and a line over time. No bank login, free, private.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Net Worth Tracker","alternateName":["Net Worth Calculator","Assets and Debts Tracker","Monthly Net Worth Spreadsheet"],"url":"https://umar8092.github.io/apps/net-worth-tracker/","description":"A free net worth tracker. List what you own and what you owe, update the balances once a month and see your net worth, the change since last time and a line over time.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"net worth tracker, net worth calculator, assets and liabilities, track net worth monthly, net worth without linking bank","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is net worth?","acceptedAnswer":{"@type":"Answer","text":"Everything you own (money in the bank, savings, investments, pension, the value of your home and car) minus everything you owe (mortgage, loans, credit cards). If you own 23,280.20 and owe 7,355.60, your net worth is 15,924.60."}},{"@type":"Question","name":"How often should I update it?","acceptedAnswer":{"@type":"Answer","text":"Once a month is enough, for example on payday. The app keeps last month's balances, so you only change the ones that moved."}},{"@type":"Question","name":"Do I need to link my bank?","acceptedAnswer":{"@type":"Answer","text":"No. You type the balances yourself. There is no account and no bank login, and your numbers stay in this browser on this device."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Net Worth Tracker</h1>
+        <p class="sub">Everything you own minus everything you owe, in one number. Update your balances once a month and watch it change.</p>
+    </header>
+
+    <div class="col-main">
+        <section class="card balances" aria-labelledby="bal-h">
+            <h2 id="bal-h">Your balances</h2>
+            <div id="intro">
+                <p class="lead">Start by adding your accounts below: money in the bank, savings, pension, your home or car, and what you owe on a mortgage, loans or cards. No bank login needed.</p>
+                <button type="button" id="demo" class="ghost">Try an example</button>
+            </div>
+            <div id="bal-body" hidden>
+                <label for="date">Balances on</label>
+                <input id="date" type="date" min="1950-01-01">
+                <p class="note" id="date-note" role="status"></p>
+                <h3 class="side-h own-h">What I own <span id="own-sub"></span></h3>
+                <ul class="accts" id="own-list"></ul>
+                <p class="empty" id="own-empty">Nothing here yet. Add your bank account, savings or anything you own below.</p>
+                <h3 class="side-h owe-h">What I owe <span id="owe-sub"></span></h3>
+                <ul class="accts" id="owe-list"></ul>
+                <p class="empty" id="owe-empty">No debts added. If you have a mortgage, loan or credit card balance, add it below.</p>
+            </div>
+            <p class="msg" id="bal-msg" role="status"></p>
+        </section>
+
+        <section class="card add-card" aria-labelledby="form-h">
+            <form id="form" novalidate autocomplete="off">
+                <h2 id="form-h">Add an account</h2>
+                <label for="f-name">Name</label>
+                <input id="f-name" type="text" maxlength="40" placeholder="e.g. Main bank account">
+                <label for="f-kind">What is it?</label>
+                <select id="f-kind">
+                    <optgroup label="Something I own">
+                        <option value="cash">Bank / cash</option>
+                        <option value="savings">Savings</option>
+                        <option value="invest">Investments</option>
+                        <option value="pension">Pension / retirement</option>
+                        <option value="home">Home / property</option>
+                        <option value="vehicle">Car / vehicle</option>
+                        <option value="ownother">Something else I own</option>
+                    </optgroup>
+                    <optgroup label="Money I owe">
+                        <option value="mortgage">Mortgage</option>
+                        <option value="loan">Loan (car, student, personal)</option>
+                        <option value="card">Credit card</option>
+                        <option value="oweother">Other money I owe</option>
+                    </optgroup>
+                </select>
+                <div id="amount-box">
+                    <label for="f-amount" id="f-amount-label">Balance</label>
+                    <div class="money"><span class="sym" aria-hidden="true"></span><input id="f-amount" type="text" inputmode="decimal" maxlength="20" placeholder="e.g. 1250"></div>
+                </div>
+                <p class="err" id="form-err" role="alert"></p>
+                <div class="form-btns" id="form-btns">
+                    <button type="submit" id="save" class="primary">Add account</button>
+                    <button type="button" id="cancel-edit" class="secondary" hidden>Cancel</button>
+                </div>
+            </form>
+            <p class="msg" id="add-msg" role="status"></p>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card result" id="result" aria-labelledby="res-h" hidden>
+            <h2 class="big-label" id="res-h">Net worth</h2>
+            <p class="big" id="net" aria-live="polite">0.00</p>
+            <p class="neg-note" id="neg-note" hidden></p>
+            <div class="split">
+                <div><span>I own</span><b id="own-total">0.00</b></div>
+                <div><span>I owe</span><b id="owe-total">0.00</b></div>
+            </div>
+            <p class="change" id="change"></p>
+            <p class="meta" id="added-note" hidden></p>
+            <p class="meta" id="start-note"></p>
+            <p class="stale" id="stale" hidden></p>
+            <div class="chart" id="chart-box" hidden>
+                <svg id="chart" viewBox="0 0 400 214" role="img" aria-labelledby="chart-title"><title id="chart-title">Net worth over time</title></svg>
+            </div>
+        </section>
+
+        <section class="card history" id="history" aria-labelledby="hist-h" hidden>
+            <h2 id="hist-h">Past updates <span class="count" id="hist-n"></span></h2>
+            <ul class="hist" id="hist-list"></ul>
+            <p class="msg" id="hist-msg" role="status"></p>
+        </section>
+
+        <section class="card tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share, backup and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur">
+                <option value="">None (plain numbers)</option>
+                <option value="$">$ (dollar)</option>
+                <option value="€">€ (euro)</option>
+                <option value="£">£ (pound)</option>
+                <option value="₹">₹ (rupee)</option>
+                <option value="Rs">Rs (rupee)</option>
+                <option value="¥">¥ (yen, yuan)</option>
+                <option value="₩">₩ (won)</option>
+                <option value="₦">₦ (naira)</option>
+                <option value="₱">₱ (peso)</option>
+                <option value="R">R (rand)</option>
+                <option value="kr">kr (krona, krone)</option>
+                <option value="CHF">CHF (franc)</option>
+                <option value="AED">AED (dirham)</option>
+                <option value="SAR">SAR (riyal)</option>
+                <option value="RM">RM (ringgit)</option>
+            </select>
+            <div class="tool-grid">
+                <button type="button" id="copy" class="secondary">Copy summary</button>
+                <a id="mail" class="secondary" href="mailto:">Email summary</a>
+                <button type="button" id="print" class="secondary">Print</button>
+                <button type="button" id="csv" class="secondary">Spreadsheet (CSV)</button>
+                <button type="button" id="export" class="secondary">Save backup file</button>
+                <button type="button" id="import" class="secondary">Load backup file</button>
+            </div>
+            <input type="file" id="import-file" accept=".json,application/json" hidden>
+            <p class="hint">Your balances are saved only in this browser on this device. Your data is never sent anywhere. Save a backup file now and then, or to move to another phone or computer.</p>
+            <p class="msg warn" id="save-warn" role="status" hidden>This browser is not saving your balances (private mode or storage blocked). They stay only until you close this page. Use Save backup file to keep them.</p>
+            <button type="button" id="wipe" class="danger">Delete everything</button>
+            <p class="msg" id="tools-msg" role="status"></p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>What is net worth?</summary><p>Everything you own (money in the bank, savings, investments, pension, what your home and car would sell for) minus everything you owe (mortgage, loans, credit cards). If you own 23,280.20 and owe 7,355.60, your net worth is 15,924.60. It can be below zero, for example just after a student loan, and that is common.</p></details>
+        <details><summary>How often should I update it?</summary><p>Once a month is plenty, for example on payday or the first of the month. Open the app, change the balances that moved, and that is it: the others stay as they were last time. Skipped a month? No problem, the change is counted from your last update.</p></details>
+        <details><summary>I forgot to update last month. Can I add it now?</summary><p>Yes. Pick that date in <b>Balances on</b> and type the balances. The update slots in between the others.</p></details>
+        <details><summary>What value do I put for my house or car?</summary><p>Roughly what it would sell for today. Do not change it every month unless you have a reason; a fair guess once or twice a year is fine. Put the mortgage or car loan in <b>What I owe</b> as its own account.</p></details>
+        <details><summary>I paid off a loan or closed an account. Should I delete it?</summary><p>No, set its balance to 0. Deleting an account removes it from every past update too, which changes your history. Delete only an account you added by mistake.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. No account and no bank login. Your balances stay in this browser on this device and the app works offline once it has loaded. Use <b>Save backup file</b> to keep a copy or move to another device.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/net-worth-tracker">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Net Worth Tracker", "sections": [
+ {"h": "Add your accounts", "steps": ["Under \"Add an account\" type a Name (for example Main bank account), choose \"What is it?\" and type its Balance, then tap \"Add account\".", "Things you own (bank, savings, investments, pension, home, car) go in \"What I own\". Mortgages, loans, credit cards and other debts go in \"What I owe\".", "For a debt, type what you still owe as a plain number, without a minus. For a home or car, type roughly what it would sell for.", "Not sure how it looks? Tap \"Try an example\"."]},
+ {"h": "Update once a month", "steps": ["\"Balances on\" is today's date. Every account shows its balance from your last update.", "Change the balances that moved. Each change is saved straight away as the update for that date; the others stay the same.", "To fill in a month you missed, pick that date in \"Balances on\" and type the balances.", "Each account box says how it moved since the update before, for example \"Up 250.00 since 16 Sep 2026\". Green means it helped your net worth (a debt going down is green too)."]},
+ {"h": "Read the result", "steps": ["Net worth is everything you own minus everything you owe, with \"I own\" and \"I owe\" underneath.", "Under it you see how much it went up or down since your last update, and since your first one.", "When you add an account that was not there last time (for example your home), the app says how much of the change comes from it.", "The line shows your net worth over time. \"Past updates\" lists every update with its date, net worth and change. \"Show\" opens one, \"Delete\" removes it, with Undo."]},
+ {"h": "Change or remove an account", "steps": ["\"Edit\" changes an account's name or type. \"Delete\" removes it from every update, with Undo.", "Paid off a loan or closed an account? Set its balance to 0 instead of deleting it, so your history stays right."]},
+ {"h": "Share, backup and settings", "steps": ["\"Currency symbol\" adds $, €, £, ₹ or another symbol to every amount. None shows plain numbers. It is remembered.", "\"Copy summary\", \"Email summary\" and \"Print\" share your net worth and balances. Email opens your mail app with no address filled in.", "\"Spreadsheet (CSV)\" downloads every update as a table for Excel or Google Sheets.", "\"Save backup file\" downloads all your data. \"Load backup file\" puts it back, on this or another device, with Undo.", "\"Delete everything\" empties the app, with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["Totals are added up to the exact cent.", "A negative net worth (you owe more than you own) is shown plainly with a minus. An overdrawn bank account can be typed with a minus, for example -45.50.", "Your balances stay in this browser on this device. Your data is never sent anywhere, and the app works offline."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -310,6 +310,14 @@ Tap when a contraction starts and when it ends. See how long each lasts, how far
 
 <a href="contraction-timer-for-labour/"><img src="contraction-timer-for-labour/screenshots/phone.png" alt="Contraction Timer for Labour screenshot" width="260"></a>
 
+### <img src="net-worth-tracker/favicon.svg" width="36" height="36" align="center"> [Net Worth Tracker](https://umar8092.github.io/apps/net-worth-tracker/)
+
+Paying off debt or building savings and want one number that shows progress? List what you own (bank, savings, pension, home, car) and what you owe (mortgage, loans, cards), each in its own box. Once a month change the balances that moved; the rest carry over. See your net worth, how much it went up or down since last time and since you started, which accounts moved, and a line over time. Copy, email, print, spreadsheet and backup file. No bank login, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/net-worth-tracker/) &middot; [Details and screenshots](net-worth-tracker/)
+
+<a href="net-worth-tracker/"><img src="net-worth-tracker/screenshots/phone.png" alt="Net Worth Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

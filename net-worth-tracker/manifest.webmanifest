@@ -1,0 +1,15 @@
+{
+  "name": "Net Worth Tracker",
+  "short_name": "Net Worth",
+  "description": "Update your balances once a month and see your net worth, the change since last time and a line over time.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f1d13",
+  "theme_color": "#2b8a3e",
+  "categories": ["finance", "productivity", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

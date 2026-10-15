@@ -226,5 +226,11 @@
     "name": "Contraction Timer for Labour",
     "description": "Tap when a contraction starts and ends. See how long and how far apart they are, and a plain answer when your 5-1-1 rule (or your own) is reached. Note when waters break and send the log to your midwife.",
     "color": "#d6336c"
+  },
+  {
+    "slug": "net-worth-tracker",
+    "name": "Net Worth Tracker",
+    "description": "List what you own and what you owe, update the balances once a month and see your net worth, the change since last time and a line over time. No bank login, private, works offline.",
+    "color": "#2f9e44"
   }
 ]
