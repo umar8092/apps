@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Log for the Gym: See What You Lifted Last Time</title>
+    <meta name="description" content="Free workout log for the gym. Start Push, Pull, Legs or your own plan, see what you lifted last time for every exercise, log each set in one tap, get a rest timer and a note when you beat your best, and watch your lifts go up. kg or lb, no sign-up, private on your device, works offline in the gym basement.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/workout-log-for-the-gym/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#e03131">
+    <meta name="theme-color" content="#c92a2a">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Workout Log for the Gym">
+    <meta property="og:url" content="https://umar8092.github.io/apps/workout-log-for-the-gym/">
+    <meta property="og:title" content="Workout Log for the Gym">
+    <meta property="og:description" content="See what you lifted last time, log every set in one tap, rest timer and new-best notes. Free, private, no sign-up, works offline.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Workout Log for the Gym","alternateName":["Gym Workout Tracker","Weightlifting Log","Strength Training Log","Gym Log"],"url":"https://umar8092.github.io/apps/workout-log-for-the-gym/","description":"A free workout log for weight training. See what you lifted last time, log sets, rest timer, personal bests and progress charts, private on your device.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"workout log, gym tracker, weightlifting log, lifting tracker, push pull legs, rest timer, personal record, 1 rep max","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does it know what I lifted last time?","acceptedAnswer":{"@type":"Answer","text":"Every set you log is saved on your phone. Next time you start a workout, each exercise shows the sets from the last workout that had it, for example \"Last time, Mon 12 Oct: 60 kg: 8, 8, 7 reps\", and fills in the boxes with those numbers."}},{"@type":"Question","name":"What counts as a new best?","acceptedAnswer":{"@type":"Answer","text":"A set is a new best when you have never done that weight, or heavier, for as many reps before. So 62.5 kg for 8 is a best if your heaviest 8 was 60 kg. Warm-up sets never count."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your workouts stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Workout Log for the Gym</h1>
+        <p class="sub">See what you lifted last time, log every set, and watch your lifts go up.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your workouts will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card today" id="today" aria-labelledby="today-h">
+            <h2 id="today-h">Start a workout</h2>
+            <div class="msg" id="today-msg" role="status" aria-live="polite"></div>
+
+            <!-- choose a plan -->
+            <div id="start-view">
+                <p class="week" id="week"></p>
+                <div id="first-use" hidden>
+                    <p class="lead">Pick ready-made workout plans to start with. You can rename them, change the exercises or make your own at any time.</p>
+                    <div class="preset-grid">
+                        <button type="button" class="preset" data-preset="ppl"><b>Push, Pull, Legs</b><span>3 plans, 3 to 6 days a week</span></button>
+                        <button type="button" class="preset" data-preset="ul"><b>Upper and Lower</b><span>2 plans, 4 days a week</span></button>
+                        <button type="button" class="preset" data-preset="full"><b>Full body</b><span>1 plan, 2 to 3 days a week</span></button>
+                    </div>
+                </div>
+                <ul class="box-list" id="plans"></ul>
+                <div class="row-btns">
+                    <button type="button" class="secondary" id="new-plan">+ Make a new workout plan</button>
+                    <button type="button" class="secondary" id="start-empty">Start an empty workout</button>
+                </div>
+                <button type="button" class="link" id="add-past">+ Add a workout I did earlier (optional)</button>
+            </div>
+
+            <!-- make or change a plan -->
+            <form id="plan-form" hidden novalidate>
+                <label for="p-name">Plan name</label>
+                <input id="p-name" type="text" maxlength="40" autocomplete="off" placeholder="For example Push or Leg day">
+                <p class="err" id="p-name-err"></p>
+                <h3 class="label-like" id="p-ex-h">Exercises, in the order you do them</h3>
+                <p class="hint" id="p-ex-none">No exercises yet. Add the first one below.</p>
+                <ol class="box-list plan-ex" id="p-ex" aria-labelledby="p-ex-h"></ol>
+                <div class="add-ex" id="p-add">
+                    <label for="p-new">Add an exercise</label>
+                    <input id="p-new" type="text" maxlength="60" autocomplete="off" list="ex-names" placeholder="For example Bench press">
+                    <label for="p-kind">What you log</label>
+                    <select id="p-kind">
+                        <option value="weight">Weight and reps (barbell, dumbbell, machine)</option>
+                        <option value="body">Reps of a bodyweight move (pull-up, dips)</option>
+                        <option value="time">Time held (plank, wall sit)</option>
+                    </select>
+                    <p class="err" id="p-new-err"></p>
+                    <button type="button" class="secondary" id="p-add-btn">Add this exercise</button>
+                </div>
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="p-save">Save plan</button>
+                    <button type="button" class="secondary" id="p-cancel">Cancel</button>
+                </div>
+                <button type="button" class="danger" id="p-delete" hidden>Delete this plan</button>
+            </form>
+
+            <!-- the workout in progress, or an earlier one being edited -->
+            <div id="session-view" hidden>
+                <p class="sess-meta" id="s-meta"></p>
+                <div class="overnight" id="s-overnight" hidden>
+                    <p id="s-overnight-text"></p>
+                    <div class="row-btns">
+                        <button type="button" class="primary" id="s-overnight-finish">Finish it</button>
+                        <button type="button" class="secondary" id="s-overnight-keep">I'm still training</button>
+                    </div>
+                </div>
+                <div class="past-fields" id="s-past" hidden>
+                    <div class="pair3">
+                        <div><label for="s-day">Day</label><input id="s-day" type="date"></div>
+                        <div><label for="s-from">Started</label><input id="s-from" type="time"></div>
+                        <div><label for="s-to">Finished</label><input id="s-to" type="time"></div>
+                    </div>
+                    <label for="s-name">Workout name</label>
+                    <input id="s-name" type="text" maxlength="40" autocomplete="off">
+                    <p class="err" id="s-past-err"></p>
+                </div>
+                <label class="check" id="s-awake-row" hidden><input type="checkbox" id="s-awake"> Keep the screen on during this workout</label>
+                <ol class="box-list ex-list" id="s-ex"></ol>
+                <p class="empty" id="s-empty">No exercises in this workout yet. Add one below.</p>
+                <button type="button" class="secondary" id="s-add-open">+ Add an exercise</button>
+                <div class="add-ex" id="s-add" hidden>
+                    <label for="s-new">Exercise</label>
+                    <input id="s-new" type="text" maxlength="60" autocomplete="off" list="ex-names" placeholder="For example Squat">
+                    <div id="s-kind-wrap">
+                        <label for="s-kind">What you log</label>
+                        <select id="s-kind">
+                            <option value="weight">Weight and reps (barbell, dumbbell, machine)</option>
+                            <option value="body">Reps of a bodyweight move (pull-up, dips)</option>
+                            <option value="time">Time held (plank, wall sit)</option>
+                        </select>
+                    </div>
+                    <label class="check" id="s-also-row" hidden><input type="checkbox" id="s-also"> <span id="s-also-text">Also add it to the plan</span></label>
+                    <p class="err" id="s-new-err"></p>
+                    <div class="row-btns">
+                        <button type="button" class="primary" id="s-add-btn">Add to this workout</button>
+                        <button type="button" class="secondary" id="s-add-cancel">Cancel</button>
+                    </div>
+                </div>
+                <div class="row-btns end-btns">
+                    <button type="button" class="primary" id="s-finish">Finish workout</button>
+                    <button type="button" class="danger" id="s-discard">Discard workout</button>
+                </div>
+            </div>
+
+            <!-- after finishing -->
+            <div id="done-view" hidden>
+                <p class="done-big" id="d-big"></p>
+                <ul class="done-stats" id="d-stats"></ul>
+                <div id="d-bests"></div>
+                <p class="hint" id="d-skipped"></p>
+                <div class="row-btns">
+                    <button type="button" class="secondary" id="d-copy">Copy</button>
+                    <button type="button" class="secondary" id="d-share">Share or email</button>
+                    <button type="button" class="secondary" id="d-undo">Not finished yet</button>
+                </div>
+                <button type="button" class="primary" id="d-close">Done</button>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card progress" id="progress" aria-labelledby="prog-h">
+            <h2 id="prog-h">Progress by exercise</h2>
+            <div class="msg" id="prog-msg" role="status" aria-live="polite"></div>
+            <p class="empty" id="prog-empty">Your exercises show up here after your first workout, with your best set and a chart.</p>
+            <ul class="box-list" id="prog-list"></ul>
+            <div class="later" id="prog-later" hidden>
+                <button type="button" class="link" id="prog-later-btn" aria-expanded="false" aria-controls="prog-later-box">Show exercises not done yet</button>
+                <div id="prog-later-box" hidden>
+                    <p class="hint">Rename them, change what is logged or their rest time here.</p>
+                    <ul class="box-list" id="prog-later-list"></ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="card history" id="history" aria-labelledby="hist-h">
+            <h2 id="hist-h">History</h2>
+            <div class="msg" id="hist-msg" role="status" aria-live="polite"></div>
+            <p class="empty" id="hist-empty">Finished workouts show up here, newest first.</p>
+            <ul class="box-list" id="hist-list"></ul>
+            <button type="button" class="secondary" id="hist-more" hidden>Show older workouts</button>
+        </section>
+    </div>
+
+    <section class="card settings" id="settings" aria-labelledby="set-h">
+        <h2 id="set-h">Settings and backup</h2>
+        <label for="unit">Weights in</label>
+        <select id="unit">
+            <option value="kg">Kilograms (kg)</option>
+            <option value="lb">Pounds (lb)</option>
+        </select>
+        <label for="rest">Rest timer after each set (unless an exercise has its own)</label>
+        <select id="rest"></select>
+        <div class="inline" id="rest-custom-row" hidden>
+            <input id="rest-custom" type="text" inputmode="numeric" maxlength="3" aria-label="Rest in seconds">
+            <span class="unit">seconds (5 to 900)</span>
+        </div>
+        <p class="err" id="rest-err"></p>
+        <label class="check"><input type="checkbox" id="sound" checked> Beep and vibrate when the rest is over</label>
+        <label for="week-start">Weeks start on</label>
+        <select id="week-start">
+            <option value="1">Monday</option>
+            <option value="0">Sunday</option>
+            <option value="6">Saturday</option>
+        </select>
+        <div class="tool-grid">
+            <button type="button" class="secondary" id="backup">Save a backup file</button>
+            <button type="button" class="secondary" id="restore">Restore a backup</button>
+            <button type="button" class="secondary wide" id="csv">Download all sets (CSV for a spreadsheet)</button>
+        </div>
+        <input type="file" id="restore-file" accept=".json,application/json" hidden>
+        <button type="button" class="danger" id="wipe">Delete everything</button>
+        <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="faq" aria-labelledby="faq-h">
+        <h2 id="faq-h">Questions</h2>
+        <details><summary>How does it know what I lifted last time?</summary><p>Every set you log is saved on this device. When you start a workout, each exercise shows the sets from the last workout that had it, like <b>Last time, Mon 12 Oct: 60 kg: 8, 8, 7 reps</b>, and fills in the boxes with those numbers so you can log a set with one tap.</p></details>
+        <details><summary>What counts as a new best?</summary><p>A set is a new best when you have never done that weight, or heavier, for as many reps before. 62.5 kg for 8 is a best if your heaviest 8 was 60 kg, even when you once did 65 kg for 5. Heavier than ever is called <b>heaviest ever</b>. Warm-up sets never count. Your first time doing an exercise is your starting point, not a best.</p></details>
+        <details><summary>What is the "est. 1-rep max"?</summary><p>A guess of the most you could lift once, worked out from a set of 2 to 12 reps (Epley: weight × (1 + reps ÷ 30)). 60 kg for 8 gives about 76 kg. It is only a guide for comparing sets; never test a real 1-rep max without a spotter.</p></details>
+        <details><summary>I forgot to press Finish yesterday.</summary><p>When you open the app hours later it asks whether you are still training. <b>Finish it</b> ends the workout at the time of your last set, so the length stays right.</p></details>
+        <details><summary>My phone locked during the rest. Is the timer lost?</summary><p>No. The timer remembers when the rest ends, so it shows the right time again when you come back, even after reloading the page.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your workouts stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection, even in a gym basement. Use <b>Save a backup file</b> to move to a new phone.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/workout-log-for-the-gym">Open source (MIT)</a></footer>
+</main>
+<datalist id="ex-names"></datalist>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Workout Log for the Gym", "sections": [
+ {"h": "First time", "steps": ["Pick \"Push, Pull, Legs\", \"Upper and Lower\" or \"Full body\" to get ready-made plans, or tap \"+ Make a new workout plan\" to make your own.", "Each plan is a list of exercises in the order you do them. Tap \"Change\" on a plan to rename it, add or remove exercises, move them up or down, or set a different rest time for one exercise."]},
+ {"h": "At the gym", "steps": ["Tap \"Start\" on the plan you are doing today, or \"Start an empty workout\" and add exercises as you go.", "Each exercise has its own box. \"Last time\" shows the sets from the last workout with that exercise, and \"Your best\" shows your strongest set.", "The weight and reps boxes are filled in from last time. Change them with − and + or by typing, then tap \"Log set\". For a plank, type the time, like 45 or 1:30.", "Tick \"Warm-up\" before logging a warm-up set. Warm-ups do not count towards bests or the total lifted.", "After each set the rest timer counts down in that exercise's box. \"+30 s\" adds time and \"Skip rest\" stops it. It beeps and vibrates at the end.", "\"New best\" appears next to a set when you beat what you have done before.", "Made a mistake? Tap \"Edit\" next to a set to change or delete it.", "Skip an exercise by not logging any sets; it is listed as skipped.", "\"+ Add an exercise\" adds one just for today, or tick \"Also add it to the plan\".", "\"Finish workout\" shows how long it took, the sets, the total weight lifted and your new bests. \"Discard workout\" throws it away, with \"Undo\"."]},
+ {"h": "History and progress", "steps": ["\"History\" lists your finished workouts, newest first. \"Copy\" copies one, \"Edit\" changes it and \"Delete\" removes it, with \"Undo\".", "\"+ Add a workout I did earlier\" logs a workout you did without the app.", "\"Progress by exercise\" shows each exercise's best set and when you last did it. \"Show progress\" opens a chart and every workout's sets. There you can rename an exercise (its history stays) or change its rest time."]},
+ {"h": "Settings and backup", "steps": ["\"Weights in\" switches between kg and lb. Sets you logged before are converted for showing.", "\"Rest timer after each set\" sets the usual rest. Choose \"Off\" for no timer, or \"Other\" for any number of seconds.", "\"Save a backup file\" saves everything in one file; \"Restore a backup\" brings it back on this or a new phone. \"Download all sets\" gives a CSV for a spreadsheet.", "\"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Forgot to press \"Finish workout\"? Hours later the app asks, and \"Finish it\" ends the workout at your last set.", "The rest timer keeps going when the phone locks or the page reloads.", "Sound can only play after you have tapped something on the page, which logging a set does.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -256,5 +256,11 @@
     "name": "Weight Tracker with Goal Date",
     "description": "Log your weight in kg, lb or stone and see a 7-day average that hides daily swings, your weekly change, BMI and the date you reach your goal at your pace. Private, works offline.",
     "color": "#12b886"
+  },
+  {
+    "slug": "workout-log-for-the-gym",
+    "name": "Workout Log for the Gym",
+    "description": "See what you lifted last time for every exercise, log each set in one tap, rest timer, new-best notes and progress charts. kg or lb, private, works offline.",
+    "color": "#e03131"
   }
 ]

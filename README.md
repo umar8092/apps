@@ -350,6 +350,12 @@ Losing (or gaining) weight and want to know if it is really working? Log your we
 
 <a href="weight-tracker-with-goal-date/"><img src="weight-tracker-with-goal-date/screenshots/phone.png" alt="Weight Tracker with Goal Date screenshot" width="260"></a>
 
+### <img src="workout-log-for-the-gym/favicon.svg" width="36" height="36" align="center"> [Workout Log for the Gym](https://umar8092.github.io/apps/workout-log-for-the-gym/)
+
+Can't remember what you lifted last time? Start Push, Pull, Legs (or your own plan) and every exercise shows "Last time, Mon 12 Oct: 60 kg: 8, 8, 7 reps" with the boxes already filled in, so logging a set is one tap. A rest timer counts down after each set (and survives the phone locking), a "New best" note appears when you beat yourself, and the finish screen shows the time, sets, total lifted and new bests. Weight and reps, bodyweight moves with optional extra weight, and timed holds like planks; kg or lb; warm-up sets; progress chart per exercise; history with edit, copy and undo; backup and CSV. No account, private, works offline in a gym basement.
+
+[**Open the app**](https://umar8092.github.io/apps/workout-log-for-the-gym/) &middot; [Details and screenshots](workout-log-for-the-gym/)
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
