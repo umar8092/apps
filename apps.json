@@ -244,5 +244,11 @@
     "name": "Spaced Repetition Flashcards for Exams",
     "description": "Paste your notes as flashcards and study only the cards due today. Each card comes back just before you would forget it, and an exam date makes sure every card is reviewed in time. No account, private, works offline.",
     "color": "#f08c00"
+  },
+  {
+    "slug": "schengen-and-visa-stay-day-counter",
+    "name": "Schengen and Visa Stay Day Counter",
+    "description": "Add your trips and see how many of your 90 days you have used in the last 180, the last day you can stay, and when your days come back. Other rules too. Private, works offline.",
+    "color": "#3b5bdb"
   }
 ]

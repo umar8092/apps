@@ -334,6 +334,14 @@ Got an exam or a language to learn? Paste your notes as flashcards ("der Hund - 
 
 <a href="spaced-repetition-flashcards-for-exams/"><img src="spaced-repetition-flashcards-for-exams/screenshots/phone.png" alt="Spaced Repetition Flashcards for Exams screenshot" width="260"></a>
 
+### <img src="schengen-and-visa-stay-day-counter/favicon.svg" width="36" height="36" align="center"> [Schengen and Visa Stay Day Counter](https://umar8092.github.io/apps/schengen-and-visa-stay-day-counter/)
+
+Add your trips and see how many of your 90 days you have used in the last 180, the real last day you can stay if you enter today or on any day you plan, when your days start coming back and when a full 90 days is possible again. Trips still going on, planned trips, other rules and travellers, calendar reminders.
+
+[**Open the app**](https://umar8092.github.io/apps/schengen-and-visa-stay-day-counter/) &middot; [Details and screenshots](schengen-and-visa-stay-day-counter/)
+
+<a href="schengen-and-visa-stay-day-counter/"><img src="schengen-and-visa-stay-day-counter/screenshots/phone.png" alt="Schengen and Visa Stay Day Counter screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
