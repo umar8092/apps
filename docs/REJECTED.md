@@ -12,3 +12,4 @@ Weak, niche or one-off. Many sites already do them, and nobody keeps them.
 - Bill due-date reminder for rent and utilities: the Subscription Tracker already lists any repeating payment with its next date and reminders; extend it instead.
 - Quote or estimate maker as its own app: the Invoice Generator for Freelancers already has the form, items, tax and print; add a "Quote" document type there instead.
 - Road-Trip Fuel Cost Calculator (taken off the queue 2026-10-15): a single formula (distance x fuel use x price) that many sites and map apps already give, used once per trip; the Fuel Log and Car Running Cost Tracker already shows real cost per km.
+- Rent and household bills splitter for housemates (considered 2026-10-17): Bill Splitter already says who pays whom for a shared bill, and Money Lent and Borrowed Tracker keeps running balances between people; a third money-sharing app would duplicate both.

@@ -262,5 +262,11 @@
     "name": "Workout Log for the Gym",
     "description": "See what you lifted last time for every exercise, log each set in one tap, rest timer, new-best notes and progress charts. kg or lb, private, works offline.",
     "color": "#e03131"
+  },
+  {
+    "slug": "pomodoro-focus-timer-for-study-and-work",
+    "name": "Pomodoro Focus Timer for Study and Work",
+    "description": "Focus on one task for 25 minutes, take a short break, and see how much focus time each task got today and this week. Keeps time when the phone locks, private, works offline.",
+    "color": "#f04e37"
   }
 ]

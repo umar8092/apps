@@ -356,6 +356,12 @@ Can't remember what you lifted last time? Start Push, Pull, Legs (or your own pl
 
 [**Open the app**](https://umar8092.github.io/apps/workout-log-for-the-gym/) &middot; [Details and screenshots](workout-log-for-the-gym/)
 
+### <img src="pomodoro-focus-timer-for-study-and-work/favicon.svg" width="36" height="36" align="center"> [Pomodoro Focus Timer for Study and Work](https://umar8092.github.io/apps/pomodoro-focus-timer-for-study-and-work/)
+
+Keep drifting to your phone while studying or working from home? Pick a task, press Start focus and work on only that for 25 minutes (or 50, 90 or your own length). A bell rings, you take a 5-minute break, and after every 4 blocks a longer one. The app logs real focus time per task, so the day ends with "1 h 52 min of focus, Thesis chapter 2: 1 h 27 min", plus a 7-day chart, a daily goal and a streak. Blocks stopped early can be counted or not, paste a whole task list, copy or email the summary. It keeps the right time when the phone locks. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/pomodoro-focus-timer-for-study-and-work/) &middot; [Details and screenshots](pomodoro-focus-timer-for-study-and-work/)
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

@@ -1,0 +1,15 @@
+{
+  "name": "Pomodoro Focus Timer for Study and Work",
+  "short_name": "Focus Timer",
+  "description": "Focus on one task for a set time, take a short break, and see where your focus time went.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#2b1612",
+  "theme_color": "#e03e26",
+  "categories": ["productivity", "education"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

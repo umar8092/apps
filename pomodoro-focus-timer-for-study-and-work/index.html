@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Focus Timer for Study and Work: 25-Minute Blocks with a Task List</title>
+    <meta name="description" content="Free Pomodoro focus timer for study and work. Pick a task, focus for 25 minutes (or your own length), take a 5-minute break and a long break after 4 blocks, with a bell when time is up. See how much focus time each task got today and this week. Keeps time when the phone locks, no sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/pomodoro-focus-timer-for-study-and-work/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#f04e37">
+    <meta name="theme-color" content="#e03e26">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Pomodoro Focus Timer for Study and Work">
+    <meta property="og:url" content="https://umar8092.github.io/apps/pomodoro-focus-timer-for-study-and-work/">
+    <meta property="og:title" content="Pomodoro Focus Timer for Study and Work">
+    <meta property="og:description" content="Focus in 25-minute blocks with short breaks, and see how much real focus time each task got today and this week. Free, private, no sign-up, works offline.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Pomodoro Focus Timer for Study and Work","alternateName":["Pomodoro Timer","Focus Timer","Study Timer","Tomato Timer","Pomodoro Timer with Task List"],"url":"https://umar8092.github.io/apps/pomodoro-focus-timer-for-study-and-work/","description":"A free Pomodoro timer with a task list. Focus blocks, short and long breaks, a bell at the end, and focus time per task for today and the last 7 days, private on your device.","applicationCategory":"ProductivityApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"pomodoro timer, focus timer, study timer, pomodoro with tasks, 25 minute timer, tomato timer, deep work timer","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the Pomodoro technique?","acceptedAnswer":{"@type":"Answer","text":"You work on one task for a short, fixed block (usually 25 minutes) with no phone and no switching, then take a 5-minute break. After 4 blocks you take a longer break of 15 to 30 minutes. The timer does the clock-watching for you."}},{"@type":"Question","name":"Does the timer keep going when my phone locks?","acceptedAnswer":{"@type":"Answer","text":"Yes. The timer saves the time the block ends, not a countdown, so when you come back it shows the right time, or tells you the block ended and counts it."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your tasks and focus time stay in this browser on this device. There is no account, your data is never sent anywhere, and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Pomodoro Focus Timer for Study and Work</h1>
+        <p class="sub">Focus on one task for a set time, take a short break, and see where your focus time went.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. The timer works, but your tasks and focus time will be lost when you close it.</p>
+
+    <div class="col-main">
+        <section class="card timer" id="timer" data-mode="focus" aria-labelledby="timer-h">
+            <h2 id="timer-h" class="vh">Timer</h2>
+            <div class="modes" role="group" aria-label="What the timer is for">
+                <button type="button" class="mode" data-mode="focus" aria-pressed="true">Focus</button>
+                <button type="button" class="mode" data-mode="short" aria-pressed="false">Short break</button>
+                <button type="button" class="mode" data-mode="long" aria-pressed="false">Long break</button>
+            </div>
+            <p class="phase" id="phase"></p>
+            <div class="time" id="time" role="timer" aria-live="off">25:00</div>
+            <p class="ends" id="ends"></p>
+            <p class="working" id="working"></p>
+            <div class="ctrl">
+                <button type="button" class="primary big" id="go">Start</button>
+                <button type="button" class="secondary" id="skip">Skip to break</button>
+                <button type="button" class="secondary" id="reset">Start this block again</button>
+            </div>
+            <div class="ask" id="ask" hidden>
+                <p id="ask-text"></p>
+                <div class="row-btns">
+                    <button type="button" class="primary" id="ask-yes">Count it</button>
+                    <button type="button" class="secondary" id="ask-no">Do not count it</button>
+                    <button type="button" class="secondary" id="ask-back">Keep going</button>
+                </div>
+            </div>
+            <div class="msg" id="timer-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card day" id="day" aria-labelledby="day-h">
+            <div class="head-row">
+                <h2 id="day-h">Today</h2>
+                <button type="button" class="secondary small" id="day-today" hidden>Back to today</button>
+            </div>
+            <p class="total" id="day-total"></p>
+            <div class="goal" id="goal" hidden>
+                <div class="bar" aria-hidden="true"><i id="goal-fill"></i></div>
+                <p class="hint" id="goal-text"></p>
+            </div>
+            <ul class="split" id="day-tasks"></ul>
+            <h3 class="label-like" id="day-log-h">Focus blocks</h3>
+            <p class="hint" id="day-empty">No focus time yet. Press Start to begin your first block.</p>
+            <ol class="log" id="day-log" aria-labelledby="day-log-h"></ol>
+            <div class="row-btns two">
+                <button type="button" class="secondary" id="copy">Copy this summary</button>
+                <a class="secondary" id="email" href="mailto:">Email this summary</a>
+            </div>
+            <button type="button" class="link" id="add-past">+ Add focus time I did without the timer (optional)</button>
+            <form class="sub-form" id="past-form" hidden novalidate>
+                <h3 class="label-like">Add focus time</h3>
+                <label for="past-task">Task</label>
+                <select id="past-task"></select>
+                <div class="pair">
+                    <div><label for="past-date">Day</label><input id="past-date" type="date"></div>
+                    <div><label for="past-time">Started at</label><input id="past-time" type="time"></div>
+                </div>
+                <label for="past-mins">How many minutes</label>
+                <div class="inline"><input id="past-mins" type="text" inputmode="numeric" maxlength="3" placeholder="25"><span class="unit">min (1 to 600)</span></div>
+                <label class="check"><input type="checkbox" id="past-full" checked> It was a full focus block</label>
+                <p class="err" id="past-err" role="alert"></p>
+                <div class="row-btns two">
+                    <button type="submit" class="primary">Add it</button>
+                    <button type="button" class="secondary" id="past-cancel">Cancel</button>
+                </div>
+            </form>
+            <div class="msg" id="day-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card tasks" id="tasks" aria-labelledby="tasks-h">
+            <h2 id="tasks-h">Your tasks</h2>
+            <form id="add-form" novalidate>
+                <label for="task-new">What will you work on?</label>
+                <input id="task-new" type="text" maxlength="120" autocomplete="off" placeholder="e.g. Revise chapter 3">
+                <button type="button" class="link" id="add-est-btn">+ Add how many blocks it needs (optional)</button>
+                <div class="inline" id="add-est-row" hidden>
+                    <input id="task-est" type="text" inputmode="numeric" maxlength="2" aria-label="Blocks it needs" placeholder="4">
+                    <span class="unit">focus blocks it needs (1 to 50)</span>
+                </div>
+                <p class="err" id="add-err" role="alert"></p>
+                <button type="submit" class="primary">Add task</button>
+                <p class="hint">Pasting a list adds one task per line. Tap “Work on this” to time a task.</p>
+            </form>
+            <ul class="box-list" id="task-list" aria-label="Tasks"></ul>
+            <p class="hint" id="tasks-empty">No tasks yet. You can also focus without one.</p>
+            <button type="button" class="secondary" id="clear-done" hidden>Remove finished tasks</button>
+            <div class="msg" id="tasks-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card week" id="week" aria-labelledby="week-h">
+            <h2 id="week-h">Last 7 days</h2>
+            <p class="total" id="week-total"></p>
+            <div class="bars" id="bars" role="group" aria-label="Focus time per day. Pick a day to see its blocks."></div>
+        </section>
+    </div>
+
+    <section class="card settings" id="settings" aria-labelledby="set-h">
+        <h2 id="set-h">Timer settings</h2>
+        <p class="label-like" id="preset-h">Quick choices</p>
+        <div class="preset-grid" role="group" aria-labelledby="preset-h">
+            <button type="button" class="preset" data-preset="classic"><b>25 + 5</b><span>Classic: long break 15 min after 4 blocks</span></button>
+            <button type="button" class="preset" data-preset="long"><b>50 + 10</b><span>Longer: long break 30 min after 3 blocks</span></button>
+            <button type="button" class="preset" data-preset="deep"><b>90 + 20</b><span>Deep work: long break 30 min after 2 blocks</span></button>
+        </div>
+        <div class="set-grid">
+            <div class="field" data-key="focus">
+                <label for="s-focus">Focus block</label>
+                <select id="s-focus"></select>
+                <div class="inline" hidden><input type="text" inputmode="numeric" maxlength="3" aria-label="Focus block in minutes"><span class="unit">min (1 to 180)</span></div>
+            </div>
+            <div class="field" data-key="short">
+                <label for="s-short">Short break</label>
+                <select id="s-short"></select>
+                <div class="inline" hidden><input type="text" inputmode="numeric" maxlength="2" aria-label="Short break in minutes"><span class="unit">min (1 to 60)</span></div>
+            </div>
+            <div class="field" data-key="long">
+                <label for="s-long">Long break</label>
+                <select id="s-long"></select>
+                <div class="inline" hidden><input type="text" inputmode="numeric" maxlength="2" aria-label="Long break in minutes"><span class="unit">min (1 to 90)</span></div>
+            </div>
+            <div class="field" data-key="every">
+                <label for="s-every">Take the long break</label>
+                <select id="s-every"></select>
+            </div>
+            <div class="field" data-key="goal">
+                <label for="s-goal">Daily goal</label>
+                <select id="s-goal"></select>
+                <div class="inline" hidden><input type="text" inputmode="numeric" maxlength="2" aria-label="Daily goal in focus blocks"><span class="unit">blocks a day (1 to 30)</span></div>
+            </div>
+            <div class="field" data-key="sound">
+                <label for="s-sound">Sound when time is up</label>
+                <div class="with-btn">
+                    <select id="s-sound">
+                        <option value="bell">Bell</option>
+                        <option value="beep">Beeps</option>
+                        <option value="off">No sound</option>
+                    </select>
+                    <button type="button" class="secondary small" id="test-sound">Play</button>
+                </div>
+            </div>
+        </div>
+        <p class="err" id="set-err" role="alert"></p>
+        <p class="hint" id="set-note" hidden>The block that is running keeps its length. Changes apply from the next one.</p>
+        <div class="checks">
+            <label class="check"><input type="checkbox" id="s-autoBreak"> Start breaks by themselves</label>
+            <label class="check"><input type="checkbox" id="s-autoFocus"> Start the next focus block by itself after a break</label>
+            <label class="check"><input type="checkbox" id="s-vibrate"> Vibrate when time is up (phones)</label>
+            <label class="check"><input type="checkbox" id="s-awake"> Keep the screen on while the timer runs</label>
+            <label class="check"><input type="checkbox" id="s-notify"> Show a notification when time is up</label>
+        </div>
+        <div class="tool-grid">
+            <button type="button" class="secondary" id="backup">Save a backup file</button>
+            <button type="button" class="secondary" id="restore">Restore a backup</button>
+            <button type="button" class="secondary" id="csv">Download focus log (CSV)</button>
+        </div>
+        <input type="file" id="restore-file" accept=".json,application/json" hidden>
+        <button type="button" class="danger" id="wipe">Delete all tasks and focus time</button>
+        <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="faq" aria-labelledby="faq-h">
+        <h2 id="faq-h">Questions</h2>
+        <details><summary>What is the Pomodoro technique?</summary><p>Pick one task and work on it, with no phone and no switching, for a short fixed block (usually 25 minutes). Then take a 5-minute break: stand up, drink water, look away from the screen. After 4 blocks take a longer break of 15 to 30 minutes. Short blocks are easier to start, and the breaks keep you fresh for longer.</p></details>
+        <details><summary>My phone locked (or I closed the page). Is the block lost?</summary><p>No. The timer saves the time the block ends. When you come back it shows the right time left, or says the block ended and counts it. A focus block never starts by itself while you are away, so your log only holds time you really focused.</p></details>
+        <details><summary>I stopped a block early. Does it count?</summary><p>When you press <b>Skip to break</b> or <b>Start this block again</b> after a minute or more, the app asks. <b>Count it</b> adds the minutes you did (shown as “+ 12 min”), but only full blocks count towards the long break and your daily goal.</p></details>
+        <details><summary>Why did I not hear the bell?</summary><p>Browsers only play sound after you have tapped the page, which pressing Start does. If the phone is on silent or the page was closed, there is no sound; turn on <b>Show a notification</b> on a computer, or keep the page open. Press <b>Play</b> in the settings to test it.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your tasks and focus time stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Use <b>Save a backup file</b> to move to another device.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/pomodoro-focus-timer-for-study-and-work">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Pomodoro Focus Timer", "sections": [
+ {"h": "Focus on a task", "steps": ["Type what you will work on under \"What will you work on?\" and press \"Add task\". Pasting a list adds one task per line.", "Tap \"Work on this\" on a task. The timer shows \"Working on\" with its name. You can also focus without a task.", "Press \"Start\". The big clock counts down the focus block (25 minutes unless you change it) and shows the time it ends.", "\"Pause\" stops the clock and \"Resume\" carries on. The tab title shows the time left.", "When time is up you hear the bell, the block is added to today's focus time, and the timer moves to a break. Press \"Start\" for the break."]},
+ {"h": "Breaks", "steps": ["After each focus block comes a short break (5 minutes). After every 4 blocks comes a long break (15 minutes). The line above the clock says which block you are on.", "\"Skip to break\" ends a focus block early, and \"Skip break\" goes straight back to focus.", "\"Start this block again\" puts the clock back to the full length.", "If you stop a focus block after a minute or more, the app asks: \"Count it\" keeps the minutes you did, \"Do not count it\" throws them away and \"Keep going\" carries on.", "The \"Focus\", \"Short break\" and \"Long break\" buttons at the top switch the timer by hand (not while it is running)."]},
+ {"h": "Your focus time", "steps": ["\"Today\" shows your total focus time, each task's share, and every block with its start and end time.", "\"Edit\" on a block changes its task or minutes, and \"Delete\" removes it, with \"Undo\".", "\"+ Add focus time I did without the timer\" adds time you forgot to log.", "\"Copy this summary\" and \"Email this summary\" give a plain text report, for example for a teacher or a timesheet.", "\"Last 7 days\" shows a bar per day, the week's total and how many days in a row you have focused. Tap a bar to see that day."]},
+ {"h": "Tasks", "steps": ["Each task shows its full blocks and focus time. \"+ Add how many blocks it needs\" lets you plan, for example 4 blocks, and see \"2 of 4 blocks\".", "Tick \"Finished\" when a task is done. \"Edit\" renames it or changes the blocks it needs, \"Delete\" removes it (its time stays in your log), with \"Undo\".", "\"Remove finished tasks\" clears ticked tasks."]},
+ {"h": "Settings", "steps": ["Quick choices set 25 + 5, 50 + 10 or 90 + 20 in one tap. Or choose each length yourself, with \"Other\" for any number of minutes.", "\"Take the long break\" sets after how many blocks it comes, or never.", "\"Daily goal\" shows a bar towards a number of blocks a day.", "\"Start breaks by themselves\" and \"Start the next focus block by itself\" save a tap.", "\"Sound when time is up\" picks the bell, beeps or no sound, and \"Play\" tests it. You can also turn on vibration, keeping the screen on and a notification.", "\"Save a backup file\" and \"Restore a backup\" move everything to another device. \"Download focus log\" gives a CSV for a spreadsheet."]},
+ {"h": "Good to know", "tips": true, "steps": ["The timer keeps the right time when the phone locks or the page is closed. A focus block never starts by itself while you are away.", "Press the Space bar to start or pause when you are not typing in a box.", "Sound needs one tap on the page first; pressing Start does that.", "A new day starts the count to the long break again.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
