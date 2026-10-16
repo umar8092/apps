@@ -238,5 +238,11 @@
     "name": "Period and Ovulation Calendar",
     "description": "Tap the day each period starts and see when the next one is due, your likely fertile days and ovulation, and if your period is late. Private, on your device.",
     "color": "#e64980"
+  },
+  {
+    "slug": "spaced-repetition-flashcards-for-exams",
+    "name": "Spaced Repetition Flashcards for Exams",
+    "description": "Paste your notes as flashcards and study only the cards due today. Each card comes back just before you would forget it, and an exam date makes sure every card is reviewed in time. No account, private, works offline.",
+    "color": "#f08c00"
   }
 ]

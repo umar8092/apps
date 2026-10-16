@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spaced Repetition Flashcards for Exams: Free, Private, Offline</title>
+    <meta name="description" content="Free spaced repetition flashcards for exams and languages. Paste your notes as cards, study only the cards due today and the app brings each one back just before you would forget it, so everything is reviewed before your exam date. No account, your cards stay on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/spaced-repetition-flashcards-for-exams/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#f08c00">
+    <meta name="theme-color" content="#e67700">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Spaced Repetition Flashcards for Exams">
+    <meta property="og:url" content="https://umar8092.github.io/apps/spaced-repetition-flashcards-for-exams/">
+    <meta property="og:title" content="Spaced Repetition Flashcards for Exams: Free, Private">
+    <meta property="og:description" content="Paste your notes as flashcards and study only what is due today. Every card is reviewed before your exam. No account, works offline.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Spaced Repetition Flashcards for Exams","alternateName":["Flashcard App","Spaced Repetition Flashcards","Free Quizlet Alternative","Vocabulary Flashcards"],"url":"https://umar8092.github.io/apps/spaced-repetition-flashcards-for-exams/","description":"Free spaced repetition flashcards. Paste your notes as cards, study the cards due today, and the app schedules each card again just before you would forget it, with an exam date so every card is reviewed in time.","applicationCategory":"EducationalApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"flashcards, spaced repetition, flashcard app free no account, study for exams, vocabulary flashcards, anki alternative, quizlet alternative free","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is spaced repetition?","acceptedAnswer":{"@type":"Answer","text":"You see each card again just before you would forget it. A card you know comes back after 1 day, then about 3 days, then 8, then 3 weeks and so on. A card you forget comes back today. You spend your time on the cards you do not know yet."}},{"@type":"Question","name":"What does the exam date do?","acceptedAnswer":{"@type":"Answer","text":"No card is scheduled later than the day before your exam, so everything comes up once more in time. The app also tells you if all your new cards will be started before the exam at your new cards a day, and how many a day you need if not."}},{"@type":"Question","name":"Are my cards private?","acceptedAnswer":{"@type":"Answer","text":"Yes. There is no account. Your cards stay in this browser on this device and are never sent anywhere. Save a backup file to keep a copy or move to another device."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Spaced Repetition Flashcards for Exams</h1>
+        <p class="sub">Study only the cards due today. Each card comes back just before you would forget it, and everything is reviewed before your exam.</p>
+    </header>
+
+    <div class="col-main">
+        <section class="card today" id="today" aria-labelledby="t-big">
+            <p class="t-date" id="t-date"></p>
+            <h2 class="t-big" id="t-big" aria-live="polite"></h2>
+            <p class="t-sub" id="t-sub"></p>
+            <p class="streak" id="streak" hidden></p>
+            <button type="button" class="primary" id="study-all" hidden></button>
+        </section>
+
+        <section class="card study" id="study" aria-labelledby="st-deck" hidden>
+            <div id="st-run">
+                <div class="st-top">
+                    <p class="st-deck" id="st-deck"></p>
+                    <p class="st-left" id="st-left"></p>
+                </div>
+                <div class="bar" aria-hidden="true"><i id="st-bar"></i></div>
+                <div class="face" id="face" aria-live="polite">
+                    <p class="side-tag" id="q-tag">Question</p>
+                    <p class="q" id="q"></p>
+                    <div id="a-wrap" hidden>
+                        <hr>
+                        <p class="side-tag">Answer</p>
+                        <p class="a" id="a"></p>
+                    </div>
+                </div>
+                <form class="edit-in" id="st-edit" novalidate hidden>
+                    <label for="st-ef">Front (question)</label>
+                    <textarea id="st-ef" rows="2" maxlength="1000"></textarea>
+                    <label for="st-eb">Back (answer)</label>
+                    <textarea id="st-eb" rows="2" maxlength="1000"></textarea>
+                    <p class="err" id="st-eerr" role="alert"></p>
+                    <div class="two"><button type="submit" class="primary">Save card</button><button type="button" class="secondary" id="st-ecancel">Cancel</button></div>
+                </form>
+                <button type="button" class="primary show" id="show">Show answer</button>
+                <div class="grades" id="grades" role="group" aria-label="How well did you know it?" hidden>
+                    <p class="g-h">How well did you know it?</p>
+                    <div class="g-row">
+                        <button type="button" class="g g1" data-g="1"><b>Again</b><small id="g1"></small></button>
+                        <button type="button" class="g g2" data-g="2"><b>Hard</b><small id="g2"></small></button>
+                        <button type="button" class="g g3" data-g="3"><b>Good</b><small id="g3"></small></button>
+                        <button type="button" class="g g4" data-g="4"><b>Easy</b><small id="g4"></small></button>
+                    </div>
+                    <p class="cap-note" id="cap-note" hidden></p>
+                </div>
+                <div class="st-tools">
+                    <button type="button" class="mini" id="st-undo" disabled>Undo answer</button>
+                    <button type="button" class="mini" id="st-editbtn">Edit card</button>
+                    <button type="button" class="mini" id="st-stop">Stop for now</button>
+                </div>
+                <p class="keys-hint">Keyboard: Space shows the answer, 1 2 3 4 answer.</p>
+            </div>
+            <div id="st-done" hidden>
+                <h2 class="done-h" id="done-h" tabindex="-1">Done for today</h2>
+                <p class="done-sub" id="done-sub"></p>
+                <button type="button" class="secondary" id="more-new" hidden></button>
+                <button type="button" class="primary" id="done-close">Close</button>
+            </div>
+        </section>
+
+        <section class="card decks" id="decks" aria-labelledby="decks-h">
+            <h2 id="decks-h">Your decks</h2>
+            <ul class="dlist" id="dlist"></ul>
+            <form class="newdeck" id="newdeck" novalidate>
+                <label for="nd-name" id="nd-label">New deck name</label>
+                <div class="add-row">
+                    <input id="nd-name" type="text" maxlength="60" placeholder="e.g. Biology" autocomplete="off">
+                    <button type="submit" class="secondary" id="nd-go">Make deck</button>
+                </div>
+                <p class="err" id="nd-err" role="alert"></p>
+            </form>
+            <button type="button" class="ghost" id="example">Try an example deck</button>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card deck" id="deck" aria-labelledby="dk-name" hidden>
+            <div class="dk-top">
+                <h2 id="dk-name" tabindex="-1"></h2>
+                <button type="button" class="mini" id="dk-close">Close deck</button>
+            </div>
+            <p class="dk-meta" id="dk-meta"></p>
+
+            <h3 class="sub-h" id="add-h">Add cards</h3>
+            <form id="add-form" novalidate>
+                <label for="add-f">Front (question)</label>
+                <textarea id="add-f" rows="2" maxlength="1000" placeholder="e.g. der Hund"></textarea>
+                <label for="add-b">Back (answer)</label>
+                <textarea id="add-b" rows="2" maxlength="1000" placeholder="e.g. the dog"></textarea>
+                <p class="err" id="add-err" role="alert"></p>
+                <button type="submit" class="primary" id="add-go">Add card</button>
+                <p class="hint">Enter in Back adds the card. Front and back can each be up to 1000 characters.</p>
+            </form>
+            <details class="paste" id="paste-box">
+                <summary>Paste many cards at once</summary>
+                <label for="paste">One card per line: front, then a separator, then back</label>
+                <textarea id="paste" rows="6" placeholder="der Hund - the dog&#10;die Katze - the cat"></textarea>
+                <label for="sep">Front and back are split by</label>
+                <select id="sep">
+                    <option value="auto">Find it for me (tab, dash, =, ;, : or ,)</option>
+                    <option value="tab">Tab (copied from a spreadsheet)</option>
+                    <option value="dash">Dash with spaces ( - )</option>
+                    <option value="eq">Equals sign ( = )</option>
+                    <option value="semi">Semicolon ( ; )</option>
+                    <option value="colon">Colon ( : )</option>
+                    <option value="comma">Comma ( , )</option>
+                </select>
+                <button type="button" class="secondary wide" id="paste-file-btn">Open a text or CSV file</button>
+                <input type="file" id="paste-file" accept=".txt,.csv,.tsv,text/plain,text/csv" hidden>
+                <div class="preview" id="preview" aria-live="polite"></div>
+                <button type="button" class="primary" id="paste-go" disabled>Add cards</button>
+            </details>
+
+            <h3 class="sub-h" id="cards-h">Cards in this deck <span class="count" id="cards-n"></span></h3>
+            <input id="search" type="search" placeholder="Search cards" aria-label="Search cards in this deck" autocomplete="off">
+            <ul class="clist" id="clist"></ul>
+            <button type="button" class="link center" id="cmore" hidden></button>
+
+            <h3 class="sub-h" id="set-h">Deck settings</h3>
+            <label for="d-name">Deck name</label>
+            <input id="d-name" type="text" maxlength="60" autocomplete="off">
+            <label for="d-new">New cards a day</label>
+            <div class="add-row nr">
+                <select id="d-new"></select>
+                <input id="d-new-custom" type="number" min="0" max="999" step="1" inputmode="numeric" aria-label="Your own number of new cards a day" hidden>
+            </div>
+            <p class="plan" id="d-plan"></p>
+            <button type="button" class="secondary wide" id="d-plan-fix" hidden></button>
+            <button type="button" class="ghost" id="d-exam-add">+ Add exam date (optional)</button>
+            <div id="d-exam-wrap" hidden>
+                <label for="d-exam">Exam date</label>
+                <div class="add-row">
+                    <input id="d-exam" type="date">
+                    <button type="button" class="secondary" id="d-exam-del">Remove</button>
+                </div>
+                <p class="err" id="d-exam-err" role="alert"></p>
+            </div>
+            <label class="check"><input type="checkbox" id="d-rev"> Also ask back to front (show the answer, you say the question)</label>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="d-copy">Copy cards</button>
+                <a class="secondary" id="d-mail" href="mailto:">Email cards</a>
+                <button type="button" class="secondary" id="d-csv">Save as CSV</button>
+                <button type="button" class="secondary" id="d-print">Print cards</button>
+            </div>
+            <button type="button" class="secondary wide" id="d-reset">Start this deck over (forget progress)</button>
+            <button type="button" class="danger" id="d-del">Delete this deck</button>
+            <p class="msg" id="d-msg" role="status"></p>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and your data</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="export">Save backup file</button>
+                <button type="button" class="secondary" id="import">Load backup file</button>
+            </div>
+            <input type="file" id="import-file" accept=".json,application/json" hidden>
+            <p class="hint">Your cards are saved only in this browser on this device. Your data is never sent anywhere. Save a backup file now and then, or to move to another phone or computer.</p>
+            <p class="msg warn" id="save-warn" role="status" hidden>This browser is not saving your cards (private mode, storage blocked or full). They stay only until you close this page. Use Save backup file to keep them.</p>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <p class="msg" id="tools-msg" role="status"></p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>What is spaced repetition?</summary><p>You see each card again just before you would forget it. A new card you know comes back tomorrow, then after about 3 days, then 8, then 3 weeks, then 2 months. A card you forget comes back in a few minutes and starts again. So you spend your time on the cards you do not know yet, and 15 minutes a day is enough for hundreds of cards.</p></details>
+        <details><summary>Which button should I press?</summary><p><b>Again</b>: you did not know it. <b>Hard</b>: you got it, but only just. <b>Good</b>: you knew it after a moment. <b>Easy</b>: you knew it at once. The small text under each button says when you will see the card again. Be honest: pressing Good when you guessed just means you meet it again later than you should.</p></details>
+        <details><summary>What does the exam date do?</summary><p>No card is put off past the day before your exam, so every card you have started comes up once more in time. The app also works out when all your new cards will have been started at your <b>New cards a day</b>, and if that is too late for the exam, how many a day you need, with a button to use that number.</p></details>
+        <details><summary>I missed a few days. What happens?</summary><p>Nothing is lost. The cards you missed are still due, the most overdue first. If there are a lot, study some and tap <b>Stop for now</b>: what you answered is saved, and the rest wait for later or tomorrow.</p></details>
+        <details><summary>Can I bring cards from Quizlet, Anki or a spreadsheet?</summary><p>Yes. Copy two columns (front and back) from a spreadsheet, or export from Quizlet or Anki as text, and paste into <b>Paste many cards at once</b>. You can also open a .txt or .csv file there. <b>Copy cards</b> and <b>Save as CSV</b> take your cards the other way.</p></details>
+        <details><summary>Are my cards private?</summary><p>Yes. No account and no sign-up. Your cards stay in this browser on this device and are never sent anywhere. The app works offline once it has loaded. Use <b>Save backup file</b> to keep a copy or move to another device.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/spaced-repetition-flashcards-for-exams">Open source (MIT)</a></footer>
+</main>
+<div class="toast" id="toast" role="status" hidden><span id="toast-text"></span><button type="button" id="toast-undo">Undo</button></div>
+<div id="print-area"></div>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Spaced Repetition Flashcards for Exams", "sections": [
+ {"h": "Make a deck and add cards", "steps": ["Under \"Your decks\" type a name in \"New deck name\" (for example Biology chapter 3) and tap \"Make deck\". The deck opens on the right (below on a phone).", "Type the question in \"Front (question)\" and the answer in \"Back (answer)\", then tap \"Add card\" or press Enter.", "Have notes or a word list? Open \"Paste many cards at once\" and paste one card per line, like \"der Hund - the dog\". The app finds the separator (tab, dash, =, ;, : or comma) or you pick it under \"Front and back are split by\". It shows how many cards it found and which lines it skipped before you tap \"Add cards\". \"Open a text or CSV file\" fills the box from a file.", "Want to look around first? Tap \"Try an example deck\"."]},
+ {"h": "Study every day", "steps": ["The top box says how many cards to study today: cards due again plus today's new cards. Tap \"Study all\", or \"Study\" in one deck's box.", "Think of the answer, then tap \"Show answer\" (or press Space).", "Tap how well you knew it: \"Again\" (did not know it), \"Hard\", \"Good\" or \"Easy\" (or press 1, 2, 3, 4). The small text under each button says when you will see the card again.", "\"Undo answer\" takes back your last answer. \"Edit card\" fixes a typo. \"Stop for now\" ends the session: what you answered is saved.", "When nothing is left you see \"Done for today\" and how many cards come tomorrow. \"Learn 10 more new cards\" gives you more if you want them."]},
+ {"h": "Your decks and exam date", "steps": ["Each deck's box shows how many cards are due, and how many are new, learning (seen, but not yet known for a week) and known (you remember it for a week or more).", "Tap \"Open deck\" to add cards, search, edit or delete cards and change the deck's settings.", "\"New cards a day\" is how many cards you have not seen yet are added each day (20 if you do nothing). Pick \"Custom\" to type your own, or \"None\" to only review.", "Tap \"+ Add exam date (optional)\" and pick the day. No card is put off past the day before, and the app tells you if all new cards will be started in time, and how many a day you need if not.", "\"Also ask back to front\" adds the reverse question: you see the answer and say the front. Good for languages."]},
+ {"h": "Share, back up and start over", "steps": ["\"Copy cards\" copies every card as front and back separated by a tab, which pastes back into this app, a spreadsheet, Quizlet or Anki. \"Email cards\" opens your mail app with the cards, no address needed. \"Save as CSV\" downloads a spreadsheet. \"Print cards\" prints a list.", "\"Start this deck over\" forgets all progress in that deck, \"Delete this deck\" removes it. Both have Undo.", "\"Save backup file\" downloads all decks with their progress. \"Load backup file\" puts them back on this or another device."]},
+ {"h": "Good to know", "tips": true, "steps": ["A new study day starts at 4 am, so studying after midnight still counts for the evening before.", "Missed some days? Nothing is lost: the missed cards are still due, most overdue first. Study some and tap \"Stop for now\" if there are many.", "A day you answer at least one card counts toward \"days in a row\".", "The same card is asked only one way per session, even with \"Also ask back to front\" on.", "Your cards stay in this browser on this device. Your data is never sent anywhere, and the app works offline."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

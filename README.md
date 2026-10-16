@@ -326,6 +326,14 @@ Want to know when your next period is due without giving your data to a company?
 
 <a href="period-and-ovulation-calendar/"><img src="period-and-ovulation-calendar/screenshots/phone.png" alt="Period and Ovulation Calendar screenshot" width="260"></a>
 
+### <img src="spaced-repetition-flashcards-for-exams/favicon.svg" width="36" height="36" align="center"> [Spaced Repetition Flashcards for Exams](https://umar8092.github.io/apps/spaced-repetition-flashcards-for-exams/)
+
+Got an exam or a language to learn? Paste your notes as flashcards ("der Hund - the dog", or two columns from a spreadsheet) and study only the cards due today. Tap Again, Hard, Good or Easy and each card comes back just before you would forget it. Add your exam date: no card is put off past the day before, and the app tells you if all new cards will be started in time and how many a day you need. Several decks, each with its own settings, reverse cards, days-in-a-row streak, copy, email, CSV and print. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/spaced-repetition-flashcards-for-exams/) &middot; [Details and screenshots](spaced-repetition-flashcards-for-exams/)
+
+<a href="spaced-repetition-flashcards-for-exams/"><img src="spaced-repetition-flashcards-for-exams/screenshots/phone.png" alt="Spaced Repetition Flashcards for Exams screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
