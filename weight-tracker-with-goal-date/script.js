@@ -122,7 +122,7 @@
         $('sum-empty').hidden = !S.empty; $('sum-body').hidden = !!S.empty;
         ['copy', 'print', 'csv'].forEach(id => { $(id).disabled = !!S.empty; });
         $('email').setAttribute('aria-disabled', String(!!S.empty));
-        if (S.empty) { $('goal-msg').textContent = ''; return; }
+        if (S.empty) { say('goal-msg', ''); return; }
         $('avg').textContent = C.fmtW(S.avg7.g, u);
         $('avg-meta').textContent = 'From ' + plural(S.avg7.days, 'day') + ' weighed, ' + fmtDay(S.avg7.from, 'short') + ' to ' + fmtDay(S.avg7.to, 'short') + '. It hides day-to-day water swings.';
         // tiles
