@@ -250,5 +250,11 @@
     "name": "Schengen and Visa Stay Day Counter",
     "description": "Add your trips and see how many of your 90 days you have used in the last 180, the last day you can stay, and when your days come back. Other rules too. Private, works offline.",
     "color": "#3b5bdb"
+  },
+  {
+    "slug": "weight-tracker-with-goal-date",
+    "name": "Weight Tracker with Goal Date",
+    "description": "Log your weight in kg, lb or stone and see a 7-day average that hides daily swings, your weekly change, BMI and the date you reach your goal at your pace. Private, works offline.",
+    "color": "#12b886"
   }
 ]

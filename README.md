@@ -342,6 +342,14 @@ Add your trips and see how many of your 90 days you have used in the last 180, t
 
 <a href="schengen-and-visa-stay-day-counter/"><img src="schengen-and-visa-stay-day-counter/screenshots/phone.png" alt="Schengen and Visa Stay Day Counter screenshot" width="260"></a>
 
+### <img src="weight-tracker-with-goal-date/favicon.svg" width="36" height="36" align="center"> [Weight Tracker with Goal Date](https://umar8092.github.io/apps/weight-tracker-with-goal-date/)
+
+Losing (or gaining) weight and want to know if it is really working? Log your weight in kg, lb or stone and lb. The app shows your 7-day average, which hides the daily water swings, the change this week and since you started, your pace over the last 4 weeks, your BMI and a chart, and answers the real question: "at this pace you reach 75 kg around 25 Jan 2027". Add a date to reach it by and see the weekly change you need and whether you are early or late. Two weigh-ins a day, typos caught, several people, copy, email, CSV, print and backup. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/weight-tracker-with-goal-date/) &middot; [Details and screenshots](weight-tracker-with-goal-date/)
+
+<a href="weight-tracker-with-goal-date/"><img src="weight-tracker-with-goal-date/screenshots/phone.png" alt="Weight Tracker with Goal Date screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

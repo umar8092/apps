@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Tracker with Goal Date: When Will I Reach My Goal Weight?</title>
+    <meta name="description" content="Free weight tracker that tells you when you will reach your goal weight at your real pace. Log your weight in kg, lb or stone, see a 7-day average that hides daily water swings, your weekly change, BMI and a chart. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/weight-tracker-with-goal-date/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#12b886">
+    <meta name="theme-color" content="#0ca678">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Weight Tracker with Goal Date">
+    <meta property="og:url" content="https://umar8092.github.io/apps/weight-tracker-with-goal-date/">
+    <meta property="og:title" content="Weight Tracker with Goal Date: when will you reach your goal?">
+    <meta property="og:description" content="Log your weight and see your 7-day average, your weekly change and the date you reach your goal weight at your real pace. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Weight Tracker with Goal Date","alternateName":["Weight Loss Tracker","Weight Log","Goal Weight Date Calculator","Weight Tracker with 7-day Average"],"url":"https://umar8092.github.io/apps/weight-tracker-with-goal-date/","description":"A free weight tracker. Log your weight in kg, lb or stone and see your 7-day average, the change this week and since you started, your pace over the last 4 weeks, BMI, and the date you reach your goal weight at that pace.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"weight tracker, weight loss tracker, goal weight date calculator, when will I reach my goal weight, 7 day average weight, weight log","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is the goal date worked out?","acceptedAnswer":{"@type":"Answer","text":"The app draws the best straight line through your daily weights of the last 4 weeks to find your pace per week, then works out how many days that pace needs to take your 7-day average to your goal weight."}},{"@type":"Question","name":"Why does my weight jump up and down every day?","acceptedAnswer":{"@type":"Answer","text":"Water, salt, food still in your stomach and the time of day can move your weight by 1 to 2 kg (2 to 4 lb) from one day to the next. The 7-day average smooths those swings out, so it shows the real trend."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your weights stay in this browser on this device. There is no account, your data is never sent anywhere, and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Weight Tracker with Goal Date</h1>
+        <p class="sub">Log your weight. See your real trend without the daily ups and downs, and the date you reach your goal at your pace.</p>
+    </header>
+
+    <div class="warn store-warn" id="store-warn" role="alert" hidden>This browser is blocking saved data, so your weights will be gone when you close the page. Use <b>Save a backup file</b> before you leave.</div>
+
+    <nav class="people" id="people" aria-label="Whose weights" hidden></nav>
+
+    <div class="col-main">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add your weight</h2>
+            <div class="units" role="group" aria-label="Weigh in">
+                <button type="button" class="unit-btn" data-unit="kg" aria-pressed="true">kg</button>
+                <button type="button" class="unit-btn" data-unit="lb" aria-pressed="false">lb</button>
+                <button type="button" class="unit-btn" data-unit="st" aria-pressed="false">st and lb</button>
+            </div>
+            <div class="field" id="w-one">
+                <label for="w" id="w-label">Weight in kg</label>
+                <input id="w" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 82.4" aria-describedby="w-err">
+            </div>
+            <div class="two" id="w-two" hidden>
+                <div class="field"><label for="w-st">Stones</label><input id="w-st" type="text" inputmode="numeric" maxlength="24" autocomplete="off" placeholder="e.g. 12" aria-describedby="w-err"></div>
+                <div class="field"><label for="w-lb">Pounds</label><input id="w-lb" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 6.5" aria-describedby="w-err"></div>
+            </div>
+            <p class="err" id="w-err" role="alert"></p>
+            <p class="when-line">Date: <b id="when-text">Today</b> <button type="button" class="link inline" id="when-open">Change date</button></p>
+            <div class="field" id="when-box" hidden>
+                <label for="when">Date weighed</label>
+                <input id="when" type="date" aria-describedby="when-err">
+                <p class="err" id="when-err" role="alert"></p>
+                <button type="button" class="link" id="when-today">Use today</button>
+            </div>
+            <button type="button" class="link" id="note-open">+ Add a note (optional)</button>
+            <div class="field" id="note-box" hidden>
+                <label for="note">Note</label>
+                <input id="note" type="text" maxlength="200" autocomplete="off" placeholder="e.g. after holiday">
+            </div>
+            <button type="button" class="primary" id="save">Save weight</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card goalset" id="goalset" aria-labelledby="goal-h">
+            <h2 id="goal-h">Your goal</h2>
+            <div class="field" id="g-one">
+                <label for="goal" id="goal-label">Goal weight in kg</label>
+                <input id="goal" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 75" aria-describedby="goal-err">
+            </div>
+            <div class="two" id="g-two" hidden>
+                <div class="field"><label for="goal-st">Goal stones</label><input id="goal-st" type="text" inputmode="numeric" maxlength="24" autocomplete="off" placeholder="e.g. 11" aria-describedby="goal-err"></div>
+                <div class="field"><label for="goal-lb">Goal pounds</label><input id="goal-lb" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 7" aria-describedby="goal-err"></div>
+            </div>
+            <p class="err" id="goal-err" role="alert"></p>
+            <p class="hint" id="goal-hint">Lose or gain: both work. Leave it empty if you only want to track.</p>
+            <button type="button" class="link" id="target-open">+ Add a date you want to reach it by (optional)</button>
+            <div class="field" id="target-box" hidden>
+                <label for="target">Reach it by</label>
+                <input id="target" type="date" aria-describedby="target-err">
+                <p class="err" id="target-err" role="alert"></p>
+                <button type="button" class="link" id="target-remove">Remove this date</button>
+            </div>
+            <button type="button" class="link" id="height-open">+ Add your height for BMI (optional)</button>
+            <div id="height-box" hidden>
+                <div class="units small" role="group" aria-label="Height in">
+                    <button type="button" class="h-btn" data-h="cm" aria-pressed="true">cm</button>
+                    <button type="button" class="h-btn" data-h="ftin" aria-pressed="false">ft and in</button>
+                </div>
+                <div class="field" id="h-one">
+                    <label for="h-cm">Height in cm</label>
+                    <input id="h-cm" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 172" aria-describedby="h-err">
+                </div>
+                <div class="two" id="h-two" hidden>
+                    <div class="field"><label for="h-ft">Feet</label><input id="h-ft" type="text" inputmode="numeric" maxlength="24" autocomplete="off" placeholder="e.g. 5" aria-describedby="h-err"></div>
+                    <div class="field"><label for="h-in">Inches</label><input id="h-in" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 7" aria-describedby="h-err"></div>
+                </div>
+                <p class="err" id="h-err" role="alert"></p>
+                <label class="check"><input type="checkbox" id="no-bmi"> <span>Do not show BMI ranges <span class="lt">(under 18, pregnant, or very muscular)</span></span></label>
+                <button type="button" class="link" id="height-remove">Remove height</button>
+            </div>
+            <div class="msg" id="goal-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h">Your progress</h2>
+            <div id="sum-empty" class="empty">
+                <p class="big muted">No weights yet</p>
+                <p class="meta">Add your weight above. Weigh yourself at the same time of day, for example in the morning before breakfast.</p>
+            </div>
+            <div id="sum-body" hidden>
+                <p class="big-label">Your 7-day average</p>
+                <p class="big" id="avg">0</p>
+                <p class="meta" id="avg-meta"></p>
+                <div class="goalbox" id="goalbox"></div>
+                <div class="tiles">
+                    <div class="tile"><span class="t-label">Latest weight</span><span class="t-val" id="t-last">-</span><span class="t-sub" id="t-last-sub"></span></div>
+                    <div class="tile"><span class="t-label">Since you started</span><span class="t-val" id="t-since">-</span><span class="t-sub" id="t-since-sub"></span></div>
+                    <div class="tile"><span class="t-label">This week</span><span class="t-val" id="t-week">-</span><span class="t-sub" id="t-week-sub"></span></div>
+                    <div class="tile"><span class="t-label">Pace, last 4 weeks</span><span class="t-val" id="t-pace">-</span><span class="t-sub" id="t-pace-sub"></span></div>
+                    <div class="tile" id="tile-bmi"><span class="t-label">BMI</span><span class="t-val" id="t-bmi">-</span><span class="t-sub" id="t-bmi-sub"></span></div>
+                    <div class="tile"><span class="t-label">Left to goal</span><span class="t-val" id="t-left">-</span><span class="t-sub" id="t-left-sub"></span></div>
+                </div>
+                <div class="note-fast" id="fast" hidden></div>
+                <div class="chart-head">
+                    <h3 class="small-h">Chart</h3>
+                    <div class="ranges" role="group" aria-label="Chart shows">
+                        <button type="button" class="r-btn" data-r="30" aria-pressed="false">30 days</button>
+                        <button type="button" class="r-btn" data-r="90" aria-pressed="true">90 days</button>
+                        <button type="button" class="r-btn" data-r="365" aria-pressed="false">1 year</button>
+                        <button type="button" class="r-btn" data-r="all" aria-pressed="false">All</button>
+                    </div>
+                </div>
+                <figure class="chart">
+                    <svg id="chart" role="img" aria-labelledby="chart-cap"></svg>
+                    <figcaption id="chart-cap"><span class="key dot"></span>Each day's weight <span class="key line"></span>7-day average <span class="key goal" id="key-goal"></span><span id="key-goal-t">Goal</span></figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="card share" id="share" aria-labelledby="share-h">
+            <h2 id="share-h">Share or keep a copy</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy as text</button>
+                <a class="secondary" id="email" href="mailto:">Email</a>
+                <button type="button" class="secondary" id="print">Print or save as PDF</button>
+                <button type="button" class="secondary" id="csv">Download spreadsheet</button>
+            </div>
+            <div class="msg" id="share-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="card list" id="list" aria-labelledby="list-h">
+        <h2 id="list-h">Your weights</h2>
+        <p class="hint top" id="list-hint">Newest first. The change is from your weight on the day before you weighed.</p>
+        <ul class="entries" id="entries"></ul>
+        <button type="button" class="secondary more-btn" id="more" hidden>Show more</button>
+        <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="card settings" id="settings" aria-labelledby="set-h">
+        <h2 id="set-h">Person and backup</h2>
+        <label for="name">Name <span class="lt">(optional, shown when you share)</span></label>
+        <input id="name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Ayesha">
+        <div class="tool-grid">
+            <button type="button" class="secondary" id="person-add">+ Add another person</button>
+            <button type="button" class="secondary" id="backup">Save a backup file</button>
+            <button type="button" class="secondary" id="restore">Restore a backup</button>
+            <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            <button type="button" class="danger" id="wipe">Delete all weights</button>
+        </div>
+        <button type="button" class="danger" id="person-remove" hidden>Remove this person</button>
+        <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is the goal date worked out?</summary><p>The app draws the best straight line through your daily weights of the last 4 weeks (least squares). That line's slope is your <b>pace</b> per week. It then counts how many days that pace needs to take your 7-day average to your goal weight. You need at least 3 weigh-ins spread over a week or more in the last 4 weeks. If your weight is not moving towards your goal, the app says so instead of guessing a date.</p></details>
+        <details><summary>Why does my weight jump up and down every day?</summary><p>Water, salt, a late meal, a hard workout or a period can move your weight by 1 to 2 kg (2 to 4 lb) from one day to the next. That is not fat. The <b>7-day average</b> is the average of the days you weighed in the last 7 days, so one high or low morning hardly moves it. Watch the average and the pace, not a single day.</p></details>
+        <details><summary>What does "This week" compare?</summary><p>Your 7-day average now against your 7-day average of the 7 days before that. It needs at least one weigh-in in each of the two weeks.</p></details>
+        <details><summary>How often should I weigh myself?</summary><p>Daily or a few times a week, at the same time and in the same way, for example after the toilet and before breakfast. More weigh-ins make the average and the goal date steadier. Weighing twice on one day is fine: both are kept and that day counts as their average.</p></details>
+        <details><summary>What pace is healthy?</summary><p>Most health services suggest losing about 0.5 to 1 kg (1 to 2 lb) a week. The app shows a note if you lose more than 1% of your weight a week. Talk to your doctor if that is not planned.</p></details>
+        <details><summary>What does BMI mean here?</summary><p>BMI is weight in kg divided by height in metres squared. The adult ranges are: under 18.5 underweight, 18.5 to 24.9 healthy, 25 to 29.9 overweight, 30 or more obese. BMI ranges do not fit children and teenagers, pregnancy or very muscular people; tick <b>Do not show BMI ranges</b> to hide them.</p></details>
+        <details><summary>Can two people use it on one phone?</summary><p>Yes. Tap <b>+ Add another person</b> in Person and backup. Each person has their own weights, unit, goal and height. Tap a name at the top to switch.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your weights stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection and can be added to your home screen. Save a backup file now and then, or before changing phones.</p></details>
+        <details><summary>Is this medical advice?</summary><p>No. It is a log and a calculator. Follow your doctor's advice, especially during pregnancy, illness or for children.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/weight-tracker-with-goal-date">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Weight Tracker with Goal Date", "sections": [
+ {"h": "Add your weight", "steps": ["Choose kg, lb or \"st and lb\" at the top of \"Add your weight\". Your weights are kept exactly, so you can switch at any time.", "Type your weight and tap \"Save weight\" (or press Enter). You can also type \"82,4\", \"181 lb\" or \"12 st 6\".", "\"Change date\" adds a weight you forgot to log on an earlier day. \"Use today\" goes back to today. Future dates are refused.", "\"+ Add a note (optional)\" keeps a short note such as \"after holiday\".", "After saving, the message shows the change since your last weigh-in. If the weight is far from your last one, it asks you to check it. Tap \"Undo\" if it was a mistake."]},
+ {"h": "Set your goal", "steps": ["Type your \"Goal weight\" in \"Your goal\". It can be lower (to lose) or higher (to gain) than your weight now.", "\"+ Add a date you want to reach it by (optional)\" shows how much you need to lose or gain each week to make it, and whether your pace is early or late.", "\"+ Add your height for BMI (optional)\" shows your BMI and the healthy weight range for your height. Tick \"Do not show BMI ranges\" for children, pregnancy or very muscular people."]},
+ {"h": "Read your progress", "steps": ["The big number is your 7-day average: the average of the days you weighed in the last 7 days. It hides daily water swings.", "The green box says the date you reach your goal at your pace, or why no date can be worked out yet (too few weigh-ins, weight not moving, or moving the other way).", "Latest weight is your last weigh-in. Since you started compares it with your first weigh-in. This week compares your 7-day average with the 7 days before. Pace is your average change a week over the last 4 weeks.", "The chart shows each day's weight as a dot, the 7-day average as a line and your goal as a dashed line. Choose 30 days, 90 days, 1 year or All."]},
+ {"h": "Fix or delete weights", "steps": ["\"Your weights\" lists every weigh-in, newest first, with the change from the day before you weighed.", "Tap \"Edit\" to change the weight, date or note, then \"Save\". \"Cancel\" or Escape leaves it as it was.", "Tap \"Delete\" to remove a weigh-in. \"Undo\" brings it back."]},
+ {"h": "Share, backup and people", "steps": ["\"Copy as text\" and \"Email\" give a short summary and your weights to paste or send; you do not need to type an email address first.", "\"Print or save as PDF\" prints the summary and a table. \"Download spreadsheet\" saves a CSV file for Excel, Numbers or Google Sheets.", "\"+ Add another person\" gives someone else their own weights, unit and goal. Tap a name at the top to switch. \"Remove this person\" removes them, with Undo.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with Undo.", "\"Delete all weights\" empties this person's log, with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["Weigh yourself at the same time each day for the steadiest numbers.", "Two weigh-ins on one day are both kept; that day counts as their average.", "Everything stays on this device and works offline. Your data is never sent anywhere.", "This is not medical advice. Most guides suggest losing about 0.5 to 1 kg (1 to 2 lb) a week."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
