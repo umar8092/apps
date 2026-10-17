@@ -1,0 +1,15 @@
+{
+  "name": "Pocket Money and Chores Tracker for Kids",
+  "short_name": "Pocket Money",
+  "description": "How much each child has, from pocket money and chores, and what they are saving for.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#3b0c24",
+  "theme_color": "#e03d7a",
+  "categories": ["finance", "lifestyle", "kids"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

@@ -378,6 +378,14 @@ Stop finding expired medicine when someone is ill, or throwing away food you for
 
 <a href="food-and-medicine-expiry-tracker/"><img src="food-and-medicine-expiry-tracker/screenshots/phone.png" alt="Food and Medicine Expiry Tracker screenshot" width="260"></a>
 
+### <img src="pocket-money-and-chores-tracker-for-kids/favicon.svg" width="36" height="36" align="center"> [Pocket Money and Chores Tracker for Kids](https://umar8092.github.io/apps/pocket-money-and-chores-tracker-for-kids/)
+
+See how much each child has from pocket money and paid chores, and what they are saving for. Each child has their own pocket money, payday and chores. Paydays add the money by themselves; print a chore chart for the fridge.
+
+[**Open the app**](https://umar8092.github.io/apps/pocket-money-and-chores-tracker-for-kids/) &middot; [Details and screenshots](pocket-money-and-chores-tracker-for-kids/)
+
+<a href="pocket-money-and-chores-tracker-for-kids/"><img src="pocket-money-and-chores-tracker-for-kids/screenshots/phone.png" alt="Pocket Money and Chores Tracker for Kids screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

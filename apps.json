@@ -280,5 +280,11 @@
     "name": "Food and Medicine Expiry Tracker",
     "description": "See what to use first and what has expired in your fridge, freezer, cupboard and medicine box, soonest first. Use by, best before and month-only dates, opened packs, reminders and a shopping list of what ran out.",
     "color": "#5c940d"
+  },
+  {
+    "slug": "pocket-money-and-chores-tracker-for-kids",
+    "name": "Pocket Money and Chores Tracker for Kids",
+    "description": "Each child's pocket money, paid chores and savings goal in their own box. Paydays add the money by themselves, tap Done for chores, take money out, print a chore chart for the fridge. Works offline.",
+    "color": "#e03d7a"
   }
 ]
