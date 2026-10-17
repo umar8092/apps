@@ -370,6 +370,14 @@ Run a timer for each dish at once (rice, pasta, oven), each with its own name, s
 
 <a href="multiple-kitchen-timers-for-cooking/"><img src="multiple-kitchen-timers-for-cooking/screenshots/phone.png" alt="Multiple Kitchen Timers for Cooking screenshot" width="260"></a>
 
+### <img src="food-and-medicine-expiry-tracker/favicon.svg" width="36" height="36" align="center"> [Food and Medicine Expiry Tracker](https://umar8092.github.io/apps/food-and-medicine-expiry-tracker/)
+
+Stop finding expired medicine when someone is ill, or throwing away food you forgot. Add what is in the fridge, freezer, cupboard or medicine box with its use by, best before or expiry date, and see "Use first: Milk, use by tomorrow" and what has expired, soonest first. Month-and-year-only dates, packs that keep 3 days once opened, Used up and Thrown away with undo, calendar reminders, a printable list and a shopping list of what ran out. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/food-and-medicine-expiry-tracker/) &middot; [Details and screenshots](food-and-medicine-expiry-tracker/)
+
+<a href="food-and-medicine-expiry-tracker/"><img src="food-and-medicine-expiry-tracker/screenshots/phone.png" alt="Food and Medicine Expiry Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

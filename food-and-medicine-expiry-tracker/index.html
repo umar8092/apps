@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food and Medicine Expiry Tracker: What to Use First and What Has Expired</title>
+    <meta name="description" content="Free food and medicine expiry tracker. Add what is in your fridge, freezer, cupboard or medicine box with its use by, best before or expiry date, and see what to use first and what has expired, soonest first. Handles month-and-year-only dates and opened packs, calendar reminders, a shopping list of what ran out. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/food-and-medicine-expiry-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#5c940d">
+    <meta name="theme-color" content="#5c940d">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Food and Medicine Expiry Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/food-and-medicine-expiry-tracker/">
+    <meta property="og:title" content="Food and Medicine Expiry Tracker">
+    <meta property="og:description" content="Stop throwing food away and finding expired medicine when someone is ill. See what to use first and what has expired, with reminders. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Food and Medicine Expiry Tracker","alternateName":["Expiry Date Tracker","Food Expiration Tracker","Medicine Expiry Reminder","Fridge Inventory"],"url":"https://umar8092.github.io/apps/food-and-medicine-expiry-tracker/","description":"A free tracker for the use by, best before and expiry dates of food and medicines at home. See what to use first and what has expired, private on your device.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"expiry date tracker, food expiration tracker, medicine expiry, use by date, best before date, fridge inventory, food waste","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between use by and best before?","acceptedAnswer":{"@type":"Answer","text":"Use by is about safety: do not eat the food after that date, even if it looks fine. Best before is about quality: the food is often still fine after it, so look at it, smell it and taste a little first."}},{"@type":"Question","name":"The pack only shows a month and a year. Which day is that?","acceptedAnswer":{"@type":"Answer","text":"The last day of that month. EXP 03/2027 means it can be used until 31 March 2027."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your list stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Food and Medicine Expiry Tracker</h1>
+        <p class="sub">See what to use first, and what has expired, in your fridge, freezer, cupboard and medicine box.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your list will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h">Use first</h2>
+            <div id="sum-body" aria-live="polite"></div>
+        </section>
+
+        <section class="card list" id="list" aria-labelledby="list-h">
+            <h2 id="list-h">What you have</h2>
+            <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+            <div class="places" id="places" role="group" aria-label="Show only one place" hidden></div>
+            <div class="find" id="find-wrap" hidden>
+                <label for="find">Find an item</label>
+                <input id="find" type="search" maxlength="60" autocomplete="off" placeholder="Name or note">
+            </div>
+            <p class="hint" id="none-here" hidden>Nothing matches. Choose "All" or clear the search to see everything.</p>
+            <p class="empty" id="empty">Nothing here yet. Add the first thing from your fridge, cupboard or medicine box and you will see when to use it.</p>
+            <div class="group" id="g-expired" hidden>
+                <h3 class="g-h bad">Expired</h3>
+                <p class="hint g-hint">Past the date on the pack. "Use by" and medicines: do not use. "Best before": check it first.</p>
+                <ul class="box-list" id="l-expired"></ul>
+            </div>
+            <div class="group" id="g-soon" hidden>
+                <h3 class="g-h warn">Use soon</h3>
+                <p class="hint g-hint">Food within 3 days, medicines within 30 days.</p>
+                <ul class="box-list" id="l-soon"></ul>
+            </div>
+            <div class="group" id="g-later" hidden>
+                <h3 class="g-h">Later</h3>
+                <ul class="box-list" id="l-later"></ul>
+            </div>
+            <details class="group archive" id="g-archive" hidden>
+                <summary class="g-h" id="archive-sum">Used up or thrown away</summary>
+                <ul class="box-list" id="l-archive"></ul>
+            </details>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card add" id="add" aria-labelledby="form-h">
+            <h2 id="form-h">Add food or medicine</h2>
+            <div class="msg" id="form-msg" role="status" aria-live="polite"></div>
+            <button type="button" class="primary" id="open-form" hidden>+ Add food or medicine</button>
+            <form id="form" novalidate>
+                <label for="f-name">What is it?</label>
+                <input id="f-name" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Milk or Cough syrup" aria-describedby="e-name">
+                <p class="err" id="e-name" role="alert"></p>
+
+                <label for="f-place">Where is it kept?</label>
+                <select id="f-place">
+                    <option value="fridge">Fridge</option>
+                    <option value="freezer">Freezer</option>
+                    <option value="cupboard">Cupboard</option>
+                    <option value="medicine">Medicine box</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <label for="f-kind">Date on the pack</label>
+                <select id="f-kind" aria-describedby="h-kind">
+                    <option value="use">Use by</option>
+                    <option value="best">Best before</option>
+                    <option value="exp">Expiry date</option>
+                </select>
+                <p class="hint" id="h-kind">Food that is not safe to eat after this date (milk, meat, fish).</p>
+
+                <fieldset class="mode">
+                    <legend>The pack shows</legend>
+                    <div class="seg">
+                        <label><input type="radio" name="f-mode" value="day" id="f-mode-day" checked> Full date</label>
+                        <label><input type="radio" name="f-mode" value="month" id="f-mode-month"> Month and year only</label>
+                    </div>
+                </fieldset>
+                <div id="w-day">
+                    <label for="f-date">Date</label>
+                    <input id="f-date" type="date" aria-describedby="e-date h-quick">
+                    <p class="hint" id="h-quick">No date printed (bread, leftovers)? Tap one:</p>
+                    <div class="quick" id="quick">
+                        <button type="button" class="chip" data-days="0">Today</button>
+                        <button type="button" class="chip" data-days="3">In 3 days</button>
+                        <button type="button" class="chip" data-days="7">In 1 week</button>
+                        <button type="button" class="chip" data-months="1">In 1 month</button>
+                        <button type="button" class="chip" data-months="3">In 3 months</button>
+                    </div>
+                </div>
+                <div id="w-month" hidden>
+                    <div class="pair">
+                        <div><label for="f-month">Month</label><select id="f-month" aria-describedby="e-date"></select></div>
+                        <div><label for="f-year">Year</label><select id="f-year" aria-describedby="e-date"></select></div>
+                    </div>
+                    <p class="hint">Counted to the last day of that month.</p>
+                </div>
+                <p class="err" id="e-date" role="alert"></p>
+
+                <button type="button" class="link" id="o-open">+ Opened it? Add how long it keeps once open (optional)</button>
+                <div class="opt" id="w-open" hidden>
+                    <label for="f-opened">Opened on</label>
+                    <input id="f-opened" type="date" aria-describedby="e-opened">
+                    <p class="err" id="e-opened" role="alert"></p>
+                    <label for="f-opensel">Keeps once opened</label>
+                    <select id="f-opensel" aria-describedby="e-opendays h-open">
+                        <option value="1">1 day</option>
+                        <option value="2">2 days</option>
+                        <option value="3" selected>3 days</option>
+                        <option value="5">5 days</option>
+                        <option value="7">1 week</option>
+                        <option value="14">2 weeks</option>
+                        <option value="28">28 days (many eye drops)</option>
+                        <option value="30">1 month</option>
+                        <option value="60">2 months</option>
+                        <option value="90">3 months</option>
+                        <option value="custom">Other number of days</option>
+                    </select>
+                    <div class="opt" id="w-opendays" hidden>
+                        <label for="f-opendays">Number of days</label>
+                        <div class="inline"><input id="f-opendays" type="text" inputmode="numeric" maxlength="3" autocomplete="off" aria-describedby="e-opendays"><span class="unit">days (1 to 365)</span></div>
+                    </div>
+                    <p class="hint" id="h-open">The pack often says "Once opened, use within 3 days". The earlier date counts.</p>
+                    <p class="err" id="e-opendays" role="alert"></p>
+                    <button type="button" class="link" id="x-open">Remove opened date</button>
+                </div>
+
+                <button type="button" class="link" id="o-more">+ Add quantity or a note (optional)</button>
+                <div class="opt" id="w-more" hidden>
+                    <label for="f-qty">Quantity</label>
+                    <input id="f-qty" type="text" maxlength="30" autocomplete="off" placeholder="e.g. 2 bottles or 500 g">
+                    <label for="f-note">Note</label>
+                    <textarea id="f-note" rows="2" maxlength="300" placeholder="e.g. For Ali's cough"></textarea>
+                </div>
+
+                <p class="preview" id="preview" aria-live="polite"></p>
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="save">Add to my list</button>
+                    <button type="button" class="secondary" id="cancel">Done</button>
+                </div>
+                <button type="button" class="danger" id="del" hidden>Delete this item</button>
+            </form>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Share, reminders and backup</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy-all">Copy the list</button>
+                <a class="secondary" id="mail-all" href="mailto:">Email the list</a>
+                <button type="button" class="secondary" id="print-all">Print the list</button>
+                <button type="button" class="secondary" id="cal-all">Add all dates to my calendar</button>
+                <button type="button" class="secondary wide" id="shop">Copy a shopping list of what ran out</button>
+            </div>
+            <div class="tool-grid gap">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>What is the difference between "use by" and "best before"?</summary><p>"Use by" is about safety: do not eat the food after that date, even if it looks and smells fine. "Best before" is about quality: the food is often still fine after it, so look at it, smell it and taste a little first. Medicines have an expiry date: do not use them after it, and take old ones back to a pharmacy instead of putting them in the bin.</p></details>
+        <details><summary>The pack only shows a month and a year. Which day is that?</summary><p>The last day of that month. "EXP 03/2027" means it can be used until 31 March 2027. Choose "Month and year only" and pick the month and the year.</p></details>
+        <details><summary>How does "Keeps once opened" work?</summary><p>Many packs say "Once opened, use within 3 days", and many eye drops last 28 days once opened. Add the day you opened it and how many days it keeps: opened on Sat 17 Oct with 3 days, use it by Tue 20 Oct. If the date on the pack comes first, that date counts. Tap <b>Opened</b> on an item to add this later.</p></details>
+        <details><summary>What goes in "Use soon"?</summary><p>Food that has 3 days or less left, and medicines with 30 days or less, so there is time to buy a new one before you need it. Everything is sorted by date, the soonest first.</p></details>
+        <details><summary>How do the calendar reminders work?</summary><p><b>Calendar</b> on an item, or <b>Add all dates to my calendar</b>, saves a calendar file. Open it to add all-day events to your phone's or computer's calendar. Food reminds you at 9 am the day before and at 9 am on the day; medicines 30 days and 7 days before.</p></details>
+        <details><summary>What is the shopping list?</summary><p>Everything you marked <b>Used up</b> or <b>Thrown away</b> in the last 30 days that is not back in your list, one line each, ready to paste into a message or a notes app.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your list stays in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to move it to a new phone. Once loaded, the app works with no connection. This app is a reminder, not food safety or medical advice: when in doubt, throw it out or ask a pharmacist.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/food-and-medicine-expiry-tracker">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Food and Medicine Expiry Tracker", "sections": [
+ {"h": "Add food or medicine", "steps": ["Type it in \"What is it?\", for example Milk or Paracetamol syrup.", "Choose \"Where is it kept?\": Fridge, Freezer, Cupboard, Medicine box or Other.", "Choose the \"Date on the pack\": \"Use by\", \"Best before\" or \"Expiry date\". Medicine box picks \"Expiry date\" for you.", "Under \"The pack shows\", keep \"Full date\" and pick the \"Date\" printed on the pack. If the pack shows only a month and a year, choose \"Month and year only\": it counts to the last day of that month.", "No date printed, such as bread or leftovers? Tap \"Today\", \"In 3 days\", \"In 1 week\", \"In 1 month\" or \"In 3 months\".", "The line above \"Add to my list\" shows the date that counts before you save. Tap \"Add to my list\".", "The form stays open with the same place, so you can add the next thing while you unpack the shopping. Tap \"Done\" when you have finished."]},
+ {"h": "Optional details", "steps": ["\"+ Opened it? Add how long it keeps once open (optional)\": the day you opened it and \"Keeps once opened\", such as 3 days, or 28 days for many eye drops. The earlier of this and the pack date counts.", "\"+ Add quantity or a note (optional)\": for example \"2 bottles\" or \"For Ali's cough\"."]},
+ {"h": "Your list", "steps": ["\"Use first\" at the top shows the next thing to use and how long is left, and how many items have expired.", "\"Expired\" lists what is past its date. \"Use by\" food and medicines should not be used. \"Best before\" food is often fine: check it first.", "\"Use soon\" is food with 3 days or less left and medicines with 30 days or less. \"Later\" is everything else. Each group is sorted by date, soonest first.", "Tap a place such as \"Medicine box\" at the top of the list to see only that place. \"All\" shows everything. \"Find an item\" appears once you have 8 or more.", "\"Used up\" and \"Thrown away\" move an item to \"Used up or thrown away\", with \"Undo\". \"Put back\" brings it back. \"Add again\" starts a new item with the same name and place, for when you buy it again.", "\"Opened\" adds the day you opened it. \"Edit\" fixes a mistake. \"Delete this item\" is at the bottom of the edit form, with \"Undo\"."]},
+ {"h": "Reminders and sharing", "steps": ["\"Calendar\" on an item saves a calendar file. Open it to add the date to your calendar with reminders: food at 9 am the day before and on the day, medicines 30 and 7 days before.", "\"Add all dates to my calendar\" does the same for every date still to come.", "\"Copy the list\", \"Email the list\" and \"Print the list\" share everything, grouped by Expired, Use soon and Later. Email works without typing an address first. Print it for the fridge door.", "\"Copy a shopping list of what ran out\" copies what you used up or threw away in the last 30 days and do not have again."]},
+ {"h": "Backup", "steps": ["\"Save a backup file\" saves your list in one file. \"Restore a backup\" brings it back, on this device or a new one.", "\"Delete everything\" empties the list, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["\"EXP 03/2027\" means until 31 March 2027.", "Opened on Sat 17 Oct with \"Keeps once opened\" 3 days means use it by Tue 20 Oct.", "\"Use soon\" and the days left update by themselves every day.", "The summary counts what you used up and threw away in the last 30 days, so you can see if less goes in the bin.", "This app is a reminder, not food safety or medical advice. When in doubt, throw it out or ask a pharmacist.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -274,5 +274,11 @@
     "name": "Multiple Kitchen Timers for Cooking",
     "description": "Run a named timer for each dish at once (rice, pasta, oven), sorted by which ends first, with an alarm that says which one is done. Pause, +1 min, restart and saved timers. Works offline.",
     "color": "#1098ad"
+  },
+  {
+    "slug": "food-and-medicine-expiry-tracker",
+    "name": "Food and Medicine Expiry Tracker",
+    "description": "See what to use first and what has expired in your fridge, freezer, cupboard and medicine box, soonest first. Use by, best before and month-only dates, opened packs, reminders and a shopping list of what ran out.",
+    "color": "#5c940d"
   }
 ]
