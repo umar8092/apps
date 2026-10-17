@@ -362,6 +362,14 @@ Keep drifting to your phone while studying or working from home? Pick a task, pr
 
 [**Open the app**](https://umar8092.github.io/apps/pomodoro-focus-timer-for-study-and-work/) &middot; [Details and screenshots](pomodoro-focus-timer-for-study-and-work/)
 
+### <img src="multiple-kitchen-timers-for-cooking/favicon.svg" width="36" height="36" align="center"> [Multiple Kitchen Timers for Cooking](https://umar8092.github.io/apps/multiple-kitchen-timers-for-cooking/)
+
+Run a timer for each dish at once (rice, pasta, oven), each with its own name, sorted by which ends first. The alarm and the tab title say which dish is done. Pause, +1 min, restart, change, saved timers for eggs, tea and rice. Keeps time through reloads, keeps the screen on, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/multiple-kitchen-timers-for-cooking/) &middot; [Details and screenshots](multiple-kitchen-timers-for-cooking/)
+
+<a href="multiple-kitchen-timers-for-cooking/"><img src="multiple-kitchen-timers-for-cooking/screenshots/phone.png" alt="Multiple Kitchen Timers for Cooking screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

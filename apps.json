@@ -268,5 +268,11 @@
     "name": "Pomodoro Focus Timer for Study and Work",
     "description": "Focus on one task for 25 minutes, take a short break, and see how much focus time each task got today and this week. Keeps time when the phone locks, private, works offline.",
     "color": "#f04e37"
+  },
+  {
+    "slug": "multiple-kitchen-timers-for-cooking",
+    "name": "Multiple Kitchen Timers for Cooking",
+    "description": "Run a named timer for each dish at once (rice, pasta, oven), sorted by which ends first, with an alarm that says which one is done. Pause, +1 min, restart and saved timers. Works offline.",
+    "color": "#1098ad"
   }
 ]

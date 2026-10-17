@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple Kitchen Timers for Cooking: Several Named Timers at Once</title>
+    <meta name="description" content="Free kitchen timers for cooking several dishes at once. Start as many named timers as you need (rice, pasta, oven), see which one ends first, and hear an alarm that says which dish is done. Pause, add a minute, restart, saved timers for eggs, tea and rice. Keeps time through reloads, keeps the screen on, no sign-up, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/multiple-kitchen-timers-for-cooking/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#1098ad">
+    <meta name="theme-color" content="#0b7d92">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Multiple Kitchen Timers for Cooking">
+    <meta property="og:url" content="https://umar8092.github.io/apps/multiple-kitchen-timers-for-cooking/">
+    <meta property="og:title" content="Multiple Kitchen Timers for Cooking">
+    <meta property="og:description" content="Run several named cooking timers at once and hear which dish is done. Free, private, no sign-up, works offline.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Multiple Kitchen Timers for Cooking","alternateName":["Kitchen Timer","Multiple Timers","Cooking Timer","Multi Timer","Egg Timer"],"url":"https://umar8092.github.io/apps/multiple-kitchen-timers-for-cooking/","description":"Free kitchen timers: run several named timers at once, sorted by which ends first, with an alarm, pause, +1 minute, restart and saved timers.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"kitchen timer, multiple timers, cooking timer, several timers at once, named timers, egg timer, online timer","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I run several kitchen timers at the same time?","acceptedAnswer":{"@type":"Answer","text":"Yes. Start up to 20 timers, each with its own name and length. They are sorted so the one that ends first is at the top, and the alarm says which one is done."}},{"@type":"Question","name":"Do the timers keep going if I reload the page or the phone locks?","acceptedAnswer":{"@type":"Answer","text":"The timers save the time they end, so they always show the right time when you come back. A locked phone cannot play sound, so the app keeps the screen on while timers run."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your timers stay in this browser on this device. There is no account, your data is never sent anywhere, and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app empty" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Multiple Kitchen Timers for Cooking</h1>
+        <p class="sub">Run a timer for each dish at once, and hear which one is done.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. The timers work, but they will be lost if you close or reload the page.</p>
+    <div class="warn-box sound-box" id="sound-warn" hidden>
+        <span>Sound is off until you tap the page.</span>
+        <button type="button" class="secondary small" id="sound-on">Turn sound on</button>
+    </div>
+
+    <div class="col-run">
+        <section class="card timers" id="timers" aria-labelledby="timers-h">
+            <div class="head-row">
+                <h2 id="timers-h">Your timers</h2>
+                <button type="button" class="secondary small" id="stop-all" hidden>Stop all alarms</button>
+            </div>
+            <p class="summary" id="summary" aria-live="off"></p>
+            <p class="hint" id="timers-empty">No timers yet. Add one, or tap a saved timer to start it.</p>
+            <ul class="box-list" id="list" aria-label="Timers"></ul>
+            <div class="row-btns two" id="list-tools" hidden>
+                <button type="button" class="secondary" id="clear-done">Remove finished timers</button>
+                <button type="button" class="secondary" id="clear-all">Remove all timers</button>
+            </div>
+            <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+            <p class="vh" id="announce" role="alert"></p>
+        </section>
+    </div>
+
+    <div class="col-add">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a timer</h2>
+            <form id="add-form" novalidate>
+                <label for="name">What is it for? <span class="opt">(optional)</span></label>
+                <input id="name" type="text" maxlength="60" autocomplete="off" enterkeyhint="go" placeholder="e.g. Rice">
+                <p class="label-like" id="len-h">How long</p>
+                <div class="presets" role="group" aria-labelledby="len-h">
+                    <button type="button" class="preset" data-ms="60000">1 min</button>
+                    <button type="button" class="preset" data-ms="180000">3 min</button>
+                    <button type="button" class="preset" data-ms="300000">5 min</button>
+                    <button type="button" class="preset" data-ms="600000">10 min</button>
+                    <button type="button" class="preset" data-ms="900000">15 min</button>
+                    <button type="button" class="preset" data-ms="1200000">20 min</button>
+                    <button type="button" class="preset" data-ms="1800000">30 min</button>
+                    <button type="button" class="preset" data-ms="2700000">45 min</button>
+                    <button type="button" class="preset" data-ms="3600000">1 hour</button>
+                </div>
+                <div class="hms" role="group" aria-label="Or type your own length">
+                    <div><label for="len-h-in">Hours</label><input id="len-h-in" type="text" inputmode="decimal" maxlength="5" autocomplete="off" placeholder="0"></div>
+                    <div><label for="len-m-in">Minutes</label><input id="len-m-in" type="text" inputmode="decimal" maxlength="5" autocomplete="off" placeholder="0"></div>
+                    <div><label for="len-s-in">Seconds</label><input id="len-s-in" type="text" inputmode="decimal" maxlength="5" autocomplete="off" placeholder="0"></div>
+                </div>
+                <p class="hint" id="len-text">Tap a length above, or type your own (up to 24 hours).</p>
+                <p class="err" id="add-err" role="alert"></p>
+                <label class="check"><input type="checkbox" id="add-save"> Also keep it in Saved timers</label>
+                <button type="submit" class="primary big" id="start">Start timer</button>
+            </form>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card saved" id="saved" aria-labelledby="saved-h">
+            <h2 id="saved-h">Saved timers</h2>
+            <p class="hint">Tap one to start it straight away.</p>
+            <ul class="fav-list" id="favs" aria-label="Saved timers"></ul>
+            <p class="hint" id="favs-empty" hidden>No saved timers. Tick “Also keep it in Saved timers” when you add one, or press “Save” on a timer.</p>
+            <button type="button" class="link" id="starters" hidden>Bring back the example timers</button>
+            <div class="msg" id="fav-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Alarm and screen</h2>
+            <label for="s-sound">Sound when a timer is done</label>
+            <div class="with-btn">
+                <select id="s-sound">
+                    <option value="beeps">Loud beeps</option>
+                    <option value="bell">Bell</option>
+                    <option value="off">No sound</option>
+                </select>
+                <button type="button" class="secondary small" id="test-sound">Play</button>
+            </div>
+            <div class="checks">
+                <label class="check"><input type="checkbox" id="s-vibrate"> Vibrate when a timer is done (phones)</label>
+                <label class="check"><input type="checkbox" id="s-awake"> Keep the screen on while timers run</label>
+                <label class="check"><input type="checkbox" id="s-notify"> Show a notification when a timer is done</label>
+            </div>
+            <p class="hint">The alarm rings for 1 minute, then beeps every 15 seconds until you press “Stop alarm” (10 minutes at most).</p>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq" aria-labelledby="faq-h">
+        <h2 id="faq-h">Questions</h2>
+        <details><summary>Will it ring if my phone locks?</summary><p>A locked phone stops web pages, so the sound cannot play until you unlock it. That is why the app keeps the screen on while timers run (turn it off under <b>Alarm and screen</b>). When you come back, each timer shows the right time, or says “Done 3 min ago”, and a timer that finished in the last 10 minutes rings straight away.</p></details>
+        <details><summary>I do not hear anything.</summary><p>Browsers only play sound after you tap the page; pressing <b>Start timer</b> does that. After a reload, tap <b>Turn sound on</b>. On an iPhone the silent switch also mutes web pages. Press <b>Play</b> under <b>Alarm and screen</b> to test the volume.</p></details>
+        <details><summary>What do Restart and +1 min do?</summary><p><b>Restart</b> starts the timer again from its full length (shown on the button). <b>+1 min</b> adds a minute; on a finished timer it runs one more minute, handy when the pasta needs a little longer.</p></details>
+        <details><summary>Can I use it for things other than cooking?</summary><p>Yes: laundry, a bath, screen time, parking, a nap, plant watering. Give each timer a name so you know which one is ringing.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your timers and saved timers stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection, and you can add it to your home screen.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/multiple-kitchen-timers-for-cooking">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Multiple Kitchen Timers", "sections": [
+ {"h": "Start a timer", "steps": ["Type what it is for under \"What is it for?\", for example Rice. You can leave it empty; it is then called Timer 1, Timer 2 and so on.", "Under \"How long\" tap a length such as \"10 min\", or type your own in \"Hours\", \"Minutes\" and \"Seconds\". 90 minutes or 1.5 hours both work, up to 24 hours. The line below says when it will ring.", "Press \"Start timer\" (or Enter). The timer appears under \"Your timers\". Start as many as you need, up to 20.", "Tick \"Also keep it in Saved timers\" to keep that name and length for next time."]},
+ {"h": "Your timers", "steps": ["Each timer has its own box with its name, the time left, a bar and the clock time it ends. The one that ends first is always at the top.", "\"Pause\" stops a timer and \"Resume\" carries on. \"+1 min\" adds a minute. \"Restart\" starts it again from its full length, shown on the button.", "\"Change\" lets you rename a timer or set a new time left. \"Save\" adds it to Saved timers. \"Remove\" deletes it, with \"Undo\".", "\"Remove finished timers\" clears the ones that are done. \"Remove all timers\" clears everything, with \"Undo\"."]},
+ {"h": "When a timer is done", "steps": ["The box turns red and moves to the top, the alarm sounds, the phone vibrates and the tab title says which dish is done.", "Press \"Stop alarm\" to silence it. \"Stop all alarms\" at the top silences every ringing timer at once.", "The alarm rings for 1 minute, then beeps every 15 seconds for up to 10 minutes.", "\"+1 min\" on a finished timer runs it for one more minute."]},
+ {"h": "Saved timers", "steps": ["Tap a saved timer, for example \"Soft-boiled egg 6:00\", to start it straight away. \"Undo\" removes it again if you tapped by mistake.", "The examples are only a start: press the × next to one to remove it, with \"Undo\", and save your own.", "\"Bring back the example timers\" appears when the list is empty."]},
+ {"h": "Alarm and screen", "steps": ["\"Sound when a timer is done\" picks loud beeps, a bell or no sound. \"Play\" tests it.", "\"Vibrate\" shakes the phone when a timer is done.", "\"Keep the screen on while timers run\" stops the phone from locking, so the alarm can be heard.", "\"Show a notification\" shows a message on a computer when the page is in the background."]},
+ {"h": "Good to know", "tips": true, "steps": ["Timers keep the right time through reloads and when you switch apps. A locked phone cannot ring, so leave the page open.", "Sound needs one tap on the page first. If you see \"Turn sound on\", tap it.", "On an iPhone the silent switch also mutes the alarm.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
