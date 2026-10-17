@@ -386,6 +386,14 @@ See how much each child has from pocket money and paid chores, and what they are
 
 <a href="pocket-money-and-chores-tracker-for-kids/"><img src="pocket-money-and-chores-tracker-for-kids/screenshots/phone.png" alt="Pocket Money and Chores Tracker for Kids screenshot" width="260"></a>
 
+### <img src="interval-workout-timer-for-hiit-and-circuits/favicon.svg" width="36" height="36" align="center"> [Interval Workout Timer for HIIT and Circuits](https://umar8092.github.io/apps/interval-workout-timer-for-hiit-and-circuits/)
+
+Working out at home or in the park without a coach? Set the work and rest times, rounds, sets, warm-up and cool-down (or tap Tabata, 30/30, Circuit, EMOM or Stretching) and see "Total 18:00, ends at 7:18 PM" before you start. Then one big countdown, green for work and blue for rest, shows the move ("Lunges, round 3 of 4"), the time left and what is next, with a beep at each step and 3-2-1 before it ends. Named moves with their own times, pause, skip, back, saved workouts and a log of workouts done. Keeps time when the phone locks, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/interval-workout-timer-for-hiit-and-circuits/) &middot; [Details and screenshots](interval-workout-timer-for-hiit-and-circuits/)
+
+<a href="interval-workout-timer-for-hiit-and-circuits/"><img src="interval-workout-timer-for-hiit-and-circuits/screenshots/phone.png" alt="Interval Workout Timer for HIIT and Circuits screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

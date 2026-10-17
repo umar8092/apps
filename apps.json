@@ -286,5 +286,11 @@
     "name": "Pocket Money and Chores Tracker for Kids",
     "description": "Each child's pocket money, paid chores and savings goal in their own box. Paydays add the money by themselves, tap Done for chores, take money out, print a chore chart for the fridge. Works offline.",
     "color": "#e03d7a"
+  },
+  {
+    "slug": "interval-workout-timer-for-hiit-and-circuits",
+    "name": "Interval Workout Timer for HIIT and Circuits",
+    "description": "Set work and rest times, rounds, sets and named moves, see the total, then follow one big countdown with 3-2-1 beeps. Tabata, circuits, EMOM, stretching, saved workouts and a log. Works offline.",
+    "color": "#74b816"
   }
 ]

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interval Workout Timer for HIIT and Circuits: Work, Rest, Rounds and Beeps</title>
+    <meta name="description" content="Free interval workout timer for HIIT, Tabata, circuits, EMOM and stretching at home or in the park. Set work and rest times, rounds, sets, warm-up and cool-down, name each move (with its own time if you like), see the total before you start, then follow one big countdown with 3-2-1 beeps and the next move. Pause, skip, back, saved workouts and a log of workouts done. Keeps time when the phone locks, no sign-up, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/interval-workout-timer-for-hiit-and-circuits/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#74b816">
+    <meta name="theme-color" content="#5c940d">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Interval Workout Timer for HIIT and Circuits">
+    <meta property="og:url" content="https://umar8092.github.io/apps/interval-workout-timer-for-hiit-and-circuits/">
+    <meta property="og:title" content="Interval Workout Timer for HIIT and Circuits">
+    <meta property="og:description" content="Set work, rest, rounds and moves, see the total, then follow one big countdown with 3-2-1 beeps. Free, private, no sign-up, works offline.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Interval Workout Timer for HIIT and Circuits","alternateName":["Interval Timer","HIIT Timer","Tabata Timer","Circuit Training Timer","EMOM Timer","Workout Timer"],"url":"https://umar8092.github.io/apps/interval-workout-timer-for-hiit-and-circuits/","description":"Free interval timer: work and rest times, rounds, sets, warm-up, cool-down and named moves, with a big countdown, 3-2-1 beeps, pause, skip, saved workouts and a workout log.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"interval timer, HIIT timer, Tabata timer, circuit timer, EMOM timer, workout timer, round timer, home workout","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why is my Tabata 3:50 and not 4:00?","acceptedAnswer":{"@type":"Answer","text":"The rest after the last round is left out, because the workout (or the set) ends there. 8 rounds of 20 seconds work and 7 rests of 10 seconds make 3 minutes 50 seconds."}},{"@type":"Question","name":"Does the timer keep going if my phone locks?","acceptedAnswer":{"@type":"Answer","text":"The timer works from the clock, so when you come back it shows the right step and time. A locked phone cannot play beeps, so the app keeps the screen on while a workout runs."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your workouts and history stay in this browser on this device. There is no account, your data is never sent anywhere, and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Interval Workout Timer for HIIT and Circuits</h1>
+        <p class="sub">Set your work and rest times, see the total, then follow one big countdown with beeps.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. The timer works, but your workouts and history will be lost when you close the page.</p>
+    <p class="warn-box" id="damaged-warn" hidden>Your saved workouts could not be read, so the app started fresh.</p>
+    <div class="warn-box sound-box" id="sound-warn" hidden>
+        <span>Sound is off until you tap the page.</span>
+        <button type="button" class="secondary small" id="sound-on">Turn sound on</button>
+    </div>
+
+    <section class="card run" id="run" aria-labelledby="r-phase" hidden>
+        <div class="run-main" id="run-main">
+            <div class="run-top">
+                <span class="phase" id="r-phase">Work</span>
+                <span class="where" id="r-where"></span>
+            </div>
+            <p class="r-name" id="r-name"></p>
+            <div class="r-time" id="r-time" role="timer" aria-live="off">0:00</div>
+            <div class="bar" aria-hidden="true"><i id="r-bar"></i></div>
+            <p class="r-next" id="r-next"></p>
+            <div class="r-btns">
+                <button type="button" class="secondary" id="r-back" aria-label="Back: start this step again, or go to the step before">&#9664; Back</button>
+                <button type="button" class="primary" id="r-pause">Pause</button>
+                <button type="button" class="secondary" id="r-skip" aria-label="Skip to the next step">Skip &#9654;</button>
+            </div>
+            <div class="r-total">
+                <div class="bar thin" aria-hidden="true"><i id="r-tbar"></i></div>
+                <p id="r-total"></p>
+            </div>
+            <button type="button" class="link rm" id="r-end">End workout</button>
+            <div class="confirm" id="r-confirm" hidden>
+                <p id="r-confirm-text">End the workout now?</p>
+                <div class="row-btns two">
+                    <button type="button" class="danger" id="r-end-yes">Yes, end it</button>
+                    <button type="button" class="secondary" id="r-end-no">Keep going</button>
+                </div>
+            </div>
+        </div>
+        <div class="run-done" id="run-done" hidden>
+            <h2 id="d-title">Workout done!</h2>
+            <p class="d-big" id="d-big"></p>
+            <p id="d-text"></p>
+            <div class="msg" id="d-msg" role="status" aria-live="polite"></div>
+            <div class="row-btns two">
+                <button type="button" class="primary" id="d-again">Do it again</button>
+                <button type="button" class="secondary" id="d-close">Back to my workout</button>
+            </div>
+        </div>
+        <div class="run-side" id="run-side">
+            <h3>Coming up</h3>
+            <ol class="steps" id="r-steps"></ol>
+        </div>
+        <p class="vh" id="announce" role="status" aria-live="polite"></p>
+    </section>
+
+    <div class="col-set" id="col-set">
+        <section class="card pick" id="pick" aria-labelledby="pick-h">
+            <h2 id="pick-h"><span class="num">1</span> Pick a workout</h2>
+            <p class="hint">Start from one of these and change anything below.</p>
+            <div class="presets" id="presets" role="group" aria-label="Ready-made workouts"></div>
+            <h3 class="mine-h">My workouts</h3>
+            <p class="hint" id="saved-empty">None saved yet. Press “Save to My workouts” to keep a workout here.</p>
+            <ul class="box-list saved-list" id="saved" aria-label="My workouts"></ul>
+            <div class="msg" id="pick-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card edit" id="edit" aria-labelledby="edit-h">
+            <h2 id="edit-h"><span class="num">2</span> Your workout</h2>
+            <form id="form" novalidate>
+                <label for="f-name">Name <span class="opt">(optional)</span></label>
+                <input id="f-name" type="text" maxlength="50" autocomplete="off" placeholder="e.g. Evening HIIT">
+                <p class="hint">Type seconds (40) or minutes:seconds (1:30), or use − and +.</p>
+                <div class="fields">
+                    <div class="field"><label for="f-work">Work</label>
+                        <div class="step"><button type="button" class="stp" data-for="f-work" data-d="-1" aria-label="Less work time">−</button><input id="f-work" type="text" inputmode="text" maxlength="8" autocomplete="off" placeholder="0:40"><button type="button" class="stp" data-for="f-work" data-d="1" aria-label="More work time">+</button></div>
+                        <p class="err" id="e-work"></p></div>
+                    <div class="field"><label for="f-rest">Rest after each round</label>
+                        <div class="step"><button type="button" class="stp" data-for="f-rest" data-d="-1" aria-label="Less rest time">−</button><input id="f-rest" type="text" inputmode="text" maxlength="8" autocomplete="off" placeholder="0:20"><button type="button" class="stp" data-for="f-rest" data-d="1" aria-label="More rest time">+</button></div>
+                        <p class="err" id="e-rest"></p></div>
+                    <div class="field"><label for="f-rounds">Rounds</label>
+                        <div class="step"><button type="button" class="stp" data-for="f-rounds" data-d="-1" aria-label="One round less">−</button><input id="f-rounds" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="8"><button type="button" class="stp" data-for="f-rounds" data-d="1" aria-label="One more round">+</button></div>
+                        <p class="err" id="e-rounds"></p></div>
+                    <div class="field"><label for="f-sets">Sets <span class="opt">(repeat all rounds)</span></label>
+                        <div class="step"><button type="button" class="stp" data-for="f-sets" data-d="-1" aria-label="One set less">−</button><input id="f-sets" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="1"><button type="button" class="stp" data-for="f-sets" data-d="1" aria-label="One more set">+</button></div>
+                        <p class="err" id="e-sets"></p></div>
+                    <div class="field" id="setrest-field"><label for="f-setRest">Rest between sets</label>
+                        <div class="step"><button type="button" class="stp" data-for="f-setRest" data-d="-1" aria-label="Less rest between sets">−</button><input id="f-setRest" type="text" inputmode="text" maxlength="8" autocomplete="off" placeholder="1:00"><button type="button" class="stp" data-for="f-setRest" data-d="1" aria-label="More rest between sets">+</button></div>
+                        <p class="err" id="e-setRest"></p></div>
+                    <div class="field"><label for="f-warm">Warm-up <span class="opt">(0 for none)</span></label>
+                        <div class="step"><button type="button" class="stp" data-for="f-warm" data-d="-1" aria-label="Shorter warm-up">−</button><input id="f-warm" type="text" inputmode="text" maxlength="8" autocomplete="off" placeholder="0:00"><button type="button" class="stp" data-for="f-warm" data-d="1" aria-label="Longer warm-up">+</button></div>
+                        <p class="err" id="e-warm"></p></div>
+                    <div class="field"><label for="f-cool">Cool-down <span class="opt">(0 for none)</span></label>
+                        <div class="step"><button type="button" class="stp" data-for="f-cool" data-d="-1" aria-label="Shorter cool-down">−</button><input id="f-cool" type="text" inputmode="text" maxlength="8" autocomplete="off" placeholder="0:00"><button type="button" class="stp" data-for="f-cool" data-d="1" aria-label="Longer cool-down">+</button></div>
+                        <p class="err" id="e-cool"></p></div>
+                </div>
+
+                <div class="moves-wrap">
+                    <button type="button" class="secondary add-moves" id="show-moves" aria-expanded="false">+ Add move names (optional)</button>
+                    <div id="moves-box" hidden>
+                        <h3>Moves</h3>
+                        <p class="hint">Each round does the next move in order, then they repeat. A move can have its own time; leave it empty to use the Work time.</p>
+                        <ol class="box-list moves" id="moves" aria-label="Moves"></ol>
+                        <p class="note" id="moves-note" hidden></p>
+                        <div class="row-btns two">
+                            <button type="button" class="secondary" id="add-move">+ Add a move</button>
+                            <button type="button" class="secondary" id="paste-open" aria-expanded="false">Paste a list</button>
+                        </div>
+                        <div class="paste" id="paste" hidden>
+                            <label for="paste-text">One move per line. A time at the end gives that move its own time.</label>
+                            <textarea id="paste-text" rows="5" placeholder="Squats&#10;Push-ups&#10;Plank 1:00"></textarea>
+                            <div class="row-btns two">
+                                <button type="button" class="primary" id="paste-add">Add these moves</button>
+                                <button type="button" class="secondary" id="paste-cancel">Cancel</button>
+                            </div>
+                            <p class="err" id="e-paste"></p>
+                        </div>
+                        <button type="button" class="link rm" id="clear-moves">Remove all moves</button>
+                    </div>
+                </div>
+            </form>
+            <div class="msg" id="edit-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-plan" id="col-plan">
+        <section class="card plan" id="plan" aria-labelledby="plan-h">
+            <h2 id="plan-h"><span class="num">3</span> Start</h2>
+            <p class="p-name" id="p-name"></p>
+            <p class="p-total"><span class="lbl">Total</span> <b id="p-total">0:00</b></p>
+            <p class="p-ends" id="p-ends"></p>
+            <p class="p-desc" id="p-desc"></p>
+            <p class="hint" id="p-note"></p>
+            <p class="err" id="p-err" role="alert"></p>
+            <button type="button" class="primary big" id="start">Start workout</button>
+            <button type="button" class="secondary" id="save">Save to My workouts</button>
+            <div class="msg" id="plan-msg" role="status" aria-live="polite"></div>
+            <details class="all-steps" id="all-steps">
+                <summary id="steps-sum">See every step</summary>
+                <ol class="steps" id="p-steps"></ol>
+            </details>
+        </section>
+
+        <section class="card sound" id="sound" aria-labelledby="sound-h">
+            <h2 id="sound-h">Sound and screen</h2>
+            <div class="checks">
+                <label class="check"><input type="checkbox" id="s-beeps"> Beep when each step starts</label>
+                <label class="check"><input type="checkbox" id="s-countdown"> Count down 3, 2, 1 before each step ends</label>
+                <label class="check"><input type="checkbox" id="s-voice"> Say each move out loud</label>
+                <label class="check"><input type="checkbox" id="s-vibrate"> Vibrate when each step starts (phones)</label>
+                <label class="check"><input type="checkbox" id="s-awake"> Keep the screen on during a workout</label>
+            </div>
+            <button type="button" class="secondary small" id="test-sound">Test the sound</button>
+            <div class="msg" id="sound-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card history" id="history" aria-labelledby="hist-h">
+            <h2 id="hist-h">Workouts done</h2>
+            <p class="h-sum" id="h-sum"></p>
+            <p class="hint" id="h-empty">Nothing yet. Each workout you finish (or end after at least a minute) is added here.</p>
+            <ul class="box-list h-list" id="h-list" aria-label="Workouts done"></ul>
+            <button type="button" class="link" id="h-more" hidden>Show all</button>
+            <button type="button" class="secondary small" id="h-copy" hidden>Copy the list</button>
+            <div class="msg" id="h-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq" aria-labelledby="faq-h">
+        <h2 id="faq-h">Questions</h2>
+        <details><summary>Why is my Tabata 3:50 and not 4:00?</summary><p>The rest after the last round of each set is left out, because the set ends there (the rest between sets, the cool-down or the end follows). 8 rounds of 20 seconds and 7 rests of 10 seconds make 3:50. Press <b>See every step</b> to check any workout step by step.</p></details>
+        <details><summary>Will it beep if my phone locks?</summary><p>A locked phone pauses web pages, so beeps cannot play until you unlock it. That is why the app keeps the screen on during a workout (switch it off under <b>Sound and screen</b>). The timer works from the clock, so when you come back it shows the right step and time.</p></details>
+        <details><summary>I do not hear any beeps.</summary><p>Browsers only play sound after you tap the page; pressing <b>Start workout</b> does that. After a reload, tap <b>Turn sound on</b>. On an iPhone the silent switch also mutes web pages. Press <b>Test the sound</b> to check the volume.</p></details>
+        <details><summary>How do I time an EMOM or AMRAP?</summary><p>EMOM (every minute on the minute): tap <b>EMOM 10</b>, or set Work to 1:00, Rest to 0 and Rounds to the minutes you want; it beeps at the start of each minute. AMRAP (as many rounds as possible): set Work to the total time, for example 12:00, and Rounds to 1.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your workouts and history stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection, and you can add it to your home screen.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/interval-workout-timer-for-hiit-and-circuits">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Interval Workout Timer", "sections": [
+ {"h": "1. Pick a workout", "steps": ["Tap a ready-made workout such as \"Tabata\", \"30 / 30\", \"Circuit\", \"EMOM 10\" or \"Stretching\". It fills in everything below; \"Undo\" brings back what you had.", "Workouts you saved are under \"My workouts\". \"Load\" puts one back in the form, \"Delete\" removes it (with \"Undo\")."]},
+ {"h": "2. Your workout", "steps": ["\"Work\" is how long each round lasts and \"Rest after each round\" the break after it. Type seconds (40) or minutes:seconds (1:30), or press − and +.", "\"Rounds\" is how many work periods there are. \"Sets\" repeats all the rounds, with \"Rest between sets\" in between.", "\"Warm-up\" and \"Cool-down\" come before and after; 0 leaves them out.", "\"+ Add move names\" lets you name each round, for example Squats, Push-ups, Plank. Each move can have its own time. \"Paste a list\" adds many at once, one per line, and \"Plank 1:00\" gives Plank its own minute.", "Every change is saved straight away and the total updates."]},
+ {"h": "3. Start", "steps": ["\"Total\" is the whole workout from the first beep to the last, and the line below says when it ends if you start now.", "\"See every step\" lists each step with the time it starts.", "Press \"Start workout\". \"Save to My workouts\" keeps it for next time; saving again with the same name updates it."]},
+ {"h": "During the workout", "steps": ["The colour and the word at the top say what to do: Warm-up, Work, Rest, Rest between sets or Cool-down. The big number is the time left in this step, with the move name above it and \"Next\" below.", "\"Pause\" stops the clock and \"Resume\" carries on. \"Skip\" jumps to the next step. \"Back\" starts this step again, or goes to the step before if you press it in the first 3 seconds.", "On a keyboard: Space pauses, the right arrow skips and the left arrow goes back.", "\"End workout\" asks first, then stops. The time you did is saved if it was at least a minute.", "At the end you see the time and \"Do it again\" or \"Back to my workout\"."]},
+ {"h": "Sound and history", "steps": ["Under \"Sound and screen\" choose beeps when each step starts, a 3, 2, 1 count before it ends, the move name said out loud, vibration and keeping the screen on. \"Test the sound\" plays the beeps.", "\"Workouts done\" shows this week's workouts and time, the last 30 days and the days in a row. Remove a wrong entry with × (with \"Undo\"), and \"Copy the list\" to paste it anywhere."]},
+ {"h": "Good to know", "tips": true, "steps": ["The rest after the last round of a set is left out, so Tabata (8 x 20 s on, 10 s off) is 3:50.", "The timer works from the clock, so a reload or switching apps never loses your place. A locked phone cannot beep, so leave the screen on.", "Sound needs one tap on the page first. If you see \"Turn sound on\", tap it. On an iPhone the silent switch also mutes it.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
