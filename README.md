@@ -434,6 +434,14 @@ Stop checking a photo of your timetable. Add each subject once with its days, ti
 
 <a href="class-timetable-for-students-and-teachers/"><img src="class-timetable-for-students-and-teachers/screenshots/phone.png" alt="Class Timetable for Students and Teachers screenshot" width="260"></a>
 
+### <img src="document-expiry-tracker-for-the-family/favicon.svg" width="36" height="36" align="center"> [Document Expiry Tracker for the Family](https://umar8092.github.io/apps/document-expiry-tracker-for-the-family/)
+
+Never find out at the airport that a passport has expired. Each person's passport, ID card, visa, driving licence and car or health insurance in their own box, with "Aisha: Passport expires Wed 3 Mar 2027 (4 months left)" at the top, the day to start renewing everything else, a warning when a passport has under 6 months left, and a travel check for your trip dates. Calendar reminders, numbers hidden until tapped, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/document-expiry-tracker-for-the-family/) &middot; [Details and screenshots](document-expiry-tracker-for-the-family/)
+
+<a href="document-expiry-tracker-for-the-family/"><img src="document-expiry-tracker-for-the-family/screenshots/phone.png" alt="Document Expiry Tracker for the Family screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

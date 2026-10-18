@@ -322,5 +322,11 @@
     "name": "Class Timetable for Students and Teachers",
     "description": "See the lesson on now, what is next, which room and what to bring, plus today, tomorrow and the whole week. Week A and Week B, holidays, print and calendar file. Private, works offline.",
     "color": "#228be6"
+  },
+  {
+    "slug": "document-expiry-tracker-for-the-family",
+    "name": "Document Expiry Tracker for the Family",
+    "description": "Passports, ID cards, visas, licences and insurance for everyone at home. See what to renew now, when to start, and if passports are good for a trip.",
+    "color": "#0b7285"
   }
 ]
