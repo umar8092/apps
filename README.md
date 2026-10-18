@@ -410,6 +410,14 @@ Feeling low or anxious some days and want to see what helps? Once a day tap a fa
 
 <a href="mood-and-sleep-journal/"><img src="mood-and-sleep-journal/screenshots/phone.png" alt="Mood and Sleep Journal screenshot" width="260"></a>
 
+### <img src="plant-watering-schedule-for-houseplants/favicon.svg" width="36" height="36" align="center"> [Plant Watering Schedule for Houseplants](https://umar8092.github.io/apps/plant-watering-schedule-for-houseplants/)
+
+Stop drowning some plants and forgetting others. Add each plant with how often it needs water and when you last watered it, and see "2 plants need water today: Basil (1 day late), Monstera". Tap Watered, Still wet or I watered all. Each plant can have its own winter number and plant food schedule, and when you go away the app makes a day-by-day list for the plant-sitter ("Thu 29 Oct: Basil, Fern"). No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/plant-watering-schedule-for-houseplants/) &middot; [Details and screenshots](plant-watering-schedule-for-houseplants/)
+
+<a href="plant-watering-schedule-for-houseplants/"><img src="plant-watering-schedule-for-houseplants/screenshots/phone.png" alt="Plant Watering Schedule for Houseplants screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

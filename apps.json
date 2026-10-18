@@ -304,5 +304,11 @@
     "name": "Mood and Sleep Journal",
     "description": "Tap your mood once a day, add your sleep and what happened. See a calendar coloured by mood and your average mood with and without each thing, such as exercise or caffeine. Private, works offline.",
     "color": "#5c7cfa"
+  },
+  {
+    "slug": "plant-watering-schedule-for-houseplants",
+    "name": "Plant Watering Schedule for Houseplants",
+    "description": "Add each plant with how often it needs water and see which plants need water today and which are late. Winter watering, plant food, and a day-by-day list for the plant-sitter when you go away. Private, works offline.",
+    "color": "#2b9348"
   }
 ]

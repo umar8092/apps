@@ -1,0 +1,15 @@
+{
+  "name": "Plant Watering Schedule for Houseplants",
+  "short_name": "Plant Watering",
+  "description": "See which plants need water today, and never drown or forget one again.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f2a17",
+  "theme_color": "#2b9348",
+  "categories": ["lifestyle", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
