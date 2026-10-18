@@ -418,6 +418,14 @@ Stop drowning some plants and forgetting others. Add each plant with how often i
 
 <a href="plant-watering-schedule-for-houseplants/"><img src="plant-watering-schedule-for-houseplants/screenshots/phone.png" alt="Plant Watering Schedule for Houseplants screenshot" width="260"></a>
 
+### <img src="job-application-tracker-for-job-seekers/favicon.svg" width="36" height="36" align="center"> [Job Application Tracker for Job Seekers](https://umar8092.github.io/apps/job-application-tracker-for-job-seekers/)
+
+Sent 40 applications and lost track? Add each job and see "Follow up today: Acme Ltd (applied 10 days ago, no reply)", your coming interviews with calendar reminders, adverts that close soon and "This week: 5 of 10 applications". Move each job through Applied, Heard back, Interview and Offer, and copy or print a dated job search record for the job centre. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/job-application-tracker-for-job-seekers/) &middot; [Details and screenshots](job-application-tracker-for-job-seekers/)
+
+<a href="job-application-tracker-for-job-seekers/"><img src="job-application-tracker-for-job-seekers/screenshots/phone.png" alt="Job Application Tracker for Job Seekers screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

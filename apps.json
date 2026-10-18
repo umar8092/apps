@@ -310,5 +310,11 @@
     "name": "Plant Watering Schedule for Houseplants",
     "description": "Add each plant with how often it needs water and see which plants need water today and which are late. Winter watering, plant food, and a day-by-day list for the plant-sitter when you go away. Private, works offline.",
     "color": "#2b9348"
+  },
+  {
+    "slug": "job-application-tracker-for-job-seekers",
+    "name": "Job Application Tracker for Job Seekers",
+    "description": "Know who to follow up with today, when your next interview is and how many jobs you applied for this week. Copy a dated job search record for the job centre. Private, works offline.",
+    "color": "#a61e4d"
   }
 ]

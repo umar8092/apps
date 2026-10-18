@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Tracker for Job Seekers: Follow-ups, Interviews and a Job Search Record</title>
+    <meta name="description" content="Free job application tracker for job seekers. Add every job you apply for, see who to follow up with today, your coming interviews and how many you applied for this week, move each job through Applied, Heard back, Interview and Offer, and copy a dated job search record for the job centre. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/job-application-tracker-for-job-seekers/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#a61e4d">
+    <meta name="theme-color" content="#a61e4d">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Job Application Tracker for Job Seekers">
+    <meta property="og:url" content="https://umar8092.github.io/apps/job-application-tracker-for-job-seekers/">
+    <meta property="og:title" content="Job Application Tracker for Job Seekers">
+    <meta property="og:description" content="Know which company to follow up with today, when your next interview is, and how many jobs you applied for this week. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Job Application Tracker for Job Seekers","alternateName":["Job Search Tracker","Job Application Log","Job Hunt Organizer","Job Search Record for the Job Centre"],"url":"https://umar8092.github.io/apps/job-application-tracker-for-job-seekers/","description":"A free job application tracker. See who to follow up with today, your coming interviews and your weekly applications, and copy a dated job search record. Private on your device.","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"job application tracker, job search tracker, follow up after applying, interview tracker, job search record, job centre evidence","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"When should I follow up after applying for a job?","acceptedAnswer":{"@type":"Answer","text":"About one week after applying is a common rule, unless the advert gives a decision date. A short, polite email or call is enough. The app shows each job on the day its follow-up is due."}},{"@type":"Question","name":"Can I use it to show my job search to the job centre?","acceptedAnswer":{"@type":"Answer","text":"Yes. Job search record makes a dated list of your applications, follow-ups and interviews for the dates you choose, which you can copy, email or print."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your applications stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Job Application Tracker for Job Seekers</h1>
+        <p class="sub">Know who to follow up with today, when your next interview is, and how many jobs you applied for this week.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your applications will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h">Today</h2>
+            <div id="sum-body" aria-live="polite"></div>
+        </section>
+
+        <section class="card list" id="list" aria-labelledby="list-h">
+            <h2 id="list-h">Your applications</h2>
+            <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+            <div class="filters" id="filters" role="group" aria-label="Show only one stage" hidden></div>
+            <div id="find-wrap" hidden>
+                <label for="find" class="sr">Find a company or job</label>
+                <input id="find" type="search" maxlength="60" autocomplete="off" placeholder="Find a company or job">
+            </div>
+            <p class="empty" id="empty">No applications yet. Add the first job you applied for (or want to apply for), and the app tells you when to follow up.</p>
+            <p class="empty" id="none-here" hidden></p>
+            <ul class="box-list" id="boxes"></ul>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card add" id="add" aria-labelledby="form-h">
+            <h2 id="form-h">Add a job</h2>
+            <div class="msg" id="form-msg" role="status" aria-live="polite"></div>
+            <button type="button" class="primary" id="open-form" hidden>+ Add a job</button>
+            <form id="form" novalidate>
+                <button type="button" class="link first" id="o-paste">+ Paste from a job advert (optional)</button>
+                <div class="opt" id="w-paste" hidden>
+                    <label for="f-paste">Paste the advert's title or link</label>
+                    <textarea id="f-paste" rows="2" maxlength="1500" placeholder="e.g. Sales Assistant - Acme Ltd | LinkedIn" aria-describedby="h-paste"></textarea>
+                    <p class="hint" id="h-paste">The job title, company, link and website are filled in below for you. Check them before saving.</p>
+                </div>
+
+                <label for="f-company">Company or employer</label>
+                <input id="f-company" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Acme Ltd" aria-describedby="e-company dup">
+                <p class="err" id="e-company" role="alert"></p>
+                <p class="dup" id="dup" aria-live="polite"></p>
+
+                <label for="f-role">Job title</label>
+                <input id="f-role" type="text" maxlength="100" autocomplete="off" placeholder="e.g. Sales Assistant" aria-describedby="e-role">
+                <p class="err" id="e-role" role="alert"></p>
+
+                <label for="f-stage">Stage</label>
+                <select id="f-stage">
+                    <option value="want">Want to apply</option>
+                    <option value="applied" selected>Applied</option>
+                    <option value="heard">Heard back</option>
+                    <option value="interview">Interview</option>
+                    <option value="offer">Offer</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="noreply">No reply</option>
+                    <option value="withdrew">I withdrew</option>
+                </select>
+
+                <div id="w-applied">
+                    <label for="f-applied">Date applied</label>
+                    <input id="f-applied" type="date" aria-describedby="e-applied">
+                    <div class="quick" id="quick-applied">
+                        <button type="button" class="chip" data-days="0">Today</button>
+                        <button type="button" class="chip" data-days="1">Yesterday</button>
+                        <button type="button" class="chip" data-days="2">2 days ago</button>
+                    </div>
+                    <p class="err" id="e-applied" role="alert"></p>
+                </div>
+
+                <label for="f-where">Where you found it</label>
+                <input id="f-where" type="text" maxlength="60" autocomplete="off" list="where-list" placeholder="e.g. Indeed or LinkedIn">
+                <datalist id="where-list"></datalist>
+
+                <div id="w-closes-top" hidden></div>
+
+                <button type="button" class="link" id="o-more">+ Add link, salary, closing date and contact (optional)</button>
+                <div class="opt" id="w-more" hidden>
+                    <label for="f-link">Link to the advert</label>
+                    <input id="f-link" type="url" maxlength="600" autocomplete="off" inputmode="url" placeholder="https://..." aria-describedby="e-link">
+                    <p class="err" id="e-link" role="alert"></p>
+                    <div id="w-closes">
+                        <label for="f-closes">Advert closes on</label>
+                        <input id="f-closes" type="date" aria-describedby="e-closes">
+                        <p class="err" id="e-closes" role="alert"></p>
+                    </div>
+                    <label for="f-how">How you applied</label>
+                    <select id="f-how">
+                        <option value="">Not saying</option>
+                        <option>Online form</option>
+                        <option>Email</option>
+                        <option>In person</option>
+                        <option>By phone</option>
+                        <option>Through an agency</option>
+                        <option>Other</option>
+                    </select>
+                    <label for="f-salary">Salary or pay</label>
+                    <input id="f-salary" type="text" maxlength="60" autocomplete="off" placeholder="e.g. 24,000 a year">
+                    <label for="f-contact">Contact person</label>
+                    <input id="f-contact" type="text" maxlength="150" autocomplete="off" placeholder="e.g. Sam Lee (HR)">
+                </div>
+
+                <div id="ivs"></div>
+                <button type="button" class="link" id="o-iv">+ Add an interview (optional)</button>
+
+                <button type="button" class="link" id="o-notes">+ Add notes (optional)</button>
+                <div class="opt" id="w-notes" hidden>
+                    <label for="f-notes">Notes</label>
+                    <textarea id="f-notes" rows="3" maxlength="5000" placeholder="e.g. Asked for 2 years' experience"></textarea>
+                </div>
+
+                <button type="button" class="link" id="o-follow">+ Choose your own follow-up day (optional)</button>
+                <div class="opt" id="w-follow" hidden>
+                    <label for="f-followOn">Follow up on</label>
+                    <input id="f-followOn" type="date" aria-describedby="e-followOn h-follow">
+                    <p class="hint" id="h-follow"></p>
+                    <p class="err" id="e-followOn" role="alert"></p>
+                </div>
+
+                <p class="preview" id="preview" aria-live="polite"></p>
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="save">Add this job</button>
+                    <button type="button" class="secondary" id="cancel">Done</button>
+                </div>
+                <div class="row-btns edit-only" id="edit-tools" hidden>
+                    <button type="button" class="danger" id="del">Delete this job</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card record" id="record" aria-labelledby="rec-h">
+            <h2 id="rec-h">Job search record</h2>
+            <p class="hint top">A dated list of your applications, follow-ups and interviews, for a job centre, a benefits office or your own records.</p>
+            <div class="quick" id="rec-quick" role="group" aria-label="Choose the dates">
+                <button type="button" class="chip" data-r="week" aria-pressed="true">This week</button>
+                <button type="button" class="chip" data-r="last" aria-pressed="false">Last week</button>
+                <button type="button" class="chip" data-r="2w" aria-pressed="false">Last 2 weeks</button>
+                <button type="button" class="chip" data-r="4w" aria-pressed="false">Last 4 weeks</button>
+                <button type="button" class="chip" data-r="all" aria-pressed="false">Everything</button>
+            </div>
+            <div class="pair">
+                <div><label for="r-from">From</label><input id="r-from" type="date" aria-describedby="e-rec"></div>
+                <div><label for="r-to">To</label><input id="r-to" type="date" aria-describedby="e-rec"></div>
+            </div>
+            <p class="err" id="e-rec" role="alert"></p>
+            <button type="button" class="link" id="o-name">+ Put your name on it (optional)</button>
+            <div class="opt" id="w-name" hidden>
+                <label for="r-name">Your name</label>
+                <input id="r-name" type="text" maxlength="80" autocomplete="name" placeholder="e.g. Amira Khan">
+            </div>
+            <pre class="rec-text" id="rec-text"></pre>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="rec-copy">Copy the record</button>
+                <a class="secondary" id="rec-mail" href="mailto:">Email the record</a>
+                <button type="button" class="secondary" id="rec-print">Print the record</button>
+                <button type="button" class="secondary" id="rec-csv">Save as a spreadsheet</button>
+            </div>
+            <div class="msg" id="rec-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Follow-ups, goal and backup</h2>
+            <label for="s-follow">Follow up when I hear nothing for</label>
+            <select id="s-follow" aria-describedby="e-follow">
+                <option value="3">3 days</option>
+                <option value="5">5 days</option>
+                <option value="7" selected>1 week (7 days)</option>
+                <option value="10">10 days</option>
+                <option value="14">2 weeks (14 days)</option>
+                <option value="21">3 weeks (21 days)</option>
+                <option value="custom">Other number of days</option>
+            </select>
+            <div class="opt" id="w-follow-days" hidden>
+                <label for="s-followdays">Number of days</label>
+                <div class="inline"><input id="s-followdays" type="text" inputmode="numeric" maxlength="2" autocomplete="off" aria-describedby="e-follow"><span class="unit">days (1 to 60)</span></div>
+            </div>
+            <p class="err" id="e-follow" role="alert"></p>
+            <label for="s-goal">Weekly goal</label>
+            <select id="s-goal" aria-describedby="e-goal">
+                <option value="0" selected>No goal</option>
+                <option value="3">3 applications a week</option>
+                <option value="5">5 applications a week</option>
+                <option value="10">10 applications a week</option>
+                <option value="15">15 applications a week</option>
+                <option value="20">20 applications a week</option>
+                <option value="custom">Other number</option>
+            </select>
+            <div class="opt" id="w-goal-n" hidden>
+                <label for="s-goaln">Applications a week</label>
+                <div class="inline"><input id="s-goaln" type="text" inputmode="numeric" maxlength="3" autocomplete="off" aria-describedby="e-goal"><span class="unit">(1 to 100)</span></div>
+            </div>
+            <p class="err" id="e-goal" role="alert"></p>
+            <label for="s-week">My week starts on</label>
+            <select id="s-week">
+                <option value="1" selected>Monday</option>
+                <option value="0">Sunday</option>
+                <option value="6">Saturday</option>
+            </select>
+            <div class="tool-grid gap">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>When should I follow up after applying?</summary><p>About a week after applying is a common rule, unless the advert gives a date when they will decide. The app shows a job under "Needs you today" when you have heard nothing for the number of days under "Follow up when I hear nothing for". After you send a short polite email or call, tap <b>Followed up</b>: the next reminder counts from today. If they said "we will decide by Friday", use <b>+ Choose your own follow-up day</b>.</p></details>
+        <details><summary>What do the stages mean?</summary><p><b>Want to apply</b>: you saved the advert but have not applied. <b>Applied</b>: sent, no answer yet. <b>Heard back</b>: they replied (a call, an email, a test). <b>Interview</b>: an interview is booked or done. <b>Offer</b>: they offered you the job. <b>Rejected</b>, <b>No reply</b> and <b>I withdrew</b> close the job; it moves under "Closed" and you can change the stage back at any time.</p></details>
+        <details><summary>Can I show this to the job centre?</summary><p>Yes. Many job centres and benefits offices ask for proof that you are looking for work. Under <b>Job search record</b> choose the dates, and you get a list by day of each application (with where you found it and how you applied), each follow-up and each interview. Copy it, email it or print it. <b>Save as a spreadsheet</b> gives a file that opens in Excel or Google Sheets.</p></details>
+        <details><summary>Will it remind me of my interview?</summary><p>A web page cannot ring by itself when it is closed. Tap <b>Add to calendar</b> under the interview in the job's box: your phone's calendar then reminds you the day before and one hour before.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your applications stay in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to move them to a new phone. Once loaded, the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/job-application-tracker-for-job-seekers">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Job Application Tracker for Job Seekers", "sections": [
+ {"h": "Add a job", "steps": ["Type the \"Company or employer\" and the \"Job title\".", "Choose the \"Stage\": \"Applied\" for a job you sent, or \"Want to apply\" for an advert you saved for later.", "Set the \"Date applied\" with the date box or \"Today\", \"Yesterday\" or \"2 days ago\".", "\"Where you found it\" is for the website or place, such as Indeed, LinkedIn or the job centre. Places you type are offered again.", "Tap \"Add this job\". The form stays open for the next job; tap \"Done\" when you have finished.", "If you already have a job at the same company, a note under \"Company or employer\" tells you, so you do not apply twice."]},
+ {"h": "Optional details", "steps": ["\"+ Paste from a job advert (optional)\": paste the advert's title or link, for example \"Sales Assistant - Acme Ltd | LinkedIn\", and the company, job title, link and website are filled in for you.", "\"+ Add link, salary, closing date and contact (optional)\": the advert link, \"Advert closes on\", \"How you applied\", the pay and a contact person.", "\"+ Add an interview (optional)\": the date, time, type (phone, video, in person, test) and what to prepare. Add as many interviews as you have. A job with an interview moves to the \"Interview\" stage.", "\"+ Add notes (optional)\" for anything else.", "\"+ Choose your own follow-up day (optional)\" when they gave you a date, such as \"we will decide by Friday\"."]},
+ {"h": "Every day", "steps": ["\"Today\" at the top shows \"Needs you today\": who to follow up with, offers to answer, interviews today or tomorrow and adverts that close soon. Tap a line to jump to that job.", "\"Coming interviews\" lists every interview ahead, soonest first.", "\"This week\" counts the jobs you applied for this week, against your weekly goal if you set one.", "Each job has its own box with its stage, what to do next and its interviews. Change the \"Stage\" in the box when you hear back, get an interview, an offer or a rejection.", "Tap \"Followed up\" after you email or call them: the next reminder counts from today.", "\"+ Interview\" adds an interview, \"Add to calendar\" saves a calendar reminder for it, and \"Edit\" changes anything. \"Delete this job\" is at the bottom of the edit form, with \"Undo\".", "The buttons above the list show one stage at a time with how many jobs are in it. \"Closed\" shows the rejected, no-reply and withdrawn jobs. Change a closed job's stage to reopen it."]},
+ {"h": "Job search record", "steps": ["Choose \"This week\", \"Last week\", \"Last 2 weeks\", \"Last 4 weeks\", \"Everything\", or your own \"From\" and \"To\" dates.", "The record lists each day with your applications, follow-ups and interviews. \"+ Put your name on it (optional)\" adds your name at the top.", "\"Copy the record\", \"Email the record\" (works without typing an address) or \"Print the record\" for a job centre or benefits office. \"Save as a spreadsheet\" saves every job as a file that opens in Excel or Google Sheets."]},
+ {"h": "Follow-ups, goal and backup", "steps": ["\"Follow up when I hear nothing for\": 3 days up to 3 weeks, or any number of days from 1 to 60. One week is the usual choice.", "\"Weekly goal\": how many jobs you want to apply for each week, or \"No goal\". \"My week starts on\" sets which day the week begins.", "\"Save a backup file\" saves everything in one file; \"Restore a backup\" brings it back on this or a new device. \"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Applied on Thu 8 Oct and heard nothing? With 1 week, the app says \"Follow up\" on Thu 15 Oct.", "A job with no answer after 30 days gets a hint to set it to \"No reply\", so your list stays short.", "The dates update by themselves every day.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
