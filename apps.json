@@ -298,5 +298,11 @@
     "name": "Blood Sugar Log for Diabetes",
     "description": "Type each reading from your glucose meter (mg/dL or mmol/L) and when you took it. See how many are in your target range, fasting and after-meal averages, lows and highs, then print or email the log for your doctor. Works offline.",
     "color": "#1971c2"
+  },
+  {
+    "slug": "mood-and-sleep-journal",
+    "name": "Mood and Sleep Journal",
+    "description": "Tap your mood once a day, add your sleep and what happened. See a calendar coloured by mood and your average mood with and without each thing, such as exercise or caffeine. Private, works offline.",
+    "color": "#5c7cfa"
   }
 ]

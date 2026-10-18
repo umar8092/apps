@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood and Sleep Journal: See What Helps, Private and Free</title>
+    <meta name="description" content="Free private mood and sleep journal. Once a day tap your mood, type how long you slept and tick what happened (exercise, stress, caffeine, time outside). See a calendar coloured by mood and your average mood with and without each one, then copy or print it for your doctor or therapist. No sign-up, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/mood-and-sleep-journal/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#5c7cfa">
+    <meta name="theme-color" content="#4c6ef5">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Mood and Sleep Journal">
+    <meta property="og:url" content="https://umar8092.github.io/apps/mood-and-sleep-journal/">
+    <meta property="og:title" content="Mood and Sleep Journal: See What Helps Your Mood">
+    <meta property="og:description" content="Tap your mood once a day, add your sleep and what happened, and see what goes with your better days. Private on your device, free, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Mood and Sleep Journal","alternateName":["Mood Tracker","Mood Diary","Sleep and Mood Log","Mood Journal for Therapy"],"url":"https://umar8092.github.io/apps/mood-and-sleep-journal/","description":"A free private mood and sleep journal. Log your mood from 1 to 5, hours slept and tags each day, see a calendar coloured by mood and your average mood with and without each tag, and share a summary with your doctor or therapist.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"mood tracker, mood diary, mood and sleep journal, mood log for therapist, private mood tracker no account","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does a mood journal show what helps?","acceptedAnswer":{"@type":"Answer","text":"Log your mood each day with tags such as exercise or work stress. The app works out your average mood on days with each tag and on days without it, for example 4.2 with exercise and 2.9 without. A big gap over many days is worth talking about with your doctor."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline. Anyone who can open this browser can read it, so use your own device."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Mood and Sleep Journal</h1>
+        <p class="sub">Once a day, tap how you feel, how long you slept and what happened. See what goes with your better days, and share it with your doctor if you like.</p>
+    </header>
+
+    <div class="col-main">
+        <section class="card entry" id="entry" aria-labelledby="entry-h">
+            <h2 id="entry-h">How was today?</h2>
+            <div class="day-pick">
+                <p class="for-line">For <b id="for-text">today</b></p>
+                <div class="day-btns">
+                    <button type="button" class="secondary small" id="day-prev" aria-label="The day before">&larr; Day before</button>
+                    <button type="button" class="secondary small" id="day-today">Today</button>
+                    <label class="sr" for="day">Date</label>
+                    <input id="day" type="date" aria-label="Choose the date">
+                </div>
+            </div>
+            <fieldset class="moods" aria-describedby="mood-err">
+                <legend>Mood</legend>
+                <div class="mood-row" id="moods"></div>
+            </fieldset>
+            <p class="err" id="mood-err" role="alert"></p>
+            <label for="sleep">Sleep the night before <span class="lt">(hours, optional)</span></label>
+            <input id="sleep" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 7.5 or 7:30" aria-describedby="sleep-err">
+            <p class="err" id="sleep-err" role="alert"></p>
+            <button type="button" class="link" id="times-open">Work it out from bedtime and wake-up time</button>
+            <div class="two" id="times-box" hidden>
+                <div class="field"><label for="bed">Went to sleep</label><input id="bed" type="time"></div>
+                <div class="field"><label for="wake">Woke up</label><input id="wake" type="time"></div>
+            </div>
+            <fieldset class="tagset">
+                <legend>What happened? <span class="lt">(tap any that fit)</span></legend>
+                <div class="chips" id="tags"></div>
+            </fieldset>
+            <button type="button" class="link" id="tag-open">+ Add your own tag</button>
+            <div class="add-tag" id="tag-box" hidden>
+                <label for="tag-name">New tag</label>
+                <div class="inline-row">
+                    <input id="tag-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Meditated" aria-describedby="tag-err">
+                    <button type="button" class="secondary" id="tag-add">Add</button>
+                </div>
+                <p class="err" id="tag-err" role="alert"></p>
+            </div>
+            <button type="button" class="link" id="note-open">+ Add a note (optional)</button>
+            <div class="field" id="note-box" hidden>
+                <label for="note">Note <span class="lt">(only on this device)</span></label>
+                <textarea id="note" maxlength="1000" rows="3" placeholder="e.g. Argument at work, felt better after a walk"></textarea>
+            </div>
+            <button type="button" class="primary" id="save">Save today</button>
+            <div class="msg" id="entry-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Settings and privacy</h2>
+            <p class="hint top">Everything stays in this browser on this device. Anyone who can open this browser can read it, so use your own phone or computer.</p>
+            <button type="button" class="link" id="help-open">+ Add a help line number (optional)</button>
+            <div class="field" id="helpline-box" hidden>
+                <label for="helpline">Help line or person to call <span class="lt">(shown on hard days)</span></label>
+                <input id="helpline" type="text" maxlength="200" autocomplete="off" placeholder="e.g. Mum 0300 1234567">
+            </div>
+            <h3 class="small-h">Your tags</h3>
+            <p class="hint top">Remove a tag you never use. Days that had it keep the rest of their entry.</p>
+            <ul class="tag-list" id="tag-list"></ul>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete the whole journal</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card cal" id="cal" aria-labelledby="cal-h">
+            <div class="cal-top">
+                <button type="button" class="secondary small" id="cal-prev" aria-label="Month before">&larr;</button>
+                <h2 id="cal-h">October 2026</h2>
+                <button type="button" class="secondary small" id="cal-next" aria-label="Month after">&rarr;</button>
+            </div>
+            <div class="cal-grid" id="cal-grid" role="grid" aria-labelledby="cal-h"></div>
+            <p class="cal-key" id="cal-key"></p>
+            <p class="hint">Tap a day to fill it in or change it. Blank days have no entry.</p>
+        </section>
+
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h">What goes with your better days</h2>
+            <div class="field">
+                <label for="period">Days</label>
+                <select id="period">
+                    <option value="7">Last 7 days</option>
+                    <option value="30">Last 30 days</option>
+                    <option value="90">Last 90 days</option>
+                    <option value="all">All days</option>
+                </select>
+            </div>
+            <div id="sum-empty" class="empty">
+                <p class="big muted">No days yet</p>
+                <p class="meta" id="sum-empty-text">Save today's mood above. After a week or two you will see what goes with your better days.</p>
+            </div>
+            <div id="sum-body" hidden>
+                <div class="tiles">
+                    <div class="tile"><span class="t-label">Average mood</span><span class="t-val" id="t-mood">-</span><span class="t-sub" id="t-mood-word"></span></div>
+                    <div class="tile"><span class="t-label">Average sleep</span><span class="t-val" id="t-sleep">-</span><span class="t-sub" id="t-sleep-n"></span></div>
+                    <div class="tile"><span class="t-label">Days filled in</span><span class="t-val" id="t-days">-</span><span class="t-sub" id="t-days-sub"></span></div>
+                    <div class="tile"><span class="t-label">Low days</span><span class="t-val" id="t-low">-</span><span class="t-sub">mood Low or Very low</span></div>
+                </div>
+                <h3 class="small-h">Average mood with and without each tag</h3>
+                <ul class="effects" id="effects"></ul>
+                <p class="hint" id="effects-hint">Out of 5. It shows what tends to go together, not what causes what.</p>
+                <h3 class="small-h">Mood after short and long nights</h3>
+                <ul class="effects" id="bands"></ul>
+            </div>
+        </section>
+
+        <section class="card share" id="share" aria-labelledby="share-h">
+            <h2 id="share-h">Share with your doctor or therapist</h2>
+            <p class="hint top" id="share-hint">Uses the days chosen above. Notes are left out unless you tick the box.</p>
+            <label class="check"><input type="checkbox" id="with-notes"> <span>Include my notes</span></label>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="print">Print or save as PDF</button>
+                <a class="secondary" id="email" href="mailto:">Email</a>
+                <button type="button" class="secondary" id="copy">Copy as text</button>
+                <button type="button" class="secondary" id="csv">Download spreadsheet</button>
+            </div>
+            <div class="msg" id="share-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="card list" id="list" aria-labelledby="list-h">
+        <h2 id="list-h">Your days</h2>
+        <p class="hint top" id="list-hint">The days chosen above, newest first.</p>
+        <ul class="days" id="days"></ul>
+        <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does it show what helps?</summary><p>For each tag, the app takes your average mood on the days you ticked it and on the days you did not. "Exercise: 4.2 on 5 days with, 2.9 on 8 days without" means your exercise days were better on average. It shows what tends to go together, not what causes what, and with fewer than 3 days on either side the app says the difference may be chance.</p></details>
+        <details><summary>What if I miss a day or want to change one?</summary><p>Missed days stay blank; the app never guesses them. Tap the day in the calendar, or <b>&larr; Day before</b>, to fill it in later. Saving a day that already has an entry replaces it, and the message says so with Undo.</p></details>
+        <details><summary>Which night is "sleep the night before"?</summary><p>The sleep that ended on the morning of that day: for Tuesday, the night from Monday into Tuesday. If you work nights, type the main sleep you had before that day. With <b>Work it out from bedtime and wake-up time</b>, a wake-up time earlier than bedtime counts as the next morning, so 23:30 to 07:00 is 7 h 30 min.</p></details>
+        <details><summary>How is the average worked out?</summary><p>Moods are 1 (Very low) to 5 (Very good). They are added up and divided by the number of days, then rounded to one decimal (0.5 rounds up). Sleep is averaged over the days where you typed it and shown in hours and minutes. Short nights are under 6 hours, long nights 7 hours or more.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. The journal stays in this browser on this device: no account, and your data is never sent anywhere. Anyone who can open this browser can read it, so use your own device. Save a backup file now and then, or before changing phones. Sharing leaves your notes out unless you tick <b>Include my notes</b>.</p></details>
+        <details><summary>I am having a really hard time. What should I do?</summary><p>If you are in danger or thinking about harming yourself, contact your local emergency number or a crisis line now, or tell someone you trust. Talking to a doctor helps too. You can type a help line or a person to call in <b>Settings and privacy</b>; it is shown on hard days.</p></details>
+        <details><summary>Is this medical advice?</summary><p>No. It is a private journal to help you notice patterns and talk to your doctor or therapist.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/mood-and-sleep-journal">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Mood and Sleep Journal", "sections": [
+ {"h": "Fill in a day", "steps": ["Tap a face under Mood: Very low, Low, Okay, Good or Very good.", "Type your sleep the night before in hours, such as 7.5 or 7:30, or tap \"Work it out from bedtime and wake-up time\" and choose the two times. Sleep is optional.", "Under \"What happened?\" tap any tags that fit, such as Exercise or Work or study stress. \"+ Add your own tag\" adds one, such as Meditated.", "\"+ Add a note (optional)\" adds a few words about the day.", "Tap \"Save today\". The message says what was saved; tap \"Undo\" if it was a mistake.", "To fill in another day, tap \"← Day before\", choose a date, or tap the day in the calendar. \"Today\" goes back to today. A day that already has an entry is filled in for you, and saving replaces it."]},
+ {"h": "Calendar", "steps": ["Each day is coloured by its mood: red for Very low through to green for Very good. Blank days have no entry.", "The arrows show the month before or after. Tap a day to fill it in or change it."]},
+ {"h": "What goes with your better days", "steps": ["\"Days\" chooses the last 7, 30 or 90 days, or all days.", "The boxes show your average mood out of 5, your average sleep, how many days you filled in and how many were Low or Very low.", "\"Average mood with and without each tag\" compares your days with the tag to the days without it. A plus number means days with the tag were better on average; a minus number means they were worse. With fewer than 3 days on either side it says the difference may be chance.", "\"Mood after short and long nights\" shows your average mood after under 6 hours, 6 to 7 hours and 7 hours or more of sleep."]},
+ {"h": "Your days, sharing and settings", "steps": ["\"Your days\" lists each day with its mood, sleep, tags and note. \"Edit\" loads it into the form at the top; \"Delete\" removes it, with Undo.", "\"Print or save as PDF\", \"Email\", \"Copy as text\" and \"Download spreadsheet\" share the days chosen above. Notes are left out unless you tick \"Include my notes\".", "\"+ Add a help line number (optional)\" in Settings and privacy keeps a number or a person to call; it is shown when you save a Low or Very low day.", "\"Your tags\" lets you remove tags you never use.", "\"Save a backup file\" downloads the journal; \"Restore a backup\" loads it on this or another device, with Undo. \"Delete the whole journal\" removes every day, with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["One entry per day. Missed days stay blank and are never guessed.", "It shows what goes together, not what causes what.", "Everything stays on this device and works offline. Your data is never sent anywhere. Anyone who can open this browser can read it.", "This is not medical advice. If you are in danger, contact your local emergency number or a crisis line."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

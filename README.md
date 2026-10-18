@@ -402,6 +402,14 @@ Checking your sugar at home and your doctor asks "what have your readings been?"
 
 <a href="blood-sugar-log-for-diabetes/"><img src="blood-sugar-log-for-diabetes/screenshots/phone.png" alt="Blood Sugar Log for Diabetes screenshot" width="260"></a>
 
+### <img src="mood-and-sleep-journal/favicon.svg" width="36" height="36" align="center"> [Mood and Sleep Journal](https://umar8092.github.io/apps/mood-and-sleep-journal/)
+
+Feeling low or anxious some days and want to see what helps? Once a day tap a face for your mood, type how long you slept and tick what happened (exercise, time outside, work stress, caffeine, your own tags). See a calendar coloured by mood and "Exercise: 4.2 with, 2.9 without", your mood after short and long nights, and print or copy it for your doctor or therapist with your notes left out. Private on your device, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/mood-and-sleep-journal/) &middot; [Details and screenshots](mood-and-sleep-journal/)
+
+<a href="mood-and-sleep-journal/"><img src="mood-and-sleep-journal/screenshots/phone.png" alt="Mood and Sleep Journal screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
