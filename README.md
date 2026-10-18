@@ -426,6 +426,14 @@ Sent 40 applications and lost track? Add each job and see "Follow up today: Acme
 
 <a href="job-application-tracker-for-job-seekers/"><img src="job-application-tracker-for-job-seekers/screenshots/phone.png" alt="Job Application Tracker for Job Seekers screenshot" width="260"></a>
 
+### <img src="class-timetable-for-students-and-teachers/favicon.svg" width="36" height="36" align="center"> [Class Timetable for Students and Teachers](https://umar8092.github.io/apps/class-timetable-for-students-and-teachers/)
+
+Stop checking a photo of your timetable. Add each subject once with its days, times and rooms, and see "Now: English, Room 5, until 10:30, 20 min left. Next: Chemistry at 10:50, Lab B4, bring lab coat", plus today with the free gaps, tomorrow with what to pack, and the whole week to copy or print. Week A and Week B, holidays, and a calendar file for the term. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/class-timetable-for-students-and-teachers/) &middot; [Details and screenshots](class-timetable-for-students-and-teachers/)
+
+<a href="class-timetable-for-students-and-teachers/"><img src="class-timetable-for-students-and-teachers/screenshots/phone.png" alt="Class Timetable for Students and Teachers screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

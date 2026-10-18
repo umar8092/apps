@@ -316,5 +316,11 @@
     "name": "Job Application Tracker for Job Seekers",
     "description": "Know who to follow up with today, when your next interview is and how many jobs you applied for this week. Copy a dated job search record for the job centre. Private, works offline.",
     "color": "#a61e4d"
+  },
+  {
+    "slug": "class-timetable-for-students-and-teachers",
+    "name": "Class Timetable for Students and Teachers",
+    "description": "See the lesson on now, what is next, which room and what to bring, plus today, tomorrow and the whole week. Week A and Week B, holidays, print and calendar file. Private, works offline.",
+    "color": "#228be6"
   }
 ]
