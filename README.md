@@ -394,6 +394,14 @@ Working out at home or in the park without a coach? Set the work and rest times,
 
 <a href="interval-workout-timer-for-hiit-and-circuits/"><img src="interval-workout-timer-for-hiit-and-circuits/screenshots/phone.png" alt="Interval Workout Timer for HIIT and Circuits screenshot" width="260"></a>
 
+### <img src="blood-sugar-log-for-diabetes/favicon.svg" width="36" height="36" align="center"> [Blood Sugar Log for Diabetes](https://umar8092.github.io/apps/blood-sugar-log-for-diabetes/)
+
+Checking your sugar at home and your doctor asks "what have your readings been?" Type each number from your meter (mg/dL or mmol/L, or HI and LO) and tap when you took it: fasting, before or after a meal, bedtime. See "47% in target", "Fasting average 129 mg/dL, 3 of 7 above target", your lows and very high readings with what to do, a chart, and print a log book table, email or copy it for your doctor. Pregnancy targets or your doctor's own, more than one person, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/blood-sugar-log-for-diabetes/) &middot; [Details and screenshots](blood-sugar-log-for-diabetes/)
+
+<a href="blood-sugar-log-for-diabetes/"><img src="blood-sugar-log-for-diabetes/screenshots/phone.png" alt="Blood Sugar Log for Diabetes screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

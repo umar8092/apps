@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Sugar Log for Diabetes: Averages for Your Doctor, Free</title>
+    <meta name="description" content="Free blood sugar log for diabetes. Type each glucose reading from your meter (mg/dL or mmol/L) with when you took it, see how many are in your target range, your fasting and after-meal averages, lows and highs, then print or email the log for your doctor. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/blood-sugar-log-for-diabetes/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#1971c2">
+    <meta name="theme-color" content="#1864ab">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Blood Sugar Log for Diabetes">
+    <meta property="og:url" content="https://umar8092.github.io/apps/blood-sugar-log-for-diabetes/">
+    <meta property="og:title" content="Blood Sugar Log for Diabetes: Your Averages for the Doctor">
+    <meta property="og:description" content="Log each finger-prick glucose reading in seconds, see your fasting and after-meal averages and time in target, and print or email the log for your doctor. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Blood Sugar Log for Diabetes","alternateName":["Blood Glucose Log","Diabetes Log Book","Blood Sugar Tracker","Glucose Diary"],"url":"https://umar8092.github.io/apps/blood-sugar-log-for-diabetes/","description":"A free blood sugar log for people with diabetes who check at home. Type each reading in mg/dL or mmol/L with when it was taken, see how many are in the target range, averages by time of day, lows and highs, and print, email or download the log for the doctor.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"blood sugar log, blood glucose log book, diabetes log printable, glucose tracker mg/dL mmol/L, gestational diabetes log","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What blood sugar should I aim for?","acceptedAnswer":{"@type":"Answer","text":"The American Diabetes Association's general targets for adults are 80 to 130 mg/dL (4.4 to 7.2 mmol/L) before meals and under 180 mg/dL (10.0 mmol/L) 1 to 2 hours after starting a meal. In pregnancy the targets are lower. Your doctor may set your own targets, and you can type them into the app."}},{"@type":"Question","name":"How do I change mg/dL to mmol/L?","acceptedAnswer":{"@type":"Answer","text":"Divide mg/dL by 18 (18.016 exactly) to get mmol/L, or multiply mmol/L by 18 to get mg/dL. 126 mg/dL is 7.0 mmol/L. The app shows every reading in the unit you choose."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. The readings stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Blood Sugar Log for Diabetes</h1>
+        <p class="sub">Type each reading from your meter and when you took it. See how many are in your target range and your averages, then print or email the log for your doctor.</p>
+    </header>
+
+    <nav class="people" id="people" aria-label="Whose readings" hidden></nav>
+
+    <div class="col-main">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a reading</h2>
+            <label for="val">Reading from your meter <span class="lt" id="val-unit">(mg/dL)</span></label>
+            <input id="val" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 126" aria-describedby="val-err">
+            <p class="err" id="val-err" role="alert"></p>
+            <button type="button" class="secondary small" id="suggest" hidden>Save as 7.2 mmol/L</button>
+            <fieldset class="tags" aria-describedby="tag-err">
+                <legend>When did you check?</legend>
+                <div class="chips" id="tags"></div>
+            </fieldset>
+            <p class="err" id="tag-err" role="alert"></p>
+            <p class="when-line">Taken: <b id="when-text">now</b> <button type="button" class="link inline" id="when-open">Change time</button></p>
+            <div class="field" id="when-box" hidden>
+                <label for="when">Date and time taken</label>
+                <input id="when" type="datetime-local" aria-describedby="when-err">
+                <p class="err" id="when-err" role="alert"></p>
+                <button type="button" class="link" id="when-now">Use the time now</button>
+            </div>
+            <button type="button" class="link" id="note-open">+ Add a note (optional)</button>
+            <div class="field" id="note-box" hidden>
+                <label for="note">Note <span class="lt">(food, medicine, exercise, feeling unwell)</span></label>
+                <input id="note" type="text" maxlength="200" autocomplete="off" placeholder="e.g. metformin 500 mg, rice">
+            </div>
+            <button type="button" class="primary" id="save">Save reading</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Person and settings</h2>
+            <label for="name">Name <span class="lt">(shown on the printout, optional)</span></label>
+            <input id="name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Tariq Ahmed">
+            <label for="unit">Your meter shows</label>
+            <select id="unit">
+                <option value="mg">mg/dL (for example 126)</option>
+                <option value="mmol">mmol/L (for example 7.0)</option>
+            </select>
+            <label for="preset">Target ranges</label>
+            <select id="preset">
+                <option value="ada">General targets for adults (ADA)</option>
+                <option value="preg">Pregnancy with diabetes (ADA)</option>
+                <option value="custom">My doctor's targets (type them below)</option>
+            </select>
+            <button type="button" class="link" id="targets-open">Show or change the target ranges</button>
+            <div id="targets-box" hidden>
+                <p class="hint top" id="targets-hint">Type the lowest and highest number your doctor wants for each time. Changing a number switches to "My doctor's targets".</p>
+                <div class="targets" id="targets"></div>
+                <p class="err" id="targets-err" role="alert"></p>
+            </div>
+            <button type="button" class="link" id="plan-open">+ Add your own low-sugar plan (optional)</button>
+            <div class="field" id="plan-box" hidden>
+                <label for="plan">What to do when sugar is low <span class="lt">(shown instead of the general advice)</span></label>
+                <textarea id="plan" maxlength="400" rows="3" placeholder="e.g. 4 glucose tablets, check again in 15 minutes"></textarea>
+            </div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="person-add">+ Add another person</button>
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="person-remove" hidden>Remove this person</button>
+            <button type="button" class="danger" id="wipe">Delete all readings</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h">Your results</h2>
+            <div class="field">
+                <label for="period">Readings from</label>
+                <select id="period">
+                    <option value="7">Last 7 days</option>
+                    <option value="14">Last 14 days</option>
+                    <option value="30">Last 30 days</option>
+                    <option value="90">Last 90 days</option>
+                    <option value="all">All readings</option>
+                    <option value="dates">Choose the dates</option>
+                </select>
+            </div>
+            <div class="two" id="dates-box" hidden>
+                <div class="field"><label for="from">From</label><input id="from" type="date"></div>
+                <div class="field"><label for="to">To</label><input id="to" type="date"></div>
+            </div>
+            <p class="err" id="dates-err" role="alert"></p>
+            <div id="sum-empty" class="empty">
+                <p class="big muted">No readings yet</p>
+                <p class="meta" id="sum-empty-text">Add a reading above. Many doctors ask for a fasting reading every morning and one 2 hours after a meal.</p>
+            </div>
+            <div id="sum-body" hidden>
+                <p class="big"><span id="pct">0%</span> <span class="unit">in target</span></p>
+                <p class="meta" id="pct-meta"></p>
+                <div class="warn" id="sum-warn" role="alert" hidden></div>
+                <h3 class="small-h">Average by time of day</h3>
+                <ul class="bytag" id="bytag"></ul>
+                <div class="tiles">
+                    <div class="tile"><span class="t-label">Average of all</span><span class="t-val" id="t-avg">-</span><span class="t-sub" id="t-avg-n"></span></div>
+                    <div class="tile"><span class="t-label">Highest</span><span class="t-val" id="t-hi">-</span><span class="t-sub" id="t-hi-when"></span></div>
+                    <div class="tile"><span class="t-label">Lowest</span><span class="t-val" id="t-lo">-</span><span class="t-sub" id="t-lo-when"></span></div>
+                    <div class="tile"><span class="t-label" id="t-lows-label">Lows (under 70)</span><span class="t-val" id="t-lows">-</span><span class="t-sub" id="t-lows-sub"></span></div>
+                </div>
+                <figure class="chart" id="chart-fig">
+                    <svg id="chart" role="img" aria-labelledby="chart-cap" viewBox="0 0 600 240" preserveAspectRatio="none"></svg>
+                    <figcaption id="chart-cap"><span class="key band"></span><span id="band-label">Fasting target</span> <span class="key line"></span><span id="line-label">Low under 70</span> <span class="dot in"></span>In target <span class="dot out"></span>Above or below <span class="dot lowd"></span>Low</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="card share" id="share" aria-labelledby="share-h">
+            <h2 id="share-h">Share with your doctor</h2>
+            <p class="hint top" id="share-hint">Uses the readings from the days chosen above.</p>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="print">Print or save as PDF</button>
+                <a class="secondary" id="email" href="mailto:">Email</a>
+                <button type="button" class="secondary" id="copy">Copy as text</button>
+                <button type="button" class="secondary" id="csv">Download spreadsheet</button>
+            </div>
+            <div class="msg" id="share-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="card list" id="list" aria-labelledby="list-h">
+        <h2 id="list-h">Readings</h2>
+        <p class="hint top" id="list-hint">Readings from the days chosen above, newest first.</p>
+        <div id="days"></div>
+        <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>What blood sugar should I aim for?</summary><p>The American Diabetes Association's general targets for adults are <b>80 to 130 mg/dL (4.4 to 7.2 mmol/L)</b> fasting and before meals, and <b>under 180 mg/dL (10.0 mmol/L)</b> 1 to 2 hours after starting a meal. In pregnancy they are lower: under 95 (5.3) fasting, under 140 (7.8) one hour after a meal and under 120 (6.7) two hours after. Older people and children often have different targets. Your doctor may give you your own: choose <b>My doctor's targets</b> and type them in.</p></details>
+        <details><summary>What do Low, Very low and Very high mean?</summary><p><b>Low</b> is under 70 mg/dL (3.9 mmol/L) and <b>Very low</b> under 54 mg/dL (3.0 mmol/L), whatever the targets. <b>Very high</b> is 250 mg/dL (13.9 mmol/L) or more. If your meter shows <b>LO</b> or <b>HI</b>, type that: LO counts as very low, HI as very high, and neither is put into the averages.</p></details>
+        <details><summary>When should I check?</summary><p>Do what your doctor or nurse asked. Common times are fasting when you wake up, before meals, 2 hours after the start of a meal, at bedtime, and whenever you feel shaky, sweaty or unwell. Choose the time with each reading so the averages are worked out for each time of day.</p></details>
+        <details><summary>How is the average worked out? How do mg/dL and mmol/L convert?</summary><p>All the readings for that time of day are added up and divided by how many there are, then rounded (0.5 rounds up): whole numbers in mg/dL, one decimal in mmol/L. 1 mmol/L is 18.016 mg/dL, so 126 mg/dL is 7.0 mmol/L. Each reading is kept exactly as you typed it, so switching the unit never changes your data. A reading after midnight but before 4 a.m. counts with the day before.</p></details>
+        <details><summary>Can it show my HbA1c?</summary><p>No. An HbA1c guess needs many readings at all hours, such as from a sensor (CGM); a few finger-prick readings a day can give a misleading number. Your HbA1c comes from a blood test.</p></details>
+        <details><summary>Can I log for two people?</summary><p>Yes. Tap <b>+ Add another person</b> in Person and settings. Each person has their own readings, unit and targets. Tap a name at the top to switch.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>The readings stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+        <details><summary>Is this medical advice?</summary><p>No. It is a log to help you and your doctor. Follow your doctor's advice and targets, and get help straight away for a low that does not come up or a high with vomiting or fast breathing.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/blood-sugar-log-for-diabetes">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Blood Sugar Log for Diabetes", "sections": [
+ {"h": "Add a reading", "steps": ["Type the number your meter shows into \"Reading from your meter\". If the meter says HI or LO, type HI or LO.", "Tap when you checked under \"When did you check?\": Fasting, Before meal, 1 h after meal, 2 h after meal, Bedtime, Night or Other.", "Tap \"Save reading\" (or press Enter). The message says if the reading is in your target, above, below, low or very high, with what to do for lows and very high readings. Tap \"Undo\" if it was a mistake.", "If the number looks like the other unit (for example 7.2 while the app is set to mg/dL), the app asks and offers a button such as \"Save as 7.2 mmol/L\".", "\"Change time\" sets an earlier date and time, for a reading you forgot to log. \"Use the time now\" goes back to now.", "\"+ Add a note (optional)\" adds a short note such as food, medicine or exercise."]},
+ {"h": "Read your results", "steps": ["\"Readings from\" chooses the days: the last 7, 14, 30 or 90 days, all readings, or \"Choose the dates\".", "The big number is the share of readings inside your target ranges, with how many readings and days it used.", "\"Average by time of day\" shows the average for each time you checked, your target for it and how many readings were above or below it.", "The boxes show the average of all readings, the highest, the lowest and how many lows there were. A yellow box lists low and very high readings.", "The chart shows each reading in time order: green dots are in target, orange dots above or below, red dots low. The band is your fasting target and the dashed line is the low line."]},
+ {"h": "Fix or delete readings", "steps": ["The Readings list shows each day with its readings in time order.", "Tap \"Edit\" on a reading to change the number, when you checked, the time or the note, then \"Save\". \"Cancel\" or Escape leaves it as it was.", "Tap \"Delete\" to remove a reading. \"Undo\" brings it back."]},
+ {"h": "Share with your doctor", "steps": ["\"Print or save as PDF\" prints a summary and a log book table with a column for each time of day.", "\"Email\" opens your mail app with the summary and readings; you do not need to type an address first.", "\"Copy as text\" copies the same text to paste into a message.", "\"Download spreadsheet\" saves a CSV file that opens in Excel, Numbers or Google Sheets."]},
+ {"h": "People and settings", "steps": ["\"Name\" is printed on the report.", "\"Your meter shows\" switches between mg/dL and mmol/L. Every reading is shown in that unit; nothing you typed is changed.", "\"Target ranges\" chooses the general targets for adults, the pregnancy targets, or \"My doctor's targets\". \"Show or change the target ranges\" shows each one; type new numbers to use your doctor's.", "\"+ Add your own low-sugar plan (optional)\" lets you type what your doctor told you to do for a low; it is shown instead of the general advice.", "\"+ Add another person\" gives someone else their own readings, unit and targets. Tap a name at the top to switch. The \"Remove\" button with their name removes that person, with Undo.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another device, with Undo.", "\"Delete all readings\" empties that person's log, with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["Low is under 70 mg/dL (3.9 mmol/L), very low under 54 (3.0) and very high 250 (13.9) or more, whatever your targets.", "HI and LO readings are counted and listed but are not put into the averages.", "A reading after midnight but before 4 a.m. counts with the day before.", "Everything stays on this device and works offline. Your data is never sent anywhere.", "This is not medical advice. Follow your doctor's advice and targets."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

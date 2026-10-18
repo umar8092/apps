@@ -292,5 +292,11 @@
     "name": "Interval Workout Timer for HIIT and Circuits",
     "description": "Set work and rest times, rounds, sets and named moves, see the total, then follow one big countdown with 3-2-1 beeps. Tabata, circuits, EMOM, stretching, saved workouts and a log. Works offline.",
     "color": "#74b816"
+  },
+  {
+    "slug": "blood-sugar-log-for-diabetes",
+    "name": "Blood Sugar Log for Diabetes",
+    "description": "Type each reading from your glucose meter (mg/dL or mmol/L) and when you took it. See how many are in your target range, fasting and after-meal averages, lows and highs, then print or email the log for your doctor. Works offline.",
+    "color": "#1971c2"
   }
 ]

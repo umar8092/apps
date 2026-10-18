@@ -1,0 +1,15 @@
+{
+  "name": "Blood Sugar Log for Diabetes",
+  "short_name": "Sugar Log",
+  "description": "Log your blood sugar readings from the meter, see how many are in your target range and your averages by time of day, and print or email the log for your doctor.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#08111f",
+  "theme_color": "#1864ab",
+  "categories": ["health", "medical", "lifestyle"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
