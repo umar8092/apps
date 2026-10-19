@@ -1,0 +1,15 @@
+{
+  "name": "Milk and Daily Delivery Log with Monthly Bill",
+  "short_name": "Milk Log",
+  "description": "Log milk, newspaper, water cans or bread delivered to your door: days not delivered, extra amounts, price changes and payments, and see the month's bill and what you owe the seller.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1d2e",
+  "theme_color": "#1971c2",
+  "categories": ["finance", "productivity", "lifestyle"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

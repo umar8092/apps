@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milk and Daily Delivery Log with Monthly Bill: Missed Days, Extra Litres, What to Pay</title>
+    <meta name="description" content="Free milk and daily delivery log for milk, newspaper, water cans or bread delivered to your door. Tap the days it did not come or came in a different amount and see the month's bill, what you have paid and what you owe the seller. Price changes, holidays, part payments, WhatsApp-ready bill. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/milk-and-daily-delivery-log-with-monthly-bill/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#339af0">
+    <meta name="theme-color" content="#1971c2">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Milk and Daily Delivery Log with Monthly Bill">
+    <meta property="og:url" content="https://umar8092.github.io/apps/milk-and-daily-delivery-log-with-monthly-bill/">
+    <meta property="og:title" content="Milk and Daily Delivery Log: Missed Days, Extra Litres and the Monthly Bill">
+    <meta property="og:description" content="Tap the days the milk, newspaper or water did not come, or came extra, and see this month's bill and what you owe the seller. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Milk and Daily Delivery Log with Monthly Bill","alternateName":["Milk Calendar","Milk Diary","Doodh Hisab","Milkman Bill Calculator","Newspaper Bill Tracker","Water Can Delivery Log"],"url":"https://umar8092.github.io/apps/milk-and-daily-delivery-log-with-monthly-bill/","description":"A free log for daily home deliveries such as milk, newspaper, water cans and bread: usual amount and price, days not delivered, extra amounts, price changes, holidays, payments and the monthly bill to pay the seller.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"milk calendar, milk bill calculator, milkman hisab, doodh ka hisab, daily delivery log, newspaper bill, water can tracker","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is the milk bill worked out?","acceptedAnswer":{"@type":"Answer","text":"The app adds up the litres delivered in the month and multiplies them by the price per litre, the same way the milkman does: 59 litres at 220 is 12,980. Days marked Not delivered count as 0 and changed days count the amount you typed."}},{"@type":"Question","name":"What if the price goes up in the middle of the month?","acceptedAnswer":{"@type":"Answer","text":"Use Price or amount changed and pick the date. Litres before that date are billed at the old price and litres from that date at the new one, shown as two lines on the bill."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Milk and Daily Delivery Log with Monthly Bill</h1>
+        <p class="sub">For milk, a newspaper, water cans or bread delivered to your door: tap the days it did not come or came in a different amount, and see this month's bill and what you owe the seller.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+
+    <div class="col-a">
+        <section class="card month" id="month" aria-labelledby="month-h" hidden>
+            <div class="mo-top">
+                <h2 id="month-h">Month</h2>
+                <div class="mo-nav">
+                    <button type="button" class="secondary small" id="mo-prev" aria-label="Previous month">&lsaquo; Previous</button>
+                    <button type="button" class="secondary small" id="mo-next" aria-label="Next month">Next &rsaquo;</button>
+                </div>
+            </div>
+            <p class="mo-sub" id="mo-sub"></p>
+            <button type="button" class="link" id="mo-today" hidden>Go back to this month</button>
+            <div class="mo-rows" id="mo-rows"></div>
+            <p class="mo-pay" id="mo-pay"></p>
+            <p class="mo-full" id="mo-full"></p>
+            <div class="tool-grid mo-btns">
+                <button type="button" class="secondary" id="mo-copy">Copy all bills</button>
+                <button type="button" class="secondary" id="mo-print">Print or save as PDF</button>
+            </div>
+            <div class="msg" id="month-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a delivery</h2>
+            <p class="hint top" id="add-intro">Add each thing that comes to your door. Each one gets its own box with a calendar and its own bill.</p>
+            <div class="quick" id="quick" role="group" aria-label="Quick pick">
+                <button type="button" class="chip" data-name="Milk" data-unit="litre">Milk</button>
+                <button type="button" class="chip" data-name="Newspaper" data-unit="copy">Newspaper</button>
+                <button type="button" class="chip" data-name="Water cans" data-unit="can">Water cans</button>
+                <button type="button" class="chip" data-name="Bread" data-unit="loaf">Bread</button>
+                <button type="button" class="chip" data-name="Eggs" data-unit="dozen">Eggs</button>
+                <button type="button" class="chip" data-name="Yogurt" data-unit="kg">Yogurt</button>
+            </div>
+            <label for="f-name">What is delivered</label>
+            <input id="f-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Milk" aria-describedby="f-name-err">
+            <p class="err" id="f-name-err" role="alert"></p>
+            <div class="two">
+                <div class="field">
+                    <label for="f-qty" id="f-qty-l">Usual amount</label>
+                    <input id="f-qty" type="text" inputmode="decimal" maxlength="12" autocomplete="off" placeholder="e.g. 2" aria-describedby="f-qty-err">
+                </div>
+                <div class="field">
+                    <label for="f-unit">Unit</label>
+                    <select id="f-unit">
+                        <option value="litre">litres</option>
+                        <option value="kg">kg</option>
+                        <option value="packet">packets</option>
+                        <option value="bottle">bottles</option>
+                        <option value="copy">copies</option>
+                        <option value="can">cans</option>
+                        <option value="loaf">loaves</option>
+                        <option value="piece">pieces</option>
+                        <option value="dozen">dozen</option>
+                        <option value="other">Other&hellip;</option>
+                    </select>
+                </div>
+            </div>
+            <p class="err" id="f-qty-err" role="alert"></p>
+            <div class="field" id="f-ounit-box" hidden>
+                <label for="f-ounit">Name of the unit</label>
+                <input id="f-ounit" type="text" maxlength="20" autocomplete="off" placeholder="e.g. jars" aria-describedby="f-ounit-err">
+                <p class="err" id="f-ounit-err" role="alert"></p>
+            </div>
+            <label for="f-price" id="f-price-l">Price per litre</label>
+            <div class="amount-row">
+                <span class="cur-tag" id="cur-tag" hidden></span>
+                <input id="f-price" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 220" aria-describedby="f-price-err">
+            </div>
+            <p class="err" id="f-price-err" role="alert"></p>
+            <label for="f-mode">How often it comes</label>
+            <select id="f-mode">
+                <option value="daily">Every day</option>
+                <option value="alt">Every 2nd day</option>
+                <option value="week">Only on some days of the week</option>
+            </select>
+            <fieldset class="wd" id="f-wd" hidden>
+                <legend>Which days</legend>
+                <div class="wd-row" id="f-wd-row"></div>
+                <p class="err" id="f-wd-err" role="alert"></p>
+            </fieldset>
+            <label for="f-start" id="f-start-l">Deliveries started on</label>
+            <input id="f-start" type="date" aria-describedby="f-start-err">
+            <p class="err" id="f-start-err" role="alert"></p>
+            <p class="hint" id="f-start-hint">If you have had it for a while, pick the 1st of this month and start counting from there.</p>
+
+            <button type="button" class="link" id="f-stop-open" hidden>+ Stopped? Add the last delivery day (optional)</button>
+            <div class="field" id="f-stop-box" hidden>
+                <label for="f-stop">Last delivery day</label>
+                <input id="f-stop" type="date" aria-describedby="f-stop-err">
+                <p class="err" id="f-stop-err" role="alert"></p>
+            </div>
+            <button type="button" class="link" id="f-seller-open">+ Add the seller's name and phone (optional)</button>
+            <div id="f-seller-box" hidden>
+                <label for="f-seller">Seller's name</label>
+                <input id="f-seller" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Ahmed">
+                <label for="f-phone">Seller's phone, with country code</label>
+                <input id="f-phone" type="tel" maxlength="24" autocomplete="off" placeholder="e.g. +92 300 1234567" aria-describedby="f-phone-err">
+                <p class="err" id="f-phone-err" role="alert"></p>
+            </div>
+            <button type="button" class="link" id="f-open-open">+ Add money owed from before (optional)</button>
+            <div id="f-open-box" hidden>
+                <label for="f-open-kind">Before the start date</label>
+                <select id="f-open-kind">
+                    <option value="owe">I still owed the seller</option>
+                    <option value="adv">I had paid in advance</option>
+                </select>
+                <label for="f-open">Amount</label>
+                <input id="f-open" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 500" aria-describedby="f-open-err">
+                <p class="err" id="f-open-err" role="alert"></p>
+            </div>
+            <div class="row-btns">
+                <button type="button" class="primary" id="f-save">Add delivery</button>
+                <button type="button" class="secondary" id="f-cancel" hidden>Cancel</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="items" id="items" aria-label="Your deliveries" hidden>
+            <div class="i-list" id="i-list"></div>
+        </section>
+    </div>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is the bill worked out?</summary><p>The app adds up what was delivered in the month and multiplies it by the price, the same way the seller does: <b>59 litres &times; 220 = 12,980</b>. Days you mark <b>Not delivered</b> count as 0, and changed days count the amount you typed. Everything is counted in thousandths of a litre and whole cents, so the bill is exact.</p></details>
+        <details><summary>The price went up in the middle of the month</summary><p>Tap <b>Price or amount changed</b> in the delivery's box and pick the date. Litres before that day are billed at the old price and litres from that day at the new one, and the bill shows both lines. The same button changes the usual amount, for example 2.5 litres from 1 November.</p></details>
+        <details><summary>We are going away for a week</summary><p>Tap <b>Away? Pause deliveries</b>, pick the first and last day, and tick <b>All deliveries</b> to pause everything at once. Paused days are not billed. If something still came on one of those days, tap that day and type the amount.</p></details>
+        <details><summary>How do payments and "owed from before" work?</summary><p>Record each payment in the month it pays for, even if you pay on the 2nd of the next month: open that month with <b>Previous</b> and tap <b>Record a payment</b>. Anything not paid is carried to the next month as <b>Owed from before</b>; paying more than the bill is carried as <b>Paid ahead</b>.</p></details>
+        <details><summary>Morning and evening milk, or two sellers?</summary><p>Add each one as its own delivery, for example "Morning milk" and "Evening milk". Each gets its own calendar, price and bill.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/milk-and-daily-delivery-log-with-monthly-bill">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Milk and Daily Delivery Log", "sections": [
+ {"h": "1. Add what is delivered", "steps": ["Tap a quick pick such as \"Milk\" or \"Newspaper\", or type \"What is delivered\".", "Type the \"Usual amount\" each time (such as 2 or 1.5) and pick the \"Unit\". \"Other...\" lets you type your own unit.", "Type the price, such as 220 for \"Price per litre\".", "Pick \"How often it comes\": Every day, Every 2nd day, or Only on some days of the week (then tick the days).", "Pick the day \"Deliveries started on\". If you have had it for a long time, pick the 1st of this month.", "\"+ Add the seller's name and phone (optional)\" lets \"Send on WhatsApp\" open a chat with the seller. \"+ Add money owed from before (optional)\" adds what you owed, or had paid ahead, before the start date.", "Tap \"Add delivery\". Add the newspaper, water cans and so on the same way: each gets its own box."]},
+ {"h": "2. Every day", "steps": ["In each box, \"Today\" says what should come today. If it did not come, tap \"Not delivered today\". If more or less came, tap \"Change today's amount\".", "For any other day, tap the day in the calendar, then \"Not delivered\", \"As usual\", or type a \"Different amount\" and tap \"Save amount\".", "In the calendar a number is the amount delivered, a cross is a day it did not come, a dash is a paused day, and an empty day is a day it does not normally come. A gold border marks a changed amount."]},
+ {"h": "3. The bill", "steps": ["Each box shows how many days it came, the total amount, the bill line such as \"37 litres × 220 = 8,140\", which days it did not come and which days changed.", "\"To pay\" is the bill plus anything owed from before, minus what you have paid for this month. In the current month it counts up to today; \"By 31 Oct, if nothing changes\" shows the whole month.", "The month box at the top adds up every delivery. \"Previous\" and \"Next\" move between months; earlier months show the whole month.", "\"Copy the bill\", \"Send on WhatsApp\" and \"Email\" send one seller their bill. \"Copy all bills\" copies every delivery, and \"Print or save as PDF\" prints the month with every day."]},
+ {"h": "4. Changes, holidays and payments", "steps": ["\"Price or amount changed\" sets a new price or usual amount from a date. Earlier days keep the old one.", "\"Away? Pause deliveries\" stops the bill from one day to another. Tick \"All deliveries\" to pause everything.", "\"Record a payment\" saves what you paid for the month you are looking at. Unpaid money is carried to the next month as \"Owed from before\"; paying more shows \"Paid ahead\".", "Changes, pauses and payments are listed in the box with a \"Delete\" button and \"Undo\".", "\"Edit\" changes the name, unit, days, start date, seller or the last delivery day if it has stopped. \"Delete\" removes the delivery, with \"Undo\"."]},
+ {"h": "Backup and settings", "steps": ["\"Currency symbol\" adds a symbol such as Rs or $ to every amount, or none for plain numbers.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\".", "\"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The bill is the total amount times the price, like the seller works it out, rounded once to the nearest cent.", "You can mark future days too, for example 3 litres on the day guests come.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

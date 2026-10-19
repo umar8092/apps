@@ -466,6 +466,14 @@ Run a committee, BC, kameti or ROSCA savings group: add the members and their sh
 
 <a href="committee-and-rosca-tracker-for-savings-groups/"><img src="committee-and-rosca-tracker-for-savings-groups/screenshots/phone.png" alt="Committee and ROSCA Tracker for Savings Groups screenshot" width="260"></a>
 
+### <img src="milk-and-daily-delivery-log-with-monthly-bill/favicon.svg" width="36" height="36" align="center"> [Milk and Daily Delivery Log with Monthly Bill](https://umar8092.github.io/apps/milk-and-daily-delivery-log-with-monthly-bill/)
+
+Log milk, a newspaper, water cans or bread delivered to your door: tap the days it did not come or came in a different amount and see the month's bill like the seller works it out ("26 litres × 220 = 5,720; 11 litres × 230 = 2,530; Not delivered: 5 Oct and 12 Oct; To pay: 8,250"), with price changes from a date, holidays, payments carried to the next month and a WhatsApp-ready bill.
+
+[**Open the app**](https://umar8092.github.io/apps/milk-and-daily-delivery-log-with-monthly-bill/) &middot; [Details and screenshots](milk-and-daily-delivery-log-with-monthly-bill/)
+
+<a href="milk-and-daily-delivery-log-with-monthly-bill/"><img src="milk-and-daily-delivery-log-with-monthly-bill/screenshots/phone.png" alt="Milk and Daily Delivery Log with Monthly Bill screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
