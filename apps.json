@@ -328,5 +328,11 @@
     "name": "Document Expiry Tracker for the Family",
     "description": "Passports, ID cards, visas, licences and insurance for everyone at home. See what to renew now, when to start, and if passports are good for a trip.",
     "color": "#0b7285"
+  },
+  {
+    "slug": "class-attendance-tracker-for-students",
+    "name": "Class Attendance Tracker for Students",
+    "description": "Can I skip this class? Each subject shows how many classes you can still miss and keep 75% (or your college's rule), or how many to attend to get back.",
+    "color": "#9c36b5"
   }
 ]

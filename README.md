@@ -442,6 +442,14 @@ Never find out at the airport that a passport has expired. Each person's passpor
 
 <a href="document-expiry-tracker-for-the-family/"><img src="document-expiry-tracker-for-the-family/screenshots/phone.png" alt="Document Expiry Tracker for the Family screenshot" width="260"></a>
 
+### <img src="class-attendance-tracker-for-students/favicon.svg" width="36" height="36" align="center"> [Class Attendance Tracker for Students](https://umar8092.github.io/apps/class-attendance-tracker-for-students/)
+
+Can I skip Physics on Friday? Each subject in its own box with classes held and attended (typed from the portal, then one tap on Present, Absent or Cancelled after each class) and its own rule (75% by default, or 80%, 85%, any percent). It answers "Maths: 30 of 34 (88.2%). You can miss 6 classes", "Physics: do not miss the next class, it would drop you to 72.0%" or "Chemistry: attend the next 10 classes in a row to get back to 75%", and with the classes left this term whether you can still finish above the line. Exact whole-class maths that never rounds 74.9% up, labs that count as 2 or 3, Undo, new term, backup, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/class-attendance-tracker-for-students/) &middot; [Details and screenshots](class-attendance-tracker-for-students/)
+
+<a href="class-attendance-tracker-for-students/"><img src="class-attendance-tracker-for-students/screenshots/phone.png" alt="Class Attendance Tracker for Students screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
