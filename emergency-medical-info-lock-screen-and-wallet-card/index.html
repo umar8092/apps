@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Medical Info Lock Screen and Wallet Card: ICE Wallpaper Maker</title>
+    <meta name="description" content="Free in-case-of-emergency (ICE) maker. Type your allergies, conditions, medicines, blood group and who to call, and get a lock screen picture sized for your phone, a printable folding wallet card, and the text for your phone's Medical ID. Several family members, a second language for travel, no sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/emergency-medical-info-lock-screen-and-wallet-card/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#e03a3e">
+    <meta name="theme-color" content="#e03a3e">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Emergency Medical Info Lock Screen and Wallet Card">
+    <meta property="og:url" content="https://umar8092.github.io/apps/emergency-medical-info-lock-screen-and-wallet-card/">
+    <meta property="og:title" content="Emergency Medical Info Lock Screen and Wallet Card">
+    <meta property="og:description" content="If you collapse, the phone is locked. Put your allergies, medicines and who to call on the lock screen and on a wallet card in two minutes. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Emergency Medical Info Lock Screen and Wallet Card","alternateName":["ICE Lock Screen Maker","In Case of Emergency Wallpaper","Medical ID Wallpaper","Emergency Wallet Card Maker"],"url":"https://umar8092.github.io/apps/emergency-medical-info-lock-screen-and-wallet-card/","description":"A free maker for an in-case-of-emergency lock screen picture, a printable wallet card and Medical ID text with allergies, conditions, medicines, blood group and emergency contacts, private on your device.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"ICE lock screen, in case of emergency wallpaper, medical ID, emergency contact card, allergy card, wallet card","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why put emergency information on the lock screen?","acceptedAnswer":{"@type":"Answer","text":"If you collapse or have an accident, paramedics and strangers cannot unlock your phone. A lock screen picture shows who to call, your allergies and your medicines without unlocking it."}},{"@type":"Question","name":"Is my medical information uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. The picture, the wallet card and the text are made in your browser, and what you type is kept only on this device. Your data is never sent anywhere."}},{"@type":"Question","name":"How do I set the picture as my lock screen?","acceptedAnswer":{"@type":"Answer","text":"On an iPhone, open the picture in Photos, tap Share and then Use as Wallpaper. On Android, open it in Photos or Gallery, tap the three dots, then Use as or Set as wallpaper, and choose Lock screen."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Emergency Medical Info Lock Screen and Wallet Card</h1>
+        <p class="sub">If you collapse, your phone is locked. Put who to call, your allergies and your medicines where a paramedic can see them.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. What you type will be lost when you close it. Save the picture, or use "Save a backup file", before leaving.</p>
+
+    <div class="col-main">
+        <section class="card who" aria-labelledby="who-h">
+            <h2 id="who-h">Whose card is it?</h2>
+            <div class="chips" id="people" role="group" aria-label="People"></div>
+            <button type="button" class="link" id="add-person">+ Add another person</button>
+            <p class="msg" id="who-msg" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="card" aria-labelledby="about-h">
+            <h2 id="about-h">About <span id="about-who">this person</span></h2>
+            <label for="f-name">Full name</label>
+            <input type="text" id="f-name" autocomplete="name" maxlength="80" placeholder="e.g. Fatima Khan">
+            <div class="pair">
+                <div class="opt">
+                    <label for="f-dob">Date of birth (optional)</label>
+                    <input type="date" id="f-dob" min="1900-01-01">
+                </div>
+                <div class="opt">
+                    <label for="f-blood">Blood group (optional)</label>
+                    <select id="f-blood">
+                        <option value="">Not known: leave off</option>
+                        <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                        <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+                    </select>
+                </div>
+            </div>
+            <p class="err" id="dob-err" aria-live="polite"></p>
+        </section>
+
+        <section class="card" aria-labelledby="al-h">
+            <h2 id="al-h">Allergies</h2>
+            <ul class="rows" id="rows-allergies"></ul>
+            <button type="button" class="secondary add-row" data-add="allergies">+ Add an allergy</button>
+            <label class="check" id="no-al-wrap"><input type="checkbox" id="f-noal"> No known allergies (the card says "None known")</label>
+        </section>
+
+        <section class="card" aria-labelledby="co-h">
+            <h2 id="co-h">Medical conditions</h2>
+            <ul class="rows" id="rows-conditions"></ul>
+            <button type="button" class="secondary add-row" data-add="conditions">+ Add a condition</button>
+        </section>
+
+        <section class="card" aria-labelledby="me-h">
+            <h2 id="me-h">Medicines taken regularly</h2>
+            <ul class="rows" id="rows-meds"></ul>
+            <button type="button" class="secondary add-row" data-add="meds">+ Add a medicine</button>
+        </section>
+
+        <section class="card" aria-labelledby="ct-h">
+            <h2 id="ct-h">Who to call</h2>
+            <ul class="rows" id="rows-contacts"></ul>
+            <button type="button" class="secondary add-row" data-add="contacts">+ Add a person to call</button>
+            <p class="hint" id="cc-hint"></p>
+            <datalist id="rels"><option>Husband</option><option>Wife</option><option>Partner</option><option>Son</option><option>Daughter</option><option>Mother</option><option>Father</option><option>Brother</option><option>Sister</option><option>Friend</option><option>Neighbour</option><option>Carer</option></datalist>
+        </section>
+
+        <section class="card" aria-labelledby="more-h">
+            <h2 id="more-h">Anything else (optional)</h2>
+            <button type="button" class="link" id="o-doctor" aria-expanded="false" aria-controls="w-doctor">+ Add a doctor (optional)</button>
+            <div id="w-doctor" hidden>
+                <div class="pair">
+                    <div class="opt"><label for="f-docname">Doctor or clinic</label><input type="text" id="f-docname" maxlength="80" placeholder="e.g. Dr Ahmed"></div>
+                    <div class="opt"><label for="f-docphone">Their phone</label><input type="tel" id="f-docphone" maxlength="30" placeholder="e.g. +44 20 7946 0000"></div>
+                </div>
+                <p class="err" id="docphone-err"></p>
+            </div>
+            <button type="button" class="link" id="o-notes" aria-expanded="false" aria-controls="w-notes">+ Add other notes (optional)</button>
+            <div id="w-notes" hidden>
+                <label for="f-notes">Other notes, one per line</label>
+                <textarea id="f-notes" maxlength="300" rows="3" placeholder="e.g. Organ donor"></textarea>
+                <p class="hint" id="notes-count"></p>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card out" aria-labelledby="ls-h">
+            <h2 id="ls-h">Lock screen picture</h2>
+            <ul class="todo" id="todo"></ul>
+            <p class="sum-empty" id="out-empty">Type a full name on the left (above, on a phone) to make the picture.</p>
+            <div id="out-ready">
+                <div class="phone-wrap"><canvas id="wall-preview" class="phone" role="img" aria-label="Lock screen preview"></canvas></div>
+                <label class="check small"><input type="checkbox" id="f-clock" checked> Show where the clock sits (only in this preview)</label>
+                <p class="fitnote" id="wall-fit" aria-live="polite"></p>
+                <label for="f-size">Phone</label>
+                <select id="f-size"></select>
+                <div class="pair" id="w-custom" hidden>
+                    <div class="opt"><label for="f-w">Width in pixels</label><input type="text" inputmode="numeric" id="f-w" maxlength="4" placeholder="1080"></div>
+                    <div class="opt"><label for="f-h">Height in pixels</label><input type="text" inputmode="numeric" id="f-h" maxlength="4" placeholder="2400"></div>
+                </div>
+                <p class="err" id="size-err"></p>
+                <span class="label-like" id="look-l">Look</span>
+                <div class="seg" role="radiogroup" aria-labelledby="look-l">
+                    <label><input type="radio" name="look" value="dark" checked> Dark</label>
+                    <label><input type="radio" name="look" value="light"> Light</label>
+                </div>
+                <button type="button" class="link" id="o-lang" aria-expanded="false" aria-controls="w-lang">+ Add labels in a second language (optional)</button>
+                <div id="w-lang" hidden>
+                    <label for="f-lang">Second language for the labels</label>
+                    <select id="f-lang"><option value="">None: English only</option></select>
+                    <p class="hint">Only the headings are translated, like "Allergies · Alergias". What you type stays as you typed it.</p>
+                </div>
+                <div class="row-btns">
+                    <button type="button" class="primary" id="save-wall">Save the picture</button>
+                    <button type="button" class="secondary" id="share-wall" hidden>Share or save to Photos</button>
+                </div>
+                <p class="hint">Then set it as your lock screen. iPhone: open it in Photos, tap Share, then Use as Wallpaper. Android: open it in Photos or Gallery, tap ⋮, then Set as wallpaper, Lock screen.</p>
+                <p class="msg" id="out-msg" role="status" aria-live="polite"></p>
+            </div>
+        </section>
+
+        <section class="card out" aria-labelledby="wc-h" id="card-sec">
+            <h2 id="wc-h">Wallet card</h2>
+            <p class="hint top">Front and back of a bank-card size card (85.6 × 54 mm). Print it, cut along the outer line and fold on the dashed line.</p>
+            <div class="card-faces">
+                <figure><img id="card-front" alt="Front of the wallet card"><figcaption>Front</figcaption></figure>
+                <figure><img id="card-back" alt="Back of the wallet card"><figcaption>Back</figcaption></figure>
+            </div>
+            <p class="fitnote" id="card-fit" aria-live="polite"></p>
+            <div class="row-btns">
+                <button type="button" class="primary" id="print-card">Print the wallet card</button>
+                <button type="button" class="secondary" id="save-card">Save the card as a picture</button>
+            </div>
+        </section>
+
+        <section class="card out" aria-labelledby="tx-h" id="text-sec">
+            <h2 id="tx-h">Text for your phone's Medical ID</h2>
+            <p class="hint top">Paste it into iPhone Health › Medical ID, or Android Settings › Safety and emergency › Medical information, so it also shows from the emergency call screen.</p>
+            <pre class="plain" id="plain"></pre>
+            <div class="row-btns">
+                <button type="button" class="secondary" id="copy-text">Copy the text</button>
+                <a class="secondary" id="email-text" href="mailto:">Email the text</a>
+            </div>
+            <p class="msg" id="text-msg" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="card settings" aria-labelledby="set-h">
+            <h2 id="set-h">Backup and start over</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary small" id="backup">Save a backup file</button>
+                <button type="button" class="secondary small" id="restore">Restore a backup</button>
+                <button type="button" class="secondary small wide bad-btn" id="del-person">Delete this person's card</button>
+                <button type="button" class="secondary small wide bad-btn" id="del-all">Delete everything</button>
+            </div>
+            <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            <p class="msg" id="set-msg" role="status" aria-live="polite"></p>
+        </section>
+    </div>
+
+    <section class="faq" aria-labelledby="faq-h">
+        <h2 id="faq-h">Questions</h2>
+        <details><summary>Why put this on the lock screen?</summary><p>If you collapse or have an accident, paramedics and strangers cannot unlock your phone. The lock screen shows who to call, your allergies and the medicines that matter (such as blood thinners or insulin) without unlocking it.</p></details>
+        <details><summary>Can anyone see it?</summary><p>Yes, anyone who picks up your phone can read the lock screen. Leave off anything you want to keep private: every field except the name is optional.</p></details>
+        <details><summary>What if everything does not fit?</summary><p>The text gets smaller until it fits. If it still does not fit, notes and the doctor are left off first, then the last items of the longest list, and the app tells you exactly what was left off. Put the most important items first.</p></details>
+        <details><summary>Is my information uploaded?</summary><p>No. The picture, the card and the text are made in your browser, and what you type is kept only on this device. Your data is never sent anywhere.</p></details>
+        <details><summary>Is this medical advice?</summary><p>No. It only shows what you type. Ask your doctor or pharmacist what is most important to list.</p></details>
+    </section>
+    <footer><p>Free, no sign-up, no ads. <a href="https://github.com/umar8092/apps/tree/main/emergency-medical-info-lock-screen-and-wallet-card">Source code</a></p></footer>
+</main>
+
+<div id="print-area" aria-hidden="true"></div>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script>if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));</script>
+<script type="application/json" id="help-data">{"title": "How to use Emergency Medical Info Lock Screen and Wallet Card", "sections": [
+ {"h": "Fill in your details", "steps": ["Type the \"Full name\". The date of birth and blood group are optional; leave \"Not known: leave off\" if you are not sure of the blood group.", "Under \"Allergies\" tap \"+ Add an allergy\" for each one and pick \"How bad?\". Life-threatening and severe allergies are shown in bold red. If you have none, tick \"No known allergies\" so a paramedic knows you checked.", "Add each condition under \"Medical conditions\" and each medicine with its dose under \"Medicines taken regularly\". Blood thinners, insulin and heart medicines matter most.", "Under \"Who to call\" add each person with their relationship and phone number. Start the number with the country code (like +44 or +92) so it works from any country.", "\"Anything else (optional)\" adds your doctor and other notes, such as \"Organ donor\" or \"Has a pacemaker\".", "Everything is saved on this device as you type. \"Remove\" on a row takes it away, with Undo."]},
+ {"h": "Make the lock screen picture", "steps": ["The preview shows the picture as it will look on your phone. The text sits below the clock and above the torch and camera buttons. Untick \"Show where the clock sits\" to see the picture alone.", "Pick your \"Phone\" so the picture fits the screen exactly, or \"Other size\" and type the screen size in pixels.", "Pick the \"Look\": Dark or Light.", "\"+ Add labels in a second language (optional)\" adds headings in another language for travel, like \"Allergies · Alergias\".", "Tap \"Save the picture\" (or \"Share or save to Photos\" on phones that offer it). Then on an iPhone open it in Photos, tap Share, then Use as Wallpaper. On Android open it in Photos or Gallery, tap the three dots, then Set as wallpaper and Lock screen."]},
+ {"h": "Wallet card and Medical ID", "steps": ["\"Print the wallet card\" prints the front (name, allergies, who to call) and the back (conditions, medicines, doctor, notes). Cut along the outer line and fold on the dashed line.", "\"Save the card as a picture\" saves both sides as one picture.", "\"Copy the text\" copies everything as plain text to paste into the phone's own Medical ID (iPhone Health app, or Android Settings, Safety and emergency). \"Email the text\" opens your email app with it, so you can send it to family."]},
+ {"h": "Family members", "steps": ["\"+ Add another person\" starts a new card, for a child, a parent or a partner. Tap a name under \"Whose card is it?\" to switch.", "Each person has their own phone size, look and language.", "\"Delete this person's card\" and \"Delete everything\" can be undone straight after.", "\"Save a backup file\" saves every card to a file; \"Restore a backup\" loads it on another phone or browser."]},
+ {"h": "Good to know", "tips": true, "steps": ["When the text does not fit, it gets smaller first. If it still does not fit, the app leaves off notes, then the doctor, then the last items of the longest list, and tells you exactly what was left off.", "Blank fields are left off the picture and the card. They never say \"none\" unless you ticked it.", "The card prints the date you last changed it, so a paramedic knows how up to date it is. The age is worked out from the date of birth every day.", "Anyone can read a lock screen. Only add what you are happy for a stranger to see.", "This is not medical advice: it shows only what you type. It works offline once opened."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -334,5 +334,11 @@
     "name": "Class Attendance Tracker for Students",
     "description": "Can I skip this class? Each subject shows how many classes you can still miss and keep 75% (or your college's rule), or how many to attend to get back.",
     "color": "#9c36b5"
+  },
+  {
+    "slug": "emergency-medical-info-lock-screen-and-wallet-card",
+    "name": "Emergency Medical Info Lock Screen and Wallet Card",
+    "description": "If you collapse, your phone is locked. Put your allergies, medicines, blood group and who to call on a lock screen picture, a folding wallet card and your phone's Medical ID.",
+    "color": "#e03a3e"
   }
 ]

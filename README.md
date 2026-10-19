@@ -450,6 +450,14 @@ Can I skip Physics on Friday? Each subject in its own box with classes held and 
 
 <a href="class-attendance-tracker-for-students/"><img src="class-attendance-tracker-for-students/screenshots/phone.png" alt="Class Attendance Tracker for Students screenshot" width="260"></a>
 
+### <img src="emergency-medical-info-lock-screen-and-wallet-card/favicon.svg" width="36" height="36" align="center"> [Emergency Medical Info Lock Screen and Wallet Card](https://umar8092.github.io/apps/emergency-medical-info-lock-screen-and-wallet-card/)
+
+If you collapse, your phone is locked. Type your allergies (with how bad), conditions, medicines and doses, blood group and who to call, and get a lock screen picture sized exactly for your phone ("IN CASE OF EMERGENCY: Fatima Khan, 68. Penicillin: life-threatening. Warfarin 5 mg. Call Bilal (Son) +44 7700 900123"), a printable folding wallet card, and the text for your phone's Medical ID. The biggest text that fits, and it tells you exactly what was left off. Cards for the whole family, labels in a second language for travel, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/emergency-medical-info-lock-screen-and-wallet-card/) &middot; [Details and screenshots](emergency-medical-info-lock-screen-and-wallet-card/)
+
+<a href="emergency-medical-info-lock-screen-and-wallet-card/"><img src="emergency-medical-info-lock-screen-and-wallet-card/screenshots/phone.png" alt="Emergency Medical Info Lock Screen and Wallet Card screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
