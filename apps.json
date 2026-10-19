@@ -352,5 +352,11 @@
     "name": "Milk and Daily Delivery Log with Monthly Bill",
     "description": "Log milk, a newspaper, water cans or bread delivered to your door: tap the days it did not come or came extra and see the month's bill, what you have paid and what you owe the seller, with price changes, holidays and a WhatsApp-ready bill.",
     "color": "#339af0"
+  },
+  {
+    "slug": "electricity-gas-and-water-meter-reading-log",
+    "name": "Electricity, Gas and Water Meter Reading Log",
+    "description": "Type the number on your electricity, gas or water meter every week or month and see the units used this bill period, the use per day, the bill so far and the bill by the next reading day, with price steps (slabs), a unit limit such as 200 and past bills.",
+    "color": "#f59f00"
   }
 ]

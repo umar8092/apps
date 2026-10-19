@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity, Gas and Water Meter Reading Log: Units Used and the Bill So Far</title>
+    <meta name="description" content="Free meter reading log for electricity, gas and water. Type the number on your meter every week or month and see the units used this bill period, the use per day, the bill so far and the bill by the next reading day. Price steps (slabs), a unit limit such as 200, meter changes, past bills and last year. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/electricity-gas-and-water-meter-reading-log/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#f59f00">
+    <meta name="theme-color" content="#e67700">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Electricity, Gas and Water Meter Reading Log">
+    <meta property="og:url" content="https://umar8092.github.io/apps/electricity-gas-and-water-meter-reading-log/">
+    <meta property="og:title" content="Electricity, Gas and Water Meter Reading Log: Units Used and the Bill So Far">
+    <meta property="og:description" content="Type the number on your meter and see the units used this bill period, the bill so far and the bill by the next reading day. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Electricity, Gas and Water Meter Reading Log","alternateName":["Meter Reading Tracker","Electricity Units Calculator","Bijli Units Tracker","Utility Meter Log","Gas Meter Log","Water Meter Log"],"url":"https://umar8092.github.io/apps/electricity-gas-and-water-meter-reading-log/","description":"A free log of electricity, gas and water meter readings that shows the units used in the bill period, the use per day, the bill so far and the expected bill, with price steps, a unit limit, meter changes and past bill periods.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"meter reading log, electricity units tracker, 200 units limit, protected consumer, gas meter reading, water meter reading, estimate electricity bill","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How are the units used worked out?","acceptedAnswer":{"@type":"Answer","text":"The units used are the newest reading minus an earlier one. When there is no reading on the exact day the bill period starts, the use between two readings is spread evenly over the days in between."}},{"@type":"Question","name":"How do I stay under 200 units?","acceptedAnswer":{"@type":"Answer","text":"Add a limit of 200 to the meter. The app then says how many units a day you can still use until the next reading day, and the day you will pass 200 at your current rate."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Electricity, Gas and Water Meter Reading Log</h1>
+        <p class="sub">Type the number on your meter every week or month and see how many units you have used this bill period, the bill so far, and what the bill will be by the next reading day.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a meter</h2>
+            <p class="hint top" id="add-intro">Add each meter you want to watch. Each one gets its own box where you type its readings.</p>
+            <div class="quick" id="quick" role="group" aria-label="Quick pick">
+                <button type="button" class="chip" data-name="Electricity" data-unit="kWh">Electricity</button>
+                <button type="button" class="chip" data-name="Gas" data-unit="m³">Gas</button>
+                <button type="button" class="chip" data-name="Water" data-unit="m³">Water</button>
+            </div>
+            <label for="f-name">Name of the meter</label>
+            <input id="f-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Electricity" aria-describedby="f-name-err">
+            <p class="err" id="f-name-err" role="alert"></p>
+            <div class="two unit-day">
+                <div class="field">
+                    <label for="f-unit">Unit on the meter</label>
+                    <select id="f-unit">
+                        <option value="kWh">kWh</option>
+                        <option value="units">units</option>
+                        <option value="m³">m³</option>
+                        <option value="ft³">ft³</option>
+                        <option value="100 ft³">100 ft³</option>
+                        <option value="litres">litres</option>
+                        <option value="gallons">gallons</option>
+                        <option value="other">Other&hellip;</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="f-day">Read for the bill on</label>
+                    <select id="f-day"></select>
+                </div>
+            </div>
+            <div class="field" id="f-ounit-box" hidden>
+                <label for="f-ounit">Name of the unit</label>
+                <input id="f-ounit" type="text" maxlength="16" autocomplete="off" placeholder="e.g. MWh" aria-describedby="f-ounit-err">
+                <p class="err" id="f-ounit-err" role="alert"></p>
+            </div>
+            <p class="hint">The day of the month the meter is read for your bill (look for "reading date" on the last bill). Not sure? Leave it on the 1st.</p>
+
+            <button type="button" class="link" id="f-price-open">+ Add the price to see the bill (optional)</button>
+            <fieldset class="sub-box" id="f-price-box" hidden>
+                <legend>Price</legend>
+                <label for="f-mode">How the price works</label>
+                <select id="f-mode">
+                    <option value="flat">One price for every unit</option>
+                    <option value="steps">Price in steps (slabs)</option>
+                </select>
+                <div id="f-flat-box">
+                    <label for="f-flat" id="f-flat-l">Price per unit</label>
+                    <div class="amount-row">
+                        <span class="cur-tag" hidden></span>
+                        <input id="f-flat" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 25" aria-describedby="f-flat-err">
+                    </div>
+                    <p class="err" id="f-flat-err" role="alert"></p>
+                </div>
+                <div id="f-steps-box" hidden>
+                    <p class="hint">Type where each step ends and its price per unit, as on your bill or the supplier's price list.</p>
+                    <div class="steps" id="f-steps"></div>
+                    <button type="button" class="link" id="f-step-add">+ Add a step</button>
+                    <label class="check"><input type="checkbox" id="f-whole"><span>Once you pass a step, every unit costs that step's price</span></label>
+                    <p class="err" id="f-steps-err" role="alert"></p>
+                </div>
+                <button type="button" class="link" id="f-fixed-open">+ Add a fixed charge (optional)</button>
+                <div id="f-fixed-box" hidden>
+                    <div class="two">
+                        <div class="field">
+                            <label for="f-fixed">Fixed charge</label>
+                            <div class="amount-row">
+                                <span class="cur-tag" hidden></span>
+                                <input id="f-fixed" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 300" aria-describedby="f-fixed-err">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="f-per">Charged</label>
+                            <select id="f-per">
+                                <option value="bill">once a bill</option>
+                                <option value="day">every day</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="err" id="f-fixed-err" role="alert"></p>
+                </div>
+                <button type="button" class="link" id="f-tax-open">+ Add tax (optional)</button>
+                <div id="f-tax-box" hidden>
+                    <label for="f-tax">Tax added to the bill, in %</label>
+                    <input id="f-tax" type="text" inputmode="decimal" maxlength="8" autocomplete="off" placeholder="e.g. 17" aria-describedby="f-tax-err">
+                    <p class="err" id="f-tax-err" role="alert"></p>
+                </div>
+                <button type="button" class="link danger-t" id="f-price-remove">Remove the price</button>
+            </fieldset>
+
+            <button type="button" class="link" id="f-limit-open">+ Add a unit limit for each bill (optional)</button>
+            <div id="f-limit-box" hidden>
+                <label for="f-limit" id="f-limit-l">Most units per bill period</label>
+                <input id="f-limit" type="text" inputmode="decimal" maxlength="14" autocomplete="off" placeholder="e.g. 200" aria-describedby="f-limit-err">
+                <p class="err" id="f-limit-err" role="alert"></p>
+                <p class="hint">For example 200 to stay a protected consumer, or your own goal. The meter's box then says how much you can still use each day.</p>
+            </div>
+
+            <div class="row-btns">
+                <button type="button" class="primary" id="f-save">Add meter</button>
+                <button type="button" class="secondary" id="f-cancel" hidden>Cancel</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Add a meter</b>: electricity, gas or water, the unit, and the day it is read for your bill.</li>
+                <li><b>Type the number on the meter</b> with its date. Start with the reading on your last bill.</li>
+                <li><b>Read it again every week or so.</b> The box shows the units used this bill period, the use per day and, with a price, the bill so far and the bill by the next reading day.</li>
+                <li><b>Add a unit limit</b> such as 200, and the box says how many units a day you can still use.</li>
+            </ol>
+        </section>
+        <section class="meters" id="meters" aria-label="Your meters" hidden>
+            <div class="m-list" id="m-list"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How are the units used worked out?</summary><p>Units used are the newest reading minus an earlier one: <b>8,334 &minus; 8,186 = 148 units</b> since the reading day. If you did not read the meter on the exact day the bill period started, the use between your two nearest readings is spread evenly over the days in between, and the box says the number is partly estimated.</p></details>
+        <details><summary>How is the bill at the end worked out?</summary><p>The app takes your use per day over the last 30 days of readings, multiplies it by the days left until the next reading day, and adds it to what you have used so far. The bill is those units at your price (each step at its own price, or every unit at the top step's price if you ticked that), plus any fixed charge and tax. It is an estimate; the real bill uses the meter reader's number.</p></details>
+        <details><summary>How do I stay under 200 units?</summary><p>Open <b>+ Add a unit limit for each bill</b> and type 200. The meter's box then shows <b>"You can use 3.1 units a day for the 17 days left"</b> and the day you will pass 200 if you keep using what you use now. Read the meter every few days to see if you are on track.</p></details>
+        <details><summary>The meter was replaced, or went back to zero</summary><p>When you type the first reading from the new meter, tick <b>New meter, or the meter went back to 0</b>. The app starts counting again from that number. The units used between the last old reading and the new one are not known, so the box estimates them from your usual use per day.</p></details>
+        <details><summary>Day and night rates, or two flats?</summary><p>Add each dial or each meter as its own meter, for example "Day rate" and "Night rate", each with its own price and readings.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/electricity-gas-and-water-meter-reading-log">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Meter Reading Log", "sections": [
+ {"h": "1. Add a meter", "steps": ["Tap \"Electricity\", \"Gas\" or \"Water\", or type the \"Name of the meter\" yourself, such as \"Flat 2 electricity\".", "Pick the \"Unit on the meter\", such as kWh, units or m³. \"Other...\" lets you type your own.", "Pick \"Read for the bill on\": the day of the month your meter is read for the bill. It decides where each bill period starts and ends.", "\"+ Add the price to see the bill (optional)\": pick \"One price for every unit\" and type the price, or \"Price in steps (slabs)\" and type where each step ends and its price. Tick \"Once you pass a step, every unit costs that step's price\" if your supplier charges the whole bill at the higher price. You can also add a fixed charge (once a bill or every day) and tax in %.", "\"+ Add a unit limit for each bill (optional)\": type the most units you want to use in one bill period, for example 200.", "Tap \"Add meter\". Add gas and water the same way: each meter gets its own box."]},
+ {"h": "2. Type the readings", "steps": ["Read the number on the meter (the black digits; leave out the red ones after the point if you like).", "In the meter's box, check the \"Date\", type the \"Reading\" and tap \"Save reading\". Start with the reading from your last bill and its date, then add a new one every week or so.", "If the meter was replaced or went back to zero, tap \"+ New meter, or the meter went back to 0?\" and tick the box before saving.", "A reading lower than the one before, or higher than a later one, is not saved: the app says which reading it clashes with.", "\"Edit\" next to a reading changes its date or number; \"Delete\" removes it, with \"Undo\"."]},
+ {"h": "3. What the box tells you", "steps": ["\"Used so far this bill period\" is the units since the reading day, with the days and the use per day.", "\"By [next reading day], at this rate\" is the units and bill you can expect if you keep using what you used over the last 30 days.", "With a price, \"Bill so far\" is what the units used so far cost, and the bill at the end adds the fixed charge and tax.", "With a limit, the box says how many units a day you can still use, the day you will pass the limit at this rate, or how far over it you are.", "\"Past bill periods\" lists each finished period with the units, the use per day, the bill at today's price, and the change against the same period last year. \"part\" means your readings covered only some of its days and the rest was estimated.", "\"Copy summary\" and \"Email\" send the numbers and the readings, for example to the supplier or a landlord."]},
+ {"h": "Backup and settings", "steps": ["\"Currency symbol\" adds a symbol such as Rs or £ to every amount, or none for plain numbers.", "\"Edit meter\" changes the name, unit, reading day, price or limit. \"Delete meter\" removes it, with \"Undo\".", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\".", "\"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Between two readings the use is spread evenly over the days. The more often you read the meter, the closer the numbers.", "The bill is an estimate at the price you typed. If the price changed, past bills are shown at today's price.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

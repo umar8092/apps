@@ -474,6 +474,14 @@ Log milk, a newspaper, water cans or bread delivered to your door: tap the days 
 
 <a href="milk-and-daily-delivery-log-with-monthly-bill/"><img src="milk-and-daily-delivery-log-with-monthly-bill/screenshots/phone.png" alt="Milk and Daily Delivery Log with Monthly Bill screenshot" width="260"></a>
 
+### <img src="electricity-gas-and-water-meter-reading-log/favicon.svg" width="36" height="36" align="center"> [Electricity, Gas and Water Meter Reading Log](https://umar8092.github.io/apps/electricity-gas-and-water-meter-reading-log/)
+
+Type the number on your electricity, gas or water meter every week or so and see what the bill will be before it arrives ("Used so far this bill period: 148 units; by 5 Nov, at this rate: about 328 units, bill about 5,609.71; to stay under 200 units: use at most 3.1 units a day"), with price steps (slabs), a fixed charge and tax, meter changes and past bill periods against last year.
+
+[**Open the app**](https://umar8092.github.io/apps/electricity-gas-and-water-meter-reading-log/) &middot; [Details and screenshots](electricity-gas-and-water-meter-reading-log/)
+
+<a href="electricity-gas-and-water-meter-reading-log/"><img src="electricity-gas-and-water-meter-reading-log/screenshots/phone.png" alt="Electricity, Gas and Water Meter Reading Log screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
