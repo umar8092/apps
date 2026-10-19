@@ -250,7 +250,7 @@
             else if (!(y >= 1950 && y <= 2200)) errs.exp = 'Type the year it expires, with 4 digits, such as 2031.';
             doc.exp = { t: 'month', y, m };
         } else {
-            if (!isDate(f.expDate)) errs.exp = 'Choose the date it expires. It is printed on the document.';
+            if (!isDate(f.expDate)) errs.exp = /^\d{4,}-\d\d-\d\d$/.test(String(f.expDate || '')) ? 'That date is too far away. Check the year printed on the document.' : 'Choose the date it expires. It is printed on the document.';
             doc.exp = { t: 'date', d: f.expDate };
         }
         const rs = f.remSel;
