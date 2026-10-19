@@ -340,5 +340,11 @@
     "name": "Emergency Medical Info Lock Screen and Wallet Card",
     "description": "If you collapse, your phone is locked. Put your allergies, medicines, blood group and who to call on a lock screen picture, a folding wallet card and your phone's Medical ID.",
     "color": "#e03a3e"
+  },
+  {
+    "slug": "committee-and-rosca-tracker-for-savings-groups",
+    "name": "Committee and ROSCA Tracker for Savings Groups",
+    "description": "Run a committee, BC, kameti or ROSCA: tick who has paid each round, see who takes the pot, who still owes and when each member's turn comes, and copy a WhatsApp reminder.",
+    "color": "#0ca678"
   }
 ]

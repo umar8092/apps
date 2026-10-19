@@ -458,6 +458,14 @@ If you collapse, your phone is locked. Type your allergies (with how bad), condi
 
 <a href="emergency-medical-info-lock-screen-and-wallet-card/"><img src="emergency-medical-info-lock-screen-and-wallet-card/screenshots/phone.png" alt="Emergency Medical Info Lock Screen and Wallet Card screenshot" width="260"></a>
 
+### <img src="committee-and-rosca-tracker-for-savings-groups/favicon.svg" width="36" height="36" align="center"> [Committee and ROSCA Tracker for Savings Groups](https://umar8092.github.io/apps/committee-and-rosca-tracker-for-savings-groups/)
+
+Run a committee, BC, kameti or ROSCA savings group: add the members and their shares, set the turn order or draw it at random, tick who has paid each round and see who takes the pot, who still owes and when each member's turn comes, with a WhatsApp-ready reminder.
+
+[**Open the app**](https://umar8092.github.io/apps/committee-and-rosca-tracker-for-savings-groups/) &middot; [Details and screenshots](committee-and-rosca-tracker-for-savings-groups/)
+
+<a href="committee-and-rosca-tracker-for-savings-groups/"><img src="committee-and-rosca-tracker-for-savings-groups/screenshots/phone.png" alt="Committee and ROSCA Tracker for Savings Groups screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

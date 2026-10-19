@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Committee and ROSCA Tracker for Savings Groups: Who Has Paid, Whose Turn</title>
+    <meta name="description" content="Free tracker for a committee, BC, kameti or ROSCA savings group. Add the members and their shares, set the turn order or draw it at random, tick who has paid each month and see who takes the pot, who still owes and when each member's turn comes. Copy a WhatsApp reminder. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/committee-and-rosca-tracker-for-savings-groups/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#0ca678">
+    <meta name="theme-color" content="#087f5b">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Committee and ROSCA Tracker for Savings Groups">
+    <meta property="og:url" content="https://umar8092.github.io/apps/committee-and-rosca-tracker-for-savings-groups/">
+    <meta property="og:title" content="Committee and ROSCA Tracker: Who Has Paid, Who Takes the Pot">
+    <meta property="og:description" content="Run a committee, BC, kameti or ROSCA: tick who has paid each round, see who takes the pot and who still owes, and copy a WhatsApp reminder. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Committee and ROSCA Tracker for Savings Groups","alternateName":["Committee Tracker","BC Committee App","Kameti Tracker","ROSCA Tracker","Savings Circle Tracker","Susu Tracker","Tanda Tracker"],"url":"https://umar8092.github.io/apps/committee-and-rosca-tracker-for-savings-groups/","description":"A free tracker for rotating savings groups (committee, BC, kameti, ROSCA, susu, tanda, chit). Members, shares, turn order, monthly payments, who takes the pot and WhatsApp reminders.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"committee tracker, BC committee, kameti app, ROSCA tracker, savings circle, susu, tanda, chit fund record","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does a committee (ROSCA) work?","acceptedAnswer":{"@type":"Answer","text":"A group of people each pay the same amount every month, and each month one member takes the whole pot. With 10 members paying 10,000, each month one person takes 100,000, and after 10 months everyone has had one turn and paid in 100,000."}},{"@type":"Question","name":"Can a member have two shares?","acceptedAnswer":{"@type":"Answer","text":"Yes. A member with 2 shares pays double every round and takes the pot twice. The number of rounds is the number of shares."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Names, phone numbers and payments stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Committee and ROSCA Tracker for Savings Groups</h1>
+        <p class="sub">For a committee, BC, kameti or savings circle: see who has paid this round, who takes the pot, who still owes and when each member's turn comes.</p>
+    </header>
+
+    <section class="card setup" id="setup" aria-labelledby="setup-h">
+        <div class="pick-row" id="pick-row">
+            <div class="pick-field" id="pick-wrap" hidden>
+                <label for="pick">Committee</label>
+                <select id="pick"></select>
+            </div>
+        </div>
+
+        <div id="setup-view" hidden>
+            <h2 id="setup-h" class="c-name"></h2>
+            <p class="c-line" id="c-line1"></p>
+            <p class="c-line" id="c-line2"></p>
+            <p class="c-now" id="c-now"></p>
+            <div class="c-links">
+                <button type="button" class="link" id="edit-c">Change committee details</button>
+                <button type="button" class="link" id="new-c">+ New committee</button>
+            </div>
+        </div>
+
+        <div id="setup-form">
+            <h2 id="setup-form-h">Set up your committee</h2>
+            <div class="form-grid">
+                <div class="field">
+                    <label for="c-name">Committee name</label>
+                    <input id="c-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Office committee">
+                </div>
+                <div class="field">
+                    <label for="c-amount">Each member pays per round</label>
+                    <div class="amount-row">
+                        <span class="cur-tag" id="cur-tag" hidden></span>
+                        <input id="c-amount" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 10000" aria-describedby="c-amount-err">
+                    </div>
+                    <p class="err" id="c-amount-err" role="alert"></p>
+                </div>
+                <div class="field">
+                    <label for="c-freq">How often</label>
+                    <select id="c-freq">
+                        <option value="month">Every month</option>
+                        <option value="2week">Every 2 weeks</option>
+                        <option value="week">Every week</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="c-start">First collection date</label>
+                    <input id="c-start" type="date" aria-describedby="c-start-err">
+                    <p class="err" id="c-start-err" role="alert"></p>
+                </div>
+            </div>
+            <p class="hint" id="c-hint">The pot each round is this amount times the number of shares. Members are added next.</p>
+            <div class="row-btns">
+                <button type="button" class="primary" id="c-save">Save details</button>
+                <button type="button" class="secondary" id="c-cancel" hidden>Cancel</button>
+            </div>
+            <button type="button" class="link" id="restore-first" hidden>Moving from another phone? Restore a backup file</button>
+        </div>
+        <div class="msg" id="setup-msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <div class="col-a">
+        <section class="card members" id="members" aria-labelledby="members-h" hidden>
+            <h2 id="members-h">Members</h2>
+            <div class="add-m">
+                <div class="m-row">
+                    <div class="field grow">
+                        <label for="m-name">Member's name</label>
+                        <input id="m-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Sara" aria-describedby="m-name-err">
+                    </div>
+                    <div class="field">
+                        <label for="m-shares">Shares</label>
+                        <select id="m-shares"></select>
+                    </div>
+                </div>
+                <p class="err" id="m-name-err" role="alert"></p>
+                <button type="button" class="link" id="m-phone-open">+ Add phone number (optional)</button>
+                <div class="field" id="m-phone-box" hidden>
+                    <label for="m-phone">Phone number, with country code</label>
+                    <input id="m-phone" type="tel" maxlength="24" autocomplete="off" placeholder="e.g. +92 300 1234567" aria-describedby="m-phone-err">
+                    <p class="err" id="m-phone-err" role="alert"></p>
+                </div>
+                <button type="button" class="primary" id="m-add">Add member</button>
+                <p class="hint">2 shares means the member pays double each round and takes the pot twice.</p>
+            </div>
+            <div class="msg" id="members-msg" role="status" aria-live="polite"></div>
+            <p class="empty" id="m-empty">No members yet. Add everyone in the committee, one at a time. Each member gets their own box here.</p>
+            <div class="m-list" id="m-list"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share, backup and settings</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy-sheet">Copy the full summary</button>
+                <button type="button" class="secondary" id="print-sheet">Print or save as PDF</button>
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <button type="button" class="danger" id="del-c">Delete this committee</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card round" id="round" aria-labelledby="round-h" hidden>
+            <div class="r-top">
+                <h2 id="round-h">Round</h2>
+                <div class="r-nav">
+                    <button type="button" class="secondary small" id="r-prev" aria-label="Previous round">&lsaquo; Previous</button>
+                    <button type="button" class="secondary small" id="r-next" aria-label="Next round">Next &rsaquo;</button>
+                </div>
+            </div>
+            <p class="r-date" id="r-date"></p>
+            <button type="button" class="link" id="r-today" hidden>Go back to this round</button>
+            <p class="r-note" id="r-note" hidden></p>
+            <div class="r-pot">
+                <p class="r-taker" id="r-taker"></p>
+                <label class="check"><input type="checkbox" id="r-handed"><span id="r-handed-l">Pot handed over</span></label>
+            </div>
+            <p class="r-progress" id="r-progress"></p>
+            <div class="bar" aria-hidden="true"><span id="r-bar"></span></div>
+            <p class="r-left" id="r-left"></p>
+            <div class="msg" id="round-msg" role="status" aria-live="polite"></div>
+            <div class="pay-list" id="pay-list"></div>
+            <h3 class="share-h">Remind the group</h3>
+            <div class="tool-grid share-grid">
+                <button type="button" class="secondary" id="r-copy">Copy reminder</button>
+                <a class="secondary" id="r-wa" href="#" target="_blank" rel="noopener">Send on WhatsApp</a>
+                <button type="button" class="secondary" id="r-share" hidden>Share</button>
+                <a class="secondary" id="r-mail" href="#">Email</a>
+            </div>
+        </section>
+
+        <section class="card turns" id="turns" aria-labelledby="turns-h" hidden>
+            <h2 id="turns-h">Turn order: who takes the pot</h2>
+            <p class="hint top">Use the arrows to move a turn earlier or later, or draw the order at random. Rounds whose pot is handed over stay fixed.</p>
+            <button type="button" class="secondary" id="draw">Draw the order at random</button>
+            <p class="hint" id="drawn"></p>
+            <div class="msg" id="turns-msg" role="status" aria-live="polite"></div>
+            <ol class="t-list" id="t-list"></ol>
+        </section>
+    </div>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does a committee (ROSCA) work?</summary><p>Everyone pays the same amount each round and one member takes the whole pot. With 10 members paying 10,000 a month, each month one member takes <b>100,000</b>. After 10 months everyone has had one turn and has paid in 100,000. It is called a committee, BC or kameti in Pakistan and India, a ROSCA, susu, tanda, chit or savings circle elsewhere.</p></details>
+        <details><summary>Does the member who takes the pot also pay that round?</summary><p>Yes. Everyone pays every round, including the member whose turn it is, so the pot is always the amount times all shares. If your group lets the taker skip their own payment, tick them as paid.</p></details>
+        <details><summary>What are shares?</summary><p>A member with 2 shares pays double each round and takes the pot twice. Two people sharing one turn can be added as one member, for example "Ali and Hina". The number of rounds is the number of shares.</p></details>
+        <details><summary>How is the turn order decided?</summary><p>Members are put in the order you add them. Move turns with the arrows, or tap <b>Draw the order at random</b> in front of the group. The draw is kept, with the date, and <b>Undo</b> puts the old order back. Once a round's pot is ticked as handed over, that round stays fixed.</p></details>
+        <details><summary>A member left. What do I do?</summary><p>If someone else takes their place, tap <b>Edit</b> in their box and change the name: their payments and turn stay. A member who has already taken the pot cannot be deleted, because they still owe the rest of their payments.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Names, phone numbers and payments stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/committee-and-rosca-tracker-for-savings-groups">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Committee and ROSCA Tracker", "sections": [
+ {"h": "1. Set up the committee", "steps": ["Type the Committee name, what \"Each member pays per round\" (such as 10000), \"How often\" (Every month, Every 2 weeks or Every week) and the \"First collection date\".", "Tap \"Save details\". The top box then shows the pot, the number of rounds and the first and last dates. \"Change committee details\" changes them later.", "\"+ New committee\" starts another committee if you are in more than one. Pick between them with \"Committee\"."]},
+ {"h": "2. Add the members", "steps": ["Type the \"Member's name\", choose the \"Shares\" (1 share is normal, 2 shares pays double and takes the pot twice) and tap \"Add member\" (or press Enter).", "\"+ Add phone number (optional)\" lets the member's reminder open WhatsApp straight to them.", "Each member has their own box with when they take the pot, what they have paid and what they owe now.", "\"Edit\" changes the name, shares or phone. \"Delete\" removes a member, with \"Undo\". A member who has already taken the pot cannot be deleted; rename them if someone else took over."]},
+ {"h": "3. Set the turn order", "steps": ["\"Turn order: who takes the pot\" lists every round with its date and who takes it.", "Use the up and down arrows to move a turn, or tap \"Draw the order at random\". \"Undo\" puts the old order back."]},
+ {"h": "4. Each round", "steps": ["The Round box opens on the round whose date has come. \"Previous\" and \"Next\" go to other rounds.", "It says who takes the pot, such as \"Bilal takes 100,000\", and how many have paid, such as \"Paid: 7 of 10\".", "Tap \"Paid in full\" for each member who pays. \"Part payment\" records less, and the rest stays owed. \"Mark as not paid\" takes a payment back.", "When the money is given out, tick \"Pot handed over\". That round's turn is then fixed.", "\"Copy reminder\", \"Send on WhatsApp\", \"Share\" and \"Email\" send the group a list of who still has to pay. \"Reminder\" in a member's box writes a message to that member only."]},
+ {"h": "Share, backup and settings", "steps": ["\"Copy the full summary\" copies the turn order and what each member has paid. \"Print or save as PDF\" prints a sheet with a tick for every payment.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\". On a new phone, use \"Restore a backup file\" under the setup form.", "\"Currency symbol\" adds a symbol such as Rs or $ to every amount, or none for plain numbers.", "\"Delete this committee\" removes it, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Everyone pays every round, including the member who takes the pot, so the pot is the amount times all shares.", "\"Owes now\" counts every round whose collection date has come and is not fully paid. You can tick payments early for later rounds too.", "Amounts are counted in whole cents, so totals are exact.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
