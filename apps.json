@@ -358,5 +358,11 @@
     "name": "Electricity, Gas and Water Meter Reading Log",
     "description": "Type the number on your electricity, gas or water meter every week or month and see the units used this bill period, the use per day, the bill so far and the bill by the next reading day, with price steps (slabs), a unit limit such as 200 and past bills.",
     "color": "#f59f00"
+  },
+  {
+    "slug": "birthday-and-anniversary-reminder-list",
+    "name": "Birthday and Anniversary Reminder List",
+    "description": "Add family and friends' birthdays and wedding anniversaries (year optional) and see who is today, tomorrow and in the next 30 days, the age they turn or years together, and anything missed in the last week, with yearly calendar reminders, a pasted list or phone contacts import, and gift notes.",
+    "color": "#e8467c"
   }
 ]

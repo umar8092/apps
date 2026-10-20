@@ -482,6 +482,14 @@ Type the number on your electricity, gas or water meter every week or so and see
 
 <a href="electricity-gas-and-water-meter-reading-log/"><img src="electricity-gas-and-water-meter-reading-log/screenshots/phone.png" alt="Electricity, Gas and Water Meter Reading Log screenshot" width="260"></a>
 
+### <img src="birthday-and-anniversary-reminder-list/favicon.svg" width="36" height="36" align="center"> [Birthday and Anniversary Reminder List](https://umar8092.github.io/apps/birthday-and-anniversary-reminder-list/)
+
+Add family and friends' birthdays and wedding anniversaries (the year is optional) and see who is next ("Mum turns 66 today", "Sara turns 31 on Sat 24 Oct (in 4 days)", "Hina turned 36 on Sat 17 Oct (3 days ago)"), with yearly reminders for your phone's calendar, 29 February handled, a pasted list or phone contacts import, gift ideas and a tick for who you have wished.
+
+[**Open the app**](https://umar8092.github.io/apps/birthday-and-anniversary-reminder-list/) &middot; [Details and screenshots](birthday-and-anniversary-reminder-list/)
+
+<a href="birthday-and-anniversary-reminder-list/"><img src="birthday-and-anniversary-reminder-list/screenshots/phone.png" alt="Birthday and Anniversary Reminder List screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

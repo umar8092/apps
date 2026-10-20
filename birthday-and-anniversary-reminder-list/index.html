@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday and Anniversary Reminder List: Never Forget a Birthday Again</title>
+    <meta name="description" content="Free birthday and anniversary reminder list. Add family and friends' birthdays and wedding anniversaries (year optional) and see who is next, how old they turn and how many years together, with today and tomorrow at the top, yearly calendar reminders, paste a list or import phone contacts. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/birthday-and-anniversary-reminder-list/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#e8467c">
+    <meta name="theme-color" content="#e8467c">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Birthday and Anniversary Reminder List">
+    <meta property="og:url" content="https://umar8092.github.io/apps/birthday-and-anniversary-reminder-list/">
+    <meta property="og:title" content="Birthday and Anniversary Reminder List">
+    <meta property="og:description" content="Every birthday and anniversary in one list: who is next, how old they turn, and a yearly reminder in your calendar. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Birthday and Anniversary Reminder List","alternateName":["Birthday Reminder","Anniversary Reminder","Birthday Calendar","Birthday List"],"url":"https://umar8092.github.io/apps/birthday-and-anniversary-reminder-list/","description":"A free list of family and friends' birthdays and wedding anniversaries that shows who is next, the age they turn and the years together, with yearly calendar reminders, private on your device.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"birthday reminder, anniversary reminder, birthday list, birthday calendar, never forget a birthday, upcoming birthdays, 29 February birthday","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I get a reminder on my phone?","acceptedAnswer":{"@type":"Answer","text":"Tap Calendar on a person, or Add all to my calendar. The app saves a calendar file; open it and your phone's calendar adds a yearly event with a reminder on the day and, if you choose, some days before."}},{"@type":"Question","name":"When is a 29 February birthday kept in other years?","acceptedAnswer":{"@type":"Answer","text":"You choose for each person: on 28 February or on 1 March. In leap years it is on 29 February."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. The list stays in this browser on this device. There is no account and your data is never sent anywhere."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Birthday and Anniversary Reminder List</h1>
+        <p class="sub">Family and friends' birthdays and anniversaries in one list: who is next, how old they turn, and a yearly reminder.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your list will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h">Coming up</h2>
+            <div id="sum-body" aria-live="polite"></div>
+        </section>
+
+        <section class="card list" id="list" aria-labelledby="list-h">
+            <h2 id="list-h">Everyone, next first</h2>
+            <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+            <div class="find" id="find" hidden>
+                <div class="pair">
+                    <div>
+                        <label for="q">Find a name</label>
+                        <input id="q" type="search" maxlength="40" autocomplete="off" placeholder="e.g. Sara">
+                    </div>
+                    <div>
+                        <label for="g-filter">Show</label>
+                        <select id="g-filter">
+                            <option value="all">Everyone</option>
+                            <option value="family">Family</option>
+                            <option value="friends">Friends</option>
+                            <option value="work">Work</option>
+                            <option value="">No group</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <p class="empty" id="empty">Nobody here yet. Add the first birthday, such as your mum's, and you will see how many days are left and how old she turns.</p>
+            <p class="empty" id="no-match" hidden>Nobody matches. Clear "Find a name" or choose "Everyone".</p>
+            <div id="months"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card add" id="add" aria-labelledby="form-h">
+            <h2 id="form-h">Add a birthday or anniversary</h2>
+            <div class="msg" id="form-msg" role="status" aria-live="polite"></div>
+            <button type="button" class="primary" id="open-form" hidden>+ Add a birthday or anniversary</button>
+            <form id="form" novalidate>
+                <fieldset class="kinds">
+                    <legend>What is it?</legend>
+                    <div class="seg">
+                        <input type="radio" name="kind" id="k-birthday" value="birthday" checked><label for="k-birthday">Birthday</label>
+                        <input type="radio" name="kind" id="k-anniversary" value="anniversary"><label for="k-anniversary">Wedding anniversary</label>
+                        <input type="radio" name="kind" id="k-other" value="other"><label for="k-other">Other</label>
+                    </div>
+                </fieldset>
+                <div class="opt" id="w-label" hidden>
+                    <label for="f-label">What day is it?</label>
+                    <input id="f-label" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Work anniversary" aria-describedby="e-label">
+                    <p class="err" id="e-label" role="alert"></p>
+                </div>
+
+                <label for="f-name" id="l-name">Whose birthday?</label>
+                <input id="f-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Sara, or Mum" aria-describedby="e-name">
+                <p class="err" id="e-name" role="alert"></p>
+
+                <label class="label-like" id="l-date">Date</label>
+                <div class="date3" role="group" aria-labelledby="l-date">
+                    <select id="f-day" aria-label="Day" aria-describedby="e-date"><option value="">Day</option></select>
+                    <select id="f-month" aria-label="Month" aria-describedby="e-date">
+                        <option value="">Month</option>
+                        <option value="1">January</option><option value="2">February</option><option value="3">March</option>
+                        <option value="4">April</option><option value="5">May</option><option value="6">June</option>
+                        <option value="7">July</option><option value="8">August</option><option value="9">September</option>
+                        <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+                    </select>
+                    <input id="f-year" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="Year" aria-label="Year (optional)" aria-describedby="e-date h-year">
+                </div>
+                <p class="hint" id="h-year">The year is optional. With it you see the age they turn or the years together.</p>
+                <p class="err" id="e-date" role="alert"></p>
+                <div class="opt" id="w-feb29" hidden>
+                    <label for="f-feb29">In years without 29 February, keep it on</label>
+                    <select id="f-feb29"><option value="28">28 February</option><option value="1">1 March</option></select>
+                </div>
+
+                <label for="f-group">Group</label>
+                <select id="f-group">
+                    <option value="">No group</option>
+                    <option value="family">Family</option>
+                    <option value="friends">Friends</option>
+                    <option value="work">Work</option>
+                </select>
+
+                <button type="button" class="link" id="o-note">+ Add a gift idea or note (optional)</button>
+                <div class="opt" id="w-note" hidden>
+                    <label for="f-note">Gift idea or note</label>
+                    <textarea id="f-note" rows="3" maxlength="300" placeholder="e.g. Likes books. Shoe size 7."></textarea>
+                </div>
+
+                <p class="preview" id="preview" aria-live="polite"></p>
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="save">Add to the list</button>
+                    <button type="button" class="secondary" id="cancel">Cancel</button>
+                </div>
+                <button type="button" class="danger" id="del" hidden>Delete</button>
+            </form>
+        </section>
+
+        <section class="card many" id="many" aria-labelledby="many-h">
+            <h2 id="many-h">Add many at once</h2>
+            <label for="paste">Paste or type a list, one person per line</label>
+            <textarea id="paste" rows="5" maxlength="20000" spellcheck="false" placeholder="Sara 24/10/1995&#10;Mum 3 March&#10;Ali &amp; Sara wedding 12/6/2015"></textarea>
+            <label for="order">Dates like 03/04 mean</label>
+            <select id="order">
+                <option value="dm">Day, then month (3 April)</option>
+                <option value="md">Month, then day (March 4)</option>
+            </select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="read-paste">Check the list</button>
+                <button type="button" class="secondary" id="vcf-btn">Import a contacts file (.vcf)</button>
+                <input type="file" id="vcf-file" accept=".vcf,text/vcard,text/x-vcard" hidden>
+            </div>
+            <div id="import-out" aria-live="polite"></div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Calendar, share and backup</h2>
+            <label for="before">Calendar reminder</label>
+            <select id="before">
+                <option value="0">On the day only</option>
+                <option value="1">On the day and 1 day before</option>
+                <option value="2">On the day and 2 days before</option>
+                <option value="3">On the day and 3 days before</option>
+                <option value="7">On the day and 1 week before</option>
+                <option value="14">On the day and 2 weeks before</option>
+            </select>
+            <div class="tool-grid">
+                <button type="button" class="secondary wide" id="cal-all">Add all to my calendar</button>
+                <button type="button" class="secondary" id="copy-all">Copy the list</button>
+                <a class="secondary" id="mail-all" href="mailto:">Email the list</a>
+            </div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How do I get a reminder on my phone?</summary><p>Tap <b>Calendar</b> on a person, or <b>Add all to my calendar</b>. The app saves a calendar file. Open it and your phone's or computer's calendar adds a yearly all-day event with a reminder at 9:00 on the day and, if you choose under <b>Calendar reminder</b>, some days before. Add it once and it repeats every year.</p></details>
+        <details><summary>I don't know the year. Is that OK?</summary><p>Yes. Leave <b>Year</b> empty. You still see the date and the days left; only the age or the years together are not shown.</p></details>
+        <details><summary>What about 29 February birthdays?</summary><p>In leap years the day is 29 February. For other years choose, for each person, whether it is kept on 28 February or on 1 March. The list and the calendar file both follow that choice.</p></details>
+        <details><summary>Can I bring in birthdays from my phone?</summary><p>Most phones can export contacts as a <b>.vcf</b> file (in Contacts, choose Export or Share). Tap <b>Import a contacts file (.vcf)</b>: everyone with a birthday or anniversary saved is shown first, and you add them with one tap. You can also paste a list such as "Sara 24/10/1995", one person per line.</p></details>
+        <details><summary>I forgot a birthday. Can I still see it?</summary><p>Yes. Anything in the last 7 days stays at the top under "Just passed", so you can still send a late wish. Tap <b>Mark as wished</b> to tick it off.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your list stays in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to move it to a new phone. Once loaded, the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/birthday-and-anniversary-reminder-list">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Birthday and Anniversary Reminder List", "sections": [
+ {"h": "Add a birthday or anniversary", "steps": ["Under \"What is it?\" choose Birthday, Wedding anniversary or Other. For Other, type the day in \"What day is it?\", such as \"Work anniversary\".", "Type the name, such as \"Sara\" or \"Mum\". For an anniversary type the couple, such as \"Ali and Sara\".", "Pick the Day and the Month. Type the Year if you know it: then you see the age they turn or the years together.", "For 29 February, choose whether other years keep it on 28 February or 1 March.", "Pick a Group (Family, Friends or Work) if you like. \"+ Add a gift idea or note (optional)\" keeps a gift idea or anything else.", "The line above \"Add to the list\" shows what you will see, such as \"Sara turns 31 on Sat 24 Oct (in 4 days)\". Tap \"Add to the list\"."]},
+ {"h": "Add many at once", "steps": ["Paste or type a list, one person per line, such as \"Sara 24/10/1995\", \"Mum 3 March\" or \"Ali and Sara anniversary 12/06/2015\". The year is optional.", "Under \"Dates like 03/04 mean\" choose day then month, or month then day.", "Tap \"Check the list\". You see who will be added, who is already on the list, and lines that could not be read. Tap \"Add\" to add them.", "\"Import a contacts file (.vcf)\" reads a contacts file exported from your phone and shows everyone who has a birthday or anniversary saved."]},
+ {"h": "Coming up", "steps": ["The box at the top shows today and tomorrow first, then the next 30 days.", "\"Just passed\" shows the last 7 days, so you can still send a late wish.", "Tap \"Mark as wished\" when you have wished someone. It changes to \"Wished ✓\"; tap it again to take it back. It clears itself for next year."]},
+ {"h": "Everyone, next first", "steps": ["Everyone is listed by the next date, under the month it falls in, each in their own box with the days left, the date and their note.", "\"Find a name\" and \"Show\" appear when the list gets long, to find a person or show one group.", "\"Edit\" fixes a mistake. \"Delete\" is at the bottom of the edit form, with \"Undo\".", "\"Calendar\" on a person saves a calendar file with a yearly reminder for them."]},
+ {"h": "Calendar, share and backup", "steps": ["\"Calendar reminder\" sets when the calendar reminds you: on the day, or also 1 day to 2 weeks before.", "\"Add all to my calendar\" saves one calendar file with everyone. Open it to add yearly events to your phone's or computer's calendar.", "\"Copy the list\" and \"Email the list\" share the next 12 months, date by date. Email works without typing an address first.", "\"Save a backup file\" saves everything in one file. \"Restore a backup\" brings it back, on this device or a new one. \"Delete everything\" empties the list, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["\"Turns 31\" is the age on that birthday. \"11th wedding anniversary\" counts the years since the wedding.", "The days left update by themselves every day.", "Add the calendar file only once: the events repeat every year. If you add it again you get the events twice.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
