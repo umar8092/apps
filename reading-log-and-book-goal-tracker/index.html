@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Log and Book Goal Tracker: Pages a Day to Finish on Time</title>
+    <meta name="description" content="Free reading log and book goal tracker. Log the page you stopped on and see how many pages a day finish a book by your date, when you will finish at your pace, and whether you are on track for your yearly book goal. Paper books, ebooks in percent and audiobooks. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/reading-log-and-book-goal-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#d9480f">
+    <meta name="theme-color" content="#d9480f">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Reading Log and Book Goal Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/reading-log-and-book-goal-tracker/">
+    <meta property="og:title" content="Reading Log and Book Goal Tracker">
+    <meta property="og:description" content="Log where you stopped and see the pages a day to finish by your date, your reading streak and your yearly book goal. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Reading Log and Book Goal Tracker","alternateName":["Reading Tracker","Book Tracker","Reading Goal Tracker","Pages per Day Calculator"],"url":"https://umar8092.github.io/apps/reading-log-and-book-goal-tracker/","description":"A free reading log that shows how many pages a day finish a book by a date, when you will finish at your pace, your reading streak and your yearly book goal, private on your device.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"reading log, reading tracker, book goal, reading challenge, pages per day to finish a book, books read this year, reading streak, audiobook tracker","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How many pages a day do I need to read to finish a book on time?","acceptedAnswer":{"@type":"Answer","text":"Add the book with its number of pages and a finish-by date. The app divides the pages left by the days left (today counts if you have not read yet) and rounds up, for example 138 pages left in 3 days is 46 pages a day."}},{"@type":"Question","name":"How does it know if I am on track for my yearly goal?","acceptedAnswer":{"@type":"Answer","text":"It works out how many books you should have finished by today if you spread the goal evenly over the year, and compares it with the books you finished this year."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your books stay in this browser on this device. There is no account and your data is never sent anywhere."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Reading Log and Book Goal Tracker</h1>
+        <p class="sub">Log the page you stopped on. See the pages a day to finish on time and whether you are on track for your yearly goal.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your books will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card goal" id="goal" aria-labelledby="goal-h">
+            <div class="goal-top">
+                <h2 id="goal-h">Books this year</h2>
+                <div class="year-pick" id="year-wrap" hidden>
+                    <label for="year">Year</label>
+                    <select id="year"></select>
+                </div>
+            </div>
+            <div id="goal-body" aria-live="polite"></div>
+            <button type="button" class="link" id="goal-open">Set a yearly goal (optional)</button>
+            <form id="goal-form" class="goal-form" novalidate hidden>
+                <label for="goal-n" id="goal-l">How many books do you want to read this year?</label>
+                <div class="inline">
+                    <input id="goal-n" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="e.g. 24" aria-describedby="goal-e goal-hint">
+                    <span class="unit">books</span>
+                    <button type="submit" class="primary small" id="goal-save">Save goal</button>
+                </div>
+                <p class="hint" id="goal-hint">Leave it empty and tap Save goal to remove the goal.</p>
+                <p class="err" id="goal-e" role="alert"></p>
+            </form>
+            <div class="msg" id="goal-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card now" id="now" aria-labelledby="now-h">
+            <h2 id="now-h">Reading now</h2>
+            <div class="msg" id="now-msg" role="status" aria-live="polite"></div>
+            <p class="empty" id="now-empty">No book on the go. Add the book you are reading under "Add a book" and type the page you are on.</p>
+            <ul class="box-list" id="now-list"></ul>
+        </section>
+
+        <section class="card stats" id="stats" aria-labelledby="stats-h">
+            <h2 id="stats-h">Your reading days</h2>
+            <div id="stats-body"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card add" id="add" aria-labelledby="form-h">
+            <h2 id="form-h">Add a book</h2>
+            <div class="msg" id="form-msg" role="status" aria-live="polite"></div>
+            <button type="button" class="primary" id="open-form" hidden>+ Add a book</button>
+            <form id="form" novalidate>
+                <label for="f-title">Book title</label>
+                <input id="f-title" type="text" maxlength="150" autocomplete="off" placeholder="e.g. The Kite Runner" aria-describedby="e-title">
+                <p class="err" id="e-title" role="alert"></p>
+
+                <button type="button" class="link" id="o-author">+ Add the author (optional)</button>
+                <div class="opt" id="w-author" hidden>
+                    <label for="f-author">Author</label>
+                    <input id="f-author" type="text" maxlength="100" autocomplete="off" placeholder="e.g. Khaled Hosseini">
+                </div>
+
+                <fieldset class="choice">
+                    <legend>How are you reading it?</legend>
+                    <div class="seg seg3">
+                        <input type="radio" name="format" id="fm-pages" value="pages" checked><label for="fm-pages">Pages<small>book or ebook</small></label>
+                        <input type="radio" name="format" id="fm-percent" value="percent"><label for="fm-percent">Percent<small>ebook, e.g. Kindle</small></label>
+                        <input type="radio" name="format" id="fm-audio" value="audio"><label for="fm-audio">Listening<small>audiobook</small></label>
+                    </div>
+                    <p class="hint" id="h-format"></p>
+                </fieldset>
+
+                <div class="opt" id="w-pages">
+                    <label for="f-pages">Number of pages</label>
+                    <div class="inline">
+                        <input id="f-pages" type="text" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="e.g. 320" aria-describedby="e-total">
+                        <span class="unit">pages</span>
+                    </div>
+                    <p class="hint">Use the number on the last page of the story.</p>
+                </div>
+                <div class="opt" id="w-len" hidden>
+                    <label class="label-like" id="l-len">Length of the audiobook</label>
+                    <div class="hm" role="group" aria-labelledby="l-len">
+                        <input id="f-lh" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="0" aria-label="Hours" aria-describedby="e-total"><span class="unit">h</span>
+                        <input id="f-lm" type="text" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="0" aria-label="Minutes" aria-describedby="e-total"><span class="unit">min</span>
+                    </div>
+                </div>
+                <p class="err" id="e-total" role="alert"></p>
+
+                <fieldset class="choice">
+                    <legend>Where is it?</legend>
+                    <div class="seg seg3">
+                        <input type="radio" name="status" id="st-reading" value="reading" checked><label for="st-reading">Reading now</label>
+                        <input type="radio" name="status" id="st-want" value="want"><label for="st-want">Want to read</label>
+                        <input type="radio" name="status" id="st-finished" value="finished"><label for="st-finished">Already finished</label>
+                        <input type="radio" name="status" id="st-stopped" value="stopped" hidden><label for="st-stopped" id="lb-stopped" hidden>Stopped reading</label>
+                    </div>
+                </fieldset>
+
+                <div class="opt" id="w-done" hidden>
+                    <label for="f-done">Finished on</label>
+                    <input id="f-done" type="date" aria-describedby="e-done">
+                    <p class="hint">Books count for the year they were finished in.</p>
+                    <p class="err" id="e-done" role="alert"></p>
+                </div>
+
+                <div class="opt" id="w-reading-opts">
+                    <button type="button" class="link" id="o-start">+ I have already started it (optional)</button>
+                    <div class="opt" id="w-start" hidden>
+                        <label for="f-start" class="label-like" id="l-start">I am already on</label>
+                        <div class="inline" id="start-pages">
+                            <span class="unit pre" id="start-pre">page</span>
+                            <input id="f-start" type="text" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="0" aria-describedby="e-start h-start">
+                            <span class="unit" id="start-suf" hidden>%</span>
+                        </div>
+                        <div class="hm" id="start-hm" hidden role="group" aria-labelledby="l-start">
+                            <input id="f-sh" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="0" aria-label="Hours in" aria-describedby="e-start"><span class="unit">h</span>
+                            <input id="f-sm" type="text" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="0" aria-label="Minutes in" aria-describedby="e-start"><span class="unit">min</span>
+                        </div>
+                        <p class="hint" id="h-start">Pages before this are not counted as read today.</p>
+                        <p class="err" id="e-start" role="alert"></p>
+                    </div>
+                    <button type="button" class="link" id="o-by">+ Finish by a date (optional)</button>
+                    <div class="opt" id="w-by" hidden>
+                        <label for="f-by">Finish by</label>
+                        <input id="f-by" type="date" aria-describedby="e-by h-by">
+                        <p class="hint" id="h-by">Such as the book club, the exam or the library due date. Leave it empty for no date.</p>
+                        <p class="err" id="e-by" role="alert"></p>
+                    </div>
+                </div>
+
+                <p class="preview" id="preview" aria-live="polite"></p>
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="save">Add the book</button>
+                    <button type="button" class="secondary" id="cancel">Cancel</button>
+                </div>
+                <button type="button" class="danger" id="del" hidden>Delete this book</button>
+            </form>
+        </section>
+
+        <section class="card want" id="want" aria-labelledby="want-h" hidden>
+            <h2 id="want-h">Want to read</h2>
+            <ul class="box-list" id="want-list"></ul>
+        </section>
+
+        <section class="card done" id="done" aria-labelledby="done-h">
+            <h2 id="done-h">Finished books</h2>
+            <div class="msg" id="done-msg" role="status" aria-live="polite"></div>
+            <p class="empty" id="done-empty">Books you finish this year are listed here, with the day you finished.</p>
+            <ol class="done-list" id="done-list"></ol>
+            <div id="stopped-wrap" hidden>
+                <h3 class="sub-h">Stopped reading</h3>
+                <p class="hint">These do not count towards your goal.</p>
+                <ul class="done-list plain" id="stopped-list"></ul>
+            </div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Share and backup</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy my book list</button>
+                <a class="secondary" id="mail" href="mailto:">Email my book list</a>
+            </div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is "pages a day" worked out?</summary><p>The pages left are divided by the days left until your <b>Finish by</b> date, counting that day, and rounded up. Today counts too until you log today's reading; after that the plan starts tomorrow. For example, 138 pages left with 3 days to go is 46 pages a day.</p></details>
+        <details><summary>How does it guess when I will finish?</summary><p>It takes what you read of that book in the last 30 days (or since you started it, if that is shorter), divides it by the number of days, including days you did not read, and keeps going at that pace. Read more often and the date moves closer.</p></details>
+        <details><summary>How do I know if I am on track for my yearly goal?</summary><p>Your goal is spread evenly over the year. With 24 books, by 20 October 2026 (day 293 of 365) you would have about 19 finished. If you have 21, you are 2 ahead; with 17, you are 2 behind. Books count for the year they were finished in, so a book finished on 31 December counts for that year.</p></details>
+        <details><summary>I went back a few pages. What happens?</summary><p>If you type a page lower than last time, the app asks if you went back to re-read. Going back counts nothing, and the pages you read again after that count as read. If it was a typing mistake, tap <b>History</b> and delete the wrong entry.</p></details>
+        <details><summary>My ebook shows a percent and my audiobook shows time left. Is that OK?</summary><p>Yes. Choose <b>Percent</b> for an ebook and type the percent it shows. Choose <b>Listening</b> for an audiobook: type how far in you are, or switch to <b>Time left</b> and type what your app shows.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your books stay in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to move them to a new phone. Once loaded, the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/reading-log-and-book-goal-tracker">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Reading Log and Book Goal Tracker", "sections": [
+ {"h": "Add a book", "steps": ["Type the Book title. \"+ Add the author (optional)\" keeps the author too.", "Under \"How are you reading it?\" choose Pages (a paper book or an ebook with page numbers), Percent (an ebook such as Kindle that shows a percent) or Listening (an audiobook).", "Type the Number of pages, or the Length of the audiobook in hours and minutes. Percent books always go to 100%.", "Under \"Where is it?\" choose Reading now, Want to read (a list for later) or Already finished (pick the day you finished, so it counts for that year's goal).", "\"+ I have already started it\" sets the page you are on now. \"+ Finish by a date\" sets a deadline, such as the book club or the library due date.", "Tap \"Add the book\"."]},
+ {"h": "Log your reading", "steps": ["Each book you are reading has its own box under \"Reading now\". Type where you stopped under \"Where did you stop?\" and tap \"Save\".", "For an audiobook type how far in you are, or switch to \"Time left\" and type what your app shows.", "Forgot to log yesterday? Tap \"Another day?\" and pick the day.", "When you reach the last page the book moves to \"Finished books\". \"Finished\" ends a book early, for example if you skip the notes at the back.", "\"Stop reading\" puts a book aside: it does not count towards your goal. \"Read again\" brings it back.", "\"History\" lists every reading with what you read that day. Delete a wrong entry there, with \"Undo\"."]},
+ {"h": "What the box tells you", "steps": ["\"Page 182 of 320, 57%, 138 pages left\" is where you are.", "With a finish-by date you see the pages a day to make it, such as \"To finish by Fri 23 Oct read 46 pages a day from today (3 days)\", and whether your usual pace is enough.", "\"At your pace\" is your reading of that book in the last 30 days spread over each day, and when you would finish at that pace."]},
+ {"h": "Your yearly goal", "steps": ["Tap \"Set a yearly goal (optional)\" and type how many books you want to finish this year.", "\"Books this year\" shows how many you finished, whether you are ahead, on track or behind, and how often you need to finish a book to make it.", "Pick another year under \"Year\" to see that year's books and goal.", "\"Change goal\" changes it at any time. Leave it empty and tap Save goal to remove it."]},
+ {"h": "Your reading days", "steps": ["The streak counts days in a row with any reading logged. If you have not read yet today, it still counts up to yesterday.", "The bars show the pages you read each day in the last 30 days. Days with only ebook percent or audiobook reading show a small bar."]},
+ {"h": "Share and backup", "steps": ["\"Copy my book list\" and \"Email my book list\" share the books finished in the year shown, with the dates, and what you are reading now. Email works without typing an address first.", "\"Save a backup file\" saves everything in one file. \"Restore a backup\" brings it back, on this device or a new one. \"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["\"Edit\" fixes the title, pages, dates or where a book is. A book's format cannot change once you have logged reading.", "Going back to re-read counts nothing; the pages you read again count.", "The days left and the streak update by themselves every day.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

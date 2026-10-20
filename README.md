@@ -490,6 +490,14 @@ Add family and friends' birthdays and wedding anniversaries (the year is optiona
 
 <a href="birthday-and-anniversary-reminder-list/"><img src="birthday-and-anniversary-reminder-list/screenshots/phone.png" alt="Birthday and Anniversary Reminder List screenshot" width="260"></a>
 
+### <img src="reading-log-and-book-goal-tracker/favicon.svg" width="36" height="36" align="center"> [Reading Log and Book Goal Tracker](https://umar8092.github.io/apps/reading-log-and-book-goal-tracker/)
+
+Log the page you stopped on and see the pages a day to finish a book on time ("To finish by Fri 23 Oct read 46 pages a day from tomorrow (3 days)"), when you will finish at your pace, your reading streak and a 30-day chart, and whether you are on track for your yearly goal ("21 of 24 books finished in 2026, 2 books ahead of schedule"). Paper books, ebooks in percent and audiobooks by time listened or time left, several books at once, Want to read, history with undo and backup.
+
+[**Open the app**](https://umar8092.github.io/apps/reading-log-and-book-goal-tracker/) &middot; [Details and screenshots](reading-log-and-book-goal-tracker/)
+
+<a href="reading-log-and-book-goal-tracker/"><img src="reading-log-and-book-goal-tracker/screenshots/phone.png" alt="Reading Log and Book Goal Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

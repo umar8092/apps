@@ -364,5 +364,11 @@
     "name": "Birthday and Anniversary Reminder List",
     "description": "Add family and friends' birthdays and wedding anniversaries (year optional) and see who is today, tomorrow and in the next 30 days, the age they turn or years together, and anything missed in the last week, with yearly calendar reminders, a pasted list or phone contacts import, and gift notes.",
     "color": "#e8467c"
+  },
+  {
+    "slug": "reading-log-and-book-goal-tracker",
+    "name": "Reading Log and Book Goal Tracker",
+    "description": "Log the page you stopped on and see the pages a day to finish a book by your date, when you will finish at your pace, your reading streak and whether you are on track for your yearly book goal. Paper books, ebooks in percent and audiobooks. Private, no sign-up, works offline.",
+    "color": "#d9480f"
   }
 ]
