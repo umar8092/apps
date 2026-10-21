@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Reading Planner and Khatam Tracker: Pages a Day to Finish</title>
+    <meta name="description" content="Free Quran reading planner and khatam tracker. Pick a finish date (such as the end of Ramadan) or a number of pages a day, log the page where you stopped, and see today's pages, how far behind or ahead you are, the 30 juz done and your khatams. Share the juz out for a family or group khatam. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/quran-reading-planner-and-khatam-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#087f5b">
+    <meta name="theme-color" content="#087f5b">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Quran Reading Planner and Khatam Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/quran-reading-planner-and-khatam-tracker/">
+    <meta property="og:title" content="Quran Reading Planner and Khatam Tracker">
+    <meta property="og:description" content="Finish the Quran by your date: today's pages, behind or ahead, the 30 juz done, your khatams, and a group khatam shared out by juz. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Quran Reading Planner and Khatam Tracker","alternateName":["Quran Khatam Tracker","Ramadan Quran Planner","Quran Reading Tracker","Group Khatam Juz Sharing"],"url":"https://umar8092.github.io/apps/quran-reading-planner-and-khatam-tracker/","description":"A free Quran reading planner that shows the pages to read each day to finish by a date or at a fixed pace, tracks the 30 juz and khatams, and shares the juz out for a group khatam, private on your device.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"quran reading planner, khatam tracker, ramadan quran plan, pages a day to finish quran, juz tracker, group khatam, quran khatam in 30 days","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How many pages a day to finish the Quran in Ramadan?","acceptedAnswer":{"@type":"Answer","text":"In the 604-page Madani copy, 604 pages over 30 days is 20.13, so 21 pages a day (about one juz). Over 29 days it is 21 pages a day too (20.8 rounded up). The app works it out for your copy and your dates, and spreads any missed days over the days left."}},{"@type":"Question","name":"How do I share the 30 juz for a group khatam?","acceptedAnswer":{"@type":"Answer","text":"Start a group khatam, add each person's name and tap Share the juz out evenly. With 7 people the first two read 5 juz and the others 4. Tick each juz as it is read and copy the list for WhatsApp."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your reading stays in this browser on this device. There is no account and your data is never sent anywhere."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Quran Reading Planner and Khatam Tracker</h1>
+        <p class="sub">Log the page where you stopped. See what to read today to finish the Quran by your date.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your reading will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card plan" id="plan" aria-labelledby="plan-h" hidden>
+            <h2 id="plan-h">Set up your plan</h2>
+            <form id="plan-form" novalidate>
+                <label for="p-copy">Your Quran copy</label>
+                <select id="p-copy" aria-describedby="h-copy">
+                    <option value="604">604 pages (Madani)</option>
+                    <option value="610">610 pages (Indo-Pak)</option>
+                    <option value="548">548 pages (Indo-Pak)</option>
+                    <option value="848">848 pages (Indo-Pak)</option>
+                    <option value="custom">Another number of pages</option>
+                </select>
+                <p class="hint" id="h-copy">Madani copies have 15 lines a page. Indo-Pak copies have 16 lines (548 pages), 15 lines (610) or 13 lines (848). Not sure? Look at the last page number.</p>
+                <div class="opt" id="w-pages" hidden>
+                    <label for="p-pages">Pages in your copy</label>
+                    <div class="inline">
+                        <input id="p-pages" type="text" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="e.g. 620" aria-describedby="e-pages">
+                        <span class="unit">pages</span>
+                    </div>
+                    <p class="err" id="e-pages" role="alert"></p>
+                </div>
+
+                <fieldset class="choice">
+                    <legend>How do you want to plan it?</legend>
+                    <div class="seg seg2">
+                        <input type="radio" name="mode" id="m-date" value="date" checked><label for="m-date">Finish by a date<small>e.g. end of Ramadan</small></label>
+                        <input type="radio" name="mode" id="m-pace" value="pace"><label for="m-pace">Pages every day<small>e.g. 1 juz a day</small></label>
+                    </div>
+                </fieldset>
+
+                <div class="opt" id="w-by">
+                    <label for="p-by">Finish by</label>
+                    <input id="p-by" type="date" aria-describedby="e-by">
+                    <div class="chips" role="group" aria-label="Quick finish dates">
+                        <button type="button" class="chip" data-days="30">In 30 days</button>
+                        <button type="button" class="chip" data-days="60">In 2 months</button>
+                        <button type="button" class="chip" data-days="365">In a year</button>
+                    </div>
+                    <p class="err" id="e-by" role="alert"></p>
+                </div>
+                <div class="opt" id="w-per" hidden>
+                    <label for="p-per">Pages a day</label>
+                    <div class="inline">
+                        <input id="p-per" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="e.g. 20" aria-describedby="e-per">
+                        <span class="unit">pages</span>
+                    </div>
+                    <div class="chips" role="group" aria-label="Quick pages a day">
+                        <button type="button" class="chip" data-per="2">2 pages</button>
+                        <button type="button" class="chip" data-per="5">5 pages</button>
+                        <button type="button" class="chip" data-per="10">Half a juz</button>
+                        <button type="button" class="chip" data-per="20">1 juz</button>
+                    </div>
+                    <p class="err" id="e-per" role="alert"></p>
+                </div>
+
+                <label for="p-start">Start on</label>
+                <input id="p-start" type="date" aria-describedby="e-start">
+                <p class="err" id="e-start" role="alert"></p>
+
+                <button type="button" class="link" id="o-from">+ I am not starting from page 1 (optional)</button>
+                <div class="opt" id="w-from" hidden>
+                    <label for="p-from">Start from page</label>
+                    <div class="inline">
+                        <span class="unit pre">page</span>
+                        <input id="p-from" type="text" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="1" aria-describedby="e-from h-from">
+                    </div>
+                    <p class="hint" id="h-from">The first page you still have to read, such as 222 if you have read up to page 221.</p>
+                    <p class="err" id="e-from" role="alert"></p>
+                </div>
+
+                <p class="preview" id="preview" aria-live="polite"></p>
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="plan-save">Start my plan</button>
+                    <button type="button" class="secondary" id="plan-cancel" hidden>Cancel</button>
+                </div>
+                <button type="button" class="danger" id="restart" hidden>Start this khatam again from the beginning</button>
+            </form>
+        </section>
+
+        <section class="card today" id="today" aria-labelledby="today-h" hidden>
+            <h2 id="today-h">Today</h2>
+            <div class="msg" id="today-msg" role="status" aria-live="polite"></div>
+            <div id="today-body" aria-live="polite"></div>
+            <form class="logf" id="log-form" novalidate>
+                <label for="l-page">Where did you stop?</label>
+                <div class="log-row">
+                    <div class="inline">
+                        <span class="unit pre">page</span>
+                        <input id="l-page" type="text" inputmode="numeric" maxlength="5" autocomplete="off" aria-describedby="e-log">
+                    </div>
+                    <button type="submit" class="primary small" id="l-save">Save</button>
+                </div>
+                <label for="l-juz" class="sub-label">Or pick the end of a juz</label>
+                <select id="l-juz"></select>
+                <div class="day-row">
+                    <span id="l-day-text">Reading for today.</span>
+                    <button type="button" class="link small-link" id="l-day-open">Another day?</button>
+                    <div class="opt" id="w-day" hidden>
+                        <label for="l-day">Day you read</label>
+                        <input id="l-day" type="date">
+                    </div>
+                </div>
+                <p class="err" id="e-log" role="alert"></p>
+            </form>
+            <div class="box-btns">
+                <button type="button" class="mini" id="hist-btn" aria-expanded="false">History</button>
+                <button type="button" class="mini" id="change-plan">Change plan</button>
+            </div>
+            <div class="history" id="history" hidden>
+                <h3>History</h3>
+                <p class="empty" id="hist-empty">Nothing logged yet.</p>
+                <ul id="hist-list"></ul>
+            </div>
+        </section>
+
+        <section class="card juz" id="juz" aria-labelledby="juz-h" hidden>
+            <h2 id="juz-h">The 30 juz</h2>
+            <p class="sub-line" id="juz-line"></p>
+            <ol class="juz-grid" id="juz-grid"></ol>
+            <p class="hint" id="juz-hint"></p>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card khatams" id="khatams" aria-labelledby="k-h">
+            <h2 id="k-h">Khatams finished</h2>
+            <div class="msg" id="k-msg" role="status" aria-live="polite"></div>
+            <div id="k-body"></div>
+            <ul class="k-list" id="k-list"></ul>
+        </section>
+
+        <section class="card group" id="group" aria-labelledby="g-h">
+            <h2 id="g-h">Read together: group khatam</h2>
+            <div class="msg" id="g-msg" role="status" aria-live="polite"></div>
+            <div id="g-none">
+                <p class="empty">Reading the whole Quran together for a gathering, for Ramadan or for someone who has passed away? Add each person and share out the 30 juz.</p>
+                <button type="button" class="primary" id="g-start">+ Start a group khatam</button>
+            </div>
+            <div id="g-on" hidden>
+                <div class="g-sum" id="g-sum" aria-live="polite"></div>
+                <label for="g-title">What is it for? (optional)</label>
+                <input id="g-title" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Dada Abbu's khatam">
+                <label for="g-by">Finish by (optional)</label>
+                <input id="g-by" type="date">
+                <form class="add-person" id="g-add" novalidate>
+                    <label for="g-name">Add a person</label>
+                    <div class="log-row">
+                        <input id="g-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Sara" aria-describedby="e-name">
+                        <button type="submit" class="primary small" id="g-add-btn">Add</button>
+                    </div>
+                    <p class="err" id="e-name" role="alert"></p>
+                </form>
+                <button type="button" class="secondary" id="g-share">Share the juz out evenly</button>
+                <ul class="box-list" id="g-people"></ul>
+                <button type="button" class="link" id="g-assign-open" aria-expanded="false">Change who reads which juz</button>
+                <div class="assign" id="g-assign" hidden>
+                    <p class="hint">Pick a name for each juz. "Not taken" leaves it open for someone to take.</p>
+                    <ol class="assign-list" id="g-assign-list"></ol>
+                </div>
+                <div class="tool-grid">
+                    <button type="button" class="secondary" id="g-copy">Copy the list for WhatsApp</button>
+                    <button type="button" class="secondary" id="g-again">Start again with the same people</button>
+                </div>
+                <button type="button" class="danger" id="g-del">Delete the group khatam</button>
+            </div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Share and backup</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy my progress</button>
+                <a class="secondary" id="mail" href="mailto:">Email my progress</a>
+            </div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How many pages a day to finish in Ramadan?</summary><p>In the 604-page Madani copy, 604 pages over 30 days is 20.13, rounded up to <b>21 pages a day</b>, about one juz. Pick your copy, choose <b>Finish by a date</b> and type the last day you want to finish on. The app works it out for you.</p></details>
+        <details><summary>I missed a day. What happens?</summary><p>The pages you missed are spread over the days that are left, so you do not have to catch up in one day. The box tells you how many pages behind your plan you are and the new pages a day to still finish on time.</p></details>
+        <details><summary>Why does my copy have a different number of pages?</summary><p>Copies differ by script and lines per page: the Madani copy has 604 pages, Indo-Pak copies have 548 (16 lines), 610 (15 lines) or about 848 (13 lines). Pick yours, or choose <b>Another number of pages</b> and type the last page number. In the Madani copy each juz is exactly 20 pages from page 22; in other copies the juz shown are close but not exact, so the app says "about".</p></details>
+        <details><summary>How does the group khatam share the juz?</summary><p>In order, as evenly as possible: 30 juz for 7 people is 4 each with 2 left over, so the first 2 people read 5. You can give any juz to someone else under <b>Change who reads which juz</b>.</p></details>
+        <details><summary>Does the app give religious rulings?</summary><p>No. It only counts the pages and juz you enter. Ask a scholar for questions about recitation.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your reading stays in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to move it to a new phone. Once loaded, the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/quran-reading-planner-and-khatam-tracker">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Quran Reading Planner and Khatam Tracker", "sections": [
+ {"h": "Set up your plan", "steps": ["Under \"Your Quran copy\" pick the number of pages in your copy (look at the last page). For any other copy choose \"Another number of pages\" and type it.", "Choose \"Finish by a date\" and pick the day, for example the last day of Ramadan, or tap In 30 days, In 2 months or In a year.", "Or choose \"Pages every day\" and type how many pages, or tap 2 pages, 5 pages, Half a juz or 1 juz. The app shows the day you will finish.", "\"Start on\" is the first day of your plan, today unless you change it.", "Already part way? Tap \"+ I am not starting from page 1\" and type the first page you still have to read.", "Tap \"Start my plan\"."]},
+ {"h": "Every day", "steps": ["The Today box says how many pages to read today and up to which page, such as \"Read 21 pages today: up to page 63\".", "When you stop, type the page under \"Where did you stop?\" and tap Save. Or pick the end of a juz from the list under it.", "Forgot to log yesterday? Tap \"Another day?\" and pick the day before you save.", "If you missed days, the box says how many pages behind your plan you are, and the pages are spread over the days left. If you read more, it says how far ahead you are.", "\"History\" lists every day you logged. Delete a wrong entry there, with \"Undo\".", "\"Change plan\" changes your copy, your finish date or your pages a day without losing what you read."]},
+ {"h": "The 30 juz and your khatams", "steps": ["\"The 30 juz\" shows each juz you have finished filled in, and the juz you are in now outlined.", "When you reach the last page, tap \"Save this khatam and start the next\". It is kept under \"Khatams finished\" with its dates.", "The reading streak counts the days in a row you read."]},
+ {"h": "Group khatam", "steps": ["Tap \"+ Start a group khatam\". Type what it is for and a finish date if you like (both optional).", "Type each name under \"Add a person\" and tap Add. Each person gets their own box.", "Tap \"Share the juz out evenly\" to give the 30 juz out in order. With 7 people the first 2 read 5 juz and the others 4.", "Tap a juz in a person's box when it has been read. Tap it again to undo.", "\"Change who reads which juz\" lets you give any juz to another person, or leave it \"Not taken\".", "\"Copy the list for WhatsApp\" copies who reads which juz, what is read (✓) and what is left, to paste in your family group.", "\"Start again with the same people\" clears the ticks and the juz for a new khatam. \"Delete the group khatam\" removes it. Both have Undo."]},
+ {"h": "Share and backup", "steps": ["\"Copy my progress\" and \"Email my progress\" share your page, juz, plan and khatams. Email works without typing an address first.", "\"Save a backup file\" saves everything in one file. \"Restore a backup\" brings it back on this or a new phone. \"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["In the 604-page Madani copy the juz are exact. In other copies they are worked out evenly, so the app says \"about\".", "The app only counts pages; it does not give religious rulings.", "Today's pages update by themselves each day.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

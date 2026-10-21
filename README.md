@@ -498,6 +498,14 @@ Log the page you stopped on and see the pages a day to finish a book on time ("T
 
 <a href="reading-log-and-book-goal-tracker/"><img src="reading-log-and-book-goal-tracker/screenshots/phone.png" alt="Reading Log and Book Goal Tracker screenshot" width="260"></a>
 
+### <img src="quran-reading-planner-and-khatam-tracker/favicon.svg" width="36" height="36" align="center"> [Quran Reading Planner and Khatam Tracker](https://umar8092.github.io/apps/quran-reading-planner-and-khatam-tracker/)
+
+Pick a finish date (such as the last day of Ramadan) or a number of pages a day, log the page where you stopped, and see what to read today ("Read 22 pages today: up to page 183"), how far behind or ahead of your plan you are (missed pages are spread over the days left), the 30 juz done and your khatams. Works with the 604-page Madani copy, Indo-Pak copies (548, 610, 848 pages) or any page count. A group khatam shares the 30 juz between family members, each in their own box, with ticks and a list to copy for WhatsApp.
+
+[**Open the app**](https://umar8092.github.io/apps/quran-reading-planner-and-khatam-tracker/) &middot; [Details and screenshots](quran-reading-planner-and-khatam-tracker/)
+
+<a href="quran-reading-planner-and-khatam-tracker/"><img src="quran-reading-planner-and-khatam-tracker/screenshots/phone.png" alt="Quran Reading Planner and Khatam Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

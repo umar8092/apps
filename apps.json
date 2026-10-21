@@ -370,5 +370,11 @@
     "name": "Reading Log and Book Goal Tracker",
     "description": "Log the page you stopped on and see the pages a day to finish a book by your date, when you will finish at your pace, your reading streak and whether you are on track for your yearly book goal. Paper books, ebooks in percent and audiobooks. Private, no sign-up, works offline.",
     "color": "#d9480f"
+  },
+  {
+    "slug": "quran-reading-planner-and-khatam-tracker",
+    "name": "Quran Reading Planner and Khatam Tracker",
+    "description": "Pick a finish date (such as the end of Ramadan) or pages a day, log the page where you stopped, and see today's pages, how far behind or ahead you are, the 30 juz done and your khatams. Share the juz out for a family or group khatam. Private, no sign-up, works offline.",
+    "color": "#087f5b"
   }
 ]

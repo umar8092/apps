@@ -1,0 +1,15 @@
+{
+  "name": "Quran Reading Planner and Khatam Tracker",
+  "short_name": "Quran Planner",
+  "description": "Log the page where you stopped. See what to read today to finish the Quran by your date, the 30 juz done, your khatams and a group khatam shared out by juz.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0a2e24",
+  "theme_color": "#087f5b",
+  "categories": ["books", "education", "lifestyle"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
