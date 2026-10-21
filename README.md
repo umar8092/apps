@@ -546,6 +546,14 @@ Every child's school fee, tuition, van and academy fees in one place, each child
 
 <a href="school-fee-and-tuition-payment-tracker-for-parents/"><img src="school-fee-and-tuition-payment-tracker-for-parents/screenshots/phone.png" alt="School Fee and Tuition Payment Tracker for Parents screenshot" width="260"></a>
 
+### <img src="cgpa-and-semester-gpa-planner-for-university-students/favicon.svg" width="36" height="36" align="center"> [CGPA and Semester GPA Planner for University Students](https://umar8092.github.io/apps/cgpa-and-semester-gpa-planner-for-university-students/)
+
+For university students. Add each semester's courses with credit hours and grades to see every semester GPA and your CGPA, and find out what GPA you need in the credit hours left to reach a target CGPA such as 3.00. What-if grades for this semester, retaken courses, 4.0, 10-point, 5.0 or your own grading scale. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/cgpa-and-semester-gpa-planner-for-university-students/) &middot; [Details and screenshots](cgpa-and-semester-gpa-planner-for-university-students/)
+
+<a href="cgpa-and-semester-gpa-planner-for-university-students/"><img src="cgpa-and-semester-gpa-planner-for-university-students/screenshots/phone.png" alt="CGPA and Semester GPA Planner for University Students screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

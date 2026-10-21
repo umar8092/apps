@@ -406,5 +406,11 @@
     "name": "School Fee and Tuition Payment Tracker for Parents",
     "description": "Add each child's school fee, tuition, van or academy fees (monthly, by term or yearly) and tick them paid with a receipt photo. See what is late, what is due this week, which month each fee is paid up to and the year's total per child.",
     "color": "#e67700"
+  },
+  {
+    "slug": "cgpa-and-semester-gpa-planner-for-university-students",
+    "name": "CGPA and Semester GPA Planner for University Students",
+    "description": "Add each semester's courses, credit hours and grades to see every semester GPA and your CGPA, and find the GPA you need to reach a target CGPA. 4.0, 10-point, 5.0 or your own scale.",
+    "color": "#4263eb"
   }
 ]

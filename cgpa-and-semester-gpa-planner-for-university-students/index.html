@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGPA and Semester GPA Planner for University Students, Free</title>
+    <meta name="description" content="Free CGPA and semester GPA planner for university students. Add each semester's courses with credit hours and grades, see every semester GPA and your CGPA, and find the GPA you need to reach a target CGPA such as 3.00. 4.0, 10-point, 5.0 or your own grading scale. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/cgpa-and-semester-gpa-planner-for-university-students/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#4263eb">
+    <meta name="theme-color" content="#3b5bdb">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="CGPA and Semester GPA Planner">
+    <meta property="og:url" content="https://umar8092.github.io/apps/cgpa-and-semester-gpa-planner-for-university-students/">
+    <meta property="og:title" content="CGPA and Semester GPA Planner: What GPA Do I Need?">
+    <meta property="og:description" content="Keep every semester's grades, see your CGPA, and find the GPA you need to reach your target CGPA. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"CGPA and Semester GPA Planner for University Students","alternateName":["CGPA Calculator","Semester GPA Calculator","Target CGPA Calculator","SGPA and CGPA Calculator","GPA Planner"],"url":"https://umar8092.github.io/apps/cgpa-and-semester-gpa-planner-for-university-students/","description":"A free planner that keeps every semester's courses, credit hours and grades, shows each semester GPA and the running CGPA, and works out the GPA needed in the remaining credit hours to reach a target CGPA.","applicationCategory":"EducationalApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"CGPA calculator, semester GPA calculator, target CGPA calculator, what GPA do I need, SGPA calculator, GPA planner","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is the GPA I need worked out?","acceptedAnswer":{"@type":"Answer","text":"Needed GPA = (target CGPA x all credit hours at the end - grade points you already have) / credit hours left. For example, 2.84 over 92 credit hours with 136 in the degree and a 3.00 target: (3.00 x 136 - 2.84 x 92) / 44 = 3.3345, so you need at least 3.34."}},{"@type":"Question","name":"What happens when I retake a course?","acceptedAnswer":{"@type":"Answer","text":"Type the course again in the later semester with the same name. Choose whether the latest grade replaces the old one, the best grade counts, or both attempts count, as your university does."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your grades stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>CGPA and Semester GPA Planner for University Students</h1>
+        <p class="sub">Add each semester's courses and grades to see every semester GPA and your CGPA, and find out what GPA you need to reach your target.</p>
+    </header>
+
+    <div class="col-main">
+        <section class="card scale" id="scale-card" aria-labelledby="scale-h">
+            <h2 id="scale-h">Your university's grading scale</h2>
+            <label for="scale">Grading scale</label>
+            <select id="scale"></select>
+            <p class="hint" id="scale-list"></p>
+            <div id="points-box" hidden>
+                <label for="points-max">Highest grade point on your scale</label>
+                <input id="points-max" type="text" inputmode="decimal" maxlength="5" autocomplete="off" placeholder="4">
+            </div>
+            <div id="custom-box" hidden>
+                <p class="hint top">Type each grade and its grade points, as on your transcript.</p>
+                <div id="custom-rows" class="custom-rows"></div>
+                <button type="button" class="link" id="custom-add">+ Add a grade</button>
+            </div>
+            <details class="more" id="more">
+                <summary>Rounding and retaken courses</summary>
+                <label for="rounding">How your university shows a GPA</label>
+                <select id="rounding">
+                    <option value="round">Rounded (3.245 → 3.25)</option>
+                    <option value="cut">Cut off (3.249 → 3.24)</option>
+                </select>
+                <label for="retake">When a course is taken again</label>
+                <select id="retake">
+                    <option value="latest">Latest grade replaces old</option>
+                    <option value="best">Best grade counts</option>
+                    <option value="all">Every attempt counts</option>
+                </select>
+                <p class="hint">A retake is a course with the same name in a later semester.</p>
+            </details>
+            <div class="msg" id="scale-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card base" id="base-card" aria-labelledby="base-h" hidden>
+            <h2 id="base-h">Earlier record</h2>
+            <p class="hint top">Type the CGPA and credit hours from your last transcript instead of every past course. Add only newer semesters below.</p>
+            <div class="two">
+                <div class="field">
+                    <label for="base-cgpa">CGPA so far</label>
+                    <input id="base-cgpa" type="text" inputmode="decimal" maxlength="5" autocomplete="off" placeholder="e.g. 2.84">
+                </div>
+                <div class="field">
+                    <label for="base-cr">Credit hours it covers</label>
+                    <input id="base-cr" type="text" inputmode="decimal" maxlength="6" autocomplete="off" placeholder="e.g. 92">
+                </div>
+            </div>
+            <p class="err" id="base-err" role="alert"></p>
+            <button type="button" class="link" id="base-remove">Remove earlier record</button>
+        </section>
+
+        <section class="sems" id="sems-sec" aria-labelledby="sems-h">
+            <h2 id="sems-h" class="sec-h">Semesters</h2>
+            <p class="hint top" id="sems-hint">Each semester has its own box. Type each course's credit hours and grade; empty rows are skipped.</p>
+            <div id="sems"></div>
+            <div class="sem-add">
+                <button type="button" class="primary" id="add-sem">+ Add semester</button>
+                <button type="button" class="link" id="base-open">+ Start from your current CGPA instead of old courses (optional)</button>
+            </div>
+            <div class="msg" id="sems-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card results" id="results" aria-labelledby="res-h">
+            <h2 id="res-h">Your CGPA</h2>
+            <div id="res-empty" class="empty">
+                <p class="big muted">No grades yet</p>
+                <p class="meta">Type a course's credit hours and grade in Semester 1. Your semester GPA and CGPA will show here.</p>
+            </div>
+            <div id="res-body" hidden>
+                <p class="cgpa"><span class="cgpa-n" id="cgpa">-</span> <span class="cgpa-of" id="cgpa-of"></span></p>
+                <p class="cgpa-line" id="cgpa-line"></p>
+                <p class="plan-line" id="plan-line" hidden></p>
+                <div class="tbl-wrap">
+                    <table class="sem-tbl" id="sem-tbl">
+                        <thead><tr><th scope="col">Semester</th><th scope="col">Credit hours</th><th scope="col">GPA</th><th scope="col">CGPA after</th></tr></thead>
+                        <tbody id="sem-rows"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="card goal" id="goal" aria-labelledby="goal-h">
+            <h2 id="goal-h">What GPA do I need?</h2>
+            <div class="two">
+                <div class="field">
+                    <label for="target">Target CGPA</label>
+                    <input id="target" type="text" inputmode="decimal" maxlength="5" autocomplete="off" placeholder="e.g. 3.00">
+                </div>
+                <div class="field">
+                    <label for="total">Credit hours in your degree</label>
+                    <input id="total" type="text" inputmode="decimal" maxlength="6" autocomplete="off" placeholder="e.g. 136">
+                </div>
+            </div>
+            <p class="hint" id="total-hint">The total on your degree plan, for example 130 to 140 for a 4-year degree.</p>
+            <div class="answer" id="answer" aria-live="polite"></div>
+            <div class="answer plan" id="answer-plan" hidden></div>
+        </section>
+
+        <section class="card share" id="share" aria-labelledby="share-h">
+            <h2 id="share-h">Share or save</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy as text</button>
+                <a class="secondary" id="email" href="mailto:">Email</a>
+                <button type="button" class="secondary" id="print">Print or save as PDF</button>
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <button type="button" class="secondary" id="reset">Start over</button>
+            </div>
+            <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            <div class="msg" id="share-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is the GPA I need worked out?</summary><p>Needed GPA = (target CGPA &times; all credit hours at the end &minus; grade points you already have) &divide; credit hours left. Example: a 2.84 CGPA over 92 credit hours, 136 credit hours in the degree and a 3.00 target: (3.00 &times; 136 &minus; 2.84 &times; 92) &divide; 44 = 3.3345, so you need at least <b>3.34</b> on average in the 44 credit hours left. The needed GPA is always rounded up, so it is enough.</p></details>
+        <details><summary>How is a semester GPA and CGPA worked out?</summary><p>Each course's grade points are multiplied by its credit hours, added up, and divided by the credit hours. A 4-credit B+ (3.33) counts twice as much as a 2-credit B+. The CGPA does the same over every semester. Courses graded Pass, Withdrawn or Incomplete, and courses with 0 credit hours, are not in the GPA. A Pass still counts as credit hours completed.</p></details>
+        <details><summary>What does "Expected (what-if)" do?</summary><p>Set a semester to <b>Expected (what-if)</b> and pick the grades you hope to get. The app shows what your CGPA would become and what you would then need in the rest of your degree. Expected grades never change your real CGPA. Switch it to <b>Final results</b> when the results are out.</p></details>
+        <details><summary>What happens when I retake a course?</summary><p>Type the course again in the later semester with exactly the same name. Under <b>Rounding and retaken courses</b> pick what your university does: the latest grade replaces the earlier one, the best grade counts, or every attempt counts. A replaced attempt is marked "Not counted" and its credit hours count only once toward your degree.</p></details>
+        <details><summary>My university uses percentages or another scale</summary><p>Pick <b>My own grades</b> to type each grade and its points as printed on your transcript, or <b>I type grade points</b> if your results show grade points such as 3.5 for each course.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your grades stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+        <details><summary>Is this my official CGPA?</summary><p>No. It is worked out from what you type, the way most universities do it. Your transcript is the official record; some universities have their own rules, for example for repeated or transferred courses.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/cgpa-and-semester-gpa-planner-for-university-students">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use CGPA and Semester GPA Planner", "sections": [
+ {"h": "1. Pick your grading scale", "steps": ["Under \"Your university's grading scale\", pick the scale your transcript uses: 4.00 (A- = 3.67), 4.00 (A- = 3.70), A B C D F only, 10-point or 5.00. The grades and their points are listed under it.", "If yours is different, pick \"My own grades\" and type each grade and its points, or \"I type grade points\" if each course shows a grade point such as 3.5.", "\"Rounding and retaken courses\" sets whether a GPA is rounded or cut to 2 decimals, and what happens when a course is taken again."]},
+ {"h": "2. Add your semesters", "steps": ["Semester 1 is ready for you. In each course row type the course name (optional), its \"Credit hours\" and pick its \"Grade\". Empty rows are skipped.", "\"+ Add course\" adds a row. The x button on a row deletes that course, with Undo.", "Each semester box shows its GPA and your CGPA after that semester as you type.", "\"+ Add semester\" adds the next semester. \"Remove semester\" deletes one, with Undo.", "Not want to type old courses? Tap \"+ Start from your current CGPA instead of old courses\" and type the CGPA and credit hours from your last transcript."]},
+ {"h": "3. Plan this semester (what-if)", "steps": ["In a semester box set \"Grades are\" to \"Expected (what-if)\" and pick the grades you hope for.", "\"Your CGPA\" then shows your real CGPA and what it would become with those grades. Expected grades never change your real CGPA.", "When the results are out, set it back to \"Final results\" and fix any grade that came out differently."]},
+ {"h": "4. Find the GPA you need", "steps": ["Under \"What GPA do I need?\" type your \"Target CGPA\" (for example 3.00 for a scholarship) and the \"Credit hours in your degree\" (from your degree plan).", "The answer says the average GPA you need in the credit hours left, for example \"You need at least 3.34 in your remaining 44 credit hours\". It is rounded up, so it is always enough.", "If the target cannot be reached even with top grades, it says so and shows the highest CGPA you can still reach."]},
+ {"h": "Share or save", "steps": ["\"Copy as text\" and \"Email\" give a summary of every semester GPA, your CGPA and the GPA you need, for an advisor or parent. Email works without typing an address first.", "\"Print or save as PDF\" prints every semester with its courses.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another device, with Undo.", "\"Start over\" empties everything, with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["Pass, Withdrawn and Incomplete grades are not in the GPA. A Pass still counts as credit hours completed.", "An F counts in the GPA but its credit hours are not completed, so they stay in \"credit hours left\" until you pass the course.", "Everything stays on this device and works offline. Your data is never sent anywhere.", "Your transcript is the official record. Check your university's rules for retakes and transfers."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
