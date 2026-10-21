@@ -514,6 +514,14 @@ Record each rent payment, full, part, late or in advance, and see who has paid u
 
 <a href="rent-payment-log-and-receipts-for-landlords-and-tenants/"><img src="rent-payment-log-and-receipts-for-landlords-and-tenants/screenshots/phone.png" alt="Rent Payment Log and Receipts for Landlords and Tenants screenshot" width="260"></a>
 
+### <img src="qaza-prayer-and-fast-tracker/favicon.svg" width="36" height="36" align="center"> [Qaza Prayer and Fast Tracker](https://umar8092.github.io/apps/qaza-prayer-and-fast-tracker/)
+
+Work out how many qaza (missed) prayers you owe from the first and last day you missed ("15 Mar 2008 to 31 Dec 2019: 4,309 of each prayer"), or type the numbers, then tap +1 under Fajr, Dhuhr, Asr, Maghrib, Isha and Witr as you make each one up. See how many are left ("25,632 prayers left") and the day you finish at your daily goal ("At 2 days of prayers a day you finish around Thu 26 Aug 2032"), your real pace and streak. Missed Ramadan fasts with their own count, several people on one phone, Witr optional, days to leave out typed by you. The app counts; it gives no rulings.
+
+[**Open the app**](https://umar8092.github.io/apps/qaza-prayer-and-fast-tracker/) &middot; [Details and screenshots](qaza-prayer-and-fast-tracker/)
+
+<a href="qaza-prayer-and-fast-tracker/"><img src="qaza-prayer-and-fast-tracker/screenshots/phone.png" alt="Qaza Prayer and Fast Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

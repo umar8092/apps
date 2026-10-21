@@ -382,5 +382,11 @@
     "name": "Rent Payment Log and Receipts for Landlords and Tenants",
     "description": "Record each rent payment (full, part, late or ahead) and see who has paid up to which month, what is owed and how many days late. Print or copy a rent receipt with the amount in words and a yearly statement. Rent changes, part months, deposits. Private, no sign-up, works offline.",
     "color": "#1864ab"
+  },
+  {
+    "slug": "qaza-prayer-and-fast-tracker",
+    "name": "Qaza Prayer and Fast Tracker",
+    "description": "Work out how many prayers you missed from two dates (or type the numbers), tap +1 under Fajr, Dhuhr, Asr, Maghrib, Isha and Witr as you make each one up, and see what is left and the day you finish at your daily goal. Missed Ramadan fasts too. Private, no sign-up, works offline.",
+    "color": "#9b3d82"
   }
 ]

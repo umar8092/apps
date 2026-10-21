@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qaza Prayer and Fast Tracker: Count and Make Up Missed Salah and Roza</title>
+    <meta name="description" content="Free qaza prayer and fast tracker. Work out how many prayers you missed from two dates (or type the numbers), tap +1 under Fajr, Dhuhr, Asr, Maghrib, Isha and Witr as you make each one up, and see how many are left and the day you will finish at your daily goal. Missed Ramadan fasts too. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/qaza-prayer-and-fast-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#9b3d82">
+    <meta name="theme-color" content="#9b3d82">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Qaza Prayer and Fast Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/qaza-prayer-and-fast-tracker/">
+    <meta property="og:title" content="Qaza Prayer and Fast Tracker">
+    <meta property="og:description" content="How many qaza prayers and fasts do you owe, how many are left, and when will you finish? Tap +1 as you make each one up. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Qaza Prayer and Fast Tracker","alternateName":["Qaza Namaz Tracker","Missed Prayer Counter","Qada Salah Tracker","Qaza Roza Counter"],"url":"https://umar8092.github.io/apps/qaza-prayer-and-fast-tracker/","description":"A free tracker for qaza (missed) prayers and fasts: work out the total from dates, tap +1 for each prayer made up, and see what is left and when you will finish, private on your device.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"qaza namaz tracker, qaza prayer calculator, missed prayers counter, qada salah, qaza roza, make up missed fasts","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I work out how many qaza prayers I owe?","acceptedAnswer":{"@type":"Answer","text":"Pick the first and the last day you missed. Both days count, so 1 Jan to 31 Dec 2019 is 365 days: 365 of each prayer. Leave out any days you choose, such as days you did pray. You can also type the number for each prayer yourself."}},{"@type":"Question","name":"When will I finish my qaza prayers?","acceptedAnswer":{"@type":"Answer","text":"Pick a daily goal, such as 2 days of prayers a day. With 4,000 days owed you finish in 2,000 days, about 5 and a half years. The app shows the date and your real pace over the last 30 days."}},{"@type":"Question","name":"Does the app give religious rulings?","acceptedAnswer":{"@type":"Answer","text":"No. It only counts the numbers you enter. Ask a scholar what you owe."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Qaza Prayer and Fast Tracker</h1>
+        <p class="sub">Count the prayers and fasts you missed. Tap +1 as you make each one up and see what is left and when you will finish.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your counts will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card setup" id="setup" aria-labelledby="setup-h" hidden>
+            <h2 id="setup-h">How many prayers do you owe?</h2>
+            <form id="setup-form" novalidate>
+                <label for="s-name">Whose qaza is this?</label>
+                <input id="s-name" type="text" maxlength="30" autocomplete="off" placeholder="e.g. Me, or Ammi" aria-describedby="e-name">
+                <p class="err" id="e-name" role="alert"></p>
+
+                <fieldset class="choice">
+                    <legend>How do you want to count them?</legend>
+                    <div class="seg">
+                        <input type="radio" name="mode" id="m-dates" value="dates" checked><label for="m-dates">From dates<small>missed from a day to a day</small></label>
+                        <input type="radio" name="mode" id="m-numbers" value="numbers"><label for="m-numbers">Type the numbers<small>if you know them</small></label>
+                    </div>
+                </fieldset>
+
+                <div class="opt" id="w-dates">
+                    <label for="s-from">First day missed</label>
+                    <input id="s-from" type="date" aria-describedby="h-from e-from">
+                    <p class="hint" id="h-from">Such as the day you started having to pray, or the day you stopped praying.</p>
+                    <p class="err" id="e-from" role="alert"></p>
+                    <button type="button" class="link" id="o-age" aria-expanded="false">+ Work out the first day from a birth date and an age (optional)</button>
+                    <div class="opt sub-box" id="w-age" hidden>
+                        <div class="two">
+                            <div><label for="s-birth">Birth date</label><input id="s-birth" type="date"></div>
+                            <div><label for="s-age">Age then</label><div class="inline"><input id="s-age" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="e.g. 12"><span class="unit">years</span></div></div>
+                        </div>
+                        <p class="hint" id="h-age">You choose the age. The first day is set to that birthday.</p>
+                        <p class="err" id="e-age" role="alert"></p>
+                    </div>
+
+                    <label for="s-to">Last day missed</label>
+                    <input id="s-to" type="date" aria-describedby="e-to">
+                    <div class="chips" role="group" aria-label="Quick last days">
+                        <button type="button" class="chip" data-to="-1">Yesterday</button>
+                        <button type="button" class="chip" data-to="0">Today</button>
+                    </div>
+                    <p class="err" id="e-to" role="alert"></p>
+
+                    <button type="button" class="link" id="o-leave" aria-expanded="false">+ Leave out some days (optional)</button>
+                    <div class="opt sub-box" id="w-leave" hidden>
+                        <label for="s-leave">Days to leave out</label>
+                        <div class="inline"><input id="s-leave" type="text" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="e.g. 700" aria-describedby="h-leave e-leave"><span class="unit">days</span></div>
+                        <p class="hint" id="h-leave">Days you did pray, or for women the days of periods. You decide the number; the app does not.</p>
+                        <p class="err" id="e-leave" role="alert"></p>
+                    </div>
+                </div>
+
+                <div class="opt" id="w-numbers" hidden>
+                    <p class="hint top">Type how many of each prayer you still have to make up.</p>
+                    <div class="same">
+                        <label for="n-all">Same number for every prayer</label>
+                        <div class="log-row">
+                            <input id="n-all" type="text" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="e.g. 1,500">
+                            <button type="button" class="secondary small" id="n-all-btn">Use for all</button>
+                        </div>
+                    </div>
+                    <div class="num-grid" id="num-grid"></div>
+                    <p class="err" id="e-num" role="alert"></p>
+                </div>
+
+                <label class="check"><input type="checkbox" id="s-witr" checked> <span>Count Witr too</span></label>
+
+                <p class="preview" id="preview" aria-live="polite"></p>
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="setup-save">Save and start counting</button>
+                    <button type="button" class="secondary" id="setup-cancel" hidden>Cancel</button>
+                </div>
+                <button type="button" class="danger" id="clear-made" hidden>Clear everything this person has made up</button>
+            </form>
+        </section>
+
+        <section class="card today" id="today" aria-labelledby="today-h" hidden>
+            <h2 id="today-h">Make up today</h2>
+            <div class="goal-row">
+                <label for="g-per">My daily goal</label>
+                <select id="g-per">
+                    <option value="1">1 day of prayers a day (one of each)</option>
+                    <option value="2">2 days of prayers a day</option>
+                    <option value="3">3 days of prayers a day</option>
+                    <option value="5">5 days of prayers a day</option>
+                    <option value="custom">Another number</option>
+                </select>
+                <div class="opt" id="w-per" hidden>
+                    <label for="g-custom">Days of prayers a day</label>
+                    <div class="log-row">
+                        <input id="g-custom" type="text" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="1 to 50" aria-describedby="e-per">
+                        <button type="button" class="secondary small" id="g-custom-btn">Set</button>
+                    </div>
+                    <p class="err" id="e-per" role="alert"></p>
+                </div>
+            </div>
+            <div class="day-row">
+                <span id="day-text">Counting for today.</span>
+                <button type="button" class="link small-link" id="day-open" aria-expanded="false">Another day?</button>
+                <div class="opt" id="w-day" hidden>
+                    <label for="day">Day you prayed them</label>
+                    <input id="day" type="date">
+                </div>
+            </div>
+            <div class="msg" id="today-msg" role="status" aria-live="polite"></div>
+            <p class="state" id="today-line" aria-live="polite"></p>
+            <button type="button" class="primary" id="full">+1 of every prayer (a full day)</button>
+            <ul class="counters" id="counters"></ul>
+            <p class="hint">Tapped by mistake? &minus;1 takes back the latest one.</p>
+        </section>
+
+        <section class="card fasts" id="fasts" aria-labelledby="fasts-h">
+            <h2 id="fasts-h">Missed fasts</h2>
+            <div class="msg" id="f-msg" role="status" aria-live="polite"></div>
+            <p class="empty" id="f-empty">Missed some fasts of Ramadan, for example through illness, travel, pregnancy or periods? Add each Ramadan and the days you missed.</p>
+            <ul class="box-list" id="ram-list"></ul>
+            <button type="button" class="secondary" id="ram-add">+ Add a Ramadan</button>
+            <div class="fast-count" id="fast-count" hidden>
+                <div class="box counter fast-box">
+                    <div class="c-top"><h3>Fasts</h3><span class="c-left" id="f-left"></span></div>
+                    <p class="c-sub" id="f-today"></p>
+                    <div class="c-btns">
+                        <button type="button" class="primary" id="f-plus" aria-label="Made up one fast">+1 fast</button>
+                        <button type="button" class="secondary" id="f-minus" aria-label="Take back one fast">&minus;1</button>
+                    </div>
+                </div>
+                <label for="f-week">Fasts I will make up a week</label>
+                <select id="f-week">
+                    <option value="1">1 a week</option>
+                    <option value="2">2 a week</option>
+                    <option value="3">3 a week</option>
+                    <option value="7">Every day</option>
+                </select>
+                <p class="state" id="f-finish" aria-live="polite"></p>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card left" id="left" aria-labelledby="left-h" hidden>
+            <h2 id="left-h">Still to make up</h2>
+            <div id="left-body" aria-live="polite"></div>
+            <button type="button" class="secondary" id="edit-totals">Change the totals</button>
+        </section>
+
+        <section class="card hist" id="hist" aria-labelledby="hist-h">
+            <h2 id="hist-h">Days you made up</h2>
+            <p class="empty" id="hist-empty">Nothing made up yet. Each day you tap +1 shows here.</p>
+            <ul class="hist-list" id="hist-list"></ul>
+            <button type="button" class="link" id="hist-more" hidden>Show all days</button>
+        </section>
+
+        <section class="card people" id="people" aria-labelledby="people-h">
+            <h2 id="people-h">People on this phone</h2>
+            <div class="msg" id="p-msg" role="status" aria-live="polite"></div>
+            <ul class="box-list" id="p-list"></ul>
+            <button type="button" class="link" id="p-open" aria-expanded="false">+ Add another person (optional)</button>
+            <form class="opt" id="p-add" novalidate hidden>
+                <label for="p-name">Their name</label>
+                <div class="log-row">
+                    <input id="p-name" type="text" maxlength="30" autocomplete="off" placeholder="e.g. Ammi" aria-describedby="e-pname">
+                    <button type="submit" class="primary small" id="p-add-btn">Add</button>
+                </div>
+                <p class="err" id="e-pname" role="alert"></p>
+            </form>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Share and backup</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy my progress</button>
+                <a class="secondary" id="mail" href="mailto:">Email my progress</a>
+            </div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does it work out the number from dates?</summary><p>It counts every day from the first day you missed to the last day, both included. 1 Jan to 31 Dec 2019 is 365 days, so you owe 365 of each prayer: 365 Fajr, 365 Dhuhr and so on. Days you leave out are taken off every prayer.</p></details>
+        <details><summary>I already made some up, or I missed only some prayers.</summary><p>Choose <b>Type the numbers</b> and type how many of each prayer are left, such as 1,200 Fajr and 300 Dhuhr. You can change the totals at any time with <b>Change the totals</b>; what you have made up is kept.</p></details>
+        <details><summary>When will I finish?</summary><p>Pick your daily goal. With 4,000 days of prayers left and a goal of 2 days of prayers a day, you finish in 2,000 days. Today counts as the first day. The box also shows your real pace over the last 30 days.</p></details>
+        <details><summary>Why is Witr a choice?</summary><p>Some people make up Witr and some do not. Untick <b>Count Witr too</b> if you do not. The app does not decide for you.</p></details>
+        <details><summary>Does the app give religious rulings?</summary><p>No. It only counts the numbers you enter. Ask a scholar what you owe, how to pray qaza, or about fidya and kaffarah.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your counts stay in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to move to a new phone. Once loaded, the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/qaza-prayer-and-fast-tracker">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Qaza Prayer and Fast Tracker", "sections": [
+ {"h": "Work out what you owe", "steps": ["Under \"Whose qaza is this?\" keep \"Me\" or type a name.", "Choose \"From dates\" and pick the \"First day missed\" and the \"Last day missed\" (tap Yesterday or Today for the last day). Both days count, so you owe one of each prayer for every day.", "Not sure of the first day? Tap \"+ Work out the first day from a birth date and an age\", type the birth date and the age, and the first day is set to that birthday.", "Want to take some days off, such as days you did pray or days of periods? Tap \"+ Leave out some days\" and type how many.", "Or choose \"Type the numbers\" and type how many of each prayer are left. \"Use for all\" puts the same number in every box.", "Untick \"Count Witr too\" if you do not make up Witr.", "The line above the button shows the total. Tap \"Save and start counting\"."]},
+ {"h": "Every day", "steps": ["Pick \"My daily goal\", such as 2 days of prayers a day. \"Another number\" lets you type any number from 1 to 50.", "Each time you pray a qaza, tap +1 under that prayer. \"+1 of every prayer (a full day)\" adds one Fajr, Dhuhr, Asr, Maghrib, Isha and Witr at once.", "Tapped by mistake? \"−1\" takes back the latest one.", "Forgot to count yesterday? Tap \"Another day?\" and pick the day first.", "The green line says how many you have made up today and how many more reach your goal. The streak counts the days in a row you reached it."]},
+ {"h": "What is left", "steps": ["\"Still to make up\" shows the prayers left in all and for each prayer, and the day you finish at your goal, such as \"At 2 days of prayers a day you finish around Fri 3 Mar 2028\".", "It also shows your real pace over the last 30 days and when you would finish at that pace.", "\"Change the totals\" lets you fix the dates or the numbers. What you have made up is kept.", "\"Days you made up\" lists every day with how many prayers and fasts."]},
+ {"h": "Missed fasts", "steps": ["Tap \"+ Add a Ramadan\", type the year if you like and the days you missed. Each Ramadan has its own box. \"Remove\" takes one away, with Undo.", "Tap \"+1 fast\" each time you make one up, and \"−1\" to take one back.", "Pick how many fasts a week you will keep to see when you finish."]},
+ {"h": "More than one person", "steps": ["Tap \"+ Add another person\" to count for someone else on this phone, such as a parent. Each person has their own box with their own totals, goal and days.", "\"Open\" switches to that person. \"Rename\" and \"Remove\" (with Undo) are in their box."]},
+ {"h": "Share and backup", "steps": ["\"Copy my progress\" and \"Email my progress\" share what is left for the person open now. Email works without typing an address first.", "\"Save a backup file\" saves everything in one file. \"Restore a backup\" brings it back on this or a new phone. \"Delete everything\" empties the app, with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["The app only counts the numbers you enter. It does not give religious rulings; ask a scholar what you owe.", "Numbers are whole and exact: a +1 is one prayer.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
