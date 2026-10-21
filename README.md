@@ -506,6 +506,14 @@ Pick a finish date (such as the last day of Ramadan) or a number of pages a day,
 
 <a href="quran-reading-planner-and-khatam-tracker/"><img src="quran-reading-planner-and-khatam-tracker/screenshots/phone.png" alt="Quran Reading Planner and Khatam Tracker screenshot" width="260"></a>
 
+### <img src="rent-payment-log-and-receipts-for-landlords-and-tenants/favicon.svg" width="36" height="36" align="center"> [Rent Payment Log and Receipts for Landlords and Tenants](https://umar8092.github.io/apps/rent-payment-log-and-receipts-for-landlords-and-tenants/)
+
+Record each rent payment, full, part, late or in advance, and see who has paid up to which month and what is owed ("Owes 15,000 for October 2026, 16 days late", "Paid up to September 2026", "Next: November rent 32,000 due on Thu 5 Nov"). Each tenancy in its own box, rent changes from a month, move-in and move-out part months by days, deposits, a printable rent receipt with the amount in words and the rent still owed, a yearly statement, and a "this month" total for every tenancy. Works for tenants who want proof of rent paid too.
+
+[**Open the app**](https://umar8092.github.io/apps/rent-payment-log-and-receipts-for-landlords-and-tenants/) &middot; [Details and screenshots](rent-payment-log-and-receipts-for-landlords-and-tenants/)
+
+<a href="rent-payment-log-and-receipts-for-landlords-and-tenants/"><img src="rent-payment-log-and-receipts-for-landlords-and-tenants/screenshots/phone.png" alt="Rent Payment Log and Receipts for Landlords and Tenants screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

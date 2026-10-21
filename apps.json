@@ -376,5 +376,11 @@
     "name": "Quran Reading Planner and Khatam Tracker",
     "description": "Pick a finish date (such as the end of Ramadan) or pages a day, log the page where you stopped, and see today's pages, how far behind or ahead you are, the 30 juz done and your khatams. Share the juz out for a family or group khatam. Private, no sign-up, works offline.",
     "color": "#087f5b"
+  },
+  {
+    "slug": "rent-payment-log-and-receipts-for-landlords-and-tenants",
+    "name": "Rent Payment Log and Receipts for Landlords and Tenants",
+    "description": "Record each rent payment (full, part, late or ahead) and see who has paid up to which month, what is owed and how many days late. Print or copy a rent receipt with the amount in words and a yearly statement. Rent changes, part months, deposits. Private, no sign-up, works offline.",
+    "color": "#1864ab"
   }
 ]
