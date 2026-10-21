@@ -202,7 +202,7 @@
         mark('e-head', h == null ? '' : unitMsg('head', h), [$('m-head')]);
         if (!first && w == null && l == null && h == null) { setErr('e-m', 'Type at least one of the weight, the length or the head size.'); first = units() === 'imperial' ? $('m-lb') : $('m-kg'); }
         else setErr('e-m', '');
-        if (first) { first.focus(); return; }
+        if (first) { clearMsg('r-msg'); first.focus(); return; }
         const snap = snapshot();
         const m = { id: editM || state.nextId++, d: day };
         if (w != null) m.weight = w; if (l != null) m.length = C.r2(l); if (h != null) m.head = C.r2(h);
