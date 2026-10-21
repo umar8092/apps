@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby and Child Growth Chart: WHO Weight, Length and Head Percentiles</title>
+    <meta name="description" content="Free baby and child growth chart with WHO percentiles from birth to 5 years. Type the weight, length or height and head size from each check-up and see the percentile in plain words, a chart with the WHO lines, corrected age for babies born early, and when to ask a doctor. Each child in their own box. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/baby-and-child-growth-chart/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#0c8599">
+    <meta name="theme-color" content="#0c8599">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Baby and Child Growth Chart">
+    <meta property="og:url" content="https://umar8092.github.io/apps/baby-and-child-growth-chart/">
+    <meta property="og:title" content="Baby and Child Growth Chart">
+    <meta property="og:description" content="What does your child's weight, length and head size mean? WHO percentiles from birth to 5 years, a growth chart and corrected age. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Baby and Child Growth Chart","alternateName":["Baby Percentile Calculator","WHO Growth Chart","Baby Weight Percentile","Child Height Percentile"],"url":"https://umar8092.github.io/apps/baby-and-child-growth-chart/","description":"A free growth chart for babies and children up to 5 years: WHO percentiles for weight, length or height and head size, a chart, corrected age for babies born early, private on your device.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"baby growth chart, baby weight percentile, WHO growth chart, child height percentile, head circumference percentile, corrected age premature","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does the 26th percentile mean?","acceptedAnswer":{"@type":"Answer","text":"Out of 100 healthy children of the same age and sex, about 26 weigh less and 74 weigh more. Anything from the 3rd to the 97th percentile is in the usual range. Steady growth along the same line matters more than the number."}},{"@type":"Question","name":"Which growth chart does it use?","acceptedAnswer":{"@type":"Answer","text":"The WHO Child Growth Standards (2006) from birth to 5 years, the charts used in Pakistan, India, the UK (from 2 weeks) and many other countries."}},{"@type":"Question","name":"My baby was born early. Which age is used?","acceptedAnswer":{"@type":"Answer","text":"For babies born before 37 weeks the app uses the corrected age (real age minus the weeks born early) until 2 years of real age."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Baby and Child Growth Chart</h1>
+        <p class="sub">Type the weight, length and head size from each check-up. See the WHO percentile in plain words and a growth chart, from birth to 5 years.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your measurements will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card kids" id="kids" aria-labelledby="kids-h">
+            <h2 id="kids-h">Your children</h2>
+            <div class="msg" id="k-msg" role="status" aria-live="polite"></div>
+            <ul class="box-list" id="k-list"></ul>
+            <button type="button" class="link" id="k-open" aria-expanded="false" hidden>+ Add another child</button>
+            <form class="kid-form" id="k-form" novalidate>
+                <h3 id="k-form-h">Add your child</h3>
+                <label for="k-name">Name</label>
+                <input id="k-name" type="text" maxlength="30" autocomplete="off" placeholder="e.g. Ali" aria-describedby="e-kname">
+                <p class="err" id="e-kname" role="alert"></p>
+                <fieldset class="choice">
+                    <legend>Boy or girl</legend>
+                    <div class="seg">
+                        <input type="radio" name="sex" id="k-boy" value="1"><label for="k-boy">Boy</label>
+                        <input type="radio" name="sex" id="k-girl" value="2"><label for="k-girl">Girl</label>
+                    </div>
+                </fieldset>
+                <p class="err" id="e-sex" role="alert"></p>
+                <label for="k-birth">Date of birth</label>
+                <input id="k-birth" type="date" aria-describedby="e-birth">
+                <p class="err" id="e-birth" role="alert"></p>
+                <button type="button" class="link" id="o-early" aria-expanded="false">+ Born early? (optional)</button>
+                <div class="opt sub-box" id="w-early" hidden>
+                    <label for="k-weeks">Weeks of pregnancy at birth</label>
+                    <div class="inline"><input id="k-weeks" type="text" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="e.g. 34" aria-describedby="h-weeks e-weeks"><span class="unit">weeks</span></div>
+                    <p class="hint" id="h-weeks">Before 37 weeks the chart uses the corrected age until 2 years. A baby born at 34 weeks is 6 weeks early.</p>
+                    <p class="err" id="e-weeks" role="alert"></p>
+                </div>
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="k-save">Add child</button>
+                    <button type="button" class="secondary" id="k-cancel" hidden>Cancel</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card add" id="add" aria-labelledby="add-h" hidden>
+            <h2 id="add-h">Add a measurement</h2>
+            <form id="m-form" novalidate>
+                <fieldset class="choice units">
+                    <legend>Units</legend>
+                    <div class="seg">
+                        <input type="radio" name="units" id="u-metric" value="metric" checked><label for="u-metric">kg and cm</label>
+                        <input type="radio" name="units" id="u-imperial" value="imperial"><label for="u-imperial">lb, oz and inches</label>
+                    </div>
+                </fieldset>
+                <label for="m-day">Day measured</label>
+                <input id="m-day" type="date" aria-describedby="e-day">
+                <p class="err" id="e-day" role="alert"></p>
+
+                <label for="m-kg" id="l-weight">Weight</label>
+                <div class="inline" id="w-kg"><input id="m-kg" type="text" inputmode="decimal" maxlength="7" autocomplete="off" placeholder="e.g. 7.4" aria-describedby="e-weight"><span class="unit">kg</span></div>
+                <div class="lboz" id="w-lb" hidden>
+                    <div class="inline"><input id="m-lb" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="16" aria-label="Weight, pounds" aria-describedby="e-weight"><span class="unit">lb</span></div>
+                    <div class="inline"><input id="m-oz" type="text" inputmode="decimal" maxlength="4" autocomplete="off" placeholder="5" aria-label="Weight, ounces" aria-describedby="e-weight"><span class="unit">oz</span></div>
+                </div>
+                <p class="err" id="e-weight" role="alert"></p>
+
+                <label for="m-len" id="l-len">Length (lying down)</label>
+                <div class="inline"><input id="m-len" type="text" inputmode="decimal" maxlength="6" autocomplete="off" placeholder="e.g. 67.5" aria-describedby="h-len e-len"><span class="unit" id="u-len">cm</span></div>
+                <p class="hint" id="h-len">Under 2 years measure lying down. From 2 years measure standing (height).</p>
+                <p class="err" id="e-len" role="alert"></p>
+
+                <button type="button" class="link" id="o-head" aria-expanded="false">+ Add head size (optional)</button>
+                <div class="opt" id="w-head" hidden>
+                    <label for="m-head">Head size (around the head)</label>
+                    <div class="inline"><input id="m-head" type="text" inputmode="decimal" maxlength="6" autocomplete="off" placeholder="e.g. 43.5" aria-describedby="e-head"><span class="unit" id="u-head">cm</span></div>
+                    <p class="err" id="e-head" role="alert"></p>
+                </div>
+                <p class="hint">Fill in what you have. One of weight, length or head size is enough.</p>
+                <p class="err" id="e-m" role="alert"></p>
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="m-save">Save and see the percentile</button>
+                    <button type="button" class="secondary" id="m-cancel" hidden>Cancel</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card result" id="result" aria-labelledby="res-h" hidden>
+            <h2 id="res-h">Latest result</h2>
+            <div class="msg" id="r-msg" role="status" aria-live="polite"></div>
+            <div id="res-body" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card chart" id="chart" aria-labelledby="chart-h" hidden>
+            <h2 id="chart-h">Growth chart</h2>
+            <div class="tabs" role="tablist" aria-label="Which chart">
+                <button type="button" role="tab" class="tab" id="t-weight" data-kind="weight" aria-selected="true">Weight</button>
+                <button type="button" role="tab" class="tab" id="t-length" data-kind="length" aria-selected="false">Length</button>
+                <button type="button" role="tab" class="tab" id="t-head" data-kind="head" aria-selected="false">Head size</button>
+            </div>
+            <div class="svg-wrap" id="svg-wrap"></div>
+            <p class="legend" id="legend"></p>
+            <p class="hint" id="chart-note"></p>
+        </section>
+
+        <section class="card list" id="list" aria-labelledby="list-h" hidden>
+            <h2 id="list-h">All measurements</h2>
+            <div class="msg" id="l-msg" role="status" aria-live="polite"></div>
+            <p class="empty" id="l-empty">No measurements yet. Add the first one above, for example the birth weight from the hospital card.</p>
+            <ul class="box-list" id="m-list"></ul>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Share and backup</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy the table for the doctor</button>
+                <a class="secondary" id="mail" href="mailto:">Email the table</a>
+            </div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>What does the percentile mean?</summary><p>The 26th percentile means that out of 100 healthy children of the same age and sex, about 26 weigh less and 74 weigh more. Anything from the <b>3rd to the 97th</b> is in the usual range. A child who stays near the same line is growing steadily, whichever line it is.</p></details>
+        <details><summary>When should I ask a doctor?</summary><p>The app says so when a measurement is below the 3rd or above the 97th percentile, or when weight or length has crossed two of the chart lines (3rd, 15th, 50th, 85th, 97th) since the last time, such as from the 60th down to the 10th. It also asks you to check numbers that are very far from usual, which are often typing mistakes. Always ask if you are worried, whatever the chart says.</p></details>
+        <details><summary>Which chart does it use?</summary><p>The <b>WHO Child Growth Standards (2006)</b> from birth to 5 years, the charts used in Pakistan, India, the UK (from 2 weeks) and many other countries. After 5 years the WHO 0 to 5 chart stops; ask your doctor for the 5 to 19 years chart.</p></details>
+        <details><summary>My baby was born early.</summary><p>Tap <b>+ Born early?</b> and type the weeks of pregnancy at birth. Before 37 weeks the chart uses the <b>corrected age</b>: a baby born at 34 weeks (6 weeks early) who is 10 weeks old is compared with 4-week-old babies. This is used until 2 years of real age. Before the due date the WHO chart does not apply; your doctor uses a chart for babies born early.</p></details>
+        <details><summary>Length or height?</summary><p>Under 2 years children are measured lying down (length); from 2 years standing up (height). Standing height is usually about 0.7 cm less, and the WHO lines allow for this at 2 years.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your children's details stay in this browser on this device: no account, and your data is never sent anywhere. The WHO tables are inside the app, so it works with no connection once loaded. Use <b>Save a backup file</b> to move to a new phone.</p></details>
+    </section>
+    <footer><p class="credit">Percentiles: <a href="https://www.who.int/tools/child-growth-standards">WHO Child Growth Standards</a> (2006). Not medical advice.</p><a href="https://github.com/umar8092/apps/tree/main/baby-and-child-growth-chart">Open source (MIT)</a></footer>
+</main>
+
+<script src="who-data.js"></script>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Baby and Child Growth Chart", "sections": [
+ {"h": "Add your child", "steps": ["Type the name, tap Boy or Girl and pick the \"Date of birth\". Tap \"Add child\".", "Born before 37 weeks? Tap \"+ Born early?\" and type the weeks of pregnancy at birth, so the chart uses the corrected age until 2 years.", "Twins or more children? Tap \"+ Add another child\". Each child has their own box; tap \"Open\" to switch, \"Edit\" to fix the details, \"Remove\" to delete them (with Undo)."]},
+ {"h": "Add a measurement", "steps": ["Pick \"kg and cm\" or \"lb, oz and inches\". You can switch at any time; everything is converted.", "Pick the \"Day measured\" (today unless you change it), then type the weight, the length and, after \"+ Add head size\", the head size. One of them is enough.", "Under 2 years the length is measured lying down; from 2 years the box says Height, measured standing.", "Tap \"Save and see the percentile\"."]},
+ {"h": "Read the result", "steps": ["\"Latest result\" says, for example, \"Weight 7.4 kg: the 26th percentile\" and what it means: about 26 of 100 boys of the same age weigh less.", "The usual range is the 3rd to the 97th percentile. The app tells you to ask a doctor below the 3rd, above the 97th, or when weight or length crosses two chart lines since the last measurement.", "\"Growth chart\" shows the WHO lines (3rd, 15th, 50th, 85th and 97th) with your child's dots. Tap Weight, Length or Head size to switch.", "\"All measurements\" lists every check-up with the age and percentiles. \"Edit\" fixes a typing mistake and \"Delete\" removes it, with Undo."]},
+ {"h": "Share and backup", "steps": ["\"Copy the table for the doctor\" copies every measurement with its percentile, to paste in a message. \"Email the table\" opens your email with it, with no address needed.", "\"Save a backup file\" saves everything. \"Restore a backup\" brings it back on this or a new phone. \"Delete everything\" empties the app, with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["The percentiles are from the WHO Child Growth Standards, birth to 5 years. After 5 years the app keeps the numbers but shows no percentile.", "A comma works as the decimal point: 7,4 is 7.4.", "This is not medical advice. Ask your doctor or health visitor if you are worried.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

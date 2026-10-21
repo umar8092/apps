@@ -522,6 +522,14 @@ Work out how many qaza (missed) prayers you owe from the first and last day you 
 
 <a href="qaza-prayer-and-fast-tracker/"><img src="qaza-prayer-and-fast-tracker/screenshots/phone.png" alt="Qaza Prayer and Fast Tracker screenshot" width="260"></a>
 
+### <img src="baby-and-child-growth-chart/favicon.svg" width="36" height="36" align="center"> [Baby and Child Growth Chart](https://umar8092.github.io/apps/baby-and-child-growth-chart/)
+
+Type the weight, length or height and head size from each check-up and see what the numbers mean: "Weight 7.4 kg at 6 months: the 25th percentile. About 25 in 100 boys of the same age weigh less." A growth chart with the WHO 3rd, 15th, 50th, 85th and 97th percentile lines, the corrected age for babies born early, and a plain "ask your doctor" note below the 3rd, above the 97th or when growth crosses two lines. WHO Child Growth Standards built in (birth to 5 years, works offline), kg and cm or lb, oz and inches, each child in their own box, a table to copy for the doctor. Not medical advice.
+
+[**Open the app**](https://umar8092.github.io/apps/baby-and-child-growth-chart/) &middot; [Details and screenshots](baby-and-child-growth-chart/)
+
+<a href="baby-and-child-growth-chart/"><img src="baby-and-child-growth-chart/screenshots/phone.png" alt="Baby and Child Growth Chart screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

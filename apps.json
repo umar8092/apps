@@ -388,5 +388,11 @@
     "name": "Qaza Prayer and Fast Tracker",
     "description": "Work out how many prayers you missed from two dates (or type the numbers), tap +1 under Fajr, Dhuhr, Asr, Maghrib, Isha and Witr as you make each one up, and see what is left and the day you finish at your daily goal. Missed Ramadan fasts too. Private, no sign-up, works offline.",
     "color": "#9b3d82"
+  },
+  {
+    "slug": "baby-and-child-growth-chart",
+    "name": "Baby and Child Growth Chart",
+    "description": "Type the weight, length or height and head size from each check-up and see the WHO percentile in plain words (\"7.4 kg at 6 months: the 25th percentile\"), a growth chart with the WHO lines, corrected age for babies born early, and when to ask a doctor. Birth to 5 years, each child in their own box. Private, no sign-up, works offline.",
+    "color": "#0c8599"
   }
 ]
