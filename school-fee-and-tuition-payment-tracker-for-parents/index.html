@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Fee and Tuition Payment Tracker for Parents</title>
+    <meta name="description" content="Free school fee tracker for parents. Add each child's school fee, tuition, van or bus and academy fees (monthly, every term or yearly), tick them paid with a receipt photo, and see what is late, what is due this week, which month each fee is paid up to and the year's total per child. Fee rises, holiday months, part payments, statements to copy or print. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/school-fee-and-tuition-payment-tracker-for-parents/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#e67700">
+    <meta name="theme-color" content="#e67700">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="School Fee Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/school-fee-and-tuition-payment-tracker-for-parents/">
+    <meta property="og:title" content="School Fee and Tuition Payment Tracker for Parents">
+    <meta property="og:description" content="Each child's school, tuition and van fees in one place: what is late, what is due this week, which month is paid up to, with receipt photos. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"School Fee and Tuition Payment Tracker for Parents","alternateName":["School Fee Tracker","Tuition Fee Tracker","School Fees Record","Van Fee Tracker"],"url":"https://umar8092.github.io/apps/school-fee-and-tuition-payment-tracker-for-parents/","description":"A free tracker for parents that shows which school, tuition, van and academy fees are paid up to which month for each child, what is late and what is due this week, with receipt photos and yearly statements, private on your device.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"school fee tracker, tuition fee tracker, school fees record, van fee, school fee reminder, fee receipt, parents app","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does it know which month is paid?","acceptedAnswer":{"@type":"Answer","text":"Each fee is due on its due day, every month, every few months or once a year. Payments always pay the oldest fee first, so if 20,000 was paid against an 8,000 monthly fee from August, August and September are paid and 4,000 of October is still owed."}},{"@type":"Question","name":"Can I keep the receipt?","acceptedAnswer":{"@type":"Answer","text":"Yes. When you record a payment you can add a photo of the school's receipt. It is kept in this browser on this device, and you can open it again from Payments."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your records and photos stay in this browser on this device. There is no account and your data is never sent anywhere."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>School Fee and Tuition Payment Tracker for Parents</h1>
+        <p class="sub">Every child's school, tuition and van fees in one place. See what is late, what is due this week, and which month each fee is paid up to.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your records will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card due" id="due" aria-labelledby="due-h" hidden>
+            <h2 id="due-h">Fees to pay</h2>
+            <div id="due-body" aria-live="polite"></div>
+        </section>
+
+        <section class="card list" id="list" aria-labelledby="list-h" hidden>
+            <h2 id="list-h">Your children</h2>
+            <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+            <ul class="box-list" id="boxes"></ul>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card add" id="add" aria-labelledby="form-h">
+            <h2 id="form-h">Add a fee</h2>
+            <div class="msg" id="form-msg" role="status" aria-live="polite"></div>
+            <button type="button" class="primary" id="open-form" hidden>+ Add a fee or a child</button>
+            <form id="form" novalidate>
+                <div id="w-child" hidden>
+                    <label for="f-child">Which child?</label>
+                    <select id="f-child"></select>
+                </div>
+                <div id="w-new">
+                    <label for="f-name">Child's name</label>
+                    <input id="f-name" type="text" maxlength="50" autocomplete="off" placeholder="e.g. Ali" aria-describedby="e-child">
+                    <p class="err" id="e-child" role="alert"></p>
+                    <button type="button" class="link" id="o-school">+ Add the school's name (optional)</button>
+                    <div class="opt" id="w-school" hidden>
+                        <label for="f-school">School's name</label>
+                        <input id="f-school" type="text" maxlength="60" autocomplete="off" placeholder="e.g. City School">
+                    </div>
+                </div>
+
+                <label for="f-fee">What is the fee for?</label>
+                <div class="chips" id="fee-chips" role="group" aria-label="Common fees">
+                    <button type="button" class="chip" data-fee="School fee">School fee</button>
+                    <button type="button" class="chip" data-fee="Tuition">Tuition</button>
+                    <button type="button" class="chip" data-fee="Van or bus">Van or bus</button>
+                    <button type="button" class="chip" data-fee="Academy">Academy</button>
+                    <button type="button" class="chip" data-fee="Lunch">Lunch</button>
+                    <button type="button" class="chip" data-fee="Admission fee">Admission fee</button>
+                </div>
+                <input id="f-fee" type="text" maxlength="50" autocomplete="off" placeholder="e.g. School fee" aria-describedby="e-name">
+                <p class="err" id="e-name" role="alert"></p>
+
+                <div class="two">
+                    <div>
+                        <label for="f-amt" id="l-amt">Fee amount</label>
+                        <div class="inline money">
+                            <span class="unit pre cur" aria-hidden="true"></span>
+                            <input id="f-amt" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 8000" aria-describedby="e-amt">
+                        </div>
+                        <p class="err" id="e-amt" role="alert"></p>
+                    </div>
+                    <div>
+                        <label for="f-every">How often?</label>
+                        <select id="f-every" aria-describedby="e-every">
+                            <option value="1">Every month</option>
+                            <option value="2">Every 2 months</option>
+                            <option value="3">Every 3 months</option>
+                            <option value="4">Every 4 months</option>
+                            <option value="6">Every 6 months</option>
+                            <option value="12">Once a year</option>
+                            <option value="0">Only once</option>
+                        </select>
+                        <p class="err" id="e-every" role="alert"></p>
+                    </div>
+                </div>
+
+                <label for="f-due">Due on</label>
+                <select id="f-due" aria-describedby="e-due"></select>
+                <p class="err" id="e-due" role="alert"></p>
+
+                <fieldset class="choice">
+                    <legend id="l-start">First month to track</legend>
+                    <div class="two my">
+                        <div><label class="sr" for="f-sm">Month</label><select id="f-sm" aria-describedby="e-start h-start"></select></div>
+                        <div><label class="sr" for="f-sy">Year</label><select id="f-sy" aria-describedby="e-start h-start"></select></div>
+                    </div>
+                    <p class="hint" id="h-start">Months before this are not counted.</p>
+                    <p class="err" id="e-start" role="alert"></p>
+                </fieldset>
+
+                <p class="preview" id="preview" aria-live="polite"></p>
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="save">Add the fee</button>
+                    <button type="button" class="secondary" id="cancel" hidden>Cancel</button>
+                </div>
+                <button type="button" class="danger" id="del" hidden>Delete this fee</button>
+            </form>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Money and backup</h2>
+            <div class="two">
+                <div>
+                    <label for="s-cur">Currency symbol</label>
+                    <select id="s-cur"></select>
+                </div>
+                <div>
+                    <label for="s-style">Numbers</label>
+                    <select id="s-style">
+                        <option value="intl">1,000,000</option>
+                        <option value="sa">10,00,000 (lakh)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy the fee summary</button>
+                <a class="secondary" id="mail" href="mailto:">Email the fee summary</a>
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does it know which month is paid?</summary><p>Each fee is due on its due day, every month, every few months or once a year. Payments always pay the oldest fee first. If 20,000 was paid against an 8,000 monthly fee that started in August, August and September are paid, and <b>4,000 of October</b> is still owed.</p></details>
+        <details><summary>The school charges every term, not every month.</summary><p>Pick <b>Every 3 months</b>, <b>Every 4 months</b> or <b>Every 6 months</b> under "How often?", and pick the first month of a term as the first month to track. A fee every 3 months from September covers September to November, then December to February, and so on.</p></details>
+        <details><summary>There is no van fee in the summer holidays.</summary><p>Open the fee's <b>Change or stop</b> and tick the months with no fee, such as June and July. Those months are skipped every year.</p></details>
+        <details><summary>The fee went up. Will old months change?</summary><p>No. <b>Change or stop</b>, then <b>Save the new amount</b> sets a new fee from a month you pick. Earlier months keep the old fee.</p></details>
+        <details><summary>We get a discount for the second child.</summary><p>Type each child's fee after the discount. Every child has their own fees, so one can pay 8,000 and the other 7,200.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your records and receipt photos stay in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to keep a copy or move to a new phone. Once loaded, the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/school-fee-and-tuition-payment-tracker-for-parents">Open source (MIT)</a></footer>
+</main>
+
+<dialog class="sheet" id="sheet" aria-labelledby="sheet-h">
+    <div class="sheet-paper" id="sheet-paper"></div>
+    <div class="sheet-btns" id="sheet-btns">
+        <button type="button" class="primary" id="sheet-print">Print or save as PDF</button>
+        <button type="button" class="secondary" id="sheet-copy">Copy text</button>
+        <button type="button" class="secondary" id="sheet-close">Close</button>
+    </div>
+    <p class="msg" id="sheet-msg" role="status" aria-live="polite"></p>
+</dialog>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use School Fee and Tuition Payment Tracker", "sections": [
+ {"h": "Add a fee", "steps": ["Type the \"Child's name\". \"+ Add the school's name\" is optional.", "Under \"What is the fee for?\" tap School fee, Tuition, Van or bus, Academy, Lunch or Admission fee, or type your own.", "Type the \"Fee amount\" and pick \"How often?\": every month, every 2, 3, 4 or 6 months (for fees paid by term), once a year, or only once.", "Pick the day it is \"Due on\" (29th, 30th or 31st means the last day in shorter months) and the \"First month to track\". Months before it are not counted.", "Tap \"Add the fee\". To add another fee or another child, tap \"+ Add a fee or a child\" and pick the child under \"Which child?\", or tap \"+ Add a fee\" in the child's box."]},
+ {"h": "Record a payment", "steps": ["In the fee's box tap \"Record a payment\". Pick the \"Date paid\" and type the \"Amount\", or tap the button that fills in what is owed or the next fee.", "Paying two months at once or only part of a fee is fine: payments always pay the oldest fee first.", "\"+ Add a note\" keeps the receipt number. \"+ Add a photo of the receipt\" keeps a photo of the school's receipt on this device.", "Tap \"Save payment\". A message lets you \"Undo\"."]},
+ {"h": "What it tells you", "steps": ["\"Fees to pay\" at the top shows how much is left to pay this month for all children, the fees that are late (with how many days) and the fees due in the next 7 days.", "In each fee's box: \"Paid up to September 2026\" means every month to September is paid in full. \"Owes 4,000 for October 2026, 11 days late\" counts from that month's due day. \"Next\" is the next fee to come.", "Each child's box shows the year: the fees for the year, what is paid, what is owed now and what is still to come."]},
+ {"h": "Payments, photos and statements", "steps": ["\"Payments\" lists every payment with what it paid for. \"Photo\" opens the receipt photo. \"Edit\" and \"Delete\" fix mistakes, with \"Undo\".", "\"Statement\" in a child's box shows a year: each fee, what was paid and what is owed. \"Print or save as PDF\" or \"Copy text\" to send it to the school."]},
+ {"h": "Changes", "steps": ["\"Change or stop\" in a fee's box: \"Save the new amount\" sets a new fee from a month you pick (earlier months keep the old fee).", "Tick the \"Months with no fee\" (such as June and July for the van) and tap \"Save these months\". They are skipped every year.", "\"Stop this fee\" ends it after a month you pick, for example when a child leaves the van. \"Start it again\" undoes that.", "\"Edit the fee\" changes the name, amount, how often, due day or first month. \"Delete this fee\" is at the bottom of the form, with \"Undo\".", "\"Edit child\" renames the child or the school, or deletes the child with all their fees."]},
+ {"h": "Money and backup", "steps": ["Pick a \"Currency symbol\" (or none) and how big \"Numbers\" look: 1,000,000 or 10,00,000 (lakh). They are remembered.", "\"Copy the fee summary\" and \"Email the fee summary\" share every child's fees: paid up to when and what is owed. Email works without typing an address first.", "\"Save a backup file\" keeps everything, photos too, in one file; \"Restore a backup\" brings it back. \"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Type each child's fee after any sibling discount.", "Amounts can have cents, such as 3500.50, and commas are fine.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

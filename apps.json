@@ -400,5 +400,11 @@
     "name": "Lab Test Results Tracker",
     "description": "Type each blood test from your lab report (HbA1c, cholesterol, vitamin D, thyroid, kidney and more) with its normal range. See the latest result, the change since last time and results outside the range in red, and print a summary for your doctor.",
     "color": "#6741d9"
+  },
+  {
+    "slug": "school-fee-and-tuition-payment-tracker-for-parents",
+    "name": "School Fee and Tuition Payment Tracker for Parents",
+    "description": "Add each child's school fee, tuition, van or academy fees (monthly, by term or yearly) and tick them paid with a receipt photo. See what is late, what is due this week, which month each fee is paid up to and the year's total per child.",
+    "color": "#e67700"
   }
 ]

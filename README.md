@@ -538,6 +538,14 @@ Type the results from each blood or lab test report with the normal range printe
 
 <a href="lab-test-results-tracker/"><img src="lab-test-results-tracker/screenshots/phone.png" alt="Lab Test Results Tracker screenshot" width="260"></a>
 
+### <img src="school-fee-and-tuition-payment-tracker-for-parents/favicon.svg" width="36" height="36" align="center"> [School Fee and Tuition Payment Tracker for Parents](https://umar8092.github.io/apps/school-fee-and-tuition-payment-tracker-for-parents/)
+
+Every child's school fee, tuition, van and academy fees in one place, each child in their own box. Tick a fee paid (with a photo of the school's receipt kept on the phone) and see the answers a parent is asked: "Owes 4,000 for October 2026, 11 days late", "Paid up to September 2026", what is due in the next 7 days for the whole family, and the year's fees per child. Monthly, termly (every 3, 4 or 6 months), yearly and one-off fees, part payments and two months at once, fee rises from a month, holiday months with no van fee, and a statement to print or copy for the school.
+
+[**Open the app**](https://umar8092.github.io/apps/school-fee-and-tuition-payment-tracker-for-parents/) &middot; [Details and screenshots](school-fee-and-tuition-payment-tracker-for-parents/)
+
+<a href="school-fee-and-tuition-payment-tracker-for-parents/"><img src="school-fee-and-tuition-payment-tracker-for-parents/screenshots/phone.png" alt="School Fee and Tuition Payment Tracker for Parents screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
