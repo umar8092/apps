@@ -530,6 +530,14 @@ Type the weight, length or height and head size from each check-up and see what 
 
 <a href="baby-and-child-growth-chart/"><img src="baby-and-child-growth-chart/screenshots/phone.png" alt="Baby and Child Growth Chart screenshot" width="260"></a>
 
+### <img src="lab-test-results-tracker/favicon.svg" width="36" height="36" align="center"> [Lab Test Results Tracker](https://umar8092.github.io/apps/lab-test-results-tracker/)
+
+Type the results from each blood or lab test report with the normal range printed next to them, and see the answer a new doctor asks for: "HbA1c 6.4 % on 12 Oct 2026, down 0.7 from 7.1 % on 3 Apr 2026. Above the range (4.0–5.6)." Results outside the range in red and listed first, a chart per test with the normal range shaded, mg/dL and mmol/L (and other lab units) converted, a range kept for each result because labs differ, each family member in their own tab, and a one-page summary to print, email or copy for the doctor. Not medical advice.
+
+[**Open the app**](https://umar8092.github.io/apps/lab-test-results-tracker/) &middot; [Details and screenshots](lab-test-results-tracker/)
+
+<a href="lab-test-results-tracker/"><img src="lab-test-results-tracker/screenshots/phone.png" alt="Lab Test Results Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

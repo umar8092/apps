@@ -394,5 +394,11 @@
     "name": "Baby and Child Growth Chart",
     "description": "Type the weight, length or height and head size from each check-up and see the WHO percentile in plain words (\"7.4 kg at 6 months: the 25th percentile\"), a growth chart with the WHO lines, corrected age for babies born early, and when to ask a doctor. Birth to 5 years, each child in their own box. Private, no sign-up, works offline.",
     "color": "#0c8599"
+  },
+  {
+    "slug": "lab-test-results-tracker",
+    "name": "Lab Test Results Tracker",
+    "description": "Type each blood test from your lab report (HbA1c, cholesterol, vitamin D, thyroid, kidney and more) with its normal range. See the latest result, the change since last time and results outside the range in red, and print a summary for your doctor.",
+    "color": "#6741d9"
   }
 ]

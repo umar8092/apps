@@ -1,0 +1,15 @@
+{
+  "name": "Lab Test Results Tracker",
+  "short_name": "Lab Results",
+  "description": "Keep your blood and lab test results with their normal ranges, see what changed since last time, and print a summary for your doctor.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1a1430",
+  "theme_color": "#5f3dc4",
+  "categories": ["health", "medical", "lifestyle"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

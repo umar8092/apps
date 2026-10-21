@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Test Results Tracker: Blood Tests Over Time, Free</title>
+    <meta name="description" content="Free lab test results tracker. Type each blood test from your lab report (HbA1c, cholesterol, vitamin D, thyroid, kidney and more) with its normal range, and see the latest result, the change since last time and results outside the range in red. Print or email a summary for your doctor. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/lab-test-results-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#6741d9">
+    <meta name="theme-color" content="#5f3dc4">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Lab Test Results Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/lab-test-results-tracker/">
+    <meta property="og:title" content="Lab Test Results Tracker: All Your Blood Tests in One Place">
+    <meta property="og:description" content="Keep every lab report's results with their normal ranges, see what changed since last time, and print a summary for your doctor. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Lab Test Results Tracker","alternateName":["Blood Test Results Tracker","Lab Results Log","HbA1c and Cholesterol Tracker","Blood Work Tracker"],"url":"https://umar8092.github.io/apps/lab-test-results-tracker/","description":"A free tracker for blood and lab test results. Type each result with the unit and normal range from the lab report and see the latest value, the change since the last test and results outside the range, then print or email a summary for the doctor.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"lab test results tracker, blood test tracker, HbA1c tracker, cholesterol log, thyroid TSH tracker, vitamin D results","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does each result keep its own normal range?","acceptedAnswer":{"@type":"Answer","text":"Different labs use different ranges and units. The app keeps the range printed on each report next to that result, so a result is marked in or out of range by its own lab's range."}},{"@type":"Question","name":"Can I mix mg/dL and mmol/L?","acceptedAnswer":{"@type":"Answer","text":"Yes, for the tests in the list. Type each result in the unit on its report; the app converts it to the unit you choose to show, for the change and the chart."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. The results stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Lab Test Results Tracker</h1>
+        <p class="sub">Type the results from each blood or lab test report. See what changed since last time and what is outside the normal range, and print a summary for your doctor.</p>
+    </header>
+
+    <nav class="people" id="people" aria-label="Whose results" hidden></nav>
+
+    <div class="col-main">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add results from a report</h2>
+            <div class="two">
+                <div class="field">
+                    <label for="date">Date of the test</label>
+                    <input id="date" type="date" aria-describedby="date-err">
+                </div>
+                <div class="field" id="lab-box" hidden>
+                    <label for="lab">Lab <span class="lt">(optional)</span></label>
+                    <input id="lab" type="text" maxlength="60" autocomplete="off" placeholder="e.g. City Lab">
+                </div>
+            </div>
+            <p class="err" id="date-err" role="alert"></p>
+            <button type="button" class="link" id="lab-open">+ Add lab name (optional)</button>
+
+            <p class="hint top" id="rows-hint">Type each result next to its test. Leave a box empty if that test is not on this report.</p>
+            <div id="rows"></div>
+            <div class="empty-tests" id="no-tests">
+                <p class="big-q">Which tests are on your report?</p>
+                <p class="hint">Tap a test to add it, or choose from the full list below.</p>
+            </div>
+
+            <div class="addtest" id="addtest">
+                <h3 id="addtest-h">Add a test to your list</h3>
+                <div class="chips" id="chips" aria-label="Common tests"></div>
+                <label for="pick">All tests</label>
+                <select id="pick"></select>
+                <div id="custom-box" hidden>
+                    <label for="c-name">Test name <span class="lt">(as on the report)</span></label>
+                    <input id="c-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Calcium" aria-describedby="c-name-err">
+                    <p class="err" id="c-name-err" role="alert"></p>
+                    <div class="two">
+                        <div class="field">
+                            <label for="c-unit">Unit</label>
+                            <input id="c-unit" type="text" maxlength="24" autocomplete="off" placeholder="e.g. mg/dL">
+                        </div>
+                        <div class="field">
+                            <label for="c-range">Normal range</label>
+                            <input id="c-range" type="text" maxlength="40" autocomplete="off" placeholder="e.g. 8.5-10.5" aria-describedby="c-range-err">
+                        </div>
+                    </div>
+                    <p class="err" id="c-range-err" role="alert"></p>
+                </div>
+                <button type="button" class="secondary" id="pick-add">Add this test</button>
+                <div class="msg" id="test-msg" role="status" aria-live="polite"></div>
+            </div>
+
+            <button type="button" class="primary" id="save">Save results</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Person and settings</h2>
+            <label for="name">Name <span class="lt">(shown on the printout, optional)</span></label>
+            <input id="name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Sara Khan">
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="person-add">+ Add another person</button>
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="person-remove" hidden>Remove this person</button>
+            <button type="button" class="danger" id="wipe">Delete all results</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h">Latest results</h2>
+            <div id="sum-empty" class="empty">
+                <p class="big muted">No results yet</p>
+                <p class="meta">Add the tests on your report, type the results and tap "Save results". Each test's latest result and what changed will show here.</p>
+            </div>
+            <div id="sum-body" hidden>
+                <p class="headline" id="headline"></p>
+                <ul class="latest" id="latest"></ul>
+            </div>
+        </section>
+
+        <section class="card share" id="share" aria-labelledby="share-h">
+            <h2 id="share-h">Share with your doctor</h2>
+            <p class="hint top" id="share-hint">The latest result of each test, the one before it, and every result.</p>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="print">Print or save as PDF</button>
+                <a class="secondary" id="email" href="mailto:">Email</a>
+                <button type="button" class="secondary" id="copy">Copy as text</button>
+                <button type="button" class="secondary" id="csv">Download spreadsheet</button>
+            </div>
+            <div class="msg" id="share-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="card list" id="list" aria-labelledby="list-h">
+        <h2 id="list-h">Results by test</h2>
+        <p class="hint top" id="list-hint">Each test has its own box with a chart and every result, newest first.</p>
+        <div id="tests"></div>
+        <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Why does each result keep its own normal range?</summary><p>Labs use different machines, so their normal ranges differ a little, and some print mg/dL while others print mmol/L. Each result keeps the range printed next to it on its own report, and is marked <b>Above the range</b>, <b>Below the range</b> or <b>In the range</b> by that range. The range is filled in from the last report (or a typical adult range) and you can change it with <b>Change range</b> on that row.</p></details>
+        <details><summary>How do I type "&lt;5" or a range like "70-99"?</summary><p>Type results as printed: <b>6.4</b>, <b>6,4</b>, <b>&lt;5</b> or <b>&gt;90</b>. Ranges can be <b>70-99</b>, <b>4.0 to 5.6</b>, <b>&lt;200</b> (under 200), <b>&gt;40</b> (over 40) or <b>&gt;=60</b> (60 or more). In a range like 70-99 both 70 and 99 count as normal; with &lt;200 a result of 200 counts as above the range.</p></details>
+        <details><summary>Can I mix mg/dL and mmol/L?</summary><p>Yes, for tests chosen from the list. Pick the unit on each row to match the report. The test's box shows every result in one unit (change it with <b>Edit test</b>), so the change and the chart compare like with like. Conversions used: cholesterol 1 mmol/L = 38.67 mg/dL, triglycerides 88.57, glucose 18, HbA1c % = mmol/mol &divide; 10.929 + 2.15, vitamin D 1 ng/mL = 2.496 nmol/L, creatinine 1 mg/dL = 88.4 &micro;mol/L.</p></details>
+        <details><summary>Where do the typical ranges come from?</summary><p>They are common adult ranges printed by many labs (for example HbA1c 4.0-5.6 %, fasting blood sugar 70-99 mg/dL, total cholesterol under 200 mg/dL, vitamin D 30-100 ng/mL, TSH 0.4-4.0 mIU/L). Your lab's range, your age, sex, pregnancy and medicines can change what is normal for you, so type the range on your own report and ask your doctor what your results mean.</p></details>
+        <details><summary>Can I keep results for my family too?</summary><p>Yes. Tap <b>+ Add another person</b> in Person and settings. Each person has their own tests and results. Tap a name at the top to switch.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>The results stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+        <details><summary>Is this medical advice?</summary><p>No. It is a record to help you and your doctor see your results over time. A result outside the range is not always a problem, and a result inside it is not always fine for you. Ask your doctor.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/lab-test-results-tracker">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Lab Test Results Tracker", "sections": [
+ {"h": "First time: choose your tests", "steps": ["Under \"Add a test to your list\", tap a common test such as HbA1c or Total cholesterol, or pick one from \"All tests\" and tap \"Add this test\".", "For a test that is not in the list, choose \"Other test (type its name)\", then type the Test name, Unit and Normal range as printed on your report, and tap \"Add this test\".", "Each test you add gets its own row in the form and its own box under \"Results by test\"."]},
+ {"h": "Add results from a report", "steps": ["Set \"Date of the test\" to the date on the report (it starts on today). \"+ Add lab name (optional)\" keeps the lab's name with the results.", "Type each result in the box next to its test, as printed: 6.4, 6,4, <5 or >90. Leave a box empty if that test was not done this time.", "If the report uses another unit (for example mmol/L instead of mg/dL), pick it in the unit list on that row.", "Each row shows the normal range it will use. Tap \"Change range\" to type the range printed on this report, for example 70-99, <200 or >40.", "Tap \"Save results\" (or press Enter). The message says each result and whether it is in the range. Tap \"Undo\" if it was a mistake."]},
+ {"h": "Read your results", "steps": ["\"Latest results\" lists every test with its newest result, the date, and whether it is above, below or in the range. Results outside the range are in red and listed first in the line at the top.", "Each test's box under \"Results by test\" says the latest result and how it changed since the test before, for example \"down 0.7 from 7.1 % on 3 Apr 2026\".", "The chart shows every result over time, with the normal range as a shaded band. Red dots are outside the range.", "\"Show all results\" opens the full list of that test when it has many."]},
+ {"h": "Fix, change or delete", "steps": ["Tap \"Edit\" on a result to change its date, value, unit, range, lab or note, then \"Save\". \"Cancel\" or Escape leaves it as it was.", "Tap \"Delete\" to remove one result. \"Undo\" brings it back.", "\"Edit test\" in a test's box renames it, chooses the unit its results are shown in, or removes the test with all its results (with Undo)."]},
+ {"h": "Share with your doctor", "steps": ["\"Print or save as PDF\" prints a summary of the latest results and a table of every result.", "\"Email\" opens your mail app with the summary; you do not need to type an address first.", "\"Copy as text\" copies the same text to paste into a message.", "\"Download spreadsheet\" saves a CSV file of every result for Excel, Numbers or Google Sheets."]},
+ {"h": "People and settings", "steps": ["\"Name\" is printed on the report.", "\"+ Add another person\" gives a family member their own tests and results. Tap a name at the top to switch. \"Remove\" with their name removes that person, with Undo.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another device, with Undo.", "\"Delete all results\" empties this person's tests and results, with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["In a range like 70-99 both ends count as normal. With <200, a result of 200 is above the range.", "The typical ranges are a starting point. Always type the range printed on your own report.", "Everything stays on this device and works offline. Your data is never sent anywhere.", "This is not medical advice. Ask your doctor what your results mean for you."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
