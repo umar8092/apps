@@ -563,6 +563,14 @@ For a family with a maid, cook, driver or nanny paid by the month. Tap the days 
 
 <a href="household-help-attendance-and-salary-tracker/"><img src="household-help-attendance-and-salary-tracker/screenshots/phone.png" alt="Household Help Attendance and Salary Tracker screenshot" width="260"></a>
 
+### <img src="intermittent-fasting-timer-with-history/favicon.svg" width="36" height="36" align="center"> [Intermittent Fasting Timer with History](https://umar8092.github.io/apps/intermittent-fasting-timer-with-history/)
+
+For anyone doing 16:8, 18:6, 20:4 or OMAD (one meal a day) fasting. Tap Start fast when you finish your last meal (or type when you finished eating) and see "Fasting 14 h 30 min. Eat at 12:00 today, 1 h 30 min left" on a ring that fills up. End fast saves it with its length and whether the goal was met, then shows your eating window ("Start your next fast by 20:10"). The last 7 days show fasts, goals met, average, longest and streak. Midnight crossings, forgotten starts and ends, edit, delete and undo, backup and CSV. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/intermittent-fasting-timer-with-history/) &middot; [Details and screenshots](intermittent-fasting-timer-with-history/)
+
+<a href="intermittent-fasting-timer-with-history/"><img src="intermittent-fasting-timer-with-history/screenshots/phone.png" alt="Intermittent Fasting Timer with History screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

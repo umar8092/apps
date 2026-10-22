@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intermittent Fasting Timer with History: 16:8, 18:6 and OMAD Fast Tracker</title>
+    <meta name="description" content="Free intermittent fasting timer with history for 16:8, 14:10, 18:6, 20:4, OMAD or your own goal. Tap Start fast after your last meal and see how long you have fasted, when you can eat and how long is left. Every fast is saved with its length, the weekly average, goals met, streak and longest fast. Works across midnight, edit and undo, no sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/intermittent-fasting-timer-with-history/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#d99e0b">
+    <meta name="theme-color" content="#b07d00">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Intermittent Fasting Timer with History">
+    <meta property="og:url" content="https://umar8092.github.io/apps/intermittent-fasting-timer-with-history/">
+    <meta property="og:title" content="Intermittent Fasting Timer with History: How Long Have I Fasted, and When Can I Eat?">
+    <meta property="og:description" content="Start a 16:8, 18:6 or OMAD fast with one tap, see when you can eat, and keep a history of every fast with your weekly average and streak. Free, private, no sign-up, works offline.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Intermittent Fasting Timer with History","alternateName":["Fasting Timer","16:8 Fasting Tracker","Intermittent Fasting Tracker","OMAD Timer","Fast Tracker"],"url":"https://umar8092.github.io/apps/intermittent-fasting-timer-with-history/","description":"A free intermittent fasting timer that shows how long you have fasted and when you can eat, with a history of every fast, the weekly average, goals met, streak and longest fast.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"intermittent fasting timer, 16:8 fasting tracker, fasting app, OMAD, 18:6, fasting history","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does 16:8 mean?","acceptedAnswer":{"@type":"Answer","text":"16 hours without food, then an 8-hour window for eating. If you finish dinner at 20:00, you can eat again at 12:00 the next day, and your next fast starts by 20:00."}},{"@type":"Question","name":"I forgot to tap Start fast. Can I set the time I finished eating?","acceptedAnswer":{"@type":"Answer","text":"Yes. Tap 'I finished eating earlier' and type the date and time of your last meal. If you forgot to end a fast, tap 'I ate earlier' to set when it really ended, or edit it in Your fasts."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your fasts stay in this browser on this device. There is no account, your data is never sent anywhere, and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Intermittent Fasting Timer with History</h1>
+        <p class="sub">For 16:8, 18:6 or OMAD fasting: see how long you have fasted, when you can eat, and every fast you have done.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. The timer works, but your fasts will be lost when you close it.</p>
+
+    <div class="col-main">
+        <section class="card timer" id="timer" data-mode="idle" aria-labelledby="timer-h">
+            <h2 id="timer-h" class="state" aria-live="polite">Not fasting</h2>
+            <div class="ring-wrap">
+                <svg class="ring" viewBox="0 0 200 200" aria-hidden="true">
+                    <circle class="ring-bg" cx="100" cy="100" r="88"/>
+                    <circle class="ring-fg" id="ring-fg" cx="100" cy="100" r="88" pathLength="1000" stroke-dasharray="0 1000"/>
+                </svg>
+                <div class="ring-text">
+                    <div class="time" id="time" role="timer" aria-live="off">0:00:00</div>
+                    <div class="time-sub" id="time-sub">fasted so far</div>
+                </div>
+            </div>
+            <p class="big-line" id="big-line"></p>
+            <p class="ends" id="ends"></p>
+            <button type="button" class="primary big" id="go">Start fast now</button>
+            <div class="links" id="links">
+                <button type="button" class="link" id="l-earlier">I finished eating earlier&hellip;</button>
+                <button type="button" class="link" id="l-start" hidden>Change start time</button>
+                <button type="button" class="link" id="l-ended" hidden>I ate earlier (set end time)&hellip;</button>
+                <button type="button" class="link danger-link" id="l-cancel" hidden>Cancel this fast</button>
+            </div>
+            <div class="sub-form" id="t-form" hidden>
+                <p class="form-h" id="t-form-h">When did you finish eating?</p>
+                <div class="pair">
+                    <div><label for="t-date">Date</label><input id="t-date" type="date"></div>
+                    <div><label for="t-time">Time</label><input id="t-time" type="time"></div>
+                </div>
+                <p class="err" id="t-err" role="alert"></p>
+                <div class="row-btns two">
+                    <button type="button" class="primary" id="t-save">Start fast from this time</button>
+                    <button type="button" class="secondary" id="t-cancel">Cancel</button>
+                </div>
+            </div>
+            <div class="msg" id="timer-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card plan" id="plan" aria-labelledby="plan-h">
+            <h2 id="plan-h">Your fasting plan</h2>
+            <p class="hint top">Hours without food : hours to eat. The plan is your goal for each fast.</p>
+            <div class="preset-grid" id="presets" role="group" aria-label="Fasting plan"></div>
+            <div class="sub-form" id="custom" hidden>
+                <p class="form-h">Your own goal</p>
+                <div class="pair">
+                    <div><label for="c-h">Hours</label><input id="c-h" type="text" inputmode="decimal" maxlength="6" placeholder="e.g. 36" autocomplete="off"></div>
+                    <div><label for="c-m">Minutes</label><input id="c-m" type="text" inputmode="numeric" maxlength="2" placeholder="0" autocomplete="off"></div>
+                </div>
+                <p class="hint">From 1 to 168 hours (7 days).</p>
+                <p class="err" id="c-err" role="alert"></p>
+                <button type="button" class="primary" id="c-save">Use this goal</button>
+            </div>
+            <p class="plan-now" id="plan-now"></p>
+            <div class="msg" id="plan-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card week" id="week" aria-labelledby="week-h">
+            <h2 id="week-h">Last 7 days</h2>
+            <div class="stats" id="stats"></div>
+            <div class="bars" id="bars" role="list" aria-label="Longest fast that ended each day"></div>
+            <p class="hint legend"><span class="lg"><span class="key met"></span> Goal met</span><span class="lg"><span class="key short"></span> Short of the goal</span><span class="lg"><span class="key line"></span> Goal</span></p>
+            <p class="hint">Each bar is the longest fast that ended that day.</p>
+            <div class="row-btns two">
+                <button type="button" class="secondary" id="copy">Copy summary</button>
+                <a class="secondary" id="email" href="mailto:">Email summary</a>
+            </div>
+            <div class="msg" id="week-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card history" id="history" aria-labelledby="hist-h">
+            <h2 id="hist-h">Your fasts</h2>
+            <p class="hint top" id="hist-empty">No fasts yet. When you end a fast it is saved here with its length and whether you met your goal.</p>
+            <ul class="box-list" id="list"></ul>
+            <button type="button" class="secondary" id="more" hidden>Show all fasts</button>
+            <div class="msg" id="hist-msg" role="status" aria-live="polite"></div>
+            <button type="button" class="link" id="add-open">+ Add a fast I did not time</button>
+            <div class="sub-form" id="add-form" hidden></div>
+        </section>
+    </div>
+
+    <section class="card settings" id="settings" aria-labelledby="set-h">
+        <h2 id="set-h">Settings and backup</h2>
+        <div class="set-grid">
+            <div>
+                <label for="s-clock">Clock</label>
+                <select id="s-clock">
+                    <option value="24">24-hour (20:00)</option>
+                    <option value="12">12-hour (8:00 pm)</option>
+                </select>
+            </div>
+            <div class="checks">
+                <label class="check"><input type="checkbox" id="s-notify"> Show a notification when I can eat (while this page is open)</label>
+                <label class="check"><input type="checkbox" id="s-vibrate"> Beep and vibrate when I can eat</label>
+            </div>
+        </div>
+        <div class="tool-grid">
+            <button type="button" class="secondary" id="backup">Save a backup file</button>
+            <button type="button" class="secondary" id="restore">Restore a backup</button>
+            <button type="button" class="secondary" id="csv">Download fasts (CSV)</button>
+        </div>
+        <input type="file" id="restore-file" accept=".json,application/json" hidden>
+        <button type="button" class="danger" id="wipe">Delete all fasts</button>
+        <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="faq" aria-labelledby="faq-h">
+        <h2 id="faq-h">Questions</h2>
+        <details><summary>What do 16:8, 18:6 and OMAD mean?</summary><p>The first number is the hours without food, the second the hours you eat in. With 16:8, if you finish dinner at 20:00 you can eat again at 12:00 the next day, and your next fast starts by 20:00. OMAD (one meal a day) is 23:1. Pick <b>Custom</b> for any goal from 1 to 168 hours, for example a 36-hour fast.</p></details>
+        <details><summary>My phone locked or I closed the page. Is the fast lost?</summary><p>No. The app saves the time your fast started, not a running counter, so when you come back it shows the right time, even days later.</p></details>
+        <details><summary>I forgot to start or end the fast.</summary><p>Tap <b>I finished eating earlier</b> to start a fast from the time of your last meal. If you forgot to end it, tap <b>I ate earlier (set end time)</b>, or change the times later with <b>Edit</b> in Your fasts.</p></details>
+        <details><summary>I ended a fast early. Does it count?</summary><p>Yes, it is saved with its real length and marked as short of the goal, for example "12 h, 4 h short". Only fasts that reach the goal count towards your streak.</p></details>
+        <details><summary>How is the streak counted?</summary><p>Days in a row on which a fast that met its goal ended. If today has none yet, the count starts from yesterday, so your streak does not drop to 0 in the morning.</p></details>
+        <details><summary>What if I travel to another time zone?</summary><p>The length of a fast is real time passed, so it stays right across time zones and clock changes. Times are shown in your phone's current time zone.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your fasts stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Use <b>Save a backup file</b> to move to another device.</p></details>
+        <details><summary>Is fasting safe for me?</summary><p>This is a timer and a log, not medical advice. If you are pregnant, diabetic, take medicine, or have had an eating disorder, ask your doctor before fasting.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/intermittent-fasting-timer-with-history">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Intermittent Fasting Timer", "sections": [
+ {"h": "Start and end a fast", "steps": ["Pick your plan under \"Your fasting plan\", for example 16:8. It is the goal for each fast.", "When you finish your last meal, press \"Start fast now\". If you finished eating a while ago, tap \"I finished eating earlier\", type the date and time, and press \"Start fast from this time\".", "The ring fills up as you fast. The big clock shows how long you have fasted, and the line under it says when you can eat and how long is left, for example \"Eat at 12:00 today, 1 h 30 min left\".", "When the ring is full it says \"Goal reached\" and counts the extra time.", "Press \"End fast\" when you eat. The fast is saved in \"Your fasts\" with its length. Press \"Undo\" if you tapped it by mistake.", "If you ate earlier than you tapped, use \"I ate earlier (set end time)\". \"Change start time\" fixes the start, and \"Cancel this fast\" throws it away (with \"Undo\")."]},
+ {"h": "After a fast", "steps": ["The timer shows your eating window, for example \"Start your next fast by 20:10 today\" for 16:8, and how long you have been eating.", "Fasts of 24 hours or more have no eating window; the timer just shows how long ago you ate."]},
+ {"h": "Your fasting plan", "steps": ["Tap 12:12, 14:10, 16:8, 18:6, 20:4 or OMAD 23:1. The first number is hours without food, the second hours to eat.", "\"Custom\" takes any goal from 1 to 168 hours, with minutes if you want, for example 36 hours.", "Changing the plan during a fast changes that fast's goal too."]},
+ {"h": "Last 7 days and Your fasts", "steps": ["\"Last 7 days\" shows how many fasts you did, how many met the goal, the average and longest fast, and your streak (days in a row with a fast that met its goal).", "Each bar is the longest fast that ended that day. Full colour means the goal was met, pale means short.", "\"Copy summary\" copies a plain text report; \"Email summary\" opens your email app with it, and you choose who to send it to.", "In \"Your fasts\" each fast sits in its own box with its start, end, length and goal. \"Edit\" changes the times, the goal or a note, and \"Delete\" removes it, with \"Undo\".", "\"+ Add a fast I did not time\" adds a past fast. The app stops you if it overlaps another fast."]},
+ {"h": "Settings and backup", "steps": ["\"Clock\" switches between 24-hour and 12-hour times.", "Tick \"Show a notification when I can eat\" to get a notification when the goal is reached while the page is open. \"Beep and vibrate\" plays a short beep (and vibrates phones) at that moment.", "\"Save a backup file\" downloads all your fasts; \"Restore a backup\" loads them on this or another device. \"Download fasts (CSV)\" opens in a spreadsheet.", "\"Delete all fasts\" clears everything, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The app saves when the fast started, so it shows the right time after the phone locks, the page closes or the phone restarts.", "A fast that crosses midnight or a clock change is measured in real time passed.", "Lengths are counted in whole minutes, so 15 h 59 min does not meet a 16 h goal.", "Everything stays on this device and works offline. This is not medical advice."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
