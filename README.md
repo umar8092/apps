@@ -579,6 +579,14 @@ For a family hosting a wedding, aqiqah or other event. Write down the cash envel
 
 <a href="wedding-gift-register-and-guest-list/"><img src="wedding-gift-register-and-guest-list/screenshots/phone.png" alt="Wedding Gift Register and Guest List screenshot" width="260"></a>
 
+### <img src="daily-cash-book-for-small-shops/favicon.svg" width="36" height="36" align="center"> [Daily Cash Book for Small Shops](https://umar8092.github.io/apps/daily-cash-book-for-small-shops/)
+
+For a small shop, tuck shop or home business. Write down the day's cash sales, stock bought, expenses and money the owner takes; at closing count the drawer and see "Cash should be 18,450. You counted 18,200: 250 short". Opening cash carries from yesterday, card and mobile sales kept apart, notes and coins counter, week and month totals by expense for the accountant. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/daily-cash-book-for-small-shops/) &middot; [Details and screenshots](daily-cash-book-for-small-shops/)
+
+<a href="daily-cash-book-for-small-shops/"><img src="daily-cash-book-for-small-shops/screenshots/phone.png" alt="Daily Cash Book for Small Shops screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

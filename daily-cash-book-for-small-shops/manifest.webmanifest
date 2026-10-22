@@ -1,0 +1,15 @@
+{
+  "name": "Daily Cash Book for Small Shops",
+  "short_name": "Cash Book",
+  "description": "Write down the day's cash sales and money taken out, count the drawer at closing and see if cash is short or over.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f2a17",
+  "theme_color": "#1f6e31",
+  "categories": ["business", "finance", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

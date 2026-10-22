@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Cash Book for Small Shops: closing cash count, short or over</title>
+    <meta name="description" content="Free daily cash book (rozanamcha, galla hisaab) for a small shop: write down cash sales, stock bought, expenses and money the owner takes, count the drawer at closing and see if cash is short or over. Week and month totals for the accountant. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/daily-cash-book-for-small-shops/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#2b8a3e">
+    <meta name="theme-color" content="#1f6e31">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Daily Cash Book for Small Shops">
+    <meta property="og:url" content="https://umar8092.github.io/apps/daily-cash-book-for-small-shops/">
+    <meta property="og:title" content="Daily Cash Book for Small Shops: is the cash in the drawer right?">
+    <meta property="og:description" content="Write down the day's cash sales and the money taken out, count the drawer at closing and see if cash is short. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Daily Cash Book for Small Shops","alternateName":["Rozanamcha","Galla Hisaab","Shop Cash Register Book","Cash Drawer Count","Daily Cash Book"],"url":"https://umar8092.github.io/apps/daily-cash-book-for-small-shops/","description":"A free daily cash book for small shops: opening cash, cash sales, stock bought, expenses and owner withdrawals, the closing count with short or over, and week and month totals.","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"daily cash book, rozanamcha, shop cash book, cash drawer count, cash short over, closing cash, galla hisaab","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I know how much cash should be in my shop's drawer?","acceptedAnswer":{"@type":"Answer","text":"Start with the cash in the drawer when you opened, add the cash sales and other cash put in, and take away the stock bought, the expenses paid and the money the owner took out. The app does this for you and says, for example, Cash should be 18,450."}},{"@type":"Question","name":"How do I find out if cash is short?","acceptedAnswer":{"@type":"Answer","text":"At closing, count the drawer and type the total. The app compares it with what should be there, for example You counted 18,200: 250 short."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your entries stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Daily Cash Book for Small Shops</h1>
+        <p class="sub">Write down the day's cash sales and the money taken out of the drawer, count the cash at closing and see if anything is short. Totals for the week and month.</p>
+    </header>
+
+    <section class="card daybar" id="daybar" aria-label="Which day">
+        <div class="day-nav">
+            <button type="button" class="nav-btn" id="prev-day" aria-label="Previous day">&lsaquo;</button>
+            <div class="day-mid">
+                <p class="day-title" id="day-title">Today</p>
+                <button type="button" class="link inline" id="date-open">Change date</button>
+            </div>
+            <button type="button" class="nav-btn" id="next-day" aria-label="Next day">&rsaquo;</button>
+        </div>
+        <div class="field" id="date-box" hidden>
+            <label for="date">Show the day</label>
+            <input id="date" type="date" aria-describedby="date-err">
+            <p class="err" id="date-err" role="alert"></p>
+        </div>
+        <button type="button" class="link center" id="go-today" hidden>Back to today</button>
+        <p class="now-line" id="now-line"></p>
+        <p class="warn" id="store-warn" hidden>This browser is not saving your entries (private mode or storage blocked). Use "Save a backup file" before you close the page.</p>
+    </section>
+
+    <div class="col-a" id="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add an entry</h2>
+            <fieldset class="kinds">
+                <legend>What happened?</legend>
+                <label class="kind in"><input type="radio" name="kind" value="sale" checked><span>Cash sale</span></label>
+                <label class="kind out"><input type="radio" name="kind" value="stock"><span>Bought stock</span></label>
+                <label class="kind card-k"><input type="radio" name="kind" value="card"><span>Card or mobile sale</span></label>
+                <label class="kind out"><input type="radio" name="kind" value="exp"><span>Expense</span></label>
+                <label class="kind in"><input type="radio" name="kind" value="in"><span>Other cash in</span></label>
+                <label class="kind out"><input type="radio" name="kind" value="owner"><span>Owner took</span></label>
+            </fieldset>
+            <p class="hint kind-hint" id="kind-hint"></p>
+
+            <div class="field" id="cat-box" hidden>
+                <label for="cat">What was it for?</label>
+                <input id="cat" type="text" maxlength="40" autocomplete="off" list="cat-list" placeholder="e.g. Electricity" aria-describedby="cat-err">
+                <datalist id="cat-list"></datalist>
+                <div class="chips" id="cat-chips" role="group" aria-label="Common expenses"></div>
+                <p class="err" id="cat-err" role="alert"></p>
+            </div>
+
+            <label for="amount">Amount</label>
+            <div class="amount-row">
+                <span class="cur-tag" id="cur-tag" hidden></span>
+                <input id="amount" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 2500" aria-describedby="amount-err">
+            </div>
+            <p class="err" id="amount-err" role="alert"></p>
+
+            <button type="button" class="link" id="note-open">+ Add a note (optional)</button>
+            <div class="field" id="note-box" hidden>
+                <label for="note">Note</label>
+                <input id="note" type="text" maxlength="120" autocomplete="off" placeholder="e.g. Ali Traders">
+            </div>
+
+            <p class="preview" id="preview" aria-live="polite"></p>
+            <button type="button" class="primary" id="save">Add entry</button>
+            <p class="hint">The choice stays selected, so you can type the next amount and press Enter.</p>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card entries" id="entries" aria-labelledby="entries-h">
+            <h2 id="entries-h">Entries</h2>
+            <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+            <p class="empty" id="empty">Nothing written for this day yet. Each entry you add gets its own box here, with Edit and Delete.</p>
+            <div class="items" id="items"></div>
+            <button type="button" class="link danger-link" id="clear-day" hidden>Clear this day</button>
+        </section>
+    </div>
+
+    <div class="col-b" id="col-b">
+        <section class="card close" id="close" aria-labelledby="close-h">
+            <h2 id="close-h">Cash in the drawer</h2>
+            <div class="sum">
+                <div class="sum-row"><span>Opening cash</span><b id="s-open"></b></div>
+                <p class="open-from" id="open-from"></p>
+                <button type="button" class="link small-link" id="open-edit">Change opening cash</button>
+                <div class="panel" id="open-box" hidden>
+                    <label for="open-in" id="open-label">Cash in the drawer when you opened</label>
+                    <input id="open-in" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 2000" aria-describedby="open-err">
+                    <p class="err" id="open-err" role="alert"></p>
+                    <div class="row-btns">
+                        <button type="button" class="primary small" id="open-save">Save opening cash</button>
+                        <button type="button" class="secondary small" id="open-cancel">Cancel</button>
+                    </div>
+                    <button type="button" class="link" id="open-carry" hidden></button>
+                </div>
+                <div class="sum-row plus" id="r-sale"><span>+ Cash sales</span><b id="s-sale"></b></div>
+                <div class="sum-row plus" id="r-in"><span>+ Other cash in</span><b id="s-in"></b></div>
+                <div class="sum-row minus" id="r-stock"><span>− Bought stock</span><b id="s-stock"></b></div>
+                <div class="sum-row minus" id="r-exp"><span>− Expenses</span><b id="s-exp"></b></div>
+                <div class="sum-row minus" id="r-owner"><span>− Owner took</span><b id="s-owner"></b></div>
+                <div class="sum-row total"><span>Cash should be</span><b id="s-expected"></b></div>
+                <p class="warn" id="neg-warn" hidden>More cash went out than came in. Check that every cash sale and the opening cash are written down.</p>
+            </div>
+
+            <label for="count">Cash you counted in the drawer</label>
+            <div class="count-row">
+                <span class="cur-tag" id="cur-tag2" hidden></span>
+                <input id="count" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 18200" aria-describedby="count-err">
+                <button type="button" class="primary small" id="count-save">Save count</button>
+            </div>
+            <p class="err" id="count-err" role="alert"></p>
+            <button type="button" class="link" id="notes-open">+ Count by notes and coins (optional)</button>
+            <div class="panel" id="notes-box" hidden>
+                <p class="hint first">Type how many of each note and coin. Empty means none.</p>
+                <div class="notes" id="notes"></div>
+                <p class="notes-total">Notes and coins: <b id="notes-total">0</b></p>
+                <div class="row-btns">
+                    <button type="button" class="primary small" id="notes-use">Use this total</button>
+                    <button type="button" class="secondary small" id="notes-clear">Clear</button>
+                </div>
+            </div>
+
+            <div class="result" id="result" aria-live="polite">
+                <p class="r-main" id="r-main"></p>
+                <p class="r-sub" id="r-sub"></p>
+            </div>
+            <button type="button" class="secondary" id="diff-sales" hidden></button>
+            <button type="button" class="link" id="count-remove" hidden>Remove the count</button>
+
+            <div class="day-sales" id="day-sales"></div>
+            <p class="carry" id="carry"></p>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy-day">Copy this day</button>
+                <button type="button" class="secondary" id="email-day">Email this day</button>
+            </div>
+            <div class="msg" id="close-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card totals" id="totals" aria-labelledby="totals-h">
+            <h2 id="totals-h">Week and month totals</h2>
+            <label for="period">Show</label>
+            <select id="period"></select>
+            <p class="empty" id="t-empty">No entries in these days yet.</p>
+            <div id="t-body">
+                <div class="tiles">
+                    <div class="tile in"><span class="t-label">Sales</span><span class="t-val" id="t-sales"></span><span class="t-sub" id="t-sales-sub"></span></div>
+                    <div class="tile net"><span class="t-label">Sales minus stock and expenses</span><span class="t-val" id="t-net"></span></div>
+                    <div class="tile out"><span class="t-label">Bought stock</span><span class="t-val" id="t-stock"></span></div>
+                    <div class="tile out"><span class="t-label">Expenses</span><span class="t-val" id="t-exp"></span></div>
+                    <div class="tile"><span class="t-label">Owner took</span><span class="t-val" id="t-owner"></span></div>
+                    <div class="tile" id="t-diff-tile"><span class="t-label">Cash short or over</span><span class="t-val" id="t-diff"></span><span class="t-sub" id="t-diff-sub"></span></div>
+                </div>
+                <h3 class="sub-h" id="t-cats-h">Expenses by type</h3>
+                <ul class="cats" id="t-cats"></ul>
+                <h3 class="sub-h">Day by day</h3>
+                <div class="days" id="t-days"></div>
+            </div>
+            <div class="tool-grid t-tools">
+                <button type="button" class="secondary" id="copy-period">Copy totals</button>
+                <button type="button" class="secondary" id="email-period">Email totals</button>
+                <button type="button" class="secondary wide" id="print-period">Print or save as PDF</button>
+            </div>
+            <div class="msg" id="totals-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <button type="button" class="link" id="shop-open">+ Add your shop's name (optional)</button>
+            <div class="field" id="shop-box" hidden>
+                <label for="shop">Shop name</label>
+                <input id="shop" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Asad General Store">
+                <p class="hint">Shown at the top of what you copy, email or print.</p>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>I don't write down every sale. Can I still use it?</summary><p>Yes. Write down only the money taken out (stock, expenses, what you took home) during the day. At closing, count the drawer and tap <b>Save count</b>. If you wrote no cash sales that day, the app offers <b>Add the difference as cash sales</b>: it works out the day's cash sales from your count.</p></details>
+        <details><summary>Where does the opening cash come from?</summary><p>From the day before: the cash you counted at closing, or, if you did not count, what should have been there. The first time, type the cash in the drawer when you opened. If you put in change from home, use <b>Other cash in</b>, or tap <b>Change opening cash</b>.</p></details>
+        <details><summary>I made a mistake yesterday.</summary><p>Tap <b>&lsaquo;</b> to go back to that day and tap <b>Edit</b> on the entry, or change the count. Every day after it is worked out again, so today's opening cash is corrected too.</p></details>
+        <details><summary>Why are card and mobile wallet sales separate?</summary><p>That money goes to the bank or the wallet, not into the drawer. It counts in the day's sales but not in <b>Cash should be</b>.</p></details>
+        <details><summary>The shop was closed one day.</summary><p>Skip it. Days with nothing written are left out, and the next day opens with the last cash you had.</p></details>
+        <details><summary>Is "Sales minus stock and expenses" my profit?</summary><p>Not exactly. It is the money the shop brought in that day after the stock and expenses paid that day. Stock bought today is sold over many days, so look at the month total for a fairer picture. Money the owner took home is not counted as an expense.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your entries stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, and before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/daily-cash-book-for-small-shops">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Daily Cash Book for Small Shops", "sections": [
+ {"h": "During the day", "steps": ["The top shows the day you are writing in. \"‹\" and \"›\" go to the day before and after, \"Change date\" picks any past day and \"Back to today\" returns.", "Under \"What happened?\" choose \"Cash sale\", \"Card or mobile sale\" (money that goes to the bank or wallet, not the drawer), \"Other cash in\" (such as change you brought from home or a customer paying old credit), \"Bought stock\", \"Expense\" or \"Owner took\" (money you take home).", "For an \"Expense\" type or tap what it was for, such as Rent, Electricity or Wages. The totals add up each kind.", "Type the \"Amount\" and tap \"Add entry\" or press Enter. \"+ Add a note (optional)\" adds a note such as the supplier's name.", "Each entry has its own box under \"Entries\" with \"Edit\" and \"Delete\". \"Undo\" in the message takes back the last change, and \"Clear this day\" empties the day."]},
+ {"h": "At closing", "steps": ["\"Cash in the drawer\" shows the opening cash, plus the cash that came in, minus the cash that went out, and \"Cash should be\": the cash that should be in the drawer now.", "Count the drawer and type the total in \"Cash you counted in the drawer\", then tap \"Save count\". The app says \"Matches exactly\", or how much is short (less cash than there should be) or over (more).", "\"+ Count by notes and coins (optional)\" lets you type how many of each note and coin and adds them up. \"Use this total\" puts the total in the count.", "If you did not write each cash sale, tap \"Add the difference as cash sales\" after saving the count: the extra cash becomes the day's cash sales.", "The next day opens with the cash you counted. If you did not count, it opens with what should have been there. \"Change opening cash\" lets you type a different opening amount for a day.", "\"Copy this day\" and \"Email this day\" share the day's cash, for example with a partner. Email works without typing an address first."]},
+ {"h": "Week and month totals", "steps": ["Under \"Week and month totals\" choose \"This week\", \"Last week\", \"This month\", \"Last month\" or an earlier month.", "You see the sales (cash and card or mobile), the stock bought, the expenses and \"Sales minus stock and expenses\", what the owner took, and the cash short or over on the days you counted.", "\"Expenses by type\" adds up each kind of expense, biggest first. \"Day by day\" lists each day; tap a day to open it.", "\"Copy totals\", \"Email totals\" and \"Print or save as PDF\" give the totals and the day-by-day list, for example for your accountant."]},
+ {"h": "Backup and settings", "steps": ["\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\".", "\"Currency symbol\" adds a symbol such as Rs, ₹ or $ to every amount, or none for plain numbers. It also sets the notes and coins in the counter.", "\"+ Add your shop's name (optional)\" puts the name at the top of what you copy, email or print.", "\"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Only write down money that goes in or out of the drawer, plus card or mobile sales so the sales total is complete.", "Amounts are added exactly, to the cent or paisa. Rupee amounts are grouped the local way, such as 1,25,000.", "Days in the future cannot be filled in. A day with nothing written is skipped.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

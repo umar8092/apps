@@ -430,5 +430,11 @@
     "name": "Wedding Gift Register and Guest List",
     "description": "For a family hosting a wedding, aqiqah or other event. Write down the cash envelopes and gifts (salami, neota, shagun) each family gives, and what you give at theirs. See \"Received 3,45,000 from 112 families\" and, when invited, \"Ahmed Khan gave you 5,000 at Sara's wedding; you gave them 3,000\". Gifts in kind, same names in two cities, and a guest list with headcount. Private, works offline.",
     "color": "#c2304f"
+  },
+  {
+    "slug": "daily-cash-book-for-small-shops",
+    "name": "Daily Cash Book for Small Shops",
+    "description": "For a small shop, tuck shop or home business. Write down the day's cash sales, stock bought, expenses and money the owner takes; at closing count the drawer and see \"Cash should be 18,450. You counted 18,200: 250 short\". Opening cash carries from yesterday, card and mobile sales kept apart, notes and coins counter, week and month totals by expense for the accountant. Private, works offline.",
+    "color": "#2b8a3e"
   }
 ]
