@@ -587,6 +587,14 @@ For a small shop, tuck shop or home business. Write down the day's cash sales, s
 
 <a href="daily-cash-book-for-small-shops/"><img src="daily-cash-book-for-small-shops/screenshots/phone.png" alt="Daily Cash Book for Small Shops screenshot" width="260"></a>
 
+### <img src="shared-house-expenses-for-roommates/favicon.svg" width="36" height="36" align="center"> [Shared House Expenses for Roommates](https://umar8092.github.io/apps/shared-house-expenses-for-roommates/)
+
+For flatmates, roommates and hostel room-mates who share rent, bills and groceries. Add each cost with who paid and who shares it (equally, by shares for the big room, or exact amounts) and see "Omar pays Ali 12,600". Mark as paid, monthly totals by bill, someone away or moving out, no daily limit. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/shared-house-expenses-for-roommates/) &middot; [Details and screenshots](shared-house-expenses-for-roommates/)
+
+<a href="shared-house-expenses-for-roommates/"><img src="shared-house-expenses-for-roommates/screenshots/phone.png" alt="Shared House Expenses for Roommates screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

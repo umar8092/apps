@@ -1,0 +1,15 @@
+{
+  "name": "Shared House Expenses for Roommates",
+  "short_name": "House Expenses",
+  "description": "Add the rent, bills and groceries with who paid and who shares them, and see who owes whom and the fewest payments to settle up.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1d1538",
+  "theme_color": "#5b3cc4",
+  "categories": ["finance", "lifestyle", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

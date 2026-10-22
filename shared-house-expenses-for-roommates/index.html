@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shared House Expenses for Roommates: who owes whom</title>
+    <meta name="description" content="Free shared house expenses tracker for roommates and flatmates: add rent, bills and groceries with who paid and who shares them (equally, by shares or exact amounts) and see who owes whom, such as Sara pays Ali 7,200. No sign-up, no daily limit, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/shared-house-expenses-for-roommates/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#7c5cdb">
+    <meta name="theme-color" content="#5b3cc4">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Shared House Expenses for Roommates">
+    <meta property="og:url" content="https://umar8092.github.io/apps/shared-house-expenses-for-roommates/">
+    <meta property="og:title" content="Shared House Expenses for Roommates: who owes whom this month">
+    <meta property="og:description" content="Add the rent, bills and groceries with who paid and who shares them, and see who pays whom to settle up. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Shared House Expenses for Roommates","alternateName":["Flatmate Expense Splitter","Roommate Bill Splitter","House Share Expenses","Hostel Room Expenses"],"url":"https://umar8092.github.io/apps/shared-house-expenses-for-roommates/","description":"A free tracker for roommates and flatmates who share rent, bills and groceries: who paid, who shares each cost, the running balance and the fewest payments to settle up.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"roommate expenses, flatmate bills, split rent, shared house expenses, who owes whom, splitwise alternative, hostel expenses","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do roommates work out who owes whom?","acceptedAnswer":{"@type":"Answer","text":"Add each shared cost with who paid it and who shares it. For each person the app takes what they paid minus their share, and lists the fewest payments that make everyone even, for example Sara pays Ali 7,200."}},{"@type":"Question","name":"Can the rent be split by room size?","acceptedAnswer":{"@type":"Answer","text":"Yes. Choose By shares and give the big room 2 shares and the others 1, or choose Exact amounts and type each person's part."}},{"@type":"Question","name":"Is there a daily limit?","acceptedAnswer":{"@type":"Answer","text":"No. Add as many expenses as you like. There is no account, and everything stays on your device."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Shared House Expenses for Roommates</h1>
+        <p class="sub">Add the rent, bills and groceries with who paid and who shares them. See who owes whom and the fewest payments to settle up.</p>
+        <p class="warn" id="store-warn" hidden>This browser is not saving your entries (private mode or storage blocked). Use "Save a backup file" before you close the page.</p>
+    </header>
+
+    <div class="col-a" id="col-a">
+        <section class="card people" id="people" aria-labelledby="people-h">
+            <h2 id="people-h">Who shares the house</h2>
+            <p class="empty" id="people-empty">Add everyone who shares the costs, starting with you. Each person gets their own box.</p>
+            <div class="plist" id="plist"></div>
+            <label for="new-name">Flatmate's name</label>
+            <div class="inline-row">
+                <input id="new-name" type="text" maxlength="30" autocomplete="off" placeholder="e.g. Ali" aria-describedby="name-err">
+                <button type="button" class="primary small" id="add-person">Add</button>
+            </div>
+            <p class="err" id="name-err" role="alert"></p>
+            <div class="msg" id="people-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add an expense</h2>
+            <p class="need" id="need-people">Add at least two people under "Who shares the house" first.</p>
+            <div id="add-body">
+                <fieldset class="modes" id="modes">
+                    <legend class="sr">What are you adding?</legend>
+                    <label class="mode"><input type="radio" name="mode" value="exp" checked><span>Something we share</span></label>
+                    <label class="mode"><input type="radio" name="mode" value="pay"><span>Money paid back</span></label>
+                </fieldset>
+
+                <div id="exp-fields">
+                    <label for="what">What was it for?</label>
+                    <input id="what" type="text" maxlength="40" autocomplete="off" list="what-list" placeholder="e.g. Electricity" aria-describedby="what-err">
+                    <datalist id="what-list"></datalist>
+                    <div class="chips" id="chips" role="group" aria-label="Common costs"></div>
+                    <p class="err" id="what-err" role="alert"></p>
+                </div>
+                <div id="pay-fields" hidden>
+                    <p class="hint first">For when one flatmate pays another back, in cash or by transfer.</p>
+                    <label for="from">Who paid the money?</label>
+                    <select id="from" aria-describedby="from-err"></select>
+                    <p class="err" id="from-err" role="alert"></p>
+                    <label for="to">Who got it?</label>
+                    <select id="to" aria-describedby="to-err"></select>
+                    <p class="err" id="to-err" role="alert"></p>
+                </div>
+
+                <label for="amount">Amount</label>
+                <div class="amount-row">
+                    <span class="cur-tag" id="cur-tag" hidden></span>
+                    <input id="amount" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 8400" aria-describedby="amount-err">
+                </div>
+                <p class="err" id="amount-err" role="alert"></p>
+
+                <div id="exp-more">
+                    <label for="by">Who paid?</label>
+                    <select id="by" aria-describedby="by-err"></select>
+                    <p class="err" id="by-err" role="alert"></p>
+
+                    <fieldset class="splits">
+                        <legend>How to split it</legend>
+                        <label class="split"><input type="radio" name="split" value="equal" checked><span>Equally</span></label>
+                        <label class="split"><input type="radio" name="split" value="shares"><span>By shares</span></label>
+                        <label class="split"><input type="radio" name="split" value="exact"><span>Exact amounts</span></label>
+                    </fieldset>
+                    <p class="hint" id="split-hint"></p>
+
+                    <fieldset class="who">
+                        <legend id="who-legend">Who shares it?</legend>
+                        <div class="sel" id="sel"></div>
+                        <div class="row-btns" id="sel-btns">
+                            <button type="button" class="secondary small" id="sel-all">Tick everyone</button>
+                            <button type="button" class="secondary small" id="sel-none">Untick all</button>
+                        </div>
+                    </fieldset>
+                    <p class="left" id="exact-left" aria-live="polite"></p>
+                    <p class="err" id="sel-err" role="alert"></p>
+                </div>
+
+                <label for="date">Date paid</label>
+                <input id="date" type="date" aria-describedby="date-err">
+                <p class="err" id="date-err" role="alert"></p>
+
+                <p class="preview" id="preview" aria-live="polite"></p>
+                <button type="button" class="primary big" id="save">Add expense</button>
+                <button type="button" class="secondary" id="cancel-edit" hidden>Cancel editing</button>
+            </div>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b" id="col-b">
+        <section class="card owe" id="owe" aria-labelledby="owe-h">
+            <h2 id="owe-h">Who owes whom</h2>
+            <p class="empty" id="owe-empty">Add people and the first shared cost to see who owes whom.</p>
+            <div id="owe-body">
+                <div class="settled" id="settled" hidden>Everyone is settled up. Nobody owes anything.</div>
+                <h3 class="sub-h" id="tr-h">To settle up</h3>
+                <div class="tlist" id="tlist"></div>
+                <button type="button" class="secondary" id="pay-all" hidden>Mark all as paid</button>
+                <h3 class="sub-h">Balance of each person</h3>
+                <p class="hint first">What each person paid minus their share, from the first entry until today.</p>
+                <div class="blist" id="blist"></div>
+                <div class="tool-grid">
+                    <button type="button" class="secondary" id="copy">Copy summary</button>
+                    <button type="button" class="secondary" id="email">Email summary</button>
+                    <button type="button" class="secondary wide" id="share" hidden>Share (WhatsApp and more)</button>
+                </div>
+            </div>
+            <div class="msg" id="owe-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card list" id="list" aria-labelledby="list-h">
+            <h2 id="list-h">Expenses by month</h2>
+            <label for="month" class="first">Show</label>
+            <select id="month"></select>
+            <p class="empty" id="list-empty">Nothing added for this month yet. Each expense you add gets its own box here, with Edit and Delete.</p>
+            <div id="list-body">
+                <div class="tiles">
+                    <div class="tile"><span class="t-label" id="t-total-l">Spent together</span><span class="t-val" id="t-total"></span><span class="t-sub" id="t-count"></span></div>
+                    <div class="tile"><span class="t-label">Biggest cost</span><span class="t-val" id="t-top"></span><span class="t-sub" id="t-top-sub"></span></div>
+                </div>
+                <h3 class="sub-h">By what it was for</h3>
+                <ul class="cats" id="cats"></ul>
+                <h3 class="sub-h">Each person</h3>
+                <div class="pm" id="pm"></div>
+                <h3 class="sub-h">Entries</h3>
+                <div class="items" id="items"></div>
+            </div>
+            <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <label for="cur" class="first">Currency symbol</label>
+            <select id="cur"></select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Start over (delete everything)</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does it work out who owes whom?</summary><p>For each person it adds up what they paid and takes away their share of every cost they are ticked for. More than 0 means the others owe them money ("gets back"), less than 0 means they owe. <b>To settle up</b> lists the fewest payments that bring everyone to 0.</p></details>
+        <details><summary>The big room pays more rent. How do I split that?</summary><p>Choose <b>By shares</b> and give the big room 2 shares and the others 1 (or 1.5, and so on). Rent of 60,000 between shares 2, 1, 1 and 1 is 24,000 for the big room and 12,000 for each of the others. Or choose <b>Exact amounts</b> and type each person's part.</p></details>
+        <details><summary>Someone was away, or does not eat what was bought.</summary><p>Untick them under <b>Who shares it?</b> for that expense. They pay nothing for it.</p></details>
+        <details><summary>Someone joined or left the flat.</summary><p>Add a new person at any time; they are only in the costs you tick them for. When someone leaves, tap <b>Moved out</b> on their box: past costs stay as they were, and they are left unticked on new ones. Their balance stays until it is paid.</p></details>
+        <details><summary>We settled up. Do I delete everything?</summary><p>No. Tap <b>Mark as paid</b> on each payment (or <b>Mark all as paid</b>) once the money has changed hands. Everyone goes back to 0 and the history stays for later months.</p></details>
+        <details><summary>A shop gave us a refund.</summary><p>Tap <b>Edit</b> on that expense and lower the amount by the refund (if it went back to the person who paid), then <b>Save changes</b>. Everyone's share and the balances are worked out again.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your entries stay in this browser on this device: no account, no daily limit, and your data is never sent anywhere. Once loaded, the app works with no connection. To share the same list with the others, one person keeps it and shares the summary, or use <b>Save a backup file</b> and <b>Restore a backup</b> on another phone.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/shared-house-expenses-for-roommates">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Shared House Expenses for Roommates", "sections": [
+ {"h": "1. Add the people", "steps": ["Under \"Who shares the house\" type each flatmate's name in \"Flatmate's name\" and tap \"Add\". Start with yourself.", "Each person has their own box with \"Rename\", \"Moved out\" and \"Delete\". Someone who already has costs cannot be deleted: tap \"Moved out\" so their past costs stay and they are left out of new ones. \"Moved back in\" undoes it."]},
+ {"h": "2. Add each shared cost", "steps": ["Keep \"Something we share\" selected. Type or tap \"What was it for?\" (such as Rent or Groceries), the \"Amount\" and choose \"Who paid?\".", "Under \"How to split it\" choose \"Equally\", \"By shares\" (for example 2 for the big room and 1 for the others) or \"Exact amounts\" (type each person's part; the app shows how much is left to give out).", "Under \"Who shares it?\" untick anyone who should not pay for this one, such as a flatmate who was away. \"Tick everyone\" and \"Untick all\" help with many people.", "Check \"Date paid\", read the line above the button that says what each person pays, then tap \"Add expense\"."]},
+ {"h": "3. See who owes whom and settle up", "steps": ["\"Who owes whom\" lists the fewest payments that make everyone even, such as \"Sara pays Ali 7,200\".", "\"Balance of each person\" shows who \"gets back\" money and who \"owes\", counting everything from the first entry.", "When the money has been paid, tap \"Mark as paid\" on that line, or \"Mark all as paid\". It is added as money paid back, and the balances go to 0.", "If someone pays back only part, or pays outside the list, choose \"Money paid back\" at the top of the form, pick \"Who paid the money?\" and \"Who got it?\" and the amount.", "\"Copy summary\", \"Email summary\" (no address needed) and \"Share\" send the payments, the balances and the chosen month's costs to the others."]},
+ {"h": "Months, editing and backup", "steps": ["\"Expenses by month\" shows what was spent together in the month chosen under \"Show\", by what it was for, each person's share and what they paid, and every entry in its own box.", "\"Edit\" puts an entry back in the form; change it and tap \"Save changes\" or \"Cancel editing\". \"Delete\" removes it. \"Undo\" in the message takes back the last change.", "\"Currency symbol\" adds a symbol such as Rs, ₹ or $ to every amount, or none for plain numbers.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone. \"Start over (delete everything)\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Amounts are split to the cent or paisa. When a cost does not divide evenly, the first people in the list pay 1 cent more, so the parts always add up to the amount.", "Balances count every month together, so nothing is lost when a month ends. The month view is for seeing what was spent.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -436,5 +436,11 @@
     "name": "Daily Cash Book for Small Shops",
     "description": "For a small shop, tuck shop or home business. Write down the day's cash sales, stock bought, expenses and money the owner takes; at closing count the drawer and see \"Cash should be 18,450. You counted 18,200: 250 short\". Opening cash carries from yesterday, card and mobile sales kept apart, notes and coins counter, week and month totals by expense for the accountant. Private, works offline.",
     "color": "#2b8a3e"
+  },
+  {
+    "slug": "shared-house-expenses-for-roommates",
+    "name": "Shared House Expenses for Roommates",
+    "description": "For flatmates, roommates and hostel room-mates who share rent, bills and groceries. Add each cost with who paid and who shares it (equally, by shares for the big room, or exact amounts) and see \"Omar pays Ali 12,600\". Mark as paid, monthly totals by bill, someone away or moving out, no daily limit. Private, works offline.",
+    "color": "#7c5cdb"
   }
 ]
