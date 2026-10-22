@@ -412,5 +412,11 @@
     "name": "CGPA and Semester GPA Planner for University Students",
     "description": "Add each semester's courses, credit hours and grades to see every semester GPA and your CGPA, and find the GPA you need to reach a target CGPA. 4.0, 10-point, 5.0 or your own scale.",
     "color": "#4263eb"
+  },
+  {
+    "slug": "household-help-attendance-and-salary-tracker",
+    "name": "Household Help Attendance and Salary Tracker",
+    "description": "For a family with a maid, cook, driver or nanny paid by the month. Tap the days off, half days and extra days, add advances and Eid bonuses, and see exactly what to pay: \"30,000 - 2½ unpaid days + 1 extra day - advance 5,000 = 23,500\". Paid leave, joining mid-month, advances over months and a pay slip to copy or print. Private, works offline.",
+    "color": "#c9822b"
   }
 ]

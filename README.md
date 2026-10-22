@@ -554,6 +554,15 @@ For university students. Add each semester's courses with credit hours and grade
 
 <a href="cgpa-and-semester-gpa-planner-for-university-students/"><img src="cgpa-and-semester-gpa-planner-for-university-students/screenshots/phone.png" alt="CGPA and Semester GPA Planner for University Students screenshot" width="260"></a>
 
+
+### <img src="household-help-attendance-and-salary-tracker/favicon.svg" width="36" height="36" align="center"> [Household Help Attendance and Salary Tracker](https://umar8092.github.io/apps/household-help-attendance-and-salary-tracker/)
+
+For a family with a maid, cook, driver or nanny paid by the month. Tap the days off, half days and extra days, add advances and Eid bonuses, and see exactly what to pay: "Monthly pay 30,000 − 2½ unpaid days (2,500) + 1 extra day (1,000) − advance 5,000 = To pay: 23,500". Paid leave that can carry over, joining or leaving mid-month, advances taken back over months, overtime, part payments and a pay slip to copy or print. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/household-help-attendance-and-salary-tracker/) &middot; [Details and screenshots](household-help-attendance-and-salary-tracker/)
+
+<a href="household-help-attendance-and-salary-tracker/"><img src="household-help-attendance-and-salary-tracker/screenshots/phone.png" alt="Household Help Attendance and Salary Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

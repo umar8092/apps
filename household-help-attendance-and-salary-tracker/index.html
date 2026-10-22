@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Household Help Attendance and Salary Tracker: Maid, Cook, Driver and Nanny Pay This Month</title>
+    <meta name="description" content="Free attendance and salary tracker for a maid, cook, driver, nanny or guard paid by the month. Tap the days off, half days and extra days, record advances and Eid bonuses, and see exactly what to pay this month with a pay slip. Paid leave, joining mid-month, advances taken back over months. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/household-help-attendance-and-salary-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#c9822b">
+    <meta name="theme-color" content="#9a5b13">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Household Help Attendance and Salary Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/household-help-attendance-and-salary-tracker/">
+    <meta property="og:title" content="Household Help Attendance and Salary Tracker: What to Pay the Maid, Cook or Driver This Month">
+    <meta property="og:description" content="Mark the days off, half days, extra days, advances and bonuses, and see exactly what to pay your household help this month. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Household Help Attendance and Salary Tracker","alternateName":["Maid Salary Calculator","Maid Attendance App","Domestic Worker Salary Tracker","Driver Salary and Advance Tracker","Naukar ki Tankhwah Hisab"],"url":"https://umar8092.github.io/apps/household-help-attendance-and-salary-tracker/","description":"A free attendance register and monthly salary calculator for household help such as a maid, cook, driver, nanny or guard: days off, paid leave, half days, extra days, overtime, advances, bonuses, payments and a pay slip.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"maid salary calculator, maid attendance, domestic help salary, driver salary advance, household staff attendance, salary deduction for leave","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is the pay for a day off worked out?","acceptedAnswer":{"@type":"Answer","text":"You choose how one day's pay is found: monthly pay divided by 30 (the most common), by the days in the month, or by the working days in the month. With 30,000 a month divided by 30, one day is 1,000, so 2 unpaid days take 2,000 off."}},{"@type":"Question","name":"What about paid leave?","acceptedAnswer":{"@type":"Answer","text":"Set how many days off a month are paid. The first days off in the month use the paid leave and nothing is taken off; the rest are unpaid. Unused leave can carry to the next month if you tick that option."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Household Help Attendance and Salary Tracker</h1>
+        <p class="sub">For a maid, cook, driver, nanny or guard paid by the month: tap the days off, add advances and bonuses, and see exactly what to pay this month.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+
+    <div class="col-a">
+        <section class="card month" id="month" aria-labelledby="month-h" hidden>
+            <div class="mo-top">
+                <h2 id="month-h">Month</h2>
+                <div class="mo-nav">
+                    <button type="button" class="secondary small" id="mo-prev" aria-label="Previous month">&lsaquo; Previous</button>
+                    <button type="button" class="secondary small" id="mo-next" aria-label="Next month">Next &rsaquo;</button>
+                </div>
+            </div>
+            <button type="button" class="link" id="mo-today" hidden>Go back to this month</button>
+            <div class="mo-rows" id="mo-rows"></div>
+            <p class="mo-pay" id="mo-pay"></p>
+            <p class="mo-full" id="mo-note"></p>
+            <div class="tool-grid mo-btns">
+                <button type="button" class="secondary" id="mo-copy">Copy all pay slips</button>
+                <button type="button" class="secondary" id="mo-print">Print or save as PDF</button>
+            </div>
+            <div class="msg" id="month-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a worker</h2>
+            <p class="hint top" id="add-intro">Add each person who works for you. Each one gets their own box with a calendar and their own pay slip.</p>
+            <label for="f-name">Name</label>
+            <input id="f-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Rubina" aria-describedby="f-name-err">
+            <p class="err" id="f-name-err" role="alert"></p>
+            <fieldset class="wd">
+                <legend>Job</legend>
+                <div class="quick" id="quick" role="group" aria-label="Job">
+                    <button type="button" class="chip" aria-pressed="false" data-role="Maid">Maid</button>
+                    <button type="button" class="chip" aria-pressed="false" data-role="Cook">Cook</button>
+                    <button type="button" class="chip" aria-pressed="false" data-role="Driver">Driver</button>
+                    <button type="button" class="chip" aria-pressed="false" data-role="Nanny">Nanny</button>
+                    <button type="button" class="chip" aria-pressed="false" data-role="Cleaner">Cleaner</button>
+                    <button type="button" class="chip" aria-pressed="false" data-role="Gardener">Gardener</button>
+                    <button type="button" class="chip" aria-pressed="false" data-role="Guard">Guard</button>
+                    <button type="button" class="chip" aria-pressed="false" data-role="">Other&hellip;</button>
+                </div>
+            </fieldset>
+            <div class="field" id="f-role-box" hidden>
+                <label for="f-role">Their job</label>
+                <input id="f-role" type="text" maxlength="30" autocomplete="off" placeholder="e.g. Carer">
+            </div>
+            <label for="f-pay" id="f-pay-l">Monthly pay</label>
+            <div class="amount-row">
+                <span class="cur-tag" id="cur-tag" hidden></span>
+                <input id="f-pay" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 30000" aria-describedby="f-pay-err">
+            </div>
+            <p class="err" id="f-pay-err" role="alert"></p>
+            <div class="field" id="f-from-box" hidden>
+                <label for="f-from">New pay starts with</label>
+                <select id="f-from"></select>
+                <p class="hint">Earlier months keep the old pay.</p>
+            </div>
+            <fieldset class="wd" id="f-wd">
+                <legend>Weekly day off</legend>
+                <div class="wd-row" id="f-wd-row"></div>
+                <p class="hint">Leave all unticked if they work every day.</p>
+                <p class="err" id="f-wd-err" role="alert"></p>
+            </fieldset>
+            <label for="f-leave">Paid leave each month</label>
+            <select id="f-leave"></select>
+            <p class="hint">Days off that are not taken from the pay. Days off beyond these are unpaid.</p>
+            <label class="check" id="f-carry-box" hidden><input type="checkbox" id="f-carry"> <span>Unused paid leave carries to the next month</span></label>
+            <label for="f-rule">One day's pay is</label>
+            <select id="f-rule">
+                <option value="thirty">Monthly pay ÷ 30 (most common)</option>
+                <option value="month">Monthly pay ÷ days in the month (28 to 31)</option>
+                <option value="work">Monthly pay ÷ working days in the month</option>
+            </select>
+            <p class="hint" id="f-rule-hint">Used for unpaid days off, extra days, and a month they joined or left part way.</p>
+            <label for="f-start">Started working on</label>
+            <input id="f-start" type="date" aria-describedby="f-start-err">
+            <p class="err" id="f-start-err" role="alert"></p>
+            <p class="hint" id="f-start-hint">If they have worked for you for a while, pick the 1st of this month.</p>
+            <label class="check" id="f-settled-box" hidden><input type="checkbox" id="f-settled" checked> <span id="f-settled-t">Pay before this month is already settled</span></label>
+
+            <button type="button" class="link" id="f-stop-open" hidden>+ Left the job? Add the last working day (optional)</button>
+            <div class="field" id="f-stop-box" hidden>
+                <label for="f-stop">Last working day</label>
+                <input id="f-stop" type="date" aria-describedby="f-stop-err">
+                <p class="err" id="f-stop-err" role="alert"></p>
+            </div>
+            <button type="button" class="link" id="f-extra-open" hidden>+ Add pay for working on a day off (optional)</button>
+            <div class="field" id="f-extra-box" hidden>
+                <label for="f-extra">Pay for working on a weekly day off</label>
+                <input id="f-extra" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 1500" aria-describedby="f-extra-err">
+                <p class="hint">Leave it empty to pay one normal day.</p>
+                <p class="err" id="f-extra-err" role="alert"></p>
+            </div>
+            <button type="button" class="link" id="f-ot-open">+ Add overtime pay per hour (optional)</button>
+            <div class="field" id="f-ot-box" hidden>
+                <label for="f-ot">Overtime pay per hour</label>
+                <input id="f-ot" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 200" aria-describedby="f-ot-err">
+                <p class="err" id="f-ot-err" role="alert"></p>
+            </div>
+            <button type="button" class="link" id="f-open-open">+ Add money owed from before (optional)</button>
+            <div id="f-open-box" hidden>
+                <label for="f-open-kind">Money from before</label>
+                <select id="f-open-kind">
+                    <option value="owe">I still owe them pay</option>
+                    <option value="adv">They owe me (an advance not taken back yet)</option>
+                </select>
+                <label for="f-open">Amount</label>
+                <input id="f-open" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 5000" aria-describedby="f-open-err">
+                <p class="err" id="f-open-err" role="alert"></p>
+            </div>
+            <div class="row-btns">
+                <button type="button" class="primary" id="f-save">Add worker</button>
+                <button type="button" class="secondary" id="f-cancel" hidden>Cancel</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="items" id="items" aria-label="Your workers" hidden>
+            <div class="i-list" id="i-list"></div>
+        </section>
+    </div>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is the pay for a day off worked out?</summary><p>You choose in <b>One day's pay is</b>. Most families use <b>Monthly pay ÷ 30</b>: with 30,000 a month one day is <b>1,000</b>, so 2 unpaid days take <b>2,000</b> off in every month. <b>÷ days in the month</b> gives 967.74 in a 31-day month and 1,071.43 in February. <b>÷ working days</b> leaves out the weekly days off, so with Sundays off October 2026 has 27 working days and one day is 1,111.11. The total is rounded once to the nearest cent.</p></details>
+        <details><summary>How does paid leave work?</summary><p>Set <b>Paid leave each month</b>, for example 2 days. The first days off in the month use it up and nothing is taken off; every day off after that is unpaid. A half day uses half a day. Tick <b>Unused paid leave carries to the next month</b> if unused days add up. The calendar shows <b>L</b> for a paid leave day and <b>&#10007;</b> for an unpaid one.</p></details>
+        <details><summary>They took an advance. How is it taken back?</summary><p>Tap <b>Advance</b> in their box, type the amount and pick <b>Take it back</b>: all from one month's pay, or over 2 to 12 months. The amounts always add up exactly, for example 10,000 over 3 months is 3,333.34, 3,333.33 and 3,333.33. If an advance is more than the month's pay, the rest comes off the next month.</p></details>
+        <details><summary>They joined or left in the middle of the month</summary><p>Pick the <b>Started working on</b> day when adding them, or use <b>Edit</b> and <b>+ Left the job?</b> for the last day. That month pays only the days they were with you, for example joining on 15 October with ÷ 30 pays 17 of 30 days.</p></details>
+        <details><summary>The pay went up</summary><p>Tap <b>Edit</b>, type the new <b>Monthly pay</b> and pick the month in <b>New pay starts with</b>. Earlier months keep the old pay.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/household-help-attendance-and-salary-tracker">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Household Help Attendance and Salary Tracker", "sections": [
+ {"h": "1. Add each worker", "steps": ["Type their \"Name\" and tap their \"Job\", such as Maid or Driver. \"Other...\" lets you type any job.", "Type the \"Monthly pay\".", "Under \"Weekly day off\" tick their day off, such as Sun, or leave all unticked if they work every day.", "Pick \"Paid leave each month\": days off that are not taken from the pay. Tick \"Unused paid leave carries to the next month\" if unused days add up.", "Pick how \"One day's pay is\" worked out: Monthly pay ÷ 30, ÷ days in the month, or ÷ working days in the month.", "Pick the day they \"Started working on\". If they have worked for you a long time, pick the 1st of this month.", "Optional: \"+ Add pay for working on a day off\", \"+ Add overtime pay per hour\" and \"+ Add money owed from before\".", "Tap \"Add worker\". Each worker gets their own box."]},
+ {"h": "2. Mark the days", "steps": ["Every working day counts as worked unless you mark it. In each box, \"Absent today\" and \"Half day today\" mark today in one tap.", "For any other day tap it in the calendar and pick \"Worked\", \"Absent\", \"Half day\" or \"Paid holiday\" (a day you gave off, such as Eid, with nothing taken off). On a weekly day off pick \"Came to work\" to pay an extra day.", "If you added overtime pay, type the \"Overtime hours\" for that day and tap \"Save hours\".", "In the calendar: ✓ worked, L paid leave, ✗ unpaid day off, ½ half day, H paid holiday, +1 extra day, Off weekly day off."]},
+ {"h": "3. Money", "steps": ["\"Advance\" records money given ahead and how it is taken back: all from one month's pay or over 2 to 12 months.", "\"Bonus or deduction\" adds a bonus such as Eid money, or takes money off, such as for something broken.", "\"Record a payment\" saves what you paid for the month you are looking at. Anything left unpaid is carried to the next month; paying more comes off next month.", "Each line on the slip has \"Delete\", with \"Undo\"."]},
+ {"h": "4. The pay slip", "steps": ["Each box shows the attendance and the pay slip: monthly pay, paid leave used, unpaid days off, extra days, overtime, bonuses, advances and payments, then \"Pay for\" the month and \"To pay\".", "In this month, days still to come count as worked, so you see what the month will come to.", "\"Copy pay slip\" copies it for a message, \"Share\" opens your phone's share menu, and \"Print slip\" prints it or saves a PDF.", "The month box at the top adds up every worker. \"Previous\" and \"Next\" move between months."]},
+ {"h": "Edit, backup and settings", "steps": ["\"Edit\" changes the name, job, pay (with the month the new pay starts), days off, leave or start date, and \"+ Left the job?\" adds the last working day. \"Delete\" removes the worker, with \"Undo\".", "\"Currency symbol\" adds a symbol such as Rs or $ to every amount, or none for plain numbers.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\". \"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Paid leave is used by the first days off in the month, in date order. A half day uses half a day.", "With ÷ 30, one day's pay is the same in every month, even in February or a 31-day month.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
