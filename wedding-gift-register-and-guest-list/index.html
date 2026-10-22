@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Gift Register and Guest List: Salami, Neota, Shagun</title>
+    <meta name="description" content="Free wedding gift register for the cash envelopes and gifts (salami, neota, shagun) families give at your wedding, aqiqah or other event, and what you give at theirs. See who gave what and how much to give back, plus a guest list with headcount. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/wedding-gift-register-and-guest-list/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#c2304f">
+    <meta name="theme-color" content="#9e1f3c">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Wedding Gift Register and Guest List">
+    <meta property="og:url" content="https://umar8092.github.io/apps/wedding-gift-register-and-guest-list/">
+    <meta property="og:title" content="Wedding Gift Register and Guest List: who gave what, and what to give back">
+    <meta property="og:description" content="Write down the cash envelopes and gifts each family gives at your wedding or event, and what you give at theirs. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Wedding Gift Register and Guest List","alternateName":["Salami Register","Neota Register","Shagun Register","Wedding Cash Gift Tracker","Lifafa Register"],"url":"https://umar8092.github.io/apps/wedding-gift-register-and-guest-list/","description":"A free register for cash and gifts received at your wedding or family event and given at other families' events, with a guest list and headcount.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"wedding gift register, salami register, neota register, shagun list, wedding cash gift tracker, guest list headcount","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I keep a record of wedding gift money?","acceptedAnswer":{"@type":"Answer","text":"For each envelope, type the family's name, choose They gave us, type the event such as Sara's wedding and the amount. The app adds up each event, for example Received 3,45,000 from 112 families."}},{"@type":"Question","name":"How do I know how much to give back?","acceptedAnswer":{"@type":"Answer","text":"Type the family's name in the form or the search box. Their box says what they gave you and at which event, what you gave them, and the difference."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Names and amounts stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Wedding Gift Register and Guest List</h1>
+        <p class="sub">Write down the cash envelopes and gifts (salami, neota, shagun) each family gives at your wedding or event, and what you give at theirs. Plan who is coming.</p>
+    </header>
+
+    <div class="tabs" role="group" aria-label="Choose a page">
+        <button type="button" class="tab" id="tab-gifts" aria-pressed="true">Gifts</button>
+        <button type="button" class="tab" id="tab-guests" aria-pressed="false">Guest list</button>
+    </div>
+
+    <section class="card totals" id="totals" aria-labelledby="totals-h">
+        <h2 id="totals-h">Your events</h2>
+        <p class="empty" id="ev-empty">No gifts yet. Choose "They gave us" below and add the first envelope: each of your events then shows its total here.</p>
+        <div class="events" id="events"></div>
+        <p class="t-all" id="t-all" hidden></p>
+    </section>
+
+    <div class="col-main" id="col-main">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a gift</h2>
+            <fieldset class="kinds">
+                <legend>What happened?</legend>
+                <label class="kind"><input type="radio" name="dir" value="in" checked><span>They gave us</span></label>
+                <label class="kind"><input type="radio" name="dir" value="out"><span>We gave them</span></label>
+            </fieldset>
+
+            <label for="fam">Family or person</label>
+            <input id="fam" type="text" maxlength="60" autocomplete="off" list="fam-list" placeholder="e.g. Ahmed Khan" aria-describedby="fam-err fam-note">
+            <datalist id="fam-list"></datalist>
+            <p class="err" id="fam-err" role="alert"></p>
+            <div class="fam-note" id="fam-note" aria-live="polite"></div>
+
+            <button type="button" class="link" id="more-open">+ Add relation and city (optional)</button>
+            <div class="two" id="more-box" hidden>
+                <div class="field">
+                    <label for="rel">Relation</label>
+                    <input id="rel" type="text" maxlength="40" autocomplete="off" placeholder="e.g. cousin">
+                </div>
+                <div class="field">
+                    <label for="city">City</label>
+                    <input id="city" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Lahore">
+                </div>
+            </div>
+
+            <label for="ev" id="ev-label">At which of your events?</label>
+            <input id="ev" type="text" maxlength="60" autocomplete="off" list="ev-list" placeholder="e.g. Sara's wedding" aria-describedby="ev-err ev-note">
+            <datalist id="ev-list"></datalist>
+            <p class="err" id="ev-err" role="alert"></p>
+            <p class="hint" id="ev-note"></p>
+
+            <label for="amount">Cash amount</label>
+            <div class="amount-row">
+                <span class="cur-tag" id="cur-tag" hidden></span>
+                <input id="amount" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 5000" aria-describedby="amount-err">
+            </div>
+            <p class="err" id="amount-err" role="alert"></p>
+
+            <button type="button" class="link" id="item-open">+ Add a gift in kind: gold, clothes (optional)</button>
+            <div class="field" id="item-box" hidden>
+                <label for="item">Gift in kind</label>
+                <input id="item" type="text" maxlength="80" autocomplete="off" placeholder="e.g. gold ring">
+                <p class="hint">Leave the cash amount empty if there was no cash.</p>
+            </div>
+
+            <p class="when-line">Date: <b id="date-text">today</b> <button type="button" class="link inline" id="date-open">Change date</button></p>
+            <div class="field" id="date-box" hidden>
+                <label for="date">Date of the event</label>
+                <input id="date" type="date" aria-describedby="date-err">
+                <p class="err" id="date-err" role="alert"></p>
+                <button type="button" class="link" id="date-today">Use today</button>
+            </div>
+
+            <button type="button" class="link" id="note-open">+ Add a note (optional)</button>
+            <div class="field" id="note-box" hidden>
+                <label for="note">Note</label>
+                <input id="note" type="text" maxlength="200" autocomplete="off" placeholder="e.g. sent with his brother">
+            </div>
+
+            <p class="preview" id="preview" aria-live="polite"></p>
+            <button type="button" class="primary" id="save">Save</button>
+            <p class="hint">The event and date stay filled in, so you can add the next envelope straight away.</p>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Share, backup and settings</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy-all">Copy the register</button>
+                <button type="button" class="secondary" id="email-all">Email the register</button>
+                <button type="button" class="secondary" id="print-all">Print or save as PDF</button>
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="card list" id="list" aria-labelledby="list-h">
+        <div class="list-top">
+            <h2 id="list-h">Families</h2>
+            <div class="sort-field" id="sort-wrap" hidden>
+                <label for="sort">Sort</label>
+                <select id="sort">
+                    <option value="name">Name, A to Z</option>
+                    <option value="gave">Gave you most first</option>
+                    <option value="recent">Latest gift first</option>
+                </select>
+            </div>
+        </div>
+        <div class="field" id="find-wrap" hidden>
+            <label for="find" class="vh">Find a family</label>
+            <input id="find" type="search" maxlength="60" autocomplete="off" placeholder="Find a family, city or event">
+        </div>
+        <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+        <p class="empty" id="empty">No families yet. Each family you add gets its own box here, with what they gave you and what you gave them.</p>
+        <p class="hint" id="found"></p>
+        <div class="fams" id="fams"></div>
+        <button type="button" class="secondary" id="show-more" hidden>Show more</button>
+    </section>
+
+    <section class="card guests" id="guests" aria-labelledby="guests-h" hidden>
+        <h2 id="guests-h">Guest list</h2>
+        <div id="g-pick">
+            <label for="g-event">For which event?</label>
+            <select id="g-event"></select>
+        </div>
+        <button type="button" class="link" id="g-new-open">+ New event</button>
+        <div class="panel" id="g-new-box" hidden>
+            <label for="g-new">Name of the event</label>
+            <input id="g-new" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Sara's wedding" aria-describedby="g-new-err">
+            <p class="err" id="g-new-err" role="alert"></p>
+            <div class="row-btns"><button type="button" class="primary small" id="g-new-save">Create event</button><button type="button" class="secondary small" id="g-new-cancel">Cancel</button></div>
+        </div>
+        <div id="g-body" hidden>
+          <div class="g-left">
+            <div class="g-tot" id="g-tot">
+                <div class="gt yes"><span class="t-label">Coming</span><span class="t-val" id="gt-yes">0</span><span class="t-sub" id="gt-yes-f"></span></div>
+                <div class="gt wait"><span class="t-label">No reply yet</span><span class="t-val" id="gt-wait">0</span><span class="t-sub" id="gt-wait-f"></span></div>
+                <div class="gt no"><span class="t-label">Not coming</span><span class="t-val" id="gt-no">0</span><span class="t-sub" id="gt-no-f"></span></div>
+            </div>
+            <p class="g-words" id="g-words"></p>
+
+            <h3 class="sub-h">Add a family to the guest list</h3>
+            <div class="g-add">
+                <div class="field g-name">
+                    <label for="g-fam">Family or person</label>
+                    <input id="g-fam" type="text" maxlength="60" autocomplete="off" list="fam-list" placeholder="e.g. Ahmed Khan" aria-describedby="g-fam-err">
+                </div>
+                <div class="field g-n">
+                    <label for="g-n">People</label>
+                    <input id="g-n" type="text" inputmode="numeric" maxlength="3" autocomplete="off" value="1" aria-describedby="g-fam-err">
+                </div>
+            </div>
+            <p class="err" id="g-fam-err" role="alert"></p>
+            <button type="button" class="primary" id="g-add">Add to guest list</button>
+            <button type="button" class="link" id="g-all">Add every family in the register</button>
+            <div class="tool-grid g-tools">
+                <button type="button" class="secondary" id="g-copy">Copy the guest list</button>
+                <button type="button" class="secondary" id="g-print">Print the guest list</button>
+            </div>
+            <button type="button" class="link" id="g-ev-open">Rename or delete this event</button>
+            <div class="panel" id="g-ev-box" hidden></div>
+          </div>
+          <div class="g-right">
+
+            <div class="list-top g-top">
+                <h3 class="sub-h" id="g-list-h">Invited</h3>
+                <div class="sort-field">
+                    <label for="g-show">Show</label>
+                    <select id="g-show">
+                        <option value="all">Everyone</option>
+                        <option value="wait">No reply yet</option>
+                        <option value="yes">Coming</option>
+                        <option value="no">Not coming</option>
+                    </select>
+                </div>
+            </div>
+            <div class="msg" id="g-msg" role="status" aria-live="polite"></div>
+            <p class="empty" id="g-empty">Nobody on this guest list yet. Add the first family above.</p>
+            <div class="glist" id="glist"></div>
+          </div>
+        </div>
+    </section>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How do I find out how much to give back?</summary><p>When a family invites you, type their name in <b>Find a family</b> (or in the form). Their box says what they gave you and at which event, what you gave them, and the difference, for example <b>They have given you 2,000 more than you gave them</b>. How much to give is your choice; the app only keeps the record.</p></details>
+        <details><summary>Two families have the same name. What do I do?</summary><p>Tap <b>+ Add relation and city (optional)</b> and type the city, such as Ahmed Khan (Lahore) and Ahmed Khan (Karachi). Each gets its own box, and the suggestions show the city so you pick the right one.</p></details>
+        <details><summary>Someone gave gold or clothes, not cash.</summary><p>Tap <b>+ Add a gift in kind: gold, clothes (optional)</b>, type what it was and leave the cash amount empty (or fill in both). Gifts in kind are listed with the family but not added to the cash totals.</p></details>
+        <details><summary>How do I enter 100 envelopes quickly?</summary><p>Choose <b>They gave us</b>, type the event once and set its date with <b>Change date</b>. After each Save, the event and date stay filled in and the cursor goes back to the name, so you type a name, an amount and press Enter for each envelope.</p></details>
+        <details><summary>What is the guest list for?</summary><p>Planning food and seats. Add each family with the number of people, then mark <b>Coming</b> or <b>Not coming</b> as they reply. The top shows how many people to plan for. Families who gave a gift at that event are marked.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Names and amounts stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, and before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/wedding-gift-register-and-guest-list">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Wedding Gift Register and Guest List", "sections": [
+ {"h": "Add a gift", "steps": ["Under \"What happened?\" choose \"They gave us\" for an envelope or gift you received, or \"We gave them\" for one you gave at their event.", "Type the \"Family or person\". Names you used before are suggested. The box under the name shows what that family has given you and what you have given them, so you can check before an event.", "\"+ Add relation and city (optional)\" adds a relation such as cousin and a city. The city keeps two families with the same name apart.", "Type the event: for \"They gave us\" it is one of your events, such as Sara's wedding; for \"We gave them\" it is their event, such as Bilal's wedding.", "Type the \"Cash amount\". For gold, clothes or other gifts tap \"+ Add a gift in kind: gold, clothes (optional)\" and leave the amount empty if there was no cash.", "\"Change date\" sets the date of the event. Future dates are refused.", "Tap \"Save\" or press Enter. The event and date stay filled in for the next envelope. \"Undo\" in the message takes it back."]},
+ {"h": "Your events and the families", "steps": ["\"Your events\" shows each of your events with the cash received and from how many families. \"Copy list\" copies that event's list of who gave what; \"Rename or delete\" changes it.", "Each family has its own box: \"Gave you\" and \"You gave them\" with the event and date, and a line saying who has given more.", "\"Add for\" with the family's name fills the form with that family. \"History\" lists every gift, with \"Edit\" and \"Delete\". \"Edit family\" changes the name, relation or city, and \"Delete family\" removes it with its gifts.", "\"Find a family, city or event\" narrows the list as you type, and \"Sort\" orders it by name, by who gave you most, or by the latest gift."]},
+ {"h": "Guest list", "steps": ["Tap \"Guest list\" at the top. Choose the event under \"For which event?\" or tap \"+ New event\".", "Type a \"Family or person\" and the number of \"People\", then tap \"Add to guest list\". \"Add every family in the register\" adds everyone at once.", "In each family's box set \"No reply yet\", \"Coming\" or \"Not coming\" and change the number of people with − and +. \"Remove\" takes the family off this list.", "The top shows the people coming, the people who have not replied and the people not coming, and how many to plan for.", "\"Copy the guest list\" and \"Print the guest list\" share it, for example with the caterer."]},
+ {"h": "Share, backup and settings", "steps": ["\"Copy the register\", \"Email the register\" and \"Print or save as PDF\" share every event and family. Email works without typing an address first.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\".", "\"Currency symbol\" adds a symbol such as Rs, ₹ or $ to every amount, or none for plain numbers.", "\"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Gifts in kind are listed but never added to the cash totals.", "Amounts are counted exactly, to the cent or paisa. Rupee amounts are grouped the local way, such as 3,45,000.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

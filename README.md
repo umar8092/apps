@@ -571,6 +571,14 @@ For anyone doing 16:8, 18:6, 20:4 or OMAD (one meal a day) fasting. Tap Start fa
 
 <a href="intermittent-fasting-timer-with-history/"><img src="intermittent-fasting-timer-with-history/screenshots/phone.png" alt="Intermittent Fasting Timer with History screenshot" width="260"></a>
 
+### <img src="wedding-gift-register-and-guest-list/favicon.svg" width="36" height="36" align="center"> [Wedding Gift Register and Guest List](https://umar8092.github.io/apps/wedding-gift-register-and-guest-list/)
+
+For a family hosting a wedding, aqiqah or other event. Write down the cash envelopes and gifts (salami, neota, shagun) each family gives, and what you give at theirs. See "Received 3,45,000 from 112 families" and, when invited, "Ahmed Khan gave you 5,000 at Sara's wedding; you gave them 3,000". Gifts in kind, same names in two cities, and a guest list with headcount. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/wedding-gift-register-and-guest-list/) &middot; [Details and screenshots](wedding-gift-register-and-guest-list/)
+
+<a href="wedding-gift-register-and-guest-list/"><img src="wedding-gift-register-and-guest-list/screenshots/phone.png" alt="Wedding Gift Register and Guest List screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

@@ -424,5 +424,11 @@
     "name": "Intermittent Fasting Timer with History",
     "description": "For anyone doing 16:8, 18:6, 20:4 or OMAD fasting. Tap Start fast after your last meal and see \"Fasting 14 h 30 min, eat at 12:00 (1 h 30 min left)\". Every fast is saved with its length and whether the goal was met, plus the weekly average, streak and longest fast. Works across midnight, edit and undo. Private, works offline.",
     "color": "#d99e0b"
+  },
+  {
+    "slug": "wedding-gift-register-and-guest-list",
+    "name": "Wedding Gift Register and Guest List",
+    "description": "For a family hosting a wedding, aqiqah or other event. Write down the cash envelopes and gifts (salami, neota, shagun) each family gives, and what you give at theirs. See \"Received 3,45,000 from 112 families\" and, when invited, \"Ahmed Khan gave you 5,000 at Sara's wedding; you gave them 3,000\". Gifts in kind, same names in two cities, and a guest list with headcount. Private, works offline.",
+    "color": "#c2304f"
   }
 ]
