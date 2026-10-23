@@ -619,6 +619,14 @@ For home tutors and small academies. Each student has their own class days and f
 
 <a href="tuition-fee-and-attendance-register-for-tutors/"><img src="tuition-fee-and-attendance-register-for-tutors/screenshots/phone.png" alt="Tuition Fee and Attendance Register for Tutors screenshot" width="260"></a>
 
+### <img src="exam-result-and-report-card-tracker-for-parents/favicon.svg" width="36" height="36" align="center"> [Exam Result and Report Card Tracker for Parents](https://umar8092.github.io/apps/exam-result-and-report-card-tracker-for-parents/)
+
+For parents of school children. Each child has their own subjects; add every test and report card as marks out of any total (25, 50, 100), a grade, or absent. See "Maths: 62% in Term 2, down from 74% in Term 1", what needs attention, the best and most improved subjects, each test's overall percentage and position, a chart over time, and a summary to copy for a tutor. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/exam-result-and-report-card-tracker-for-parents/) &middot; [Details and screenshots](exam-result-and-report-card-tracker-for-parents/)
+
+<a href="exam-result-and-report-card-tracker-for-parents/"><img src="exam-result-and-report-card-tracker-for-parents/screenshots/phone.png" alt="Exam Result and Report Card Tracker for Parents screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

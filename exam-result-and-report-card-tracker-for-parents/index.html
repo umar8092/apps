@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Result and Report Card Tracker for Parents: Which Subject Went Down</title>
+    <meta name="description" content="Free report card tracker for parents. Each child has their own subjects; add every test and term result as marks out of any total, a grade, or absent, and see which subject went up or down since last time, the weakest subject and each term's overall percentage. Copy a summary for a tutor. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/exam-result-and-report-card-tracker-for-parents/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#b5179e">
+    <meta name="theme-color" content="#8a1178">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Exam Result and Report Card Tracker for Parents">
+    <meta property="og:url" content="https://umar8092.github.io/apps/exam-result-and-report-card-tracker-for-parents/">
+    <meta property="og:title" content="Exam Result and Report Card Tracker for Parents: Which Subject Went Up or Down">
+    <meta property="og:description" content="Add each child's test and term results in marks or grades and see which subject went down since last time, the weakest subject and the overall percentage. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Exam Result and Report Card Tracker for Parents","alternateName":["Report Card Tracker","School Marks Tracker for Parents","Child Exam Results Tracker","Test Marks Progress Tracker","Bachon ke Result ka Record"],"url":"https://umar8092.github.io/apps/exam-result-and-report-card-tracker-for-parents/","description":"A free tracker for parents to record each child's school test and term results in marks out of any total or grades, and see each subject's percentage, whether it went up or down since the last test, the weakest and most improved subjects, the overall percentage and class position, with a summary to copy for a tutor.","applicationCategory":"EducationalApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"report card tracker, child exam results, school marks tracker, test results progress, subject percentage","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Tests have different totals. Can I still compare them?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every result is turned into a percentage, so 18 out of 25 (72%) can be compared with 62 out of 100 (62%)."}},{"@type":"Question","name":"What if my child was absent?","acceptedAnswer":{"@type":"Answer","text":"Pick Absent for that subject. It is not counted as zero; the subject is compared with the last test your child sat."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Exam Result and Report Card Tracker for Parents</h1>
+        <p class="sub">Add each child's test and term results and see which subject went up or down since last time.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a child</h2>
+            <p class="hint top" id="add-intro">Add each of your children. Each one gets their own box with their subjects and results.</p>
+            <label for="c-name">Child's name</label>
+            <input id="c-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Ali" aria-describedby="c-name-err">
+            <p class="err" id="c-name-err" role="alert"></p>
+            <button type="button" class="link" id="c-cls-open">+ Add class or year (optional)</button>
+            <div class="field" id="c-cls-box" hidden>
+                <label for="c-cls">Class or year</label>
+                <input id="c-cls" type="text" maxlength="30" autocomplete="off" placeholder="e.g. Class 6">
+            </div>
+            <label for="c-subs">Subjects</label>
+            <input id="c-subs" type="text" maxlength="400" autocomplete="off" placeholder="e.g. English, Maths, Science" aria-describedby="c-subs-hint">
+            <div class="quick" id="c-subs-quick" role="group" aria-label="Tap to add a subject"></div>
+            <p class="hint" id="c-subs-hint">Tap a subject to add it, or type them with commas. You can add more later.</p>
+            <button type="button" class="primary" id="c-save">Add child</button>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Settings and backup</h2>
+            <label for="flag-below">Warn me when a subject is below</label>
+            <select id="flag-below"></select>
+            <div class="other" id="fb-other" hidden>
+                <label for="fb-other-v">Your own level, in %</label>
+                <div class="other-row"><input id="fb-other-v" type="text" inputmode="decimal" maxlength="5" autocomplete="off" placeholder="e.g. 45" aria-describedby="fb-other-err"><button type="button" class="secondary small" id="fb-other-save">Use it</button></div>
+                <p class="err" id="fb-other-err" role="alert"></p>
+            </div>
+            <label for="flag-drop">or when it drops by</label>
+            <select id="flag-drop"></select>
+            <div class="other" id="fd-other" hidden>
+                <label for="fd-other-v">Your own drop, in points</label>
+                <div class="other-row"><input id="fd-other-v" type="text" inputmode="decimal" maxlength="5" autocomplete="off" placeholder="e.g. 8" aria-describedby="fd-other-err"><button type="button" class="secondary small" id="fd-other-save">Use it</button></div>
+                <p class="err" id="fd-other-err" role="alert"></p>
+            </div>
+            <p class="hint">Those subjects show under Needs attention.</p>
+            <button type="button" class="link" id="grades-open">+ Change the school's grades (A+, A, B ...)</button>
+            <div class="field" id="grades-box" hidden>
+                <p class="hint top">For schools that give grades instead of marks. Each grade counts as a percentage so it can go on the chart and be compared.</p>
+                <div class="g-list" id="g-list"></div>
+                <div class="row-btns">
+                    <button type="button" class="secondary" id="g-add">+ Add a grade</button>
+                    <button type="button" class="secondary" id="g-reset">Use the usual grades</button>
+                </div>
+                <button type="button" class="primary" id="g-save">Save grades</button>
+                <p class="err" id="g-err" role="alert"></p>
+            </div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="items" id="items" aria-label="Your children" hidden>
+            <div class="i-list" id="i-list"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Tests have different totals. Can I compare them?</summary><p>Yes. Every result becomes a percentage: 18 out of 25 is <b>72%</b> and 62 out of 100 is <b>62%</b>, so a monthly test can be compared with a term exam. You can also type <b>18/25</b> straight into the Marks box.</p></details>
+        <details><summary>How is "up" or "down" worked out?</summary><p>Each subject is compared with the last test that had the same subject. <b>Maths: 62% in Term 2, down from 74% in Term 1</b> means 12 percentage points lower. The overall percentage is the total marks of all subjects divided by the total possible, the same way a report card adds it up.</p></details>
+        <details><summary>My child was absent from a test</summary><p>Pick <b>Absent</b> for that subject. It is not counted as zero: the subject is compared with the last test your child sat, and the overall percentage counts only the subjects they took. Subjects left blank are not part of that test.</p></details>
+        <details><summary>The school gives grades, not marks</summary><p>Pick <b>Grade</b> for the subject and choose the grade. Each grade counts as a percentage (A+ as 90%, A as 75% and so on) so it can be compared and drawn on the chart. Change the grades and what they count as in <b>Settings and backup</b>.</p></details>
+        <details><summary>A new school year or a new subject</summary><p>Tap <b>Edit child</b> to change the class, add a subject or remove one that was dropped. Old results stay in the history. Each result remembers the class it was in.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/exam-result-and-report-card-tracker-for-parents">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Exam Result and Report Card Tracker for Parents", "sections": [
+ {"h": "1. Add each child", "steps": ["Type the \"Child's name\". \"+ Add class or year\" is optional.", "Under \"Subjects\" tap the subjects your child studies, or type them with commas, such as English, Maths, Science.", "Tap \"Add child\". Each child gets their own box."]},
+ {"h": "2. Add a test or report card", "steps": ["In the child's box tap \"Add a result\".", "Type the \"Test or exam name\" or tap one such as \"Monthly test\" or \"Term 1\", and pick the \"Date\".", "\"Every subject is out of\" fills in the total for all subjects. Tap 25, 50 or 100, or type your own; you can still change one subject's total.", "For each subject choose \"Marks\" and type the marks, such as 31 (or 31/50). Choose \"Grade\" if the school gave a grade, or \"Absent\" if your child missed it. Absent is not counted as zero.", "Leave a subject blank if it was not in this test. \"+ Add a subject\" adds one that is not in the list.", "\"+ Add position in class\" is optional. Tap \"Save result\"."]},
+ {"h": "3. Read the results", "steps": ["The top of the box shows the latest test and the overall percentage, and whether it went up or down from the test before.", "\"Needs attention\" lists subjects below the level you chose, or that dropped a lot.", "Each subject shows its latest percentage and the change since its last test: \"down 12\" means 12 percentage points lower. The small line shows every test for that subject.", "\"Overall over time\" draws the overall percentage of each test. Touch or hover a dot to see the test.", "\"All results\" lists every test with the marks. Each has \"Edit\" and \"Delete\", with \"Undo\"."]},
+ {"h": "4. Share and settings", "steps": ["\"Copy summary\" copies the results as text for a tutor, teacher or the other parent. \"Share\" opens your phone's share menu, for example WhatsApp.", "\"Edit child\" changes the name, class or subjects. \"Delete child\" removes them, with \"Undo\".", "\"Warn me when a subject is below\" and \"or when it drops by\" decide what shows under Needs attention.", "\"+ Change the school's grades\" sets the grade names and what each counts as.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\". \"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Percentages are rounded to one decimal, such as 33.3%.", "The overall percentage adds the marks of all subjects with marks, like a report card. If a test has only grades, it shows the average of what the grades count as.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

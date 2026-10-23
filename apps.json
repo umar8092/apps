@@ -460,5 +460,11 @@
     "name": "Tuition Fee and Attendance Register for Tutors",
     "description": "For home tutors and small academies. Each student has their own class days and fee (monthly or per class); tap who is absent and record full, part or advance payments. See \"Still to collect: 14,600 from 4 students\", \"Ali: attended 11 of 13 classes, 5,000 late\", unpaid fees carried to next month, part-month fees for a student who joined on the 15th, and a reminder or receipt message for the parent. Private, works offline.",
     "color": "#2f8f6b"
+  },
+  {
+    "slug": "exam-result-and-report-card-tracker-for-parents",
+    "name": "Exam Result and Report Card Tracker for Parents",
+    "description": "For parents of school children. Each child has their own subjects; add every test and report card as marks out of any total (25, 50, 100), a grade, or absent. See \"Maths: 62% in Term 2, down from 74% in Term 1\", what needs attention, the best and most improved subjects, each test's overall percentage and position, a chart over time, and a summary to copy for a tutor. Private, works offline.",
+    "color": "#b5179e"
   }
 ]
