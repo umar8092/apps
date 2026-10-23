@@ -595,6 +595,14 @@ For flatmates, roommates and hostel room-mates who share rent, bills and groceri
 
 <a href="shared-house-expenses-for-roommates/"><img src="shared-house-expenses-for-roommates/screenshots/phone.png" alt="Shared House Expenses for Roommates screenshot" width="260"></a>
 
+### <img src="car-and-motorbike-service-reminder/favicon.svg" width="36" height="36" align="center"> [Car and Motorbike Service Reminder](https://umar8092.github.io/apps/car-and-motorbike-service-reminder/)
+
+For car and motorbike owners. Set each service (engine oil, filters, brakes, tyres, chain, token tax, insurance) to every so many km or miles or months, whichever comes first, type the odometer now and then and see "Engine oil: due in 640 km or by 10 Dec", what is overdue and a list for the mechanic. Service costs, calendar reminders. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/car-and-motorbike-service-reminder/) &middot; [Details and screenshots](car-and-motorbike-service-reminder/)
+
+<a href="car-and-motorbike-service-reminder/"><img src="car-and-motorbike-service-reminder/screenshots/phone.png" alt="Car and Motorbike Service Reminder screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

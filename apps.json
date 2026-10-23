@@ -442,5 +442,11 @@
     "name": "Shared House Expenses for Roommates",
     "description": "For flatmates, roommates and hostel room-mates who share rent, bills and groceries. Add each cost with who paid and who shares it (equally, by shares for the big room, or exact amounts) and see \"Omar pays Ali 12,600\". Mark as paid, monthly totals by bill, someone away or moving out, no daily limit. Private, works offline.",
     "color": "#7c5cdb"
+  },
+  {
+    "slug": "car-and-motorbike-service-reminder",
+    "name": "Car and Motorbike Service Reminder",
+    "description": "For car and motorbike owners. Set each service (engine oil, filters, brakes, tyres, chain, token tax, insurance) to every so many km or miles or months, whichever comes first, type the odometer now and then and see \"Engine oil: due in 640 km or by 10 Dec\", what is overdue and a list for the mechanic. Service costs, calendar reminders. Private, works offline.",
+    "color": "#c2410c"
   }
 ]

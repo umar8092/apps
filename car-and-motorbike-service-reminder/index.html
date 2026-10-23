@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car and Motorbike Service Reminder: Oil Change, Tyres, Tax and Insurance by km or Date</title>
+    <meta name="description" content="Free car and motorbike service reminder. Set each service (engine oil, air filter, brakes, tyres, chain, token tax, insurance) to every so many km or miles or months, whichever comes first, type the odometer now and then and see what is due, what is overdue and what to ask the mechanic for. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/car-and-motorbike-service-reminder/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#c2410c">
+    <meta name="theme-color" content="#c2410c">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Car and Motorbike Service Reminder">
+    <meta property="og:url" content="https://umar8092.github.io/apps/car-and-motorbike-service-reminder/">
+    <meta property="og:title" content="Car and Motorbike Service Reminder">
+    <meta property="og:description" content="Know when the oil change, filters, tyres, tax and insurance are due on your car or motorbike: by km or by date, whichever comes first. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Car and Motorbike Service Reminder","alternateName":["Oil Change Reminder","Car Maintenance Tracker","Bike Service Reminder","Vehicle Service Log"],"url":"https://umar8092.github.io/apps/car-and-motorbike-service-reminder/","description":"A free service reminder for cars and motorbikes: each service is due every so many km or miles or months, whichever comes first, with odometer updates, a list for the mechanic, service costs and calendar reminders, private on your device.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"oil change reminder, car service reminder, motorbike service reminder, car maintenance tracker, km or months whichever comes first, token tax reminder","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does whichever comes first mean?","acceptedAnswer":{"@type":"Answer","text":"Engine oil wears out with distance and with time. If it is due every 5,000 km or 6 months, it is due at 5,000 km if you drive a lot, or after 6 months if you hardly drive. The app watches both and shows the one that comes first."}},{"@type":"Question","name":"How often should I change the engine oil?","acceptedAnswer":{"@type":"Answer","text":"The app starts at every 5,000 km or 6 months for a car and every 1,000 km or 3 months for a motorbike, which are common starting points. Your owner's manual or mechanic may say longer for synthetic oil; change the numbers to match."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your vehicles and services stay in this browser on this device. There is no account."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Car and Motorbike Service Reminder</h1>
+        <p class="sub">Oil change, filters, tyres, tax and insurance: what is due, by km or by date, whichever comes first.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your list will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h">What needs doing</h2>
+            <div id="sum-body" aria-live="polite"></div>
+        </section>
+
+        <section class="card list" id="list" aria-labelledby="list-h">
+            <h2 id="list-h">Your vehicles</h2>
+            <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+            <p class="empty" id="empty">No vehicle yet. Add your car or motorbike and its first service, such as the engine oil, and you will see how many km and days are left.</p>
+            <ul class="vehicles" id="vehicles"></ul>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card add" id="add" aria-labelledby="form-h">
+            <h2 id="form-h">Add a service</h2>
+            <div class="msg" id="form-msg" role="status" aria-live="polite"></div>
+            <button type="button" class="primary" id="open-form" hidden>+ Add a service</button>
+            <form id="form" novalidate>
+                <label for="f-vehicle">Which vehicle?</label>
+                <select id="f-vehicle" aria-describedby="e-vehicle"></select>
+                <p class="err" id="e-vehicle" role="alert"></p>
+                <div class="opt newv" id="w-new">
+                    <label for="f-vname">Vehicle name</label>
+                    <input id="f-vname" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Honda City" aria-describedby="e-vname">
+                    <p class="err" id="e-vname" role="alert"></p>
+                    <div class="pair">
+                        <div><label for="f-vkind">Car or motorbike?</label>
+                            <select id="f-vkind"><option value="car" selected>Car</option><option value="bike">Motorbike</option></select></div>
+                        <div><label for="f-vunit">Distance in</label>
+                            <select id="f-vunit"><option value="km" selected>km</option><option value="mi">miles</option></select></div>
+                    </div>
+                    <label for="f-vodo">Odometer now</label>
+                    <div class="inline grow"><input id="f-vodo" type="text" inputmode="numeric" maxlength="11" autocomplete="off" placeholder="e.g. 45210" aria-describedby="e-vodo"><span class="unit u-word">km</span></div>
+                    <p class="err" id="e-vodo" role="alert"></p>
+                </div>
+
+                <label for="f-type">Which service?</label>
+                <select id="f-type" aria-describedby="e-type"></select>
+                <p class="err" id="e-type" role="alert"></p>
+                <div class="opt" id="w-name" hidden>
+                    <label for="f-name">What is it?</label>
+                    <input id="f-name" type="text" maxlength="50" autocomplete="off" placeholder="e.g. Clutch plate" aria-describedby="e-name">
+                    <p class="err" id="e-name" role="alert"></p>
+                </div>
+
+                <span class="label-like" id="l-every">How often? Whichever comes first</span>
+                <div class="every" role="group" aria-labelledby="l-every">
+                    <div class="inline grow"><span class="unit">Every</span><input id="f-dist" type="text" inputmode="numeric" maxlength="9" autocomplete="off" aria-label="Every how many km" aria-describedby="e-dist"><span class="unit u-word">km</span></div>
+                    <div class="inline grow"><span class="unit">or every</span><input id="f-timen" type="text" inputmode="numeric" maxlength="3" autocomplete="off" aria-label="Or every how many months or weeks" aria-describedby="e-time">
+                        <select id="f-timeu" aria-label="Months or weeks"><option value="m" selected>months</option><option value="w">weeks</option></select></div>
+                </div>
+                <p class="hint">Leave one empty to use only the other. These are usual starting points: change them to match your manual or mechanic.</p>
+                <p class="err" id="e-dist" role="alert"></p>
+                <p class="err" id="e-time" role="alert"></p>
+
+                <div class="pair">
+                    <div><label for="f-laston">Last done on</label>
+                        <input id="f-laston" type="date" aria-describedby="e-laston"></div>
+                    <div id="w-lastat"><label for="f-lastat">At odometer</label>
+                        <div class="inline grow"><input id="f-lastat" type="text" inputmode="numeric" maxlength="11" autocomplete="off" aria-describedby="e-lastat"><span class="unit u-word">km</span></div></div>
+                </div>
+                <p class="hint" id="h-last">Not sure? Leave today and today's reading: it counts from now.</p>
+                <p class="err" id="e-laston" role="alert"></p>
+                <p class="err" id="e-lastat" role="alert"></p>
+
+                <p class="preview" id="preview" aria-live="polite"></p>
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="save">Add to the list</button>
+                    <button type="button" class="secondary" id="cancel">Cancel</button>
+                </div>
+                <button type="button" class="danger" id="del" hidden>Delete this service</button>
+            </form>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Share, money and backup</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy-all">Copy the list</button>
+                <button type="button" class="secondary" id="mail-all">Email the list</button>
+                <button type="button" class="secondary wide" id="cal-all">Add all due dates to my calendar</button>
+            </div>
+            <label for="cur">Currency symbol for costs</label>
+            <select id="cur"></select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>What does "whichever comes first" mean?</summary><p>Engine oil wears out with distance and with time. If it is due every 5,000 km or 6 months, it is due at 5,000 km if you drive a lot, or after 6 months if the car hardly moves. The app watches both and warns you at the one that comes first.</p></details>
+        <details><summary>How often should the oil be changed?</summary><p>The app starts at every 5,000 km or 6 months for a car and every 1,000 km or 3 months for a motorbike, which are common starting points. Fully synthetic oil often lasts longer. Your owner's manual or mechanic knows best: change the numbers to match.</p></details>
+        <details><summary>Do I have to type the odometer every day?</summary><p>No. Type it whenever you fill up or once a week. The app shows the last reading and its date. After two readings at least a week apart it also works out how far you drive a day and guesses the date a service will come due.</p></details>
+        <details><summary>I did a service early. What do I tap?</summary><p>Tap <b>Done</b> on it and type the day and the odometer reading. The next one counts from then, so doing it early is never a problem.</p></details>
+        <details><summary>The odometer was replaced or reset. What now?</summary><p>Type the new reading under <b>Odometer now</b>. The app sees it is lower, asks, and when you choose <b>The meter was replaced or reset</b> it keeps counting from your last reading, so the km left stay right.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your vehicles and services stay in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to move them to a new phone. Once loaded, the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/car-and-motorbike-service-reminder">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Car and Motorbike Service Reminder", "sections": [
+ {"h": "Add your vehicle and its first service", "steps": ["Under \"Which vehicle?\" choose \"+ New vehicle\". Type the \"Vehicle name\", choose \"Car or motorbike?\", \"Distance in\" km or miles, and the number under \"Odometer now\".", "Choose \"Which service?\": engine oil, air filter, brakes, tyres, chain, token tax, insurance and more. For anything else choose \"Something else\" and type it in \"What is it?\".", "\"How often?\" is filled in with usual numbers, such as every 5,000 km or every 6 months. Change them to match your manual. Leave one empty to use only the other.", "Pick \"Last done on\" and type the odometer reading at that time in \"At odometer\". Not sure? Leave today and today's reading.", "The line above \"Add to the list\" shows when it will be due. Tap \"Add to the list\"."]},
+ {"h": "Keep the odometer up to date", "steps": ["In each vehicle's box, type the number on the meter under \"Odometer now\" and tap \"Save reading\". Once a week or at each fill-up is enough.", "If the number is lower than before, the app asks. Choose \"The meter was replaced or reset\" to keep counting, or \"Let me fix the number\"."]},
+ {"h": "What the colours and words mean", "steps": ["\"Overdue\" (red): it has passed its km or its date. \"Due now\" (orange): it is due today or at this reading. \"Due soon\" (orange): close to its km or date.", "\"OK\" (green) shows how many km and how long are left, whichever comes first, and the odometer reading to watch for.", "\"What needs doing\" at the top lists everything overdue or due soon, on all vehicles, most urgent first."]},
+ {"h": "When a service is done", "steps": ["Tap \"Done\" on it, check the day and type the odometer reading. \"+ Add cost or workshop (optional)\" keeps what you paid and where.", "The next one counts from that day and reading. \"Past services\" lists every time it was done with the cost.", "\"Edit\" changes the service or how often it is due. \"Delete this service\" is at the bottom of the edit form, with \"Undo\"."]},
+ {"h": "Mechanic, sharing and calendar", "steps": ["\"Copy for the mechanic\" on a vehicle copies what is overdue or due soon, ready to paste in a message.", "\"Copy the list\" and \"Email the list\" share every vehicle and service. Email works without typing an address first.", "\"Calendar\" on a vehicle, or \"Add all due dates to my calendar\", saves a calendar file with each date-based due day."]},
+ {"h": "Money and backup", "steps": ["\"Currency symbol for costs\" puts a symbol in front of costs, or none for plain numbers.", "Each vehicle shows what you spent on services this year and in all.", "\"Save a backup file\" keeps everything in one file. \"Restore a backup\" brings it back. \"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Each vehicle has its own km or miles, and each service its own distance and time.", "Done early? Tap Done anyway: the next one counts from that day.", "After two readings a week apart, the app guesses the date the km will be reached.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

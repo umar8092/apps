@@ -1,0 +1,15 @@
+{
+  "name": "Car and Motorbike Service Reminder",
+  "short_name": "Service Reminder",
+  "description": "Oil change, filters, tyres, tax and insurance: what is due, by km or by date, whichever comes first.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#2d1408",
+  "theme_color": "#c2410c",
+  "categories": ["lifestyle", "productivity", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
