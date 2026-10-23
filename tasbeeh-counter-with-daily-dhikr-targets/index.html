@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasbeeh Counter with Daily Dhikr Targets: Count Istighfar, Durood and Tasbeeh After Prayer</title>
+    <meta name="description" content="Free online tasbeeh counter. Tap to count your dhikr, set a daily target for each one (100 istighfar, 1,000 durood on Fridays), count the 33, 33, 34 tasbeeh after prayer with the next phrase coming up by itself, reach a big family goal such as 1,25,000 Ayat-e-Karima, and see your streak and the last 7 days. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/tasbeeh-counter-with-daily-dhikr-targets/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#0f8b8d">
+    <meta name="theme-color" content="#0f8b8d">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Tasbeeh Counter with Daily Dhikr Targets">
+    <meta property="og:url" content="https://umar8092.github.io/apps/tasbeeh-counter-with-daily-dhikr-targets/">
+    <meta property="og:title" content="Tasbeeh Counter with Daily Dhikr Targets">
+    <meta property="og:description" content="Tap to count your dhikr, with a daily target for each one, the 33, 33, 34 tasbeeh after prayer, big family goals, streaks and the last 7 days. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Tasbeeh Counter with Daily Dhikr Targets","alternateName":["Online Tasbeeh Counter","Digital Tasbih","Dhikr Counter","Zikr Counter","Istighfar Counter","Durood Counter"],"url":"https://umar8092.github.io/apps/tasbeeh-counter-with-daily-dhikr-targets/","description":"A free tasbeeh and dhikr counter with a daily target for each dhikr, the tasbeeh after prayer in order, big shared goals, streaks and history, private on your device.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"tasbeeh counter, online tasbih, dhikr counter, zikr counter, istighfar counter, durood counter, tasbeeh fatima, ayat e karima counter","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I count the tasbeeh after prayer?","acceptedAnswer":{"@type":"Answer","text":"Pick Tasbeeh after prayer (33, 33, 34) and tap. After 33 SubhanAllah the counter moves to Alhamdulillah, after 33 more to Allahu Akbar, and after 34 a round is done. Five rounds a day is one after each prayer."}},{"@type":"Question","name":"Can I set a different target for each dhikr?","acceptedAnswer":{"@type":"Answer","text":"Yes. Each dhikr has its own target, such as 100 istighfar every day and 1,000 durood only on Fridays. Days without a target do not break your streak."}},{"@type":"Question","name":"Can a family share a big goal like 1,25,000?","acceptedAnswer":{"@type":"Answer","text":"Yes. Add a Big goal with the total, an optional date and the number of people. The app says how many each person does and how many a day are still needed."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Tasbeeh Counter with Daily Dhikr Targets</h1>
+        <p class="sub">Tap to count your dhikr. Each one has its own daily target, and the tasbeeh after prayer moves to the next phrase by itself.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your counts will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card counter" id="counter" aria-labelledby="cur-name">
+            <div class="chips" id="pick" role="group" aria-label="What are you counting?"></div>
+            <div id="cur" hidden>
+                <h2 id="cur-name"></h2>
+                <p class="arabic" id="cur-ar" lang="ar" dir="rtl"></p>
+                <p class="cur-step" id="cur-step"></p>
+                <button type="button" class="tap" id="tap"><span class="tap-n" id="tap-n">0</span><span class="tap-sub" id="tap-sub"></span><span class="tap-hint">Tap to count</span></button>
+                <p class="state" id="cur-line" aria-live="polite"></p>
+                <div class="bar" aria-hidden="true"><span id="cur-bar"></span></div>
+                <p class="sub-line" id="cur-extra"></p>
+                <div class="c-btns">
+                    <button type="button" class="secondary" id="minus" aria-label="Take back the last tap">&minus;1</button>
+                    <button type="button" class="secondary" id="focus-open">Full screen</button>
+                    <button type="button" class="secondary" id="fix-open" aria-expanded="false">Change count</button>
+                </div>
+                <div class="opt sub-box" id="fix" hidden>
+                    <label for="fix-n">Type a number</label>
+                    <input id="fix-n" type="text" inputmode="numeric" maxlength="11" autocomplete="off" placeholder="e.g. 33" aria-describedby="fix-h e-fix">
+                    <p class="hint" id="fix-h">Counted on your beads, or someone else's count? Add it. Lost count? Set today to the right number.</p>
+                    <p class="err" id="e-fix" role="alert"></p>
+                    <div class="tool-grid">
+                        <button type="button" class="primary" id="fix-add">Add to today</button>
+                        <button type="button" class="secondary" id="fix-set">Set today to this</button>
+                    </div>
+                    <button type="button" class="secondary" id="fix-round" hidden>+1 full round</button>
+                    <button type="button" class="danger" id="fix-reset">Reset today to 0</button>
+                </div>
+            </div>
+            <div class="msg" id="c-msg" role="status" aria-live="polite"></div>
+            <div id="none" hidden>
+                <p class="empty">Nothing to count yet. Tap <b>+ Add a dhikr</b>, or start with the usual list.</p>
+                <button type="button" class="primary" id="starter">Add the usual list (tasbeeh after prayer, istighfar, durood)</button>
+            </div>
+            <p class="hint keys">On a computer: Space or Enter counts, Backspace takes one back.</p>
+        </section>
+
+        <section class="card hist" id="hist" aria-labelledby="hist-h">
+            <h2 id="hist-h">Last 7 days</h2>
+            <ul class="week" id="week"></ul>
+            <ul class="days" id="days"></ul>
+            <button type="button" class="link" id="days-more" aria-expanded="false">Show 30 days</button>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card list" id="list" aria-labelledby="list-h">
+            <h2 id="list-h">My dhikr today</h2>
+            <div class="msg" id="l-msg" role="status" aria-live="polite"></div>
+            <ul class="box-list" id="items"></ul>
+            <button type="button" class="secondary" id="add">+ Add a dhikr</button>
+        </section>
+
+        <section class="card edit" id="edit" aria-labelledby="edit-h" hidden>
+            <h2 id="edit-h">Add a dhikr</h2>
+            <form id="edit-form" novalidate>
+                <fieldset class="choice">
+                    <legend>What kind?</legend>
+                    <div class="seg three">
+                        <input type="radio" name="kind" id="k-daily" value="daily" checked><label for="k-daily">Daily target<small>e.g. 100 a day</small></label>
+                        <input type="radio" name="kind" id="k-set" value="set"><label for="k-set">Set in order<small>e.g. 33, 33, 34</small></label>
+                        <input type="radio" name="kind" id="k-goal" value="goal"><label for="k-goal">Big goal<small>one total</small></label>
+                    </div>
+                </fieldset>
+
+                <div class="opt" id="w-one">
+                    <label for="e-phrase">Dhikr</label>
+                    <select id="e-phrase"></select>
+                </div>
+                <label for="e-name">Name</label>
+                <input id="e-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Istighfar" aria-describedby="e-name-err">
+                <p class="err" id="e-name-err" role="alert"></p>
+                <div class="opt" id="w-ar-one">
+                    <button type="button" class="link" id="o-ar" aria-expanded="false">+ Add Arabic text (optional)</button>
+                    <div class="opt" id="w-ar" hidden>
+                        <label for="e-ar">Arabic text</label>
+                        <input id="e-ar" type="text" maxlength="120" autocomplete="off" lang="ar" dir="rtl" class="ar-in">
+                    </div>
+                </div>
+
+                <div class="opt" id="w-daily">
+                    <label for="e-target">Target each day</label>
+                    <select id="e-target">
+                        <option value="33">33</option>
+                        <option value="100" selected>100</option>
+                        <option value="300">300</option>
+                        <option value="500">500</option>
+                        <option value="1000">1,000</option>
+                        <option value="custom">Another number</option>
+                    </select>
+                    <div class="opt" id="w-target" hidden>
+                        <label for="e-target-n">Your target</label>
+                        <input id="e-target-n" type="text" inputmode="numeric" maxlength="9" autocomplete="off" placeholder="1 to 1,000,000" aria-describedby="e-target-err">
+                        <p class="err" id="e-target-err" role="alert"></p>
+                    </div>
+                    <fieldset class="choice">
+                        <legend>Which days?</legend>
+                        <div class="seg">
+                            <input type="radio" name="days" id="d-all" value="all" checked><label for="d-all">Every day</label>
+                            <input type="radio" name="days" id="d-some" value="some"><label for="d-some">Only some days</label>
+                        </div>
+                    </fieldset>
+                    <div class="opt" id="w-days" hidden>
+                        <div class="wk" id="wk" role="group" aria-label="Days with a target"></div>
+                        <p class="hint">Days without a target still count, and do not break your streak.</p>
+                        <p class="err" id="e-days-err" role="alert"></p>
+                    </div>
+                    <label for="e-mark">Buzz and flash every</label>
+                    <select id="e-mark">
+                        <option value="33">33</option>
+                        <option value="100">100</option>
+                        <option value="0">Only at the target</option>
+                    </select>
+                </div>
+
+                <div class="opt" id="w-set" hidden>
+                    <p class="hint top">Phrases in the order you say them. The counter moves to the next one by itself.</p>
+                    <ol class="steps" id="steps"></ol>
+                    <p class="err" id="e-steps-err" role="alert"></p>
+                    <button type="button" class="secondary" id="step-add">+ Add a phrase</button>
+                    <label for="e-rounds">Rounds each day</label>
+                    <select id="e-rounds">
+                        <option value="1">1 round</option>
+                        <option value="3">3 rounds</option>
+                        <option value="5" selected>5 rounds (one after each prayer)</option>
+                        <option value="custom">Another number</option>
+                    </select>
+                    <div class="opt" id="w-rounds" hidden>
+                        <label for="e-rounds-n">Rounds each day</label>
+                        <input id="e-rounds-n" type="text" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="1 to 50" aria-describedby="e-rounds-err">
+                        <p class="err" id="e-rounds-err" role="alert"></p>
+                    </div>
+                </div>
+
+                <div class="opt" id="w-goal" hidden>
+                    <label for="e-total">Total to reach</label>
+                    <input id="e-total" type="text" inputmode="numeric" maxlength="11" autocomplete="off" placeholder="e.g. 1,25,000" aria-describedby="e-total-err">
+                    <p class="err" id="e-total-err" role="alert"></p>
+                    <button type="button" class="link" id="o-by" aria-expanded="false">+ Finish by a date (optional)</button>
+                    <div class="opt" id="w-by" hidden>
+                        <label for="e-by">Finish by</label>
+                        <input id="e-by" type="date" aria-describedby="e-by-err">
+                        <p class="err" id="e-by-err" role="alert"></p>
+                    </div>
+                    <button type="button" class="link" id="o-people" aria-expanded="false">+ Share among people (optional)</button>
+                    <div class="opt" id="w-people" hidden>
+                        <label for="e-people">How many people?</label>
+                        <input id="e-people" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="2 to 500" aria-describedby="e-people-err">
+                        <p class="err" id="e-people-err" role="alert"></p>
+                    </div>
+                    <button type="button" class="danger" id="goal-again" hidden>Start this goal again from 0</button>
+                </div>
+
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="save">Add and start counting</button>
+                    <button type="button" class="secondary" id="cancel">Cancel</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Settings, share and backup</h2>
+            <label for="s-day">A new day starts at</label>
+            <select id="s-day">
+                <option value="0">Midnight (00:00)</option>
+                <option value="2">02:00</option>
+                <option value="3">03:00</option>
+                <option value="4">04:00</option>
+                <option value="5">05:00</option>
+                <option value="6">06:00</option>
+            </select>
+            <p class="hint">Count late at night after Isha? Pick a later hour so it still counts for that day.</p>
+            <label for="s-vib">Vibrate</label>
+            <select id="s-vib">
+                <option value="marks">At each 33 or 100, each new phrase and the target</option>
+                <option value="every">On every tap too</option>
+                <option value="off">Off</option>
+            </select>
+            <p class="hint">iPhones do not let web pages vibrate. The counter flashes instead.</p>
+            <div class="tool-grid gap-top">
+                <button type="button" class="secondary" id="copy">Copy today's summary</button>
+                <a class="secondary" id="mail" href="mailto:">Email today's summary</a>
+            </div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does the tasbeeh after prayer work?</summary><p>Pick <b>Tasbeeh after prayer (33, 33, 34)</b> and tap. After 33 SubhanAllah the counter moves to Alhamdulillah, after 33 more to Allahu Akbar, and after 34 one round is done and it starts again. The target is 5 rounds a day, one after each prayer. You can change the phrases, the counts and the rounds with <b>Edit</b>.</p></details>
+        <details><summary>Can I have a target only on Fridays?</summary><p>Yes. Add a dhikr such as Durood, set <b>Target each day</b> to 1,000 and choose <b>Only some days</b> and Fri. On other days it still counts, with no target, and your streak only looks at Fridays.</p></details>
+        <details><summary>We are reading 1,25,000 Ayat-e-Karima as a family. Can it help?</summary><p>Add a <b>Big goal</b> of 125,000, with the date of the gathering and the number of people. It shows how many each person does (3 people: 2 do 41,667 and 1 does 41,666) and how many a day are still needed. When someone tells you their count, use <b>Change count</b> and <b>Add to today</b>. <b>Copy today's summary</b> gives text for WhatsApp.</p></details>
+        <details><summary>I tapped too many times.</summary><p>Tap <b>&minus;1</b> to take back one. For more, open <b>Change count</b>, type the right number and tap <b>Set today to this</b>.</p></details>
+        <details><summary>When does a new day start?</summary><p>At midnight, or at the hour you pick under <b>A new day starts at</b>. With 04:00, dhikr at 01:30 still counts for the day before.</p></details>
+        <details><summary>Does the app give religious rulings?</summary><p>No. It only counts. The phrases and numbers are the common ones; ask a scholar about anything else.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your counts stay in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to move to a new phone. Once loaded, the app works with no connection, even in a mosque with no signal.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/tasbeeh-counter-with-daily-dhikr-targets">Open source (MIT)</a></footer>
+</main>
+
+<div class="focus" id="focus" role="dialog" aria-modal="true" aria-labelledby="f-name" hidden>
+    <div class="f-top">
+        <button type="button" class="f-btn" id="f-minus" aria-label="Take back the last tap">&minus;1</button>
+        <p class="f-name" id="f-name"></p>
+        <button type="button" class="f-btn" id="f-close">Close</button>
+    </div>
+    <button type="button" class="f-tap" id="f-tap">
+        <span class="f-ar" id="f-ar" lang="ar" dir="rtl"></span>
+        <span class="f-step" id="f-step"></span>
+        <span class="f-n" id="f-n">0</span>
+        <span class="f-line" id="f-line"></span>
+        <span class="f-hint">Tap anywhere to count</span>
+    </button>
+</div>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Tasbeeh Counter with Daily Dhikr Targets", "sections": [
+ {"h": "Count", "steps": ["Pick what you are counting from the buttons at the top, such as \"Astaghfirullah (Istighfar)\".", "Tap the big circle once for each dhikr. The big number is your count; under it is the target, such as \"of 100\".", "The line under the circle says where you are, such as \"64 of 100 today, 36 to go\", and the bar fills up. The phone buzzes (on Android) and the circle flashes at each 33 or 100 and when you reach the target.", "Tapped by mistake? \"−1\" takes back one.", "\"Full screen\" makes the whole screen one big button, dark, and keeps the screen on while you count. \"Close\" goes back.", "On a computer, Space or Enter counts and Backspace takes one back."]},
+ {"h": "Tasbeeh after prayer", "steps": ["\"Tasbeeh after prayer (33, 33, 34)\" counts 33 SubhanAllah, then moves to Alhamdulillah by itself, then to 34 Allahu Akbar. The big number counts inside the phrase, such as \"12 of 33\".", "Each time all three are done, one round is done. The line says \"2 rounds of 5 today\"; 5 rounds is one after each prayer."]},
+ {"h": "Fix a count", "steps": ["Tap \"Change count\" and type a number.", "\"Add to today\" adds it, for example 33 you counted on your beads or a count someone sends you.", "\"Set today to this\" puts today's count to that number, if you lost count.", "For a set, \"+1 full round\" adds one whole round.", "\"Reset today to 0\" clears today for this dhikr, with Undo."]},
+ {"h": "Add or change a dhikr", "steps": ["Tap \"+ Add a dhikr\" and choose what kind: \"Daily target\", \"Set in order\" or \"Big goal\".", "Daily target: pick the dhikr from the list (or \"My own words\"), check the Name, pick \"Target each day\" (33, 100, 300, 500, 1,000 or \"Another number\"), and \"Every day\" or \"Only some days\", such as only Fri. \"Buzz and flash every\" sets when the phone buzzes.", "Set in order: each phrase has its own box with its count. \"+ Add a phrase\" adds one, \"Remove\" takes one out. Pick \"Rounds each day\".", "Big goal: type the \"Total to reach\", such as 1,25,000. \"+ Finish by a date\" shows how many a day you still need. \"+ Share among people\" shows how many each person does.", "\"+ Add Arabic text\" is optional; the common phrases fill it in for you.", "Each dhikr in \"My dhikr today\" has \"Edit\" and \"Delete\" (with Undo)."]},
+ {"h": "Your progress", "steps": ["\"My dhikr today\" shows every dhikr with today's count, its target and the days in a row you reached it.", "\"Last 7 days\" shows the total of each dhikr for the week and on how many days you reached the target, then each day. \"Show 30 days\" goes further back."]},
+ {"h": "Settings, share and backup", "steps": ["\"A new day starts at\" lets late-night dhikr count for the day before.", "\"Vibrate\" can buzz at each 33 or 100, on every tap, or never.", "\"Copy today's summary\" copies text you can paste in WhatsApp. \"Email today's summary\" opens your email with it; you do not have to type an address first.", "\"Save a backup file\" keeps everything in one file; \"Restore a backup\" brings it back on this or a new phone. \"Delete everything\" empties the app, with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["The app only counts. It does not give religious rulings.", "Every count is whole and exact: one tap is one dhikr.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

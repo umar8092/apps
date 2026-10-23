@@ -448,5 +448,11 @@
     "name": "Car and Motorbike Service Reminder",
     "description": "For car and motorbike owners. Set each service (engine oil, filters, brakes, tyres, chain, token tax, insurance) to every so many km or miles or months, whichever comes first, type the odometer now and then and see \"Engine oil: due in 640 km or by 10 Dec\", what is overdue and a list for the mechanic. Service costs, calendar reminders. Private, works offline.",
     "color": "#c2410c"
+  },
+  {
+    "slug": "tasbeeh-counter-with-daily-dhikr-targets",
+    "name": "Tasbeeh Counter with Daily Dhikr Targets",
+    "description": "Tap to count your dhikr with a daily target for each one (\"Istighfar: 64 of 100 today, 36 to go\", 1,000 durood only on Fridays). The tasbeeh after prayer moves from 33 SubhanAllah to Alhamdulillah and Allahu Akbar by itself and counts rounds; a big family goal such as 1,25,000 Ayat-e-Karima shows each person's share and how many a day are left. Streaks, last 7 days, dark full screen. Private, works offline.",
+    "color": "#0f8b8d"
   }
 ]

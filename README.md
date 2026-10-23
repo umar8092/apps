@@ -603,6 +603,14 @@ For car and motorbike owners. Set each service (engine oil, filters, brakes, tyr
 
 <a href="car-and-motorbike-service-reminder/"><img src="car-and-motorbike-service-reminder/screenshots/phone.png" alt="Car and Motorbike Service Reminder screenshot" width="260"></a>
 
+### <img src="tasbeeh-counter-with-daily-dhikr-targets/favicon.svg" width="36" height="36" align="center"> [Tasbeeh Counter with Daily Dhikr Targets](https://umar8092.github.io/apps/tasbeeh-counter-with-daily-dhikr-targets/)
+
+Tap to count your dhikr with a daily target for each one ("Istighfar: 64 of 100 today, 36 to go", 1,000 durood only on Fridays). The tasbeeh after prayer moves from 33 SubhanAllah to Alhamdulillah and Allahu Akbar by itself and counts rounds; a big family goal such as 1,25,000 Ayat-e-Karima shows each person's share and how many a day are left. Streaks, last 7 days, dark full screen. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/tasbeeh-counter-with-daily-dhikr-targets/) &middot; [Details and screenshots](tasbeeh-counter-with-daily-dhikr-targets/)
+
+<a href="tasbeeh-counter-with-daily-dhikr-targets/"><img src="tasbeeh-counter-with-daily-dhikr-targets/screenshots/phone.png" alt="Tasbeeh Counter with Daily Dhikr Targets screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
