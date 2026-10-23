@@ -200,6 +200,7 @@ footer a { color: var(--muted); }
     .vehicle { padding: .7rem .6rem; }
     .box { padding: .6rem .65rem .65rem; }
     .tool-grid { grid-template-columns: minmax(0, 1fr); }
+    .pair { grid-template-columns: minmax(0, 1fr); }
     .row-btns > * { flex-basis: 100%; }
     .v-btns .mini { flex-basis: 100%; }
     .odo-row { flex-wrap: wrap; }
@@ -209,7 +210,6 @@ footer a { color: var(--muted); }
 @media (max-width: 360px) {
     .topbar .theme-toggle { padding: 0; width: 44px; justify-content: center; }
     .topbar .theme-toggle span { display: none; }
-    .pair { grid-template-columns: minmax(0, 1fr); }
     .every .unit { min-width: 0; }
 }
 
