@@ -627,6 +627,14 @@ For parents of school children. Each child has their own subjects; add every tes
 
 <a href="exam-result-and-report-card-tracker-for-parents/"><img src="exam-result-and-report-card-tracker-for-parents/screenshots/phone.png" alt="Exam Result and Report Card Tracker for Parents screenshot" width="260"></a>
 
+### <img src="screen-time-allowance-timer-for-kids/favicon.svg" width="36" height="36" align="center"> [Screen Time Allowance Timer for Kids](https://umar8092.github.io/apps/screen-time-allowance-timer-for-kids/)
+
+For parents. Each child has their own daily screen time for school days and for weekends and holidays. Tap Start when they pick up the tablet, TV or games and Stop when they finish, and see "Ali: 25 min left today", a warning 5 minutes before, "Time is up" and how far over, bonus minutes for chores, and the past 7 days. Keeps counting with the phone locked. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/screen-time-allowance-timer-for-kids/) &middot; [Details and screenshots](screen-time-allowance-timer-for-kids/)
+
+<a href="screen-time-allowance-timer-for-kids/"><img src="screen-time-allowance-timer-for-kids/screenshots/phone.png" alt="Screen Time Allowance Timer for Kids screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

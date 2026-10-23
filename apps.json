@@ -466,5 +466,11 @@
     "name": "Exam Result and Report Card Tracker for Parents",
     "description": "For parents of school children. Each child has their own subjects; add every test and report card as marks out of any total (25, 50, 100), a grade, or absent. See \"Maths: 62% in Term 2, down from 74% in Term 1\", what needs attention, the best and most improved subjects, each test's overall percentage and position, a chart over time, and a summary to copy for a tutor. Private, works offline.",
     "color": "#b5179e"
+  },
+  {
+    "slug": "screen-time-allowance-timer-for-kids",
+    "name": "Screen Time Allowance Timer for Kids",
+    "description": "For parents. Each child has their own daily screen time for school days and for weekends and holidays. Tap Start when they pick up the tablet, TV or games and Stop when they finish, and see \"Ali: 25 min left today\", a warning 5 minutes before, \"Time is up\" and how far over, bonus minutes for chores, and the past 7 days. Keeps counting with the phone locked. Private, works offline.",
+    "color": "#7b61ff"
   }
 ]
