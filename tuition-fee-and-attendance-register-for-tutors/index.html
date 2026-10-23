@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuition Fee and Attendance Register for Tutors: Who Has Paid and Who Came</title>
+    <meta name="description" content="Free fee and attendance register for home tutors and small academies. Each student has their own class days and fee (monthly or per class). Tap who is absent, record full, part and advance payments, and see who has not paid this month with a reminder message for the parent. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/tuition-fee-and-attendance-register-for-tutors/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#2f8f6b">
+    <meta name="theme-color" content="#1f6e50">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Tuition Fee and Attendance Register for Tutors">
+    <meta property="og:url" content="https://umar8092.github.io/apps/tuition-fee-and-attendance-register-for-tutors/">
+    <meta property="og:title" content="Tuition Fee and Attendance Register for Tutors: Who Has Paid This Month and Who Came">
+    <meta property="og:description" content="Each student with their own class days and fee. Tap who is absent, record payments, and see who still owes this month, with a message ready for the parent. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Tuition Fee and Attendance Register for Tutors","alternateName":["Tuition Fee Tracker","Home Tutor Fee Register","Tutor Attendance Register","Coaching Fee Tracker","Tuition ki Fees ka Hisab"],"url":"https://umar8092.github.io/apps/tuition-fee-and-attendance-register-for-tutors/","description":"A free fee and attendance register for home tutors and small academies: each student's class days, monthly or per-class fee, absences, extra classes, holidays, part and advance payments, discounts, unpaid fees carried to the next month and a reminder message for parents.","applicationCategory":"EducationalApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"tuition fee tracker, tutor attendance register, home tuition fee record, coaching fee management, student fee reminder","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is attendance marked?","acceptedAnswer":{"@type":"Answer","text":"Every class day counts as attended unless you mark it. In Today's classes tap Absent for anyone who did not come; for other days tap the day in the student's calendar."}},{"@type":"Question","name":"What if a parent pays only part of the fee?","acceptedAnswer":{"@type":"Answer","text":"Record what they paid. The rest stays as Still to pay and is carried into the next month as Unpaid from before. Paying more than the fee comes off the next fee."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Tuition Fee and Attendance Register for Tutors</h1>
+        <p class="sub">For home tutors and small academies: tap who is absent, record each fee payment, and see who has not paid this month.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+
+    <div class="col-a">
+        <section class="card today-card" id="today" aria-labelledby="today-h" hidden>
+            <h2 id="today-h">Today's classes</h2>
+            <p class="t-date" id="t-date"></p>
+            <p class="hint top" id="t-hint"></p>
+            <div class="t-list" id="t-list"></div>
+            <button type="button" class="secondary" id="t-hol"></button>
+            <div class="msg" id="today-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card month" id="month" aria-labelledby="month-h" hidden>
+            <div class="mo-top">
+                <h2 id="month-h">Month</h2>
+                <div class="mo-nav">
+                    <button type="button" class="secondary small" id="mo-prev" aria-label="Previous month">&lsaquo; Previous</button>
+                    <button type="button" class="secondary small" id="mo-next" aria-label="Next month">Next &rsaquo;</button>
+                </div>
+            </div>
+            <button type="button" class="link" id="mo-today" hidden>Go back to this month</button>
+            <p class="mo-pay" id="mo-pay"></p>
+            <div class="mo-rows" id="mo-rows"></div>
+            <div class="mo-sums" id="mo-sums"></div>
+            <div class="tool-grid mo-btns">
+                <button type="button" class="secondary" id="mo-copy">Copy the unpaid list</button>
+                <button type="button" class="secondary" id="mo-print">Print the register</button>
+            </div>
+            <div class="msg" id="month-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a student</h2>
+            <p class="hint top" id="add-intro">Add each student you teach. Each one gets their own box with their class days, a calendar and their fees.</p>
+            <label for="f-name">Student's name</label>
+            <input id="f-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Ali" aria-describedby="f-name-err">
+            <p class="err" id="f-name-err" role="alert"></p>
+            <button type="button" class="link" id="f-more-open">+ Add parent's name and class or subject (optional)</button>
+            <div id="f-more-box" hidden>
+                <label for="f-who">Parent or guardian</label>
+                <input id="f-who" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Mrs Khan">
+                <label for="f-subj">Class or subject</label>
+                <input id="f-subj" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Class 8, Maths">
+            </div>
+            <fieldset class="wd" id="f-wd">
+                <legend>Class days</legend>
+                <div class="quick" id="f-days-quick" role="group" aria-label="Quick choice of class days">
+                    <button type="button" class="chip" data-days="1,2,3,4,5">Mon to Fri</button>
+                    <button type="button" class="chip" data-days="1,2,3,4">Mon to Thu</button>
+                    <button type="button" class="chip" data-days="1,3,5">Mon, Wed, Fri</button>
+                    <button type="button" class="chip" data-days="2,4,6">Tue, Thu, Sat</button>
+                </div>
+                <div class="wd-row" id="f-wd-row"></div>
+                <p class="hint" id="f-wd-hint">No fixed days? Leave all unticked and add each class from the calendar.</p>
+            </fieldset>
+            <fieldset class="wd">
+                <legend>Fee is charged</legend>
+                <div class="seg" role="radiogroup" aria-label="Fee is charged">
+                    <label class="seg-b"><input type="radio" name="f-bill" id="f-bill-month" value="month" checked> <span>Per month</span></label>
+                    <label class="seg-b"><input type="radio" name="f-bill" id="f-bill-class" value="class"> <span>Per class</span></label>
+                </div>
+            </fieldset>
+            <label for="f-fee" id="f-fee-l">Monthly fee</label>
+            <div class="amount-row">
+                <span class="cur-tag" id="cur-tag" hidden></span>
+                <input id="f-fee" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 5000" aria-describedby="f-fee-err">
+            </div>
+            <p class="err" id="f-fee-err" role="alert"></p>
+            <p class="hint" id="f-fee-hint"></p>
+            <div class="field" id="f-from-box" hidden>
+                <label for="f-from">New fee starts with</label>
+                <select id="f-from"></select>
+                <p class="hint">Earlier months keep the old fee.</p>
+            </div>
+            <label class="check" id="f-missed-box" hidden><input type="checkbox" id="f-missed"> <span>Charge for missed classes too</span></label>
+            <label for="f-start">Started on</label>
+            <input id="f-start" type="date" aria-describedby="f-start-err">
+            <p class="err" id="f-start-err" role="alert"></p>
+            <p class="hint" id="f-start-hint">Studying with you for a while already? Keep the 1st of this month.</p>
+            <div class="field" id="f-part-box">
+                <label for="f-part">Joining or leaving part way through a month</label>
+                <select id="f-part">
+                    <option value="full">Charge the full monthly fee</option>
+                    <option value="part">Charge only for the class days they had</option>
+                </select>
+            </div>
+            <button type="button" class="link" id="f-stop-open" hidden>+ Stopped coming? Add the last class day (optional)</button>
+            <div class="field" id="f-stop-box" hidden>
+                <label for="f-stop">Last class day</label>
+                <input id="f-stop" type="date" aria-describedby="f-stop-err">
+                <p class="err" id="f-stop-err" role="alert"></p>
+                <p class="hint">Leave it empty if they still come.</p>
+            </div>
+            <button type="button" class="link" id="f-open-open">+ Add fees unpaid from before (optional)</button>
+            <div class="field" id="f-open-box" hidden>
+                <label for="f-open">Fees unpaid from before the start date</label>
+                <input id="f-open" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 4000" aria-describedby="f-open-err">
+                <p class="err" id="f-open-err" role="alert"></p>
+            </div>
+            <div class="row-btns">
+                <button type="button" class="primary" id="f-save">Add student</button>
+                <button type="button" class="secondary" id="f-cancel" hidden>Cancel</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <label for="due">Monthly fees are due by</label>
+            <select id="due"></select>
+            <p class="hint">A monthly fee not paid by this day shows as Late.</p>
+            <label for="greet">Start messages to parents with</label>
+            <input id="greet" type="text" maxlength="40" autocomplete="off" placeholder="Hello">
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="items" id="items" aria-label="Your students" hidden>
+            <div class="find" id="find-box" hidden>
+                <label for="find">Find a student</label>
+                <input id="find" type="search" maxlength="40" autocomplete="off" placeholder="Type a name">
+                <p class="hint" id="find-none" hidden>No student with that name.</p>
+            </div>
+            <div class="i-list" id="i-list"></div>
+        </section>
+    </div>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is attendance marked?</summary><p>Every class day counts as <b>attended</b> unless you mark it, so you only tap the absences. In <b>Today's classes</b> tap <b>Absent</b> for anyone who did not come. For another day, tap it in the student's calendar and pick <b>Present</b>, <b>Absent</b> or <b>No class</b>. Days still to come are not counted yet.</p></details>
+        <details><summary>Monthly fee or per class?</summary><p>With <b>Per month</b> the fee is the same whatever the attendance. With <b>Per class</b> the month's fee is the classes they attended times the fee per class, for example 6 classes × 600 = 3,600. Missed classes are not charged unless you tick <b>Charge for missed classes too</b>. In the current month it shows the fee <b>so far</b>.</p></details>
+        <details><summary>A parent paid only part, or paid ahead</summary><p>Tap <b>Record a payment</b> and type what they paid. Anything left shows as <b>Still to pay</b> and is carried into the next month as <b>Unpaid from before</b>. Paying more than the fee comes off the next fee. To pay ahead, pick next month in <b>For the month of</b>.</p></details>
+        <details><summary>A student joined on the 15th</summary><p>Pick the <b>Started on</b> day. In <b>Joining or leaving part way through a month</b> choose the full monthly fee, or only the class days they had: joining on Thu 15 October with classes Monday to Friday is 12 of 22 class days, so a 6,000 fee becomes 3,272.73.</p></details>
+        <details><summary>Holidays, siblings and fee changes</summary><p>On a holiday tap <b>Holiday today: no classes</b>, or tap the day in a calendar and pick <b>Holiday for everyone</b>; holidays are not counted as classes. For a sibling discount type the lower fee, or use <b>Discount or extra charge</b> for one month. To raise a fee tap <b>Edit</b>, type the new fee and pick the month it starts.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/tuition-fee-and-attendance-register-for-tutors">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Tuition Fee and Attendance Register for Tutors", "sections": [
+ {"h": "1. Add each student", "steps": ["Type the \"Student's name\". \"+ Add parent's name and class or subject\" is optional.", "Under \"Class days\" tap a quick choice such as \"Mon to Fri\", or tick the days one by one. With no fixed days leave all unticked and add each class from the calendar.", "Pick how the \"Fee is charged\": \"Per month\" or \"Per class\", and type the \"Monthly fee\" or \"Fee per class\". For a sibling discount just type the lower fee.", "With \"Per class\", tick \"Charge for missed classes too\" if absences are still paid.", "Pick the day they \"Started on\". If they have studied with you for a while, keep the 1st of this month.", "In \"Joining or leaving part way through a month\" choose the full monthly fee, or only the class days they had.", "Optional: \"+ Add fees unpaid from before\" for money owed from before the start date.", "Tap \"Add student\". Each student gets their own box."]},
+ {"h": "2. Mark attendance", "steps": ["Every class day counts as attended unless you mark it, so you only tap the absences.", "\"Today's classes\" lists everyone who has a class today. Tap \"Absent\" for anyone who did not come, and \"Present\" to undo it.", "\"Holiday today: no classes\" cancels today's classes for everyone.", "For any other day tap it in the student's calendar and pick \"Present\", \"Absent\" or \"No class\" (no class for this student only). On a day that is not a class day pick \"Extra class\" for a make-up class. \"Holiday for everyone\" marks a holiday in every calendar.", "In the calendar: ✓ attended, ✗ absent, + extra class, H holiday, – no class. Dashed days are still to come and are not counted yet."]},
+ {"h": "3. Fees", "steps": ["Each box shows the month's fee, payments and \"Still to pay\". A monthly fee not paid by the day in \"Monthly fees are due by\" shows as Late.", "\"Record a payment\" saves what the parent paid. Pick the month in \"For the month of\"; pick next month to pay ahead. Paying less leaves the rest as Still to pay; paying more comes off the next fee.", "Anything not paid is carried into the next month as \"Unpaid from before\".", "\"Discount or extra charge\" changes one month only, for example no fee in a holiday month or a charge for books.", "Each payment, discount or charge has \"Delete\", with \"Undo\"."]},
+ {"h": "4. Messages and the month", "steps": ["\"Copy fee message\" copies a polite message for the parent: a reminder while money is owed, or a thank-you receipt once it is paid. \"Share\" opens your phone's share menu, for example to send it on WhatsApp.", "The month box at the top shows \"Still to collect\" with each student who has not paid. \"Copy the unpaid list\" copies it, and \"Print the register\" prints every student's attendance and fees or saves a PDF.", "\"Previous\" and \"Next\" move between months."]},
+ {"h": "Edit, backup and settings", "steps": ["\"Edit\" changes the name, class days, fee (with the month the new fee starts) or start date, and \"+ Stopped coming?\" adds the last class day. \"Delete\" removes the student, with \"Undo\".", "\"Find a student\" appears when you have many students.", "\"Currency symbol\" adds a symbol such as Rs or $ to every amount, or none for plain numbers. \"Start messages to parents with\" sets the greeting, such as Assalam o alaikum.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\". \"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["A part-month fee is the monthly fee times the class days they had, divided by the class days in that month, rounded to the nearest cent.", "Per class fees count only classes that have happened, so this month shows the fee so far.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

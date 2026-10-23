@@ -454,5 +454,11 @@
     "name": "Tasbeeh Counter with Daily Dhikr Targets",
     "description": "Tap to count your dhikr with a daily target for each one (\"Istighfar: 64 of 100 today, 36 to go\", 1,000 durood only on Fridays). The tasbeeh after prayer moves from 33 SubhanAllah to Alhamdulillah and Allahu Akbar by itself and counts rounds; a big family goal such as 1,25,000 Ayat-e-Karima shows each person's share and how many a day are left. Streaks, last 7 days, dark full screen. Private, works offline.",
     "color": "#0f8b8d"
+  },
+  {
+    "slug": "tuition-fee-and-attendance-register-for-tutors",
+    "name": "Tuition Fee and Attendance Register for Tutors",
+    "description": "For home tutors and small academies. Each student has their own class days and fee (monthly or per class); tap who is absent and record full, part or advance payments. See \"Still to collect: 14,600 from 4 students\", \"Ali: attended 11 of 13 classes, 5,000 late\", unpaid fees carried to next month, part-month fees for a student who joined on the 15th, and a reminder or receipt message for the parent. Private, works offline.",
+    "color": "#2f8f6b"
   }
 ]

@@ -1,0 +1,15 @@
+{
+  "name": "Tuition Fee and Attendance Register for Tutors",
+  "short_name": "Tuition Register",
+  "description": "Tap who is absent, record each fee payment, and see which students have not paid this month, with a message ready for the parent.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0e2a20",
+  "theme_color": "#1f6e50",
+  "categories": ["education", "finance", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

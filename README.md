@@ -611,6 +611,14 @@ Tap to count your dhikr with a daily target for each one ("Istighfar: 64 of 100 
 
 <a href="tasbeeh-counter-with-daily-dhikr-targets/"><img src="tasbeeh-counter-with-daily-dhikr-targets/screenshots/phone.png" alt="Tasbeeh Counter with Daily Dhikr Targets screenshot" width="260"></a>
 
+### <img src="tuition-fee-and-attendance-register-for-tutors/favicon.svg" width="36" height="36" align="center"> [Tuition Fee and Attendance Register for Tutors](https://umar8092.github.io/apps/tuition-fee-and-attendance-register-for-tutors/)
+
+For home tutors and small academies. Each student has their own class days and fee (monthly or per class); tap who is absent and record full, part or advance payments. See "Still to collect: 14,600 from 4 students", "Ali: attended 11 of 13 classes, 5,000 late", unpaid fees carried to next month, part-month fees for a student who joined on the 15th, and a reminder or receipt message for the parent. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/tuition-fee-and-attendance-register-for-tutors/) &middot; [Details and screenshots](tuition-fee-and-attendance-register-for-tutors/)
+
+<a href="tuition-fee-and-attendance-register-for-tutors/"><img src="tuition-fee-and-attendance-register-for-tutors/screenshots/phone.png" alt="Tuition Fee and Attendance Register for Tutors screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
