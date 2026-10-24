@@ -472,5 +472,11 @@
     "name": "Screen Time Allowance Timer for Kids",
     "description": "For parents. Each child has their own daily screen time for school days and for weekends and holidays. Tap Start when they pick up the tablet, TV or games and Stop when they finish, and see \"Ali: 25 min left today\", a warning 5 minutes before, \"Time is up\" and how far over, bonus minutes for chores, and the past 7 days. Keeps counting with the phone locked. Private, works offline.",
     "color": "#7b61ff"
+  },
+  {
+    "slug": "symptom-and-pain-diary-for-doctor-visits",
+    "name": "Symptom and Pain Diary for Doctor Visits",
+    "description": "For migraine, headache, back pain, stomach pain or any problem that comes and goes. Log each episode in a few taps: when, how bad (0 to 10), possible triggers and the medicine you took. See \"8 days with migraine in the last 30 days (9 before)\", what helped, the most common triggers and a calendar, then print or email it for your doctor. Private, works offline.",
+    "color": "#7e57c2"
   }
 ]

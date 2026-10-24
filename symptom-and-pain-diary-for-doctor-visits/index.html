@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom and Pain Diary for Doctor Visits: Migraine, Back Pain, Free</title>
+    <meta name="description" content="Free symptom and pain diary for migraine, headache, back pain, stomach pain or any on-and-off problem. Log each episode in a few taps and see how many days a month, how bad, what helped and the likely triggers, then print or email it for your doctor. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/symptom-and-pain-diary-for-doctor-visits/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#7e57c2">
+    <meta name="theme-color" content="#6a3fbf">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Symptom and Pain Diary for Doctor Visits">
+    <meta property="og:url" content="https://umar8092.github.io/apps/symptom-and-pain-diary-for-doctor-visits/">
+    <meta property="og:title" content="Symptom and Pain Diary for Doctor Visits">
+    <meta property="og:description" content="Log each migraine, back pain or stomach pain episode in a few taps. See how often, how bad and what helps, and print it for your doctor. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Symptom and Pain Diary for Doctor Visits","alternateName":["Migraine Diary","Headache Diary","Pain Diary","Symptom Tracker","Back Pain Log"],"url":"https://umar8092.github.io/apps/symptom-and-pain-diary-for-doctor-visits/","description":"A free diary for migraine, headache, back pain, stomach pain or any symptom that comes and goes. Log each episode with how bad it was, possible triggers and what you took, and see days a month, average pain, what helped and the most common triggers, ready to print for the doctor.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"migraine diary, headache diary printable, pain diary, symptom tracker for doctor, back pain log, IBS symptom diary","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does my doctor want a headache or pain diary?","acceptedAnswer":{"@type":"Answer","text":"A diary shows how many days a month the problem happens, how bad it is, how long it lasts, what seems to set it off and whether the medicine works. That helps the doctor choose a treatment and see whether it is working."}},{"@type":"Question","name":"How are the days counted?","acceptedAnswer":{"@type":"Answer","text":"Every calendar day an episode touches counts as a day with the symptom, so a migraine from 10 pm to 6 am counts on both days. Two episodes on one day count as one day."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. The diary stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Symptom and Pain Diary for Doctor Visits</h1>
+        <p class="sub">Log each migraine, back pain or stomach pain episode in a few taps. See how often, how bad and what helps, then print it for your doctor.</p>
+    </header>
+
+    <div class="warn store-warn" id="store-warn" role="alert" hidden>This browser is not saving your diary (private mode or storage blocked). Entries will be lost when you close the page. Use <b>Save a backup file</b> often.</div>
+
+    <nav class="syms" id="syms" aria-label="Your symptoms" hidden></nav>
+
+    <section class="card setup" id="setup" aria-labelledby="setup-h" hidden>
+        <h2 id="setup-h">What do you want to keep a diary of?</h2>
+        <p class="hint top">Tap one. You can add more later, and each one keeps its own diary.</p>
+        <div class="preset-grid" id="presets"></div>
+        <label for="own-name">Or type your own</label>
+        <div class="inline-add">
+            <input id="own-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Dizziness" aria-describedby="own-err">
+            <button type="button" class="secondary" id="own-add">Add</button>
+        </div>
+        <p class="err" id="own-err" role="alert"></p>
+        <button type="button" class="link" id="setup-cancel" hidden>Cancel</button>
+    </section>
+
+    <div class="col-main" id="col-main">
+        <section class="card ongoing" id="ongoing" aria-labelledby="ongoing-h" hidden>
+            <h2 id="ongoing-h">Still going</h2>
+            <div id="ongoing-list"></div>
+            <div class="msg" id="ongoing-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card log" id="log" aria-labelledby="log-h">
+            <h2 id="log-h">Log an episode</h2>
+
+            <fieldset class="group">
+                <legend>When did it start?</legend>
+                <div class="chips" id="start-chips">
+                    <button type="button" class="chip" data-start="now">Now</button>
+                    <button type="button" class="chip" data-start="30">30 min ago</button>
+                    <button type="button" class="chip" data-start="60">1 h ago</button>
+                    <button type="button" class="chip" data-start="120">2 h ago</button>
+                    <button type="button" class="chip" data-start="pick">Earlier: choose</button>
+                </div>
+                <div class="field" id="start-box" hidden>
+                    <label for="start-pick">Date and time it started</label>
+                    <input id="start-pick" type="datetime-local" aria-describedby="start-err">
+                </div>
+                <p class="when-line">Started: <b id="start-text">now</b></p>
+                <p class="err" id="start-err" role="alert"></p>
+            </fieldset>
+
+            <fieldset class="group">
+                <legend>Has it stopped?</legend>
+                <div class="seg" id="stop-seg">
+                    <button type="button" class="chip" data-stopped="no">Still going</button>
+                    <button type="button" class="chip" data-stopped="yes">It has stopped</button>
+                </div>
+                <p class="hint" id="stop-hint" hidden>It started just now? Then choose <b>Still going</b>, or change when it started.</p>
+                <div id="len-box" hidden>
+                    <p class="sub-legend" id="len-legend">How long did it last?</p>
+                    <div class="chips" id="len-chips" role="group" aria-labelledby="len-legend">
+                        <button type="button" class="chip" data-len="now">Until now</button>
+                        <button type="button" class="chip" data-len="30">30 min</button>
+                        <button type="button" class="chip" data-len="60">1 h</button>
+                        <button type="button" class="chip" data-len="120">2 h</button>
+                        <button type="button" class="chip" data-len="240">4 h</button>
+                        <button type="button" class="chip" data-len="480">8 h</button>
+                        <button type="button" class="chip" data-len="720">12 h</button>
+                        <button type="button" class="chip" data-len="1440">1 day</button>
+                        <button type="button" class="chip" data-len="2880">2 days</button>
+                        <button type="button" class="chip" data-len="pick">Choose the end time</button>
+                    </div>
+                    <div class="field" id="end-box" hidden>
+                        <label for="end-pick">Date and time it stopped</label>
+                        <input id="end-pick" type="datetime-local" aria-describedby="end-err">
+                    </div>
+                    <p class="when-line" id="end-line" hidden>Stopped: <b id="end-text"></b></p>
+                </div>
+                <p class="err" id="end-err" role="alert"></p>
+            </fieldset>
+
+            <fieldset class="group">
+                <legend>How bad was it at its worst?</legend>
+                <div class="pain" id="pain"></div>
+                <p class="pain-scale"><span>0 no pain</span><span>5 moderate</span><span>10 worst ever</span></p>
+                <p class="err" id="pain-err" role="alert"></p>
+            </fieldset>
+
+            <fieldset class="group">
+                <legend>Possible triggers <span class="lt">(tap any that apply)</span></legend>
+                <div class="chips" id="trig-chips"></div>
+                <button type="button" class="link" id="trig-open">+ Add your own trigger</button>
+                <div class="inline-add" id="trig-box" hidden>
+                    <input id="trig-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Cheese" aria-label="Your own trigger">
+                    <button type="button" class="secondary" id="trig-add">Add</button>
+                </div>
+            </fieldset>
+
+            <fieldset class="group">
+                <legend>Medicine taken</legend>
+                <div id="meds"></div>
+                <button type="button" class="link" id="med-add">+ Add a medicine you took</button>
+                <datalist id="med-names"></datalist>
+            </fieldset>
+
+            <button type="button" class="link" id="more-open">+ Add where it hurt and a note (optional)</button>
+            <div id="more-box" hidden>
+                <label for="where">Where</label>
+                <input id="where" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Left side of head">
+                <div class="chips small" id="where-chips"></div>
+                <label for="note">Note</label>
+                <textarea id="note" maxlength="500" rows="2" placeholder="e.g. had to leave work early"></textarea>
+            </div>
+
+            <button type="button" class="primary" id="save">Save episode</button>
+            <button type="button" class="secondary" id="edit-cancel" hidden>Cancel editing</button>
+            <div class="msg" id="log-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Symptoms and settings</h2>
+            <label for="person">Your name <span class="lt">(shown on the printout, optional)</span></label>
+            <input id="person" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Sara Khan">
+            <h3 class="small-h">Your symptoms</h3>
+            <div id="sym-boxes"></div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete the whole diary</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-side" id="col-side">
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h">Summary for your doctor</h2>
+            <label for="period" class="first">Show</label>
+            <select id="period">
+                <option value="30">Last 30 days</option>
+                <option value="month">This month</option>
+                <option value="last">Last month</option>
+                <option value="90">Last 90 days</option>
+                <option value="all">All entries</option>
+            </select>
+            <div id="sum-empty" class="empty">
+                <p class="big muted" id="sum-empty-h">No episodes yet</p>
+                <p class="meta" id="sum-empty-text">Log an episode and it is counted here: the days, how bad, how long, what helped and the triggers.</p>
+            </div>
+            <div id="sum-body" hidden>
+                <p class="big"><span id="days-n">0</span> <span class="unit" id="days-unit">days</span></p>
+                <p class="meta strong" id="days-text"></p>
+                <p class="meta" id="compare"></p>
+                <div class="tiles">
+                    <div class="tile"><span class="t-label">Episodes</span><span class="t-val" id="t-n">-</span><span class="t-sub" id="t-n-sub"></span></div>
+                    <div class="tile"><span class="t-label">Average pain</span><span class="t-val" id="t-pain">-</span><span class="t-sub" id="t-pain-sub"></span></div>
+                    <div class="tile"><span class="t-label">Usually lasts</span><span class="t-val" id="t-len">-</span><span class="t-sub" id="t-len-sub"></span></div>
+                    <div class="tile"><span class="t-label">Longest</span><span class="t-val" id="t-long">-</span><span class="t-sub" id="t-long-sub"></span></div>
+                </div>
+                <h3 class="small-h">What you took and whether it helped</h3>
+                <ul class="lines" id="med-lines"></ul>
+                <p class="meta left" id="med-days"></p>
+                <div class="warn" id="overuse" role="note" hidden></div>
+                <h3 class="small-h">Most often after</h3>
+                <ul class="counts" id="trig-counts"></ul>
+                <div id="cal-wrap">
+                    <h3 class="small-h">Calendar</h3>
+                    <div class="cal-head" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+                    <div class="cal" id="cal" role="list"></div>
+                    <p class="cal-key"><span class="sw mild"></span>Mild 1-3 <span class="sw moderate"></span>Moderate 4-6 <span class="sw severe"></span>Severe 7-10 <span class="dot"></span>Medicine taken</p>
+                </div>
+                <p class="meta left" id="cal-none" hidden>The calendar shows up to 90 days. Choose a shorter period above to see it.</p>
+            </div>
+        </section>
+
+        <section class="card share" id="share" aria-labelledby="share-h">
+            <h2 id="share-h">Share with your doctor</h2>
+            <p class="hint top" id="share-hint">Uses the period chosen above.</p>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="print">Print or save as PDF</button>
+                <a class="secondary" id="email" href="mailto:">Email</a>
+                <button type="button" class="secondary" id="copy">Copy as text</button>
+                <button type="button" class="secondary" id="csv">Download spreadsheet</button>
+            </div>
+            <div class="msg" id="share-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="card list" id="list" aria-labelledby="list-h">
+        <h2 id="list-h">Episodes</h2>
+        <p class="hint top" id="list-hint">From the period chosen above, newest first.</p>
+        <div id="months"></div>
+        <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="report" id="report" aria-hidden="true"></section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Why does my doctor want a diary?</summary><p>Doctors ask "how many days a month, how bad, how long, what sets it off, and does the medicine work?". Memory is not good at this, especially for the bad days. A diary kept for 4 to 8 weeks answers it, helps the doctor choose a treatment and later shows whether the treatment is working.</p></details>
+        <details><summary>How are the days counted?</summary><p>Every calendar day an episode touches counts as a day with the symptom, so a migraine from 10 pm to 6 am counts on both days. Two episodes on the same day count as one day. An episode that is still going counts up to today. An episode that crosses the start of the period counts only its days inside the period.</p></details>
+        <details><summary>What do "average pain" and "usually lasts" mean?</summary><p><b>Average pain</b> is the worst pain of each episode, added up and divided by the number of episodes, to one decimal. <b>Usually lasts</b> is the average length of the episodes that have stopped; episodes still going are left out of it. <b>Longest</b> includes them.</p></details>
+        <details><summary>Why does it count the days I took medicine?</summary><p>For headaches and migraine, taking pain medicine on 10 or more days a month (15 for simple painkillers such as paracetamol or ibuprofen) can itself cause more headaches, called medication overuse headache. The app counts the day each episode with a medicine started and shows a note at 10 or more days a month, so you can mention it to your doctor. Do not stop a prescribed medicine without asking your doctor.</p></details>
+        <details><summary>When should I get help straight away?</summary><p>Call emergency services for a sudden, very severe headache ("the worst ever", reaching full strength within a minute or so), a headache with a stiff neck, fever and rash, weakness or numbness, trouble speaking, confusion, a fit, or after a head injury; or for severe stomach pain with vomiting blood, black stools or a hard swollen tummy; or back pain with numbness around the bottom or trouble passing urine.</p></details>
+        <details><summary>Can I track more than one thing?</summary><p>Yes. Tap <b>+ Add a symptom</b> at the top. Each symptom has its own episodes, triggers and summary. Tap a name at the top to switch.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>The diary stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+        <details><summary>Is this medical advice?</summary><p>No. It is a diary to help you and your doctor. Follow your doctor's advice.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/symptom-and-pain-diary-for-doctor-visits">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Symptom and Pain Diary", "sections": [
+ {"h": "Start", "steps": ["The first time, tap what you want to keep a diary of (Migraine, Headache, Back pain, Stomach pain, Period pain or Joint pain), or type your own under \"Or type your own\" and tap \"Add\".", "Each symptom gets its own list of possible triggers and places it can hurt. \"+ Add a symptom\" at the top adds another one; tap a name at the top to switch between them."]},
+ {"h": "Log an episode", "steps": ["\"When did it start?\": tap Now, 30 min ago, 1 h ago, 2 h ago, or \"Earlier: choose\" to pick the date and time. The line under the buttons shows the start time used.", "\"Has it stopped?\": choose \"Still going\" if you still have it, or \"It has stopped\" and then how long it lasted (\"Until now\", 30 min up to 2 days, or \"Choose the end time\").", "\"How bad was it at its worst?\": tap a number from 0 (no pain) to 10 (worst ever).", "\"Possible triggers\": tap anything that came before it, such as short sleep or stress. \"+ Add your own trigger\" adds one to this symptom's list.", "\"+ Add a medicine you took\" adds a box for the medicine name (with the dose if you like) and \"Did it help?\". Add as many as you took.", "\"+ Add where it hurt and a note (optional)\" adds where it hurt and a short note.", "Tap \"Save episode\". The message says what was saved; \"Undo\" takes it back."]},
+ {"h": "Still going", "steps": ["Episodes you saved as \"Still going\" show in the \"Still going\" box at the top with how long they have lasted so far.", "When it stops, choose whether each medicine helped and tap \"It stopped now\". If it stopped earlier, tap \"Edit\" and choose the end time."]},
+ {"h": "Summary for your doctor", "steps": ["\"Show\" chooses the period: last 30 days, this month, last month, last 90 days or all entries.", "The big number is how many days you had the symptom in that period, with the period before for comparison.", "The boxes show the number of episodes, the average pain, how long it usually lasts and the longest.", "\"What you took and whether it helped\" lists each medicine, for example \"Ibuprofen 400 mg: helped 2 of 5 times\", and how many days you took medicine.", "\"Most often after\" lists the triggers you ticked most, and the calendar colours each day by its worst pain, with a dot when you took medicine."]},
+ {"h": "Fix, share and back up", "steps": ["In \"Episodes\", tap \"Edit\" to change an episode (the form at the top fills in; tap \"Save changes\" or \"Cancel editing\"), or \"Delete\" to remove it, with \"Undo\".", "\"Print or save as PDF\" makes a page for your doctor with the summary and every episode. \"Email\" opens your mail app with the same text, no address needed. \"Copy as text\" copies it for a message, and \"Download spreadsheet\" saves a CSV file.", "In \"Symptoms and settings\", \"Your name\" goes on the printout. Each symptom's box lets you rename it, remove triggers you do not use, or remove the symptom (with Undo).", "\"Save a backup file\" downloads the whole diary; \"Restore a backup\" loads it on this or another device, with Undo. \"Delete the whole diary\" empties it, with Undo."]},
+ {"h": "Good to know", "tips": true, "steps": ["A day counts when any episode touched it, so 10 pm to 6 am counts on two days.", "Average pain uses the worst pain of each episode. \"Usually lasts\" only uses episodes that have stopped.", "At 10 or more medicine days a month a note explains medication overuse headache, so you can ask your doctor.", "Everything stays on this device and works offline. Your data is never sent anywhere.", "This is not medical advice. See the questions below for when to get help straight away."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

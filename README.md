@@ -635,6 +635,14 @@ For parents. Each child has their own daily screen time for school days and for 
 
 <a href="screen-time-allowance-timer-for-kids/"><img src="screen-time-allowance-timer-for-kids/screenshots/phone.png" alt="Screen Time Allowance Timer for Kids screenshot" width="260"></a>
 
+### <img src="symptom-and-pain-diary-for-doctor-visits/favicon.svg" width="36" height="36" align="center"> [Symptom and Pain Diary for Doctor Visits](https://umar8092.github.io/apps/symptom-and-pain-diary-for-doctor-visits/)
+
+A diary for migraine, headaches, back pain, stomach pain or any problem that comes and goes. Log each episode in a few taps (when, how bad, possible triggers, what you took and whether it helped) and see how many days a month you had it compared with the month before, the average pain, how long it usually lasts, which medicine helped how often and the most common triggers, with a calendar. Print, email or download it for your doctor. Each symptom keeps its own diary. No sign-up, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/symptom-and-pain-diary-for-doctor-visits/) &middot; [Details and screenshots](symptom-and-pain-diary-for-doctor-visits/)
+
+<a href="symptom-and-pain-diary-for-doctor-visits/"><img src="symptom-and-pain-diary-for-doctor-visits/screenshots/phone.png" alt="Symptom and Pain Diary for Doctor Visits screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

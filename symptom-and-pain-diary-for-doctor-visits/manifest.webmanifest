@@ -1,0 +1,15 @@
+{
+  "name": "Symptom and Pain Diary for Doctor Visits",
+  "short_name": "Pain Diary",
+  "description": "Log each migraine, back pain or stomach pain episode in a few taps. See how often, how bad and what helps, and print it for your doctor.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1d1433",
+  "theme_color": "#6a3fbf",
+  "categories": ["health", "medical", "lifestyle"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
