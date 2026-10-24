@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Spot Saver and Meter Timer: Find Your Car, Never Overstay</title>
+    <meta name="description" content="Free parking spot saver and parking meter timer. Save where you parked (level, row, bay, a photo of the sign and your location), see how long your paid parking has left, get a warning before it runs out, add more time, and walk back to your car with your maps app. Two cars, calendar reminder, no sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/parking-spot-saver-and-meter-timer/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#2f6fe4">
+    <meta name="theme-color" content="#1f5bc8">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Parking Spot Saver and Meter Timer">
+    <meta property="og:url" content="https://umar8092.github.io/apps/parking-spot-saver-and-meter-timer/">
+    <meta property="og:title" content="Parking Spot Saver and Meter Timer">
+    <meta property="og:description" content="Save where you parked, see how long your paid parking has left, and walk back to your car. Free, private, no sign-up, works offline.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Parking Spot Saver and Meter Timer","alternateName":["Find My Car","Where Did I Park","Parking Meter Timer","Parking Reminder","Parking Location Saver"],"url":"https://umar8092.github.io/apps/parking-spot-saver-and-meter-timer/","description":"Free parking spot saver and meter timer: save the level, bay, a photo and your location, see the paid time left, get a warning before it runs out and walk back to your car.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"where did I park, find my car, parking spot saver, parking meter timer, parking reminder, car park level and bay","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I remember where I parked?","acceptedAnswer":{"@type":"Answer","text":"Type the level, row or bay, add a photo of the nearest sign and tap Add my location, then Save my spot. Later, Walk back in Maps opens walking directions to the car."}},{"@type":"Question","name":"Will it warn me before my parking runs out if my phone is locked?","acceptedAnswer":{"@type":"Answer","text":"A web page cannot ring while the phone is locked, so tap Add reminder to calendar: your phone's calendar then alerts you before the paid time ends, even when locked. With the page open it also beeps and shows a warning."}},{"@type":"Question","name":"Is my location private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your spot, photo and location stay in this browser on this device and your data is never sent anywhere. The location only goes to your maps app when you tap Walk back in Maps."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app empty" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Parking Spot Saver and Meter Timer</h1>
+        <p class="sub">Save where you parked, see how long your paid time has left, and find your car again.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your spot shows now, but it will be lost if you close or reload the page.</p>
+
+    <div class="col-cars">
+        <section class="card cars" id="cars" aria-labelledby="cars-h">
+            <h2 id="cars-h">Where you parked</h2>
+            <p class="hint" id="cars-empty">No car saved yet. Fill in “Save my parking spot” when you park.</p>
+            <ul class="box-list" id="list" aria-label="Parked cars"></ul>
+            <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+            <p class="vh" id="announce" role="alert"></p>
+        </section>
+    </div>
+
+    <div class="col-add">
+        <section class="card save" id="save" aria-labelledby="save-h">
+            <h2 id="save-h">Save my parking spot</h2>
+            <form id="save-form" novalidate>
+                <label for="note">Where is it? <span class="opt">(level, row, bay or street)</span></label>
+                <textarea id="note" rows="2" maxlength="300" autocomplete="off" placeholder="e.g. Level B2, row F, bay 34"></textarea>
+
+                <p class="label-like" id="loc-h">Location from your phone</p>
+                <div class="loc-row">
+                    <button type="button" class="secondary" id="loc-btn">Add my location</button>
+                    <button type="button" class="secondary" id="loc-clear" hidden>Remove location</button>
+                </div>
+                <p class="hint" id="loc-status">Saves the exact spot, so “Walk back in Maps” can lead you to the car.</p>
+
+                <div class="opt-block" id="photo-block">
+                    <button type="button" class="link add-opt" id="photo-add">+ Add a photo of the sign or bay (optional)</button>
+                    <input type="file" id="photo-in" accept="image/*" hidden>
+                    <div class="photo-prev" id="photo-prev" hidden>
+                        <img id="photo-img" alt="Photo of where you parked">
+                        <div class="row-btns two">
+                            <button type="button" class="secondary small" id="photo-change">Change photo</button>
+                            <button type="button" class="secondary small" id="photo-remove">Remove photo</button>
+                        </div>
+                    </div>
+                    <p class="err" id="photo-err" role="alert"></p>
+                </div>
+
+                <div class="opt-block">
+                    <button type="button" class="link add-opt" id="car-add">+ Name this car (optional)</button>
+                    <div id="car-wrap" hidden>
+                        <label for="car">Car name</label>
+                        <input id="car" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Honda or Dad's car">
+                    </div>
+                </div>
+
+                <p class="label-like" id="paid-h">How long did you pay for?</p>
+                <div class="presets" id="presets" role="group" aria-labelledby="paid-h">
+                    <button type="button" class="preset" data-v="keep" hidden>Keep as it is</button>
+                    <button type="button" class="preset" data-v="none">No time limit</button>
+                    <button type="button" class="preset" data-v="1800000">30 min</button>
+                    <button type="button" class="preset" data-v="3600000">1 hour</button>
+                    <button type="button" class="preset" data-v="7200000">2 hours</button>
+                    <button type="button" class="preset" data-v="10800000">3 hours</button>
+                    <button type="button" class="preset" data-v="14400000">4 hours</button>
+                    <button type="button" class="preset" data-v="other">Other length</button>
+                    <button type="button" class="preset" data-v="until">Until a time</button>
+                </div>
+                <div class="dhm" id="other-box" role="group" aria-label="Type how long you paid for" hidden>
+                    <div><label for="len-d">Days</label><input id="len-d" type="text" inputmode="decimal" maxlength="4" autocomplete="off" placeholder="0"></div>
+                    <div><label for="len-h">Hours</label><input id="len-h" type="text" inputmode="decimal" maxlength="5" autocomplete="off" placeholder="0"></div>
+                    <div><label for="len-m">Minutes</label><input id="len-m" type="text" inputmode="decimal" maxlength="5" autocomplete="off" placeholder="0"></div>
+                </div>
+                <div id="until-box" hidden>
+                    <label for="until">Paid until</label>
+                    <input id="until" type="time">
+                </div>
+                <p class="hint paid-text" id="paid-text"></p>
+
+                <label for="warn">Warn me before it runs out</label>
+                <select id="warn">
+                    <option value="0">No warning</option>
+                    <option value="5">5 min before</option>
+                    <option value="10">10 min before</option>
+                    <option value="15">15 min before</option>
+                    <option value="30">30 min before</option>
+                </select>
+
+                <p class="err" id="save-err" role="alert"></p>
+                <button type="submit" class="primary big" id="save-btn">Save my spot</button>
+                <button type="button" class="secondary" id="cancel-edit" hidden>Cancel</button>
+            </form>
+            <div class="msg" id="save-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card alerts" id="alerts" aria-labelledby="alerts-h">
+            <h2 id="alerts-h">Alerts</h2>
+            <div class="checks">
+                <label class="check"><input type="checkbox" id="s-sound"> Beep when the warning comes and when time runs out</label>
+                <label class="check"><input type="checkbox" id="s-vibrate"> Vibrate (phones)</label>
+                <label class="check"><input type="checkbox" id="s-notify"> Show a notification</label>
+            </div>
+            <button type="button" class="secondary small" id="test-sound">Play the beep</button>
+            <p class="hint">These work while this page is open. A locked phone stops web pages, so press <b>Add reminder to calendar</b> on your car: your phone's calendar then alerts you even when it is locked.</p>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq" aria-labelledby="faq-h">
+        <h2 id="faq-h">Questions</h2>
+        <details><summary>Will it warn me if my phone is locked?</summary><p>No web page can ring while the phone is locked or the browser is closed. Press <b>Add reminder to calendar</b> on your car: it adds an event at the end of your paid time with an alert before it (the time you chose under <b>Warn me before it runs out</b>), and your phone's calendar rings even when locked. With the page open it also beeps, vibrates and turns the box amber, then red.</p></details>
+        <details><summary>My location is not working.</summary><p>Your browser asks once if this page may use your location; if you said no, change it in the browser's site settings. Deep underground car parks often have no GPS signal: the location may be rough (the app tells you how rough) or missing. That is why the note (level, row, bay) and a photo of the nearest sign or pillar matter most indoors. Your spot is saved either way.</p></details>
+        <details><summary>I paid for more time. How do I add it?</summary><p>Press <b>+15 min</b>, <b>+30 min</b> or <b>+1 hour</b> on your car. While the paid time is still running, the time is added to the end. If it has already run out, the new time counts from now, as a new ticket would. For anything else press <b>Change</b> and pick a new time.</p></details>
+        <details><summary>Parked for several days at the airport?</summary><p>Choose <b>Other length</b> and type the days and hours (up to 30 days), or <b>Until a time</b> for today or tomorrow. The spot stays saved until you press <b>I'm back, clear this spot</b>, even after closing the page.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your spot, photo and location stay in this browser on this device: no account, and your data is never sent anywhere. The location only leaves the phone when you press <b>Walk back in Maps</b>, which opens your maps app. Once loaded, the app works with no connection (the map needs one), and you can add it to your home screen.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/parking-spot-saver-and-meter-timer">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Parking Spot Saver", "sections": [
+ {"h": "When you park", "steps": ["Under \"Where is it?\" type the level, row, bay or street, for example Level B2, row F, bay 34.", "Press \"Add my location\" to save where the phone is. The line below says how exact it is. Indoors or underground it may be rough or missing; the note and photo still work.", "Press \"+ Add a photo of the sign or bay (optional)\" to keep a picture of the nearest sign or pillar. It stays on this device.", "Press \"+ Name this car (optional)\" if you have more than one car, for example Honda.", "Under \"How long did you pay for?\" tap \"No time limit\", a length such as \"2 hours\", \"Other length\" (days, hours and minutes) or \"Until a time\" (a time earlier than now means tomorrow). The line below says \"Paid until\" so you can check it.", "Pick when to be warned under \"Warn me before it runs out\", then press \"Save my spot\"."]},
+ {"h": "Your parked car", "steps": ["\"Where you parked\" shows each car in its own box: the time left in big numbers, a bar, \"Paid until\", when you parked, your note, photo and location.", "The box turns amber when the warning time comes and red when the paid time has run out.", "\"Walk back in Maps\" opens walking directions to the car in your maps app. \"How far is my car?\" uses your location now and says how far and in which direction it is, even with no internet.", "\"+15 min\", \"+30 min\" and \"+1 hour\" add paid time. If the time had already run out, it counts from now.", "\"Add reminder to calendar\" downloads a calendar event at the end of your paid time, with an alert before it, so your phone reminds you even when locked.", "\"Copy or share\" copies the spot (and a map link) to send to someone. \"Change\" lets you fix the note, photo, location, name or paid time.", "\"I'm back, clear this spot\" removes it when you reach the car, with \"Undo\"."]},
+ {"h": "Two cars", "steps": ["Fill in the form again and press \"Save my spot\" for the second car (up to 5). Each car keeps its own note, location and paid time."]},
+ {"h": "Good to know", "tips": true, "steps": ["Beeps and notifications only work while this page is open. Use \"Add reminder to calendar\" for a reminder when the phone is locked.", "Your spot stays saved when you close the page and shows the right time when you come back.", "Tap the photo to see it bigger.", "Everything stays on this device and works offline (the map needs internet). Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

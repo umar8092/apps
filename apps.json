@@ -490,5 +490,11 @@
     "name": "Office Days Tracker for Hybrid Work",
     "description": "3 office days a week or 60% a quarter? Tap each day as Office, Home, Leave or Holiday and see how many more office days you need and which days are left. Leave lowers the target. Private, works offline.",
     "color": "#d4602a"
+  },
+  {
+    "slug": "parking-spot-saver-and-meter-timer",
+    "name": "Parking Spot Saver and Meter Timer",
+    "description": "Save where you parked (level, bay, photo and location), see how long your paid parking has left, get warned before it runs out, add time and walk back to your car.",
+    "color": "#2f6fe4"
   }
 ]

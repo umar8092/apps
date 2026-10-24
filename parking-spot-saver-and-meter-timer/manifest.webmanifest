@@ -1,0 +1,15 @@
+{
+  "name": "Parking Spot Saver and Meter Timer",
+  "short_name": "Parking Saver",
+  "description": "Save where you parked, see how long your paid time has left, and find your car again.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#10203a",
+  "theme_color": "#1f5bc8",
+  "categories": ["travel", "utilities", "navigation"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

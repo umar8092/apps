@@ -659,6 +659,14 @@ Your employer asks for 3 office days a week, 8 a month or 60% of working days a 
 
 <a href="office-days-tracker-for-hybrid-work/"><img src="office-days-tracker-for-hybrid-work/screenshots/phone.png" alt="Office Days Tracker for Hybrid Work screenshot" width="260"></a>
 
+### <img src="parking-spot-saver-and-meter-timer/favicon.svg" width="36" height="36" align="center"> [Parking Spot Saver and Meter Timer](https://umar8092.github.io/apps/parking-spot-saver-and-meter-timer/)
+
+Parked on level B2 and paid for 2 hours? Type the level, row or bay, add a photo of the sign and your location, pick how long you paid for, and see "22 min left, paid until 3:40 PM". The box turns amber 10 minutes before and red when the time runs out, +15 min, +30 min and +1 hour add time, a calendar reminder rings even when the phone is locked, and Walk back in Maps or "How far is my car?" (about 200 m to the north) leads you back. Several cars, no account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/parking-spot-saver-and-meter-timer/) &middot; [Details and screenshots](parking-spot-saver-and-meter-timer/)
+
+<a href="parking-spot-saver-and-meter-timer/"><img src="parking-spot-saver-and-meter-timer/screenshots/phone.png" alt="Parking Spot Saver and Meter Timer screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
