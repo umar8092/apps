@@ -478,5 +478,11 @@
     "name": "Symptom and Pain Diary for Doctor Visits",
     "description": "For migraine, headache, back pain, stomach pain or any problem that comes and goes. Log each episode in a few taps: when, how bad (0 to 10), possible triggers and the medicine you took. See \"8 days with migraine in the last 30 days (9 before)\", what helped, the most common triggers and a calendar, then print or email it for your doctor. Private, works offline.",
     "color": "#7e57c2"
+  },
+  {
+    "slug": "replacement-reminder-for-filters-and-toothbrushes",
+    "name": "Replacement Reminder for Filters and Toothbrushes",
+    "description": "See when to replace the water filter, toothbrushes, contact lenses, AC filter and more: what is due now, how late, and what comes next.",
+    "color": "#2c7da0"
   }
 ]

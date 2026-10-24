@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replacement Reminder for Filters and Toothbrushes: What to Replace Now</title>
+    <meta name="description" content="Free replacement reminder for water filters, toothbrushes, contact lenses, AC and vacuum filters, razor blades and more. Each thing gets its own replace-every and last-replaced date, so you see what is due now, how many days late, and what comes next. Tap Replaced today, pause items, add one for each family member, copy a shopping list and add the dates to your calendar. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/replacement-reminder-for-filters-and-toothbrushes/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#2c7da0">
+    <meta name="theme-color" content="#2c7da0">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Replacement Reminder for Filters and Toothbrushes">
+    <meta property="og:url" content="https://umar8092.github.io/apps/replacement-reminder-for-filters-and-toothbrushes/">
+    <meta property="og:title" content="Replacement Reminder for Filters and Toothbrushes">
+    <meta property="og:description" content="When did you last change the water filter or the toothbrushes? See what is due now and what comes next. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Replacement Reminder for Filters and Toothbrushes","alternateName":["Water Filter Change Reminder","Toothbrush Replacement Reminder","Contact Lens Replacement Tracker","Home Maintenance Replacement Tracker"],"url":"https://umar8092.github.io/apps/replacement-reminder-for-filters-and-toothbrushes/","description":"A free reminder list for things you replace on a schedule: water filters, toothbrushes, contact lenses, AC and vacuum filters, razor blades. See what is due now and what comes next. Private on your device.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"water filter reminder, toothbrush replacement reminder, contact lens reminder, AC filter reminder, replacement tracker","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How often should I replace my toothbrush?","acceptedAnswer":{"@type":"Answer","text":"Dentists and health services such as the NHS and the American Dental Association say every 3 months, or sooner if the bristles are frayed or after an illness."}},{"@type":"Question","name":"Where do the suggested numbers come from?","acceptedAnswer":{"@type":"Answer","text":"They are the usual advice from makers and health services. Your filter's box, your optician or your dentist may say something different: change the number to match it."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your list stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Replacement Reminder for Filters and Toothbrushes</h1>
+        <p class="sub">Water filters, toothbrushes, contact lenses, AC filters and more: see what needs replacing now, and when the rest is due.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your list will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h">Today</h2>
+            <div id="sum-body" aria-live="polite"></div>
+        </section>
+
+        <section class="card list" id="list" aria-labelledby="list-h">
+            <h2 id="list-h">Your things</h2>
+            <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+            <div class="group" id="g-now" hidden>
+                <h3 class="g-h warn">Replace now</h3>
+                <ul class="box-list" id="l-now"></ul>
+            </div>
+            <div class="group" id="g-later" hidden>
+                <h3 class="g-h">Coming up</h3>
+                <ul class="box-list" id="l-later"></ul>
+            </div>
+            <div class="group" id="g-paused" hidden>
+                <h3 class="g-h muted">Paused</h3>
+                <p class="hint g-hint">Not in use for now, for example the AC in winter. Paused days are not counted.</p>
+                <ul class="box-list" id="l-paused"></ul>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card add" id="add" aria-labelledby="form-h">
+            <h2 id="form-h">Add something to replace</h2>
+            <div class="msg" id="form-msg" role="status" aria-live="polite"></div>
+            <button type="button" class="primary" id="open-form" hidden>+ Add something to replace</button>
+            <form id="form" novalidate>
+                <label for="f-preset">Pick a common item</label>
+                <select id="f-preset" aria-describedby="h-preset"></select>
+                <p class="hint" id="h-preset">Fills in the name and the usual time. Or type your own below.</p>
+
+                <label for="f-name">What is it?</label>
+                <input id="f-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Water filter" aria-describedby="e-name">
+                <p class="err" id="e-name" role="alert"></p>
+
+                <label for="f-n" id="l-every">Replace it every</label>
+                <div class="every" role="group" aria-labelledby="l-every">
+                    <input id="f-n" type="text" inputmode="numeric" maxlength="3" autocomplete="off" value="3" aria-label="Number" aria-describedby="e-n">
+                    <select id="f-unit" aria-label="Days, weeks or months">
+                        <option value="day">days</option>
+                        <option value="week">weeks</option>
+                        <option value="month" selected>months</option>
+                    </select>
+                </div>
+                <p class="err" id="e-n" role="alert"></p>
+
+                <label for="f-last">Last replaced</label>
+                <input id="f-last" type="date" aria-describedby="e-last h-last">
+                <div class="quick" id="quick-last">
+                    <button type="button" class="chip" data-ago="0d">Today</button>
+                    <button type="button" class="chip" data-ago="7d">A week ago</button>
+                    <button type="button" class="chip" data-ago="1m">A month ago</button>
+                    <button type="button" class="chip" data-ago="3m">3 months ago</button>
+                    <button type="button" class="chip" data-ago="">Not sure</button>
+                </div>
+                <p class="hint" id="h-last"></p>
+                <p class="err" id="e-last" role="alert"></p>
+
+                <button type="button" class="link" id="o-who">+ Add whose it is or where (optional)</button>
+                <div class="opt" id="w-who" hidden>
+                    <label for="f-who">Whose is it, or where?</label>
+                    <input id="f-who" type="text" maxlength="200" autocomplete="off" placeholder="e.g. Ali, or Kitchen tap" aria-describedby="h-who e-who">
+                    <p class="hint" id="h-who">One for each person? Type the names with commas, like Ali, Sara, Mum: each gets its own box.</p>
+                    <p class="err" id="e-who" role="alert"></p>
+                </div>
+
+                <button type="button" class="link" id="o-note">+ Add a note (optional)</button>
+                <div class="opt" id="w-note" hidden>
+                    <label for="f-note">Note</label>
+                    <textarea id="f-note" rows="2" maxlength="300" placeholder="e.g. Model or where to buy"></textarea>
+                </div>
+
+                <p class="preview" id="preview" aria-live="polite"></p>
+                <p class="hint" id="avg" hidden></p>
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="save">Add it</button>
+                    <button type="button" class="secondary" id="cancel">Done</button>
+                </div>
+                <div class="row-btns edit-only" id="edit-tools" hidden>
+                    <button type="button" class="secondary" id="pause">Pause it (not in use)</button>
+                    <button type="button" class="danger" id="del">Delete it</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Shopping list, calendar and backup</h2>
+            <div id="share-tools">
+                <label for="s-days">Things due within</label>
+                <select id="s-days">
+                    <option value="7">the next week</option>
+                    <option value="14">the next 2 weeks</option>
+                    <option value="30" selected>the next 30 days</option>
+                    <option value="90">the next 3 months</option>
+                </select>
+                <pre class="shop-text" id="shop-text"></pre>
+                <div class="tool-grid">
+                    <button type="button" class="secondary" id="shop-copy">Copy the shopping list</button>
+                    <a class="secondary" id="shop-mail" href="mailto:">Email the shopping list</a>
+                </div>
+                <div class="tool-grid gap">
+                    <button type="button" class="secondary" id="copy-all">Copy my whole list</button>
+                    <a class="secondary" id="mail-all" href="mailto:">Email my whole list</a>
+                    <button type="button" class="secondary wide" id="cal">Add the due dates to my calendar</button>
+                </div>
+                <p class="hint">Saves a calendar file with a reminder at 9:00 on each due date, repeating at each item's own time. If you replace something on another day, save it again.</p>
+            </div>
+            <div class="tool-grid gap">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How often should I replace a toothbrush, a water filter or contact lenses?</summary><p>Toothbrushes and electric brush heads: every 3 months, or sooner if the bristles are frayed or after being ill (NHS and American Dental Association advice). Water filter jug cartridges: usually every 4 weeks. Contact lenses: exactly as your optician says, 2-weekly lenses every 2 weeks and monthly lenses every month, and the lens case every 3 months. The numbers in "Pick a common item" are the usual advice; if the box, your optician or your dentist says something else, change the number.</p></details>
+        <details><summary>I replaced it early, late, or on another day. What happens?</summary><p>Tap <b>Replaced today</b> on the day you change it: the next date always counts from that day. A toothbrush replaced every 3 months and changed on 2 Aug is next due on 2 Nov. Changed it on another day? Tap <b>Edit</b> and set "Last replaced". Months are calendar months: 31 Jan plus 1 month is 28 Feb (29 Feb in a leap year).</p></details>
+        <details><summary>What does Pause do?</summary><p>Use it for something not in use for a while: the AC in winter, contact lenses while you wear glasses on holiday. A paused item never shows as due. When you tap <b>Resume</b>, the paused days are not counted, so a filter used for 2 weeks before a 3-month pause still has the rest of its time left.</p></details>
+        <details><summary>Will it remind me?</summary><p>A web page cannot ring by itself when it is closed, so use <b>Add the due dates to my calendar</b>: your phone's calendar then reminds you at 9:00 on each due date. The app itself shows what is due every time you open it.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your list stays in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to move it to a new phone. Once loaded, the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/replacement-reminder-for-filters-and-toothbrushes">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Replacement Reminder", "sections": [
+ {"h": "Add something to replace", "steps": ["\"Pick a common item\", such as Toothbrush or Water filter jug cartridge, fills in \"What is it?\" and the usual time. Or type your own name in \"What is it?\".", "\"Replace it every\": type a number and choose days, weeks or months (up to 730 days, 104 weeks or 36 months).", "Set \"Last replaced\" with the date box or the buttons \"Today\", \"A week ago\", \"A month ago\" or \"3 months ago\". Tap \"Not sure\" if you do not know: it then shows as \"Replace now\".", "The line above \"Add it\" shows when it is due next. Tap \"Add it\". The form stays open for the next thing; tap \"Done\" when you have finished."]},
+ {"h": "Optional details", "steps": ["\"+ Add whose it is or where (optional)\": for example Ali, or Kitchen tap. Type several names with commas, like Ali, Sara, Mum, and each person gets their own box with the same settings.", "\"+ Add a note (optional)\": for example the filter model or where you buy it."]},
+ {"h": "Every day", "steps": ["\"Today\" at the top lists what to replace now, with how many days late, and what comes next. \"I replaced all\" marks everything due as replaced today, with \"Undo\".", "Each thing has its own box. \"Replace now\" lists what is due or late; \"Coming up\" lists the rest, soonest first.", "Tap \"Replaced today\" when you change it. The next date counts from today, even if you were early or late. \"Earlier\" shows the dates before.", "\"Pause\" is for something not in use for a while. It moves to \"Paused\"; \"Resume\" brings it back and the paused days are not counted.", "\"Edit\" changes anything, including the last replaced date. At the bottom of the edit form, \"Delete it\" removes it, with \"Undo\"."]},
+ {"h": "Shopping list, calendar and backup", "steps": ["Choose \"Things due within\" the next week, 2 weeks, 30 days or 3 months to see what to buy, with the same things counted together (Toothbrush x 4). \"Copy the shopping list\" or \"Email the shopping list\".", "\"Copy my whole list\" and \"Email my whole list\" share everything with its due date. Email works without typing an address first.", "\"Add the due dates to my calendar\" saves a calendar file with a reminder at 9:00 on each due date, repeating at each thing's own time. Save it again after you change dates.", "\"Save a backup file\" saves everything in one file; \"Restore a backup\" brings it back on this or a new device. \"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Every 3 months and last replaced on 2 Aug means due on 2 Nov.", "Months are calendar months: 31 Jan plus 1 month is 28 Feb.", "The suggested times are the usual advice. Follow your filter's box, your optician or your dentist if they say otherwise.", "The dates update by themselves every day.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -643,6 +643,14 @@ A diary for migraine, headaches, back pain, stomach pain or any problem that com
 
 <a href="symptom-and-pain-diary-for-doctor-visits/"><img src="symptom-and-pain-diary-for-doctor-visits/screenshots/phone.png" alt="Symptom and Pain Diary for Doctor Visits screenshot" width="260"></a>
 
+### <img src="replacement-reminder-for-filters-and-toothbrushes/favicon.svg" width="36" height="36" align="center"> [Replacement Reminder for Filters and Toothbrushes](https://umar8092.github.io/apps/replacement-reminder-for-filters-and-toothbrushes/)
+
+Never sure when the water filter, the toothbrushes or the contact lenses were last changed? Add each thing with its own "replace every" time and last date and see "2 things to replace now: Water filter jug cartridge (11 days late), AC filter" and "Next: Toothbrush (Ali), Mon 2 Nov". Add a box for each family member in one go, tap Replaced today, pause what you are not using, and copy a shopping list ("Toothbrush x 4") or add the due dates to your calendar. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/replacement-reminder-for-filters-and-toothbrushes/) &middot; [Details and screenshots](replacement-reminder-for-filters-and-toothbrushes/)
+
+<a href="replacement-reminder-for-filters-and-toothbrushes/"><img src="replacement-reminder-for-filters-and-toothbrushes/screenshots/phone.png" alt="Replacement Reminder for Filters and Toothbrushes screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
