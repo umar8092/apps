@@ -1,0 +1,15 @@
+{
+  "name": "Office Days Tracker for Hybrid Work",
+  "short_name": "Office Days",
+  "description": "Mark office and home days and see how many more office days your hybrid rule needs.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#2a160d",
+  "theme_color": "#d4602a",
+  "categories": ["business", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

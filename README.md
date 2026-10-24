@@ -651,6 +651,14 @@ Never sure when the water filter, the toothbrushes or the contact lenses were la
 
 <a href="replacement-reminder-for-filters-and-toothbrushes/"><img src="replacement-reminder-for-filters-and-toothbrushes/screenshots/phone.png" alt="Replacement Reminder for Filters and Toothbrushes screenshot" width="260"></a>
 
+### <img src="office-days-tracker-for-hybrid-work/favicon.svg" width="36" height="36" align="center"> [Office Days Tracker for Hybrid Work](https://umar8092.github.io/apps/office-days-tracker-for-hybrid-work/)
+
+Your employer asks for 3 office days a week, 8 a month or 60% of working days a quarter? Set the rule, tap each day as Office, Home, Half day, Work trip, Leave, Sick or Public holiday, and see "1 more office day needed this week, 2 working days left: Thu 22 Oct, Fri 23 Oct" and "Q4: 2 of 2 finished weeks met". Leave and holidays lower the target, planned days show as planned, and you can copy, email or download your days for HR. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/office-days-tracker-for-hybrid-work/) &middot; [Details and screenshots](office-days-tracker-for-hybrid-work/)
+
+<a href="office-days-tracker-for-hybrid-work/"><img src="office-days-tracker-for-hybrid-work/screenshots/phone.png" alt="Office Days Tracker for Hybrid Work screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

@@ -484,5 +484,11 @@
     "name": "Replacement Reminder for Filters and Toothbrushes",
     "description": "See when to replace the water filter, toothbrushes, contact lenses, AC filter and more: what is due now, how late, and what comes next.",
     "color": "#2c7da0"
+  },
+  {
+    "slug": "office-days-tracker-for-hybrid-work",
+    "name": "Office Days Tracker for Hybrid Work",
+    "description": "3 office days a week or 60% a quarter? Tap each day as Office, Home, Leave or Holiday and see how many more office days you need and which days are left. Leave lowers the target. Private, works offline.",
+    "color": "#d4602a"
   }
 ]

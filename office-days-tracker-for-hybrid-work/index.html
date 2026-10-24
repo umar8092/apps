@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Days Tracker for Hybrid Work: Am I on Track?</title>
+    <meta name="description" content="Free office days tracker for hybrid workers. Set your employer's rule (3 office days a week, 8 days a month or 60% of working days a quarter), tap each day as Office, Home, Leave, Sick or Public holiday, and see how many more office days you need this week and whether you are on track. Leave and holidays lower the target, half days and work trips count. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/office-days-tracker-for-hybrid-work/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#d4602a">
+    <meta name="theme-color" content="#d4602a">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Office Days Tracker for Hybrid Work">
+    <meta property="og:url" content="https://umar8092.github.io/apps/office-days-tracker-for-hybrid-work/">
+    <meta property="og:title" content="Office Days Tracker for Hybrid Work">
+    <meta property="og:description" content="3 office days a week or 60% a quarter? See how many more office days you need and whether you are on track. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Office Days Tracker for Hybrid Work","alternateName":["Hybrid Work Office Attendance Tracker","Return to Office Days Counter","RTO Tracker","Office Attendance Percentage Calculator"],"url":"https://umar8092.github.io/apps/office-days-tracker-for-hybrid-work/","description":"A free tracker for hybrid workers: set your office rule, mark each day, and see how many more office days you need this week, month or quarter. Private on your device.","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"office days tracker, hybrid work tracker, return to office tracker, RTO compliance, office attendance percentage","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do leave and public holidays count against my office days?","acceptedAnswer":{"@type":"Answer","text":"Most hybrid policies do not count them against you. With a weekly or monthly number, the app lowers your target by one for each day off (you can switch this off). With a percentage, days off are left out of the working days counted."}},{"@type":"Question","name":"How is a percentage rule worked out?","acceptedAnswer":{"@type":"Answer","text":"The working days in the month or quarter, minus leave, sick days and public holidays, times your percentage, rounded up to a whole day. 60% of 58 days is 34.8, so 35 office days."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your days stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Office Days Tracker for Hybrid Work</h1>
+        <p class="sub">Tap where you worked each day and see how many more office days you need to meet your employer's rule.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your days will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h">Where you stand</h2>
+            <div id="sum-body" aria-live="polite"></div>
+            <p class="rule-line"><span id="rule-text"></span> <button type="button" class="link inline-link" id="to-rule">Change the rule</button></p>
+        </section>
+
+        <section class="card marker" id="marker" aria-labelledby="mark-h">
+            <h2 id="mark-h">Mark a day</h2>
+            <div class="day-nav">
+                <button type="button" class="secondary small" id="day-prev" aria-label="Day before">&lsaquo;</button>
+                <p class="sel-day" id="sel-day" aria-live="polite"></p>
+                <button type="button" class="secondary small" id="day-next" aria-label="Day after">&rsaquo;</button>
+            </div>
+            <button type="button" class="link to-today" id="to-today" hidden>Back to today</button>
+            <div class="marks" id="marks" role="group" aria-label="Where did you work?">
+                <button type="button" class="mk m-O" data-m="O">Office</button>
+                <button type="button" class="mk m-H" data-m="H">Home</button>
+                <button type="button" class="mk m-HO" data-m="HO">Half day in office</button>
+                <button type="button" class="mk m-T" data-m="T">Work trip (counts as office)</button>
+                <button type="button" class="mk m-L" data-m="L">Leave</button>
+                <button type="button" class="mk m-S" data-m="S">Sick</button>
+                <button type="button" class="mk m-P" data-m="P">Public holiday</button>
+                <button type="button" class="mk m-clear" data-m="">Clear</button>
+            </div>
+            <div class="msg" id="mark-msg" role="status" aria-live="polite"></div>
+
+            <div class="cal-head">
+                <button type="button" class="secondary small" id="m-prev" aria-label="Previous month">&lsaquo;</button>
+                <h3 id="m-name"></h3>
+                <button type="button" class="secondary small" id="m-next" aria-label="Next month">&rsaquo;</button>
+            </div>
+            <div class="cal" id="cal" role="grid" aria-labelledby="m-name"></div>
+            <p class="hint">Tap a day to choose it, then tap where you worked. Mark future days to plan ahead, for example leave next week.</p>
+            <ul class="legend" aria-label="What the letters mean">
+                <li><span class="c m-O">O</span> Office</li><li><span class="c m-H">H</span> Home</li><li><span class="c m-HO">½</span> Half day</li>
+                <li><span class="c m-T">T</span> Work trip</li><li><span class="c m-L">L</span> Leave</li><li><span class="c m-S">S</span> Sick</li><li><span class="c m-P">PH</span> Public holiday</li>
+            </ul>
+            <p class="month-counts" id="m-counts"></p>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card rule" id="rule" aria-labelledby="rule-h">
+            <h2 id="rule-h">Your office rule</h2>
+            <form id="rule-form" novalidate>
+                <p class="label-like" id="l-type">What does your employer ask for?</p>
+                <div class="seg one" role="radiogroup" aria-labelledby="l-type">
+                    <label><input type="radio" name="type" value="week" checked> A number of office days each week</label>
+                    <label><input type="radio" name="type" value="month"> A number of office days each month</label>
+                    <label><input type="radio" name="type" value="pct"> A percentage of working days</label>
+                </div>
+
+                <div id="w-n">
+                    <label for="r-n" id="l-n">Office days each week</label>
+                    <div class="inline">
+                        <input id="r-n" type="text" inputmode="numeric" maxlength="2" autocomplete="off" value="3" aria-describedby="e-n">
+                        <div class="quick" id="quick-n"></div>
+                    </div>
+                    <p class="err" id="e-n" role="alert"></p>
+                </div>
+                <div id="w-pct" hidden>
+                    <label for="r-pct">Percentage of working days in the office</label>
+                    <div class="inline">
+                        <div class="suffix"><input id="r-pct" type="text" inputmode="numeric" maxlength="4" autocomplete="off" value="60" aria-describedby="e-pct"><span aria-hidden="true">%</span></div>
+                        <div class="quick" id="quick-pct">
+                            <button type="button" class="chip" data-v="40">40%</button>
+                            <button type="button" class="chip" data-v="50">50%</button>
+                            <button type="button" class="chip" data-v="60">60%</button>
+                            <button type="button" class="chip" data-v="80">80%</button>
+                        </div>
+                    </div>
+                    <p class="err" id="e-pct" role="alert"></p>
+                    <label for="r-period">Counted over</label>
+                    <select id="r-period">
+                        <option value="month">each month</option>
+                        <option value="quarter" selected>each quarter (3 months)</option>
+                    </select>
+                    <p class="hint">Quarters are Jan to Mar, Apr to Jun, Jul to Sep and Oct to Dec.</p>
+                </div>
+
+                <p class="label-like" id="l-wd">Your working days</p>
+                <div class="wd" id="wd" role="group" aria-labelledby="l-wd"></div>
+                <p class="err" id="e-wd" role="alert"></p>
+
+                <div id="w-off">
+                    <p class="label-like" id="l-off">Leave, sick days and public holidays</p>
+                    <div class="seg one" role="radiogroup" aria-labelledby="l-off">
+                        <label><input type="radio" name="offRule" value="lower" checked> Lower my target by one for each day off</label>
+                        <label><input type="radio" name="offRule" value="keep"> Keep my target (lowered only when not enough days are left)</label>
+                    </div>
+                </div>
+                <p class="hint" id="h-off-pct" hidden>Days off are left out of the working days counted, so they never count against you.</p>
+
+                <label for="r-ws">Weeks start on</label>
+                <select id="r-ws">
+                    <option value="1">Monday</option>
+                    <option value="0">Sunday</option>
+                    <option value="6">Saturday</option>
+                </select>
+
+                <button type="button" class="link" id="o-start">+ Add a start date (optional)</button>
+                <div class="opt" id="w-start" hidden>
+                    <label for="r-start">Count from</label>
+                    <input id="r-start" type="date" aria-describedby="h-start">
+                    <p class="hint" id="h-start">For a new job or a new rule part-way through a quarter: days before this date are not counted.</p>
+                    <button type="button" class="secondary small" id="clear-start">Remove the start date</button>
+                </div>
+                <div class="msg" id="rule-msg" role="status" aria-live="polite"></div>
+            </form>
+        </section>
+
+        <section class="card range" id="range" aria-labelledby="range-h">
+            <h2 id="range-h">Mark several days at once</h2>
+            <p class="hint top">For a week of leave, holidays, or filling in the past. Only your working days are marked.</p>
+            <div class="pair">
+                <div><label for="g-from">From</label><input id="g-from" type="date"></div>
+                <div><label for="g-to">To</label><input id="g-to" type="date"></div>
+            </div>
+            <label for="g-mark">Mark them as</label>
+            <select id="g-mark">
+                <option value="L">Leave</option>
+                <option value="P">Public holiday</option>
+                <option value="S">Sick</option>
+                <option value="O">Office</option>
+                <option value="H">Home</option>
+                <option value="T">Work trip</option>
+                <option value="">Clear (no mark)</option>
+            </select>
+            <p class="err" id="e-range" role="alert"></p>
+            <button type="button" class="primary gap-top" id="g-go">Mark these days</button>
+            <div class="msg" id="range-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Share, export and backup</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy my summary</button>
+                <a class="secondary" id="mail" href="mailto:">Email my summary</a>
+                <button type="button" class="secondary" id="csv">Download all days (CSV)</button>
+                <button type="button" class="secondary" id="print">Print this month</button>
+            </div>
+            <div class="tool-grid gap">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Do leave and public holidays count against me?</summary><p>Most hybrid policies say no, so by default the app lowers a weekly or monthly target by one for each day of leave, sick day or public holiday on a working day: 3 days a week with Monday off becomes 2. If your employer keeps the full target, choose <b>Keep my target</b>; it is then lowered only when there are not enough working days left (3 days off in a 5-day week leaves 2). With a percentage rule, days off are simply left out of the working days counted.</p></details>
+        <details><summary>How is a percentage rule worked out?</summary><p>The working days in the month or quarter, minus leave, sick days and public holidays, times your percentage, rounded up to a whole day. Oct to Dec 2026 has 66 weekdays; with 3 public holidays and 5 days of leave that is 58 days, and 60% of 58 is 34.8, so you need 35 office days. "So far" shows your percentage up to today.</p></details>
+        <details><summary>What counts as an office day?</summary><p><b>Office</b> and <b>Work trip</b> (a client site, a conference or another office) count as one office day; <b>Half day in office</b> counts as half. An office day on a day you do not usually work, such as a Saturday, counts too. A past working day you have not marked counts as not in the office, and the app lists it so you can mark it. If your employer counts things differently, check with them: their badge or booking system decides.</p></details>
+        <details><summary>Which week does a quarter count?</summary><p>With a weekly rule, "weeks met" counts each week in the quarter in which it starts. A week where every working day is off needs no office days.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your days stay in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to move them to a new phone. Once loaded, the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/office-days-tracker-for-hybrid-work">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Office Days Tracker", "sections": [
+ {"h": "Set your rule once", "steps": ["Under \"Your office rule\", choose what your employer asks for: \"A number of office days each week\" (for example 3), \"A number of office days each month\" (for example 8) or \"A percentage of working days\" (for example 60%) counted over each calendar month or each quarter.", "Tick \"Your working days\". Monday to Friday is ticked to start; untick days for a part-time week, or tick Sunday to Thursday.", "\"Leave, sick days and public holidays\": \"Lower my target by one for each day off\" (most policies) or \"Keep my target\". With a percentage, days off are always left out of the count.", "\"Weeks start on\" Monday, Sunday or Saturday.", "\"+ Add a start date (optional)\": for a new job or a rule that started part-way through, days before \"Count from\" are not counted. Every change is saved straight away."]},
+ {"h": "Mark each day", "steps": ["\"Mark a day\" starts on today. Tap \"Office\", \"Home\", \"Half day in office\", \"Work trip (counts as office)\", \"Leave\", \"Sick\" or \"Public holiday\". \"Clear\" removes the mark. Each mark shows \"Undo\".", "To mark another day, tap it in the calendar, or use the arrows next to the date. \"Back to today\" returns to today. The arrows next to the month name show other months.", "Mark future days to plan: leave next week lowers next week's target, and a planned office day shows as \"planned\".", "\"Mark several days at once\" marks your working days between \"From\" and \"To\", for example a week of leave, with \"Undo\"."]},
+ {"h": "Read the answer", "steps": ["\"Where you stand\" says how many more office days you need this week, month or quarter, or \"Target met\". Under it: how many are done, which working days are left, and any past working days not marked yet.", "\"Not reachable\" means there are not enough working days left to meet the target.", "With a weekly rule it also shows how many weeks of this quarter met the target. It also shows last week, month or quarter."]},
+ {"h": "Share and backup", "steps": ["\"Copy my summary\" and \"Email my summary\" share the answer, for example with your manager. Email works without typing an address first.", "\"Download all days (CSV)\" saves every marked day for a spreadsheet or HR. \"Print this month\" prints the calendar and the answer.", "\"Save a backup file\" and \"Restore a backup\" move your days to another device. \"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Office and Work trip count as 1 day, Half day in office as half a day.", "A percentage is rounded up to a whole day: 60% of 19 days is 11.4, so 12 days.", "A past working day you have not marked counts as not in the office.", "The day changes by itself at midnight.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
