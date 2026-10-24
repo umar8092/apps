@@ -667,6 +667,14 @@ Parked on level B2 and paid for 2 hours? Type the level, row or bay, add a photo
 
 <a href="parking-spot-saver-and-meter-timer/"><img src="parking-spot-saver-and-meter-timer/screenshots/phone.png" alt="Parking Spot Saver and Meter Timer screenshot" width="260"></a>
 
+### <img src="leave-balance-tracker-for-employees/favicon.svg" width="36" height="36" align="center"> [Leave Balance Tracker for Employees](https://umar8092.github.io/apps/leave-balance-tracker-for-employees/)
+
+Get 20 days of annual leave, 8 casual and 10 sick days a year? Set your allowances, what carries over and when your leave year starts, add each leave with half days, and see "Annual leave: 6.5 days left. Book 1.5 days more by 31 Dec 2026 or lose them". Weekends and public holidays inside a leave are not counted, leave over the year end is split, part-year leave after joining and leave built up each month are worked out, and before you add a leave it says how many days it takes and what will be left. Copy, email or download your leave for HR. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/leave-balance-tracker-for-employees/) &middot; [Details and screenshots](leave-balance-tracker-for-employees/)
+
+<a href="leave-balance-tracker-for-employees/"><img src="leave-balance-tracker-for-employees/screenshots/phone.png" alt="Leave Balance Tracker for Employees screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

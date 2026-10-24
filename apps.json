@@ -496,5 +496,11 @@
     "name": "Parking Spot Saver and Meter Timer",
     "description": "Save where you parked (level, bay, photo and location), see how long your paid parking has left, get warned before it runs out, add time and walk back to your car.",
     "color": "#2f6fe4"
+  },
+  {
+    "slug": "leave-balance-tracker-for-employees",
+    "name": "Leave Balance Tracker for Employees",
+    "description": "How many days of annual, casual and sick leave do I have left? Set your allowances and carry-over, add each leave with half days, and see \"6.5 days left, book 1.5 more by 31 Dec or lose them\". Weekends and public holidays not counted. Private, works offline.",
+    "color": "#3f9b37"
   }
 ]
