@@ -580,7 +580,7 @@
         state = load();
         try { const c = localStorage.getItem(KEY_CUR); if (C.CURRENCIES.includes(c)) cur = c; const w = localStorage.getItem(KEY_WUNIT); if (w === 'lb' || w === 'kg') wunit = w; } catch (e) { /* fine */ }
         const sc = $('s-cur');
-        C.CURRENCIES.forEach(c => { const o = el('option', null, c || 'None (just numbers)'); o.value = c; sc.appendChild(o); });
+        C.CURRENCIES.forEach(c => { const o = el('option', null, c || 'None'); o.value = c; sc.appendChild(o); });
         sc.value = cur; $('s-wunit').value = wunit;
         C.KINDS.forEach(k => { const o = el('option', null, k); o.value = k; $('p-kind').appendChild(o); });
 
