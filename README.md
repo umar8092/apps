@@ -691,6 +691,14 @@ Give clothes to the laundry, dhobi or dry cleaner and never sure everything came
 
 <a href="laundry-and-dry-cleaning-clothes-count-log/"><img src="laundry-and-dry-cleaning-clothes-count-log/screenshots/phone.png" alt="Laundry and Dry-Cleaning Clothes Count Log screenshot" width="260"></a>
 
+### <img src="pet-care-log-and-reminders/favicon.svg" width="36" height="36" align="center"> [Pet Care Log and Reminders](https://umar8092.github.io/apps/pet-care-log-and-reminders/)
+
+Forgot when the cat was last wormed, or whether the dog's flea treatment is due? Each pet gets its own box with its own reminders for flea treatment, worming, vaccines, nail trims or anything else (days, weeks, months, years, or just once for an appointment), and the app says "Milo: Worming, 6 days late" and "Next: Flea treatment, Thu 29 Oct (in 4 days)". Done today with undo, Fed now with the times fed today, weight in kg or lb with the change since last time, vet visits with costs per month, year and pet, a care sheet to copy or email to the pet sitter, calendar file, archive, backup. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/pet-care-log-and-reminders/) &middot; [Details and screenshots](pet-care-log-and-reminders/)
+
+<a href="pet-care-log-and-reminders/"><img src="pet-care-log-and-reminders/screenshots/phone.png" alt="Pet Care Log and Reminders screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

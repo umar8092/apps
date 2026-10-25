@@ -514,5 +514,11 @@
     "name": "Laundry and Dry-Cleaning Clothes Count Log",
     "description": "Count the clothes you give to the laundry, dhobi or dry cleaner, tick them off as they come back, and see which pieces are still at the shop and what you owe each shop.",
     "color": "#15aabf"
+  },
+  {
+    "slug": "pet-care-log-and-reminders",
+    "name": "Pet Care Log and Reminders",
+    "description": "When was the last flea treatment? Is worming late? Each pet gets its own reminders for flea, worming and vaccines, and you see \"Milo: Worming, 6 days late\". Tick off meals, log weight and vet visits with costs, copy a care sheet for the pet sitter. Private, works offline.",
+    "color": "#2a9d8f"
   }
 ]
