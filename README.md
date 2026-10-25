@@ -699,6 +699,14 @@ Forgot when the cat was last wormed, or whether the dog's flea treatment is due?
 
 <a href="pet-care-log-and-reminders/"><img src="pet-care-log-and-reminders/screenshots/phone.png" alt="Pet Care Log and Reminders screenshot" width="260"></a>
 
+### <img src="stock-reorder-list-for-small-shops/favicon.svg" width="36" height="36" align="center"> [Stock Reorder List for Small Shops](https://umar8092.github.io/apps/stock-reorder-list-for-small-shops/)
+
+Running out of oil, sugar or bags before the supplier comes, or forgetting half of them when he calls? Each item keeps its own unit, supplier, stock and order level; tap − and + as it is used and see "Ali Traders: Cooking oil 4 cartons, Sugar 2 bags, about 32,900" grouped by supplier, with items that have run out marked. Copy the order or send it on WhatsApp, mark it as ordered so nothing is ordered twice, add the delivery to stock (even when less came, at a new price), print, currency symbol, backup. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/stock-reorder-list-for-small-shops/) &middot; [Details and screenshots](stock-reorder-list-for-small-shops/)
+
+<a href="stock-reorder-list-for-small-shops/"><img src="stock-reorder-list-for-small-shops/screenshots/phone.png" alt="Stock Reorder List for Small Shops screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

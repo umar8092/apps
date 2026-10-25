@@ -520,5 +520,11 @@
     "name": "Pet Care Log and Reminders",
     "description": "When was the last flea treatment? Is worming late? Each pet gets its own reminders for flea, worming and vaccines, and you see \"Milo: Worming, 6 days late\". Tick off meals, log weight and vet visits with costs, copy a care sheet for the pet sitter. Private, works offline.",
     "color": "#2a9d8f"
+  },
+  {
+    "slug": "stock-reorder-list-for-small-shops",
+    "name": "Stock Reorder List for Small Shops",
+    "description": "Running out of oil, sugar or bags before the supplier comes? Each item keeps its own stock, unit, supplier and order level; tap − and + as it is used and see \"Order from Ali Traders: Cooking oil 4 cartons, Sugar 2 bags, about 32,900\". Copy or WhatsApp the order, mark it ordered, add the delivery to stock. Private, works offline.",
+    "color": "#b7791f"
   }
 ]

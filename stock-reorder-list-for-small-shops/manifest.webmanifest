@@ -1,0 +1,15 @@
+{
+  "name": "Stock Reorder List for Small Shops",
+  "short_name": "Reorder List",
+  "description": "Keep the stock of every item, see what is running low, and send each supplier exactly what to bring.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#2e1f0f",
+  "theme_color": "#9a5b13",
+  "categories": ["business", "productivity", "shopping"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
