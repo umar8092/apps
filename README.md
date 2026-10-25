@@ -683,6 +683,14 @@ Lent a book to a cousin or a drill to a neighbour and cannot remember who has it
 
 <a href="lent-and-borrowed-items-tracker/"><img src="lent-and-borrowed-items-tracker/screenshots/phone.png" alt="Lent and Borrowed Items Tracker screenshot" width="260"></a>
 
+### <img src="laundry-and-dry-cleaning-clothes-count-log/favicon.svg" width="36" height="36" align="center"> [Laundry and Dry-Cleaning Clothes Count Log](https://umar8092.github.io/apps/laundry-and-dry-cleaning-clothes-count-log/)
+
+Give clothes to the laundry, dhobi or dry cleaner and never sure everything came back? Count the pieces of each kind with the price remembered per shop, tick them off as they come back, and see "2 pieces still with the laundry (5 days): Shirt × 2" and "Bill 1,240, paid 1,000, to pay 240". Lost or damaged pieces, express charges, part payments, two or more shops, the month's total per shop, copy the list for the shop, backup. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/laundry-and-dry-cleaning-clothes-count-log/) &middot; [Details and screenshots](laundry-and-dry-cleaning-clothes-count-log/)
+
+<a href="laundry-and-dry-cleaning-clothes-count-log/"><img src="laundry-and-dry-cleaning-clothes-count-log/screenshots/phone.png" alt="Laundry and Dry-Cleaning Clothes Count Log screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

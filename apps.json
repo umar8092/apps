@@ -508,5 +508,11 @@
     "name": "Lent and Borrowed Items Tracker",
     "description": "Who has my drill? Write down books, tools and dishes you lend or borrow, with an optional give-back date and photo, and see \"Novel with Hina, 15 days late\". Polite reminder message, history per person. Private, works offline.",
     "color": "#b0703f"
+  },
+  {
+    "slug": "laundry-and-dry-cleaning-clothes-count-log",
+    "name": "Laundry and Dry-Cleaning Clothes Count Log",
+    "description": "Count the clothes you give to the laundry, dhobi or dry cleaner, tick them off as they come back, and see which pieces are still at the shop and what you owe each shop.",
+    "color": "#15aabf"
   }
 ]
