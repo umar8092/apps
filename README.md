@@ -675,6 +675,14 @@ Get 20 days of annual leave, 8 casual and 10 sick days a year? Set your allowanc
 
 <a href="leave-balance-tracker-for-employees/"><img src="leave-balance-tracker-for-employees/screenshots/phone.png" alt="Leave Balance Tracker for Employees screenshot" width="260"></a>
 
+### <img src="lent-and-borrowed-items-tracker/favicon.svg" width="36" height="36" align="center"> [Lent and Borrowed Items Tracker](https://umar8092.github.io/apps/lent-and-borrowed-items-tracker/)
+
+Lent a book to a cousin or a drill to a neighbour and cannot remember who has it? Add what, who and when, with an optional give-back date (1 week, 2 weeks, 1 month or any date), photo and note, and see "Novel: with Hina, 15 days late" and "Cake tin: give back to Aunt Sara by Fri 30 Oct". Most urgent first, a polite reminder message to copy, share or email, Got it back with undo, a history per person, search, backup. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/lent-and-borrowed-items-tracker/) &middot; [Details and screenshots](lent-and-borrowed-items-tracker/)
+
+<a href="lent-and-borrowed-items-tracker/"><img src="lent-and-borrowed-items-tracker/screenshots/phone.png" alt="Lent and Borrowed Items Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

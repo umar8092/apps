@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lent and Borrowed Items Tracker: Who Has My Book, Drill or Charger?</title>
+    <meta name="description" content="Free tracker for things you lend or borrow: books, tools, dishes, chargers, clothes. Write down what, who and when, with an optional give-back date and photo, and see who has your things, how long they have had them, what is late and what you must give back. Copy a polite reminder, mark things as returned, keep a history per person. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/lent-and-borrowed-items-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#b0703f">
+    <meta name="theme-color" content="#b0703f">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Lent and Borrowed Items Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/lent-and-borrowed-items-tracker/">
+    <meta property="og:title" content="Lent and Borrowed Items Tracker">
+    <meta property="og:description" content="Who has my drill? What do I need to give back? Remember every book, tool and dish you lend or borrow. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Lent and Borrowed Items Tracker","alternateName":["Lending Tracker","Borrowed Items List","Who Has My Stuff","Book Lending Log","Tool Lending Tracker"],"url":"https://umar8092.github.io/apps/lent-and-borrowed-items-tracker/","description":"A free tracker for things you lend to friends and family or borrow from them: who has what, since when, what is late, with reminders and a history per person. Private on your device.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"lent items tracker, borrowed items, who has my stuff, lending log, book lending tracker, tool lending, give back reminder","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I remind someone politely to give my thing back?","acceptedAnswer":{"@type":"Answer","text":"Tap Remind under the item. A friendly message with the item and the date you lent it is ready to copy, share or email, and you can change the words first."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your list and photos stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Lent and Borrowed Items Tracker</h1>
+        <p class="sub">Remember who has your things, and what you need to give back.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your list will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h" class="sr">Right now</h2>
+            <div class="tiles" id="tiles" aria-live="polite"></div>
+        </section>
+
+        <section class="card list" id="list" aria-labelledby="list-h">
+            <h2 id="list-h">Your list</h2>
+            <div class="seg tabs three" role="radiogroup" aria-label="Which list to show">
+                <label><input type="radio" name="tab" value="lent" checked> <span class="tab-n">Lent out</span> <span class="cnt" id="cnt-lent">0</span></label>
+                <label><input type="radio" name="tab" value="borrowed"> <span class="tab-n">Borrowed</span> <span class="cnt" id="cnt-borrowed">0</span></label>
+                <label><input type="radio" name="tab" value="back"> <span class="tab-n">Returned</span> <span class="cnt" id="cnt-back">0</span></label>
+            </div>
+            <div class="search" id="search-wrap" hidden>
+                <label for="search">Search what or who</label>
+                <input id="search" type="search" maxlength="100" autocomplete="off" placeholder="e.g. drill or Bilal">
+            </div>
+            <p class="filter" id="filter" hidden><span id="filter-text"></span> <button type="button" class="link inline-link" id="filter-clear">Show everyone</button></p>
+            <div id="list-body"></div>
+            <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add something you lent or borrowed</h2>
+            <form id="form" novalidate>
+                <div class="seg" role="radiogroup" aria-label="Lent or borrowed">
+                    <label><input type="radio" name="kind" value="lent" checked> I lent it</label>
+                    <label><input type="radio" name="kind" value="borrowed"> I borrowed it</label>
+                </div>
+                <label for="f-what">What</label>
+                <input id="f-what" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Drill, novel, cake tin" aria-describedby="e-what">
+                <p class="err" id="e-what" role="alert"></p>
+                <label for="f-who" id="l-who">Who has it</label>
+                <input id="f-who" type="text" maxlength="60" autocomplete="off" list="people-list" placeholder="e.g. Bilal" aria-describedby="e-who">
+                <datalist id="people-list"></datalist>
+                <p class="err" id="e-who" role="alert"></p>
+                <label for="f-date" id="l-date">Day you lent it</label>
+                <input id="f-date" type="date" aria-describedby="e-date">
+                <p class="err" id="e-date" role="alert"></p>
+                <p class="label-like" id="l-due">Give back by</p>
+                <div class="seg due" role="radiogroup" aria-labelledby="l-due">
+                    <label><input type="radio" name="due" value="none" checked> No date</label>
+                    <label><input type="radio" name="due" value="w1"> 1 week</label>
+                    <label><input type="radio" name="due" value="w2"> 2 weeks</label>
+                    <label><input type="radio" name="due" value="m1"> 1 month</label>
+                    <label class="wide"><input type="radio" name="due" value="custom"> Pick a date</label>
+                </div>
+                <div id="w-due" hidden>
+                    <label for="f-due">Give-back date</label>
+                    <input id="f-due" type="date" aria-describedby="e-due">
+                </div>
+                <p class="err" id="e-due" role="alert"></p>
+                <div id="w-returned" hidden>
+                    <label for="f-returned" id="l-returned">Came back on</label>
+                    <input id="f-returned" type="date" aria-describedby="e-returned">
+                    <p class="err" id="e-returned" role="alert"></p>
+                </div>
+                <button type="button" class="link" id="o-photo">+ Add a photo (optional)</button>
+                <div class="opt" id="w-photo" hidden>
+                    <p class="label-like">Photo</p>
+                    <div class="photo-prev" id="photo-prev" hidden>
+                        <img id="photo-img" alt="Photo of the item">
+                        <button type="button" class="secondary small" id="photo-remove">Remove photo</button>
+                    </div>
+                    <label class="secondary file-btn" id="photo-pick" for="f-photo">Choose or take a photo</label>
+                    <input id="f-photo" type="file" accept="image/*" class="sr">
+                    <p class="hint">Handy for a book cover or the state the thing was in. The photo stays on this device.</p>
+                    <p class="err" id="e-photo" role="alert"></p>
+                </div>
+                <button type="button" class="link" id="o-note">+ Add a note (optional)</button>
+                <div class="opt" id="w-note" hidden>
+                    <label for="f-note">Note</label>
+                    <textarea id="f-note" maxlength="300" rows="3" placeholder="e.g. Comes with 2 drill bits"></textarea>
+                </div>
+                <p class="preview" id="preview" aria-live="polite"></p>
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="f-save">Add to my list</button>
+                    <button type="button" class="secondary" id="f-cancel" hidden>Cancel</button>
+                </div>
+            </form>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card people" id="people" aria-labelledby="ppl-h" hidden>
+            <h2 id="ppl-h">People</h2>
+            <div id="people-body"></div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Share, export and backup</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy my list</button>
+                <a class="secondary" id="mail" href="mailto:">Email my list</a>
+                <button type="button" class="secondary" id="csv">Download (CSV)</button>
+                <button type="button" class="secondary" id="print">Print</button>
+            </div>
+            <div class="tool-grid gap">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How do I remind someone without being rude?</summary><p>Tap <b>Remind</b> under the item. A friendly message is ready, for example <i>"Hi Bilal, hope you are well! Just a friendly reminder that you still have my Drill (since Sat 12 Sep). Could I have it back when you get a chance? Thank you!"</i> Change the words if you like, then copy, share or email it.</p></details>
+        <details><summary>What do "late" and "due back" mean?</summary><p>If you set a <b>Give back by</b> date, the item shows how many days are left, <b>Due back today</b> on the day, and in red how many days late it is after that. "1 week" counts from the day you lent or borrowed it, so a drill lent on 12 Sep with 1 week is due back on 19 Sep. Without a date the item just shows how long it has been away.</p></details>
+        <details><summary>I got it back. What now?</summary><p>Tap <b>Got it back</b> (or <b>Gave it back</b> for things you borrowed). It moves to <b>Returned</b> with how long it was away. Tapped too soon? Use <b>Undo</b>, or <b>Not back yet</b> in the Returned list. To lend the same thing again, tap <b>Lend again</b>.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your list and photos stay in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to move it to a new phone. Once loaded, the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/lent-and-borrowed-items-tracker">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Lent and Borrowed Items Tracker", "sections": [
+ {"h": "Add a thing", "steps": ["Under \"Add something you lent or borrowed\" choose \"I lent it\" or \"I borrowed it\".", "Type \"What\" (for example Drill or Harry Potter book) and the person: \"Who has it\" for things you lent, \"Who lent it to you\" for things you borrowed. Names you used before are suggested as you type.", "The day is today to start with; change it if it happened earlier.", "\"Give back by\": \"No date\", \"1 week\", \"2 weeks\", \"1 month\" (counted from that day) or \"Pick a date\". The line above the button shows the date it works out.", "\"+ Add a photo (optional)\" keeps a photo of the item on this device. \"+ Add a note (optional)\" keeps details, for example \"comes with 2 drill bits\".", "Tap \"Add to my list\"."]},
+ {"h": "Read your list", "steps": ["The two boxes at the top say how many things you have lent out and borrowed, and how many are late or due today.", "\"Lent out\", \"Borrowed\" and \"Returned\" switch between the lists. Each thing has its own box, most urgent first.", "Each box says who has it, the day and how long ago, and the give-back date: days left, \"Due back today\", or in red how many days late.", "With many things, \"Search what or who\" finds one quickly.", "\"People\" shows each person with what they have of yours and what you have of theirs. \"Show only\" lists just that person's things, and \"Show everyone\" goes back."]},
+ {"h": "When it comes back", "steps": ["Tap \"Got it back\" (lent) or \"Gave it back\" (borrowed). It moves to \"Returned\" with how long it was away. \"Undo\" puts it back.", "\"Remind\" makes a polite message for the person who has your thing, ready to \"Copy\", \"Share\" or \"Email\".", "\"Edit\" changes anything, including the day it came back. \"Delete\" removes it, with \"Undo\".", "In \"Returned\", \"Lend again\" or \"Borrow again\" fills in the form with the same thing and person, and \"Not back yet\" moves it back to the open list."]},
+ {"h": "Share and backup", "steps": ["\"Copy my list\" and \"Email my list\" share everything that is still out. Email works without typing an address first.", "\"Download (CSV)\" saves everything for a spreadsheet. \"Print\" prints the list.", "\"Save a backup file\" and \"Restore a backup\" move your list and photos to another device. \"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Day counts move on by themselves each day, so a give-back date turns red the day after it passes.", "The same person typed as \"bilal\" and \"Bilal\" counts as one person.", "Photos are made smaller to save space. If the device is full, the app says so.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
