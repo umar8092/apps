@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prepaid Class Pack and Sessions Tracker: Swimming, Gym, Physio and Tuition</title>
+    <meta name="description" content="Free tracker for prepaid class packs and session cards: swimming lessons, gym visits, physio, tuition, yoga or driving lessons. Tap Went today after each session and see how many are left, the last day to use them, how often to go so none go to waste, and the cost per session. Logs missed and cancelled classes, two children on one pack, monthly passes and renewals. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/prepaid-class-pack-and-sessions-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#0077b6">
+    <meta name="theme-color" content="#0077b6">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Prepaid Class Pack and Sessions Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/prepaid-class-pack-and-sessions-tracker/">
+    <meta property="og:title" content="Prepaid Class Pack and Sessions Tracker">
+    <meta property="og:description" content="How many swimming lessons, gym visits or physio sessions are left, and will you use them before the pack expires? Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Prepaid Class Pack and Sessions Tracker","alternateName":["Class Pack Tracker","Punch Card Tracker","Sessions Left Counter","Lesson Pack Tracker"],"url":"https://umar8092.github.io/apps/prepaid-class-pack-and-sessions-tracker/","description":"A free tracker for prepaid packs of classes and sessions: sessions left, the last day to use them, how often to go so none are wasted, and the cost per session. Private on your device.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"class pack tracker, sessions left, swimming lessons tracker, gym visit card, physio sessions, tuition classes, punch card app","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I know if I will use all my sessions before the pack expires?","acceptedAnswer":{"@type":"Answer","text":"The app divides the sessions left by the days left and says how often to go, like 1 every 9 days. After two weeks it also compares with your own pace and warns how many sessions could go to waste."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Prepaid Class Pack and Sessions Tracker</h1>
+        <p class="sub">Swimming lessons, gym visits, physio, tuition: how many are left, and will you use them before the pack ends?</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Everything will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h">At a glance</h2>
+            <div id="sum-body" aria-live="polite"></div>
+        </section>
+
+        <section class="card packs" id="packs" aria-labelledby="packs-h">
+            <h2 id="packs-h">Your packs</h2>
+            <div class="msg" id="pack-msg" role="status" aria-live="polite"></div>
+            <ul class="pack-list" id="pack-list"></ul>
+            <button type="button" class="primary" id="add-pack">+ Add a pack</button>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card finished" id="finished" aria-labelledby="fin-h" hidden>
+            <h2 id="fin-h">Finished packs</h2>
+            <p class="hint">Packs you moved here after they were used up or ended. Their logs are kept.</p>
+            <ul class="fin-list" id="fin-list"></ul>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Settings, sharing and backup</h2>
+            <label for="s-cur">Currency symbol</label>
+            <select id="s-cur"></select>
+            <div class="tool-grid gap">
+                <button type="button" class="secondary wide" id="cal">Add the end dates to my calendar</button>
+            </div>
+            <p class="hint">Saves a calendar file with a reminder at 9:00 one week before each pack's last day. Save it again after you add or change a pack.</p>
+            <div class="tool-grid gap">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does it know if sessions will go to waste?</summary><p>It divides the sessions left by the days left, today and the last day included, and tells you how often to go: 4 left with 37 days to go is "about 1 every 9 days". After two weeks and at least two sessions, it also looks at your own pace. Used 6 in 25 days? Then about 8 more fit before the end, so you are fine. Used 2 in 30 days with 6 left and 20 days to go? It warns that about 5 could go to waste.</p></details>
+        <details><summary>What is the difference between Went, Missed and Cancelled?</summary><p><b>Went</b> uses one session. <b>Missed (still counted)</b> is for a class you skipped that the centre still takes off your pack. <b>Cancelled or excused (not counted)</b> is for a class the centre cancelled, or one you gave notice for: it is kept in the log but does not use a session. A make-up class is simply <b>Went</b> on the day you go.</p></details>
+        <details><summary>I had already used some sessions before I found the app.</summary><p>When you add the pack, tap "+ Already used some?" and type how many. They count as used, and the log says "Used before this log was started".</p></details>
+        <details><summary>Two children share one pack. Can I see who went?</summary><p>Yes. Type both names in "Who uses it?", like "Ali, Sara". The pack's box then has a button for each, "Ali went today" and "Sara went today", and shows how many each one used.</p></details>
+        <details><summary>What about a monthly pass with unlimited visits?</summary><p>Choose "A pass with unlimited visits" and set its last day. Tap "Went today" each visit: the app counts the visits and shows what each one cost you, so you can see if the pass is worth it.</p></details>
+        <details><summary>The centre says I have a different number left.</summary><p>Tap "Copy log" or "Email log" and show them the dated list. If they gave you extra sessions or more time, tap Edit and change the number of sessions or the last day.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your packs and logs stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/prepaid-class-pack-and-sessions-tracker">Open source (MIT)</a></footer>
+</main>
+
+<dialog class="form-dlg" id="d-pack" aria-labelledby="dp-h">
+    <form id="f-pack" novalidate>
+        <h2 id="dp-h">Add a pack</h2>
+        <label for="p-name">What is the pack for?</label>
+        <input id="p-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Swimming lessons" aria-describedby="pe-name">
+        <div class="quick" id="p-common"></div>
+        <p class="err" id="pe-name" role="alert"></p>
+
+        <label for="p-type">What did you buy?</label>
+        <select id="p-type">
+            <option value="count">A set number of sessions</option>
+            <option value="pass">A pass with unlimited visits</option>
+        </select>
+        <div id="pw-size">
+            <label for="p-size">How many sessions?</label>
+            <input id="p-size" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="e.g. 10" aria-describedby="pe-size">
+            <div class="quick" id="p-quick-size">
+                <button type="button" class="chip" data-n="5">5</button>
+                <button type="button" class="chip" data-n="8">8</button>
+                <button type="button" class="chip" data-n="10">10</button>
+                <button type="button" class="chip" data-n="12">12</button>
+                <button type="button" class="chip" data-n="20">20</button>
+            </div>
+            <p class="err" id="pe-size" role="alert"></p>
+        </div>
+
+        <label for="p-start">First day you can use it</label>
+        <input id="p-start" type="date" aria-describedby="pe-start">
+        <div class="quick" id="p-quick-start">
+            <button type="button" class="chip" data-ago="0">Today</button>
+            <button type="button" class="chip" data-ago="1">Yesterday</button>
+            <button type="button" class="chip" data-ago="7">A week ago</button>
+        </div>
+        <p class="err" id="pe-start" role="alert"></p>
+
+        <label for="p-expiry">Last day to use it</label>
+        <input id="p-expiry" type="date" aria-describedby="pe-expiry">
+        <div class="quick" id="p-quick-exp">
+            <button type="button" class="chip" data-m="1">1 month</button>
+            <button type="button" class="chip" data-m="2">2 months</button>
+            <button type="button" class="chip" data-m="3">3 months</button>
+            <button type="button" class="chip" data-m="6">6 months</button>
+            <button type="button" class="chip" data-m="12">1 year</button>
+            <button type="button" class="chip" data-m="0" id="p-noexp">No expiry</button>
+        </div>
+        <p class="err" id="pe-expiry" role="alert"></p>
+
+        <button type="button" class="link" id="po-people">+ Add who uses it (optional)</button>
+        <div class="opt" id="pw-people" hidden>
+            <label for="p-people">Who uses it?</label>
+            <input id="p-people" type="text" maxlength="130" autocomplete="off" placeholder="e.g. Ali, or Ali, Sara" aria-describedby="ph-people pe-people">
+            <p class="hint" id="ph-people">Two or more sharing one pack? Put a comma between the names.</p>
+            <p class="err" id="pe-people" role="alert"></p>
+        </div>
+        <button type="button" class="link" id="po-price">+ Add the price paid (optional)</button>
+        <div class="opt" id="pw-price" hidden>
+            <label for="p-price" id="pl-price">Price paid for the whole pack</label>
+            <input id="p-price" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 6000" aria-describedby="pe-price">
+            <p class="err" id="pe-price" role="alert"></p>
+        </div>
+        <button type="button" class="link" id="po-before">+ Already used some? (optional)</button>
+        <div class="opt" id="pw-before" hidden>
+            <label for="p-before">Sessions used before you started this log</label>
+            <input id="p-before" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="e.g. 3" aria-describedby="pe-before">
+            <p class="err" id="pe-before" role="alert"></p>
+        </div>
+        <button type="button" class="link" id="po-note">+ Add a note (optional)</button>
+        <div class="opt" id="pw-note" hidden>
+            <label for="p-note">Note</label>
+            <textarea id="p-note" rows="2" maxlength="400" placeholder="e.g. Teacher, centre phone"></textarea>
+        </div>
+        <label class="check" id="pw-carry" hidden><input type="checkbox" id="p-carry"> <span id="p-carry-text">Carry over the sessions still left</span></label>
+        <p class="preview" id="p-preview" aria-live="polite"></p>
+        <p class="hint warn-line" id="p-warn"></p>
+        <div class="row-btns">
+            <button type="submit" class="primary" id="p-save">Add pack</button>
+            <button type="button" class="secondary" data-close>Cancel</button>
+        </div>
+        <div class="row-btns edit-only" id="p-edit" hidden>
+            <button type="button" class="secondary" id="p-archive">Move to finished packs</button>
+            <button type="button" class="danger" id="p-del">Delete pack and its log</button>
+        </div>
+    </form>
+</dialog>
+
+<dialog class="form-dlg" id="d-use" aria-labelledby="du-h">
+    <form id="f-use" novalidate>
+        <h2 id="du-h">Log a session</h2>
+        <p class="dlg-sub" id="u-pack"></p>
+        <label for="u-date">Date of the session</label>
+        <input id="u-date" type="date" aria-describedby="ue-date">
+        <div class="quick" id="u-quick">
+            <button type="button" class="chip" data-ago="0">Today</button>
+            <button type="button" class="chip" data-ago="1">Yesterday</button>
+            <button type="button" class="chip" data-ago="2">2 days ago</button>
+        </div>
+        <p class="err" id="ue-date" role="alert"></p>
+        <fieldset class="kinds" aria-describedby="ue-kind">
+            <legend>What happened?</legend>
+            <label class="radio"><input type="radio" name="u-kind" value="went" checked> <span><b>Went</b>: uses one session</span></label>
+            <label class="radio"><input type="radio" name="u-kind" value="missed"> <span><b>Missed</b>, but the centre still counts it</span></label>
+            <label class="radio"><input type="radio" name="u-kind" value="off"> <span><b>Cancelled or excused</b>: kept in the log, not counted</span></label>
+        </fieldset>
+        <p class="err" id="ue-kind" role="alert"></p>
+        <div id="uw-who" hidden>
+            <label for="u-who">Who?</label>
+            <select id="u-who" aria-describedby="ue-who"></select>
+            <p class="err" id="ue-who" role="alert"></p>
+        </div>
+        <button type="button" class="link" id="uo-note">+ Add a note (optional)</button>
+        <div class="opt" id="uw-note" hidden>
+            <label for="u-note">Note</label>
+            <input id="u-note" type="text" maxlength="120" autocomplete="off" placeholder="e.g. Make-up for 12 Oct">
+        </div>
+        <p class="hint warn-line" id="u-warn"></p>
+        <div class="row-btns">
+            <button type="submit" class="primary" id="u-save">Save</button>
+            <button type="button" class="secondary" data-close>Cancel</button>
+        </div>
+        <div class="row-btns edit-only" id="u-edit" hidden>
+            <button type="button" class="danger" id="u-del">Delete this entry</button>
+        </div>
+    </form>
+</dialog>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Prepaid Class Pack and Sessions Tracker", "sections": [
+ {"h": "Add a pack", "steps": ["Tap \"+ Add a pack\". In \"What is the pack for?\" type the name, or tap a suggestion like \"Swimming lessons\" or \"Gym visits\".", "\"What did you buy?\": \"A set number of sessions\" (then type \"How many sessions?\" or tap 5, 8, 10, 12 or 20), or \"A pass with unlimited visits\" for a monthly or yearly pass.", "\"First day you can use it\" is usually the day you bought it. \"Last day to use it\" is the expiry: tap \"1 month\", \"3 months\" and so on to count it from the first day, pick a date, or tap \"No expiry\".", "The optional buttons add who uses it (put a comma between two names when children share a pack), the price paid, sessions already used before you started this log, and a note.", "The line above the button checks what you typed, like \"10 sessions from Sun 25 Oct to Sun 24 Jan (3 months). 600 per session.\" Tap \"Add pack\"."]},
+ {"h": "After each session", "steps": ["Tap \"Went today\" in the pack's box. When two people share it, tap \"Ali went today\" or \"Sara went today\".", "A wrong tap? Tap \"Undo\" in the message that appears.", "For another day, a missed class or a cancelled one, tap \"Other day or missed\". \"Missed\" still uses a session; \"Cancelled or excused\" is kept in the log but does not.", "\"Log\" in the box lists every session with its number and date. Tap \"Edit\" next to one to change or delete it."]},
+ {"h": "What the box tells you", "steps": ["\"4 of 10 left\" with one dot per session: filled dots are used.", "\"Last day to use it\" and \"To use them all, go about 1 every 9 days\": how often to go so no session is wasted.", "A red line warns when, at your pace so far, sessions could go to waste, or when there are not enough days left.", "With a price you see the cost per session and how much is still unused. \"At a glance\" at the top lists every pack, the most urgent first."]},
+ {"h": "Renew, finish, share", "steps": ["When a pack is used up or ended, tap \"Renew\": a new pack with the same details starts today. If sessions are still left you can carry them over.", "\"Move to finished packs\" puts an old pack in \"Finished packs\" with its log kept. \"Bring back\" undoes it.", "\"Copy log\" and \"Email log\" give a dated list to show the centre if your counts differ. Email works without typing an address first.", "\"Add the end dates to my calendar\" saves a reminder one week before each pack's last day.", "\"Save a backup file\" keeps everything in one file; \"Restore a backup\" brings it back on this or a new device. \"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["\"3 months\" from 1 Oct means the last day is 31 Dec.", "The centre extended your pack or gave extra sessions? Tap \"Edit\" and change \"Last day to use it\" or \"How many sessions?\".", "\"Currency symbol\" is remembered. Leave it on None for plain numbers.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

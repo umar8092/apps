@@ -707,6 +707,14 @@ Running out of oil, sugar or bags before the supplier comes, or forgetting half 
 
 <a href="stock-reorder-list-for-small-shops/"><img src="stock-reorder-list-for-small-shops/screenshots/phone.png" alt="Stock Reorder List for Small Shops screenshot" width="260"></a>
 
+### <img src="prepaid-class-pack-and-sessions-tracker/favicon.svg" width="36" height="36" align="center"> [Prepaid Class Pack and Sessions Tracker](https://umar8092.github.io/apps/prepaid-class-pack-and-sessions-tracker/)
+
+Paid in advance for 10 swimming lessons, a 20-visit gym card, 8 physio sessions or 12 tuition classes, and lost count? Each pack has its own box: tap Went today after each session and see "4 of 10 left, last day Mon 30 Nov, go about 1 every 9 days to use them all", a warning when at your pace sessions could go to waste, the cost per session and the money still unused. Missed classes the centre still counts, cancelled ones it does not, two children on one pack, monthly passes, renew with carry-over, copy or email the dated log for the centre, calendar reminder before the end, currency symbol, backup. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/prepaid-class-pack-and-sessions-tracker/) &middot; [Details and screenshots](prepaid-class-pack-and-sessions-tracker/)
+
+<a href="prepaid-class-pack-and-sessions-tracker/"><img src="prepaid-class-pack-and-sessions-tracker/screenshots/phone.png" alt="Prepaid Class Pack and Sessions Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
