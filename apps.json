@@ -550,5 +550,11 @@
     "name": "Homework and School Diary for Parents",
     "description": "Two or three children at school? Write down each child's homework, tests, projects and things to bring (or paste the teacher's WhatsApp message), and every evening see what is due on their next school day, what is late and which tests are coming up. Private, works offline.",
     "color": "#2b8a6e"
+  },
+  {
+    "slug": "tailor-orders-and-family-measurements",
+    "name": "Tailor Orders and Family Measurements",
+    "description": "Clothes at the tailor for the whole family? Keep each person's measurements (inches or cm, older ones kept as children grow) and every order: which tailor, the ready date, advance and balance. See what is late, what is ready to collect and what you still owe, and copy the measurements for the tailor. Private, works offline.",
+    "color": "#3a64a8"
   }
 ]

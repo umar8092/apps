@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailor Orders and Family Measurements: What Is at the Tailor</title>
+    <meta name="description" content="Free tailor diary for families. Keep each person's measurements (shirt, kameez, shalwar or trousers, in inches or cm, with older ones kept as children grow), and every order at the tailor: who it is for, which tailor, the ready date, price, advance and balance. See what is late, what is ready to collect and what you still owe, and copy the measurements for the tailor on WhatsApp. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/tailor-orders-and-family-measurements/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#3a64a8">
+    <meta name="theme-color" content="#3a64a8">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Tailor Orders and Family Measurements">
+    <meta property="og:url" content="https://umar8092.github.io/apps/tailor-orders-and-family-measurements/">
+    <meta property="og:title" content="Tailor Orders and Family Measurements">
+    <meta property="og:description" content="Every family member's measurements and every order at the tailor in one place: ready dates, late orders, advance paid and balance to pay. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Tailor Orders and Family Measurements","alternateName":["Tailor Order Tracker","Family Measurements Book","Stitching Orders Diary","Darzi Diary"],"url":"https://umar8092.github.io/apps/tailor-orders-and-family-measurements/","description":"A free diary for families who have clothes stitched: each person's measurements, every order at the tailor with its ready date, advance and balance, and what is late or ready to collect. Private on your device.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"tailor order tracker, family measurements, stitching orders, shalwar kameez measurements, darzi, tailor advance balance, Eid clothes","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I send the measurements to my tailor?","acceptedAnswer":{"@type":"Answer","text":"Tap Copy measurements in the person's box, or Copy for tailor on an order (it adds the order and the design note), then paste it into WhatsApp or a text message."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account, your data is never sent anywhere, and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Tailor Orders and Family Measurements</h1>
+        <p class="sub">Everyone's measurements and every order at the tailor: when it is ready, what is late, and how much you still owe.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden></p>
+
+    <div class="col-main">
+        <section class="card glance" id="glance" aria-labelledby="glance-h">
+            <h2 id="glance-h">At the tailor</h2>
+            <div id="glance-body" aria-live="polite"></div>
+            <div class="row-btns" id="glance-tools">
+                <button type="button" class="secondary" id="copy-glance">Copy list</button>
+                <button type="button" class="secondary" id="share-glance" hidden>Share</button>
+                <a class="secondary" id="email-glance" href="mailto:">Email</a>
+            </div>
+            <div class="msg" id="glance-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card orders" id="orders" aria-labelledby="orders-h">
+            <h2 id="orders-h">Orders</h2>
+            <div class="msg" id="orders-msg" role="status" aria-live="polite"></div>
+            <ul class="order-list" id="order-list"></ul>
+            <details class="collected" id="collected-box" hidden>
+                <summary id="collected-sum">Collected</summary>
+                <ul class="order-list" id="collected-list"></ul>
+            </details>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card adder" id="adder" aria-labelledby="add-h">
+            <h2 id="add-h">Give clothes to the tailor</h2>
+            <form id="add-form" novalidate>
+                <fieldset class="chips-field">
+                    <legend id="person-legend">Who is it for?</legend>
+                    <div class="chips" id="person-chips"></div>
+                    <label for="person-name" id="person-name-label">Name</label>
+                    <input id="person-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Ali">
+                    <p class="hint" id="person-hint"></p>
+                </fieldset>
+                <label for="item">What is being stitched?</label>
+                <input id="item" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Kurta">
+                <div class="chips small-chips" id="item-chips"></div>
+                <div class="two count-first">
+                    <div>
+                        <label for="pieces">How many?</label>
+                        <input id="pieces" type="number" inputmode="numeric" min="1" max="50" step="1" value="1">
+                    </div>
+                    <div>
+                        <label for="tailor">Tailor or shop</label>
+                        <input id="tailor" type="text" maxlength="60" autocomplete="off" list="tailor-list" placeholder="e.g. Master Tailor">
+                        <datalist id="tailor-list"></datalist>
+                    </div>
+                </div>
+                <div class="chips small-chips" id="tailor-chips"></div>
+                <fieldset class="chips-field">
+                    <legend>Given to the tailor on</legend>
+                    <div class="chips" id="given-chips"></div>
+                    <label for="given" class="sr-label">Date given</label>
+                    <input id="given" type="date">
+                </fieldset>
+                <fieldset class="chips-field">
+                    <legend>Tailor says it will be ready</legend>
+                    <div class="chips" id="promised-chips"></div>
+                    <label for="promised" class="sr-label">Ready date</label>
+                    <input id="promised" type="date">
+                    <p class="hint" id="promised-note"></p>
+                </fieldset>
+                <button type="button" class="link" id="money-open">+ Add price and advance paid (optional)</button>
+                <div class="two" id="money-row" hidden>
+                    <div>
+                        <label for="price" id="price-label">Stitching price</label>
+                        <input id="price" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 3000">
+                    </div>
+                    <div id="advance-wrap">
+                        <label for="advance" id="advance-label">Advance paid</label>
+                        <input id="advance" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 1000">
+                    </div>
+                </div>
+                <p class="hint" id="advance-hint" hidden>To change what you have paid, use "Add payment" on the order.</p>
+                <button type="button" class="link" id="note-open">+ Add fabric or design note (optional)</button>
+                <div id="note-row" hidden>
+                    <label for="note">Fabric and design</label>
+                    <textarea id="note" maxlength="1000" rows="3" placeholder="e.g. Blue lawn, round neck, 2 pockets"></textarea>
+                </div>
+                <p class="err" id="add-err" role="alert"></p>
+                <div class="form-btns" id="add-btns">
+                    <button type="submit" class="primary" id="add-btn">Add order</button>
+                    <button type="button" class="secondary" id="add-cancel" hidden>Cancel</button>
+                </div>
+            </form>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card family" id="family" aria-labelledby="family-h">
+            <h2 id="family-h">Family measurements</h2>
+            <p class="hint" id="family-hint">Each person has their own box. Copy the measurements and send them to the tailor.</p>
+            <div class="msg" id="family-msg" role="status" aria-live="polite"></div>
+            <ul class="people" id="people"></ul>
+            <div id="person-form-slot"></div>
+            <button type="button" class="primary" id="add-person">+ Add a person</button>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Settings and backup</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <p class="hint">Your diary lives only in this browser. Save a backup file now and then, or to move to a new phone.</p>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How do I send the measurements to my tailor?</summary><p>Tap <b>Copy measurements</b> in the person's box and paste it into WhatsApp or a text message. <b>Copy for tailor</b> on an order also adds what is being stitched, the ready date and the fabric and design note.</p></details>
+        <details><summary>My child has grown. Do I lose the old measurements?</summary><p>No. Tap <b>New measurements</b>: the boxes start with the last numbers, so you only change what changed. The old set moves to <b>Earlier measurements</b>, and the box shows what changed, like "Sleeve length 20 → 21". <b>Edit</b> is for fixing a typo without starting a new set.</p></details>
+        <details><summary>Can I type 14½ or 14 1/2?</summary><p>Yes. 14½, 14 1/2, 14-1/2, 14.5 and 14,5 all mean the same. Inches are shown the way tailors write them, like 14½ or 38¾. Switching between inches and cm converts the numbers to the nearest ¼ inch or 0.5 cm.</p></details>
+        <details><summary>What does "late" mean?</summary><p>The ready date the tailor gave has passed and you have not marked it <b>Ready</b> or <b>Collected</b>. Late orders are shown first, in red, with how many days late, so you know whom to call.</p></details>
+        <details><summary>The tailor charged more when I collected it.</summary><p>Tap <b>Collected</b> and change the <b>Final price</b>. The balance and the "Still to pay" total use the new price. If you paid more than the price, the order says so.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your diary stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. If you clear the browser's data the diary is gone, so save a backup file now and then.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/tailor-orders-and-family-measurements">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Tailor Orders and Family Measurements", "sections": [
+ {"h": "Save everyone's measurements", "steps": ["In \"Family measurements\" tap \"+ Add a person\" and type their name.", "Choose \"inches\" or \"cm\". Fill in only the measurements you have, like Chest, Sleeve length or Shalwar / trouser length. 14½, 14 1/2 and 14.5 all work.", "\"+ Add another measurement (optional)\" adds anything that is not in the list, like Collar style. \"+ Add a fit note (optional)\" is for things like \"loose fit, round daman\".", "Tap \"Save\". Each person gets their own box with their measurements and when they were taken.", "\"Copy measurements\" copies them to paste into WhatsApp for the tailor."]},
+ {"h": "Give clothes to the tailor", "steps": ["In \"Give clothes to the tailor\" pick who it is for (or \"Someone else\" and type a name), what is being stitched, how many, and the tailor or shop.", "\"Given to the tailor on\" is today unless you change it. Under \"Tailor says it will be ready\" tap In 3 days, In 1 week or In 2 weeks, pick a date, or Not set.", "\"+ Add price and advance paid (optional)\" keeps the stitching price and the advance. \"+ Add fabric or design note (optional)\" keeps the fabric and design.", "Tap \"Add order\". The tailor and dates stay filled in, so the next person's order for the same tailor takes seconds."]},
+ {"h": "Follow your orders", "steps": ["\"At the tailor\" shows how many orders are with which tailor, how much you still owe, and how many are late or ready to collect.", "\"Orders\" lists each order in its own box: late ones first in red, then ready to collect, then by ready date.", "Tailor called to say it is ready? Tap \"Mark ready\". When you pick it up tap \"Collected\": change the final price if it changed and type what you paid.", "\"Add payment\" adds money paid at any time. \"Back to tailor for a fix\" sends a collected or ready order back with a new ready date.", "\"Copy for tailor\" copies the order with the person's measurements. \"Copy list\", \"Share\" or \"Email\" sends the whole list. Email works without typing an address first."]},
+ {"h": "Change or remove", "steps": ["\"Edit\" on an order loads it into the form above; change it and tap \"Save changes\". \"Delete\" removes it.", "In a person's box, \"New measurements\" starts a new set (the old one is kept under \"Earlier measurements\" and the box shows what changed). \"Edit\" fixes a typo, the name or the fit note, or deletes the person.", "\"Order for\" in a person's box starts a new order for them.", "Every change shows \"Undo\" in the message."]},
+ {"h": "Good to know", "tips": true, "steps": ["Each person has their own measurements and unit, so one child in inches and another in cm both work.", "A measurement taken 6 months ago or more is marked in yellow, because sizes change and children grow fast.", "\"Currency symbol\" is remembered. Leave it on None for plain numbers.", "\"Save a backup file\" keeps everything in one file; \"Restore a backup\" brings it back on this or a new phone.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

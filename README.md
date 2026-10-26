@@ -739,6 +739,14 @@ Two or three children at school? Write down each child's homework, tests, projec
 
 <a href="homework-and-school-diary-for-parents/"><img src="homework-and-school-diary-for-parents/screenshots/phone.png" alt="Homework and School Diary for Parents screenshot" width="260"></a>
 
+### <img src="tailor-orders-and-family-measurements/favicon.svg" width="36" height="36" align="center"> [Tailor Orders and Family Measurements](https://umar8092.github.io/apps/tailor-orders-and-family-measurements/)
+
+Clothes at the tailor for the whole family? Keep each person's measurements in their own box (inches or cm, typed like 14½, older sets kept as children grow), and every order: which tailor, the ready date, the advance and the balance. See what is late, what is ready to collect and how much you still owe each tailor, and copy the measurements for the tailor on WhatsApp. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/tailor-orders-and-family-measurements/) &middot; [Details and screenshots](tailor-orders-and-family-measurements/)
+
+<a href="tailor-orders-and-family-measurements/"><img src="tailor-orders-and-family-measurements/screenshots/phone.png" alt="Tailor Orders and Family Measurements screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
