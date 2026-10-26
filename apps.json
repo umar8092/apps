@@ -556,5 +556,11 @@
     "name": "Tailor Orders and Family Measurements",
     "description": "Clothes at the tailor for the whole family? Keep each person's measurements (inches or cm, older ones kept as children grow) and every order: which tailor, the ready date, advance and balance. See what is late, what is ready to collect and what you still owe, and copy the measurements for the tailor. Private, works offline.",
     "color": "#3a64a8"
+  },
+  {
+    "slug": "lpg-gas-cylinder-refill-log",
+    "name": "LPG Gas Cylinder Refill Log",
+    "description": "Never run out of gas mid-cooking. Log each LPG refill (date, kg, price) and see when the cylinder will likely run out, when to get the next one, the gas left, the price per kg and what gas costs you a month. Flags a cylinder that ran out much sooner than usual. Private, works offline.",
+    "color": "#d6402b"
   }
 ]

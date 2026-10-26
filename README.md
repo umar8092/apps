@@ -760,3 +760,11 @@ Every app page and the hub load [GoatCounter](https://www.goatcounter.com) (cook
 ```html
 <script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 ```
+
+### <img src="lpg-gas-cylinder-refill-log/favicon.svg" width="36" height="36" align="center"> [LPG Gas Cylinder Refill Log](https://umar8092.github.io/apps/lpg-gas-cylinder-refill-log/)
+
+Never run out of gas mid-cooking. Log each refill of your LPG cylinder (the date, the kg and the price) and see when it will likely run out, when to get the next one, about how much gas is left, the price per kg and what gas costs you a month. Flags a cylinder that ran out much sooner than usual (under-filled or a leak). Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/lpg-gas-cylinder-refill-log/) &middot; [Details and screenshots](lpg-gas-cylinder-refill-log/)
+
+<a href="lpg-gas-cylinder-refill-log/"><img src="lpg-gas-cylinder-refill-log/screenshots/phone.png" alt="LPG Gas Cylinder Refill Log screenshot" width="260"></a>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LPG Gas Cylinder Refill Log: When Will My Cylinder Run Out?</title>
+    <meta name="description" content="Free LPG gas cylinder refill log for households and small eateries. Log each refill with the date, kg and price, and see when the cylinder will likely run out, when to get the next refill, the gas left, the price per kg and what gas costs you a month. Warns when a cylinder ran out much sooner than usual (under-filled or a leak). No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/lpg-gas-cylinder-refill-log/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#d6402b">
+    <meta name="theme-color" content="#c2261f">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="LPG Gas Cylinder Refill Log">
+    <meta property="og:url" content="https://umar8092.github.io/apps/lpg-gas-cylinder-refill-log/">
+    <meta property="og:title" content="LPG Gas Cylinder Refill Log: When Will My Cylinder Run Out?">
+    <meta property="og:description" content="Log each LPG refill and see when the cylinder will run out, when to get the next one and what gas costs you a month. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"LPG Gas Cylinder Refill Log","alternateName":["LPG Cylinder Tracker","Gas Cylinder Run Out Calculator","How long will my gas cylinder last","LPG Refill Reminder","Gas Cylinder Days Calculator"],"url":"https://umar8092.github.io/apps/lpg-gas-cylinder-refill-log/","description":"A free log of LPG gas cylinder refills that shows when the cylinder will likely run out, when to get the next refill, the gas left, the price per kg and the monthly gas cost, and warns when a cylinder ran out much sooner than usual.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"lpg cylinder tracker, gas cylinder run out date, how long does a gas cylinder last, lpg refill log, 11.8 kg cylinder, 14.2 kg cylinder, lpg price per kg","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the app know when my cylinder will run out?","acceptedAnswer":{"@type":"Answer","text":"It works out how many days your last 3 cylinders lasted for the gas in them, and counts that many days from the day the current cylinder was put on. Until one cylinder has run out, it uses the number of days you type, if any."}},{"@type":"Question","name":"Can it tell if the shop under-filled my cylinder?","acceptedAnswer":{"@type":"Answer","text":"When a cylinder runs out at least 30% faster than the ones before it, the app points it out. If you did not use more gas than usual, the cylinder may have been under-filled, or there may be a leak."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>LPG Gas Cylinder Refill Log</h1>
+        <p class="sub">Log each refill of your gas cylinder and see when it will likely run out, when to get the next one, and what cooking gas costs you each month.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a cylinder</h2>
+            <p class="hint top" id="add-intro">Add each gas connection you want to watch, such as the kitchen stove or a heater. Each one gets its own box where you log its refills.</p>
+            <div class="quick" id="quick" role="group" aria-label="Quick pick">
+                <button type="button" class="chip" data-name="Kitchen">Kitchen</button>
+                <button type="button" class="chip" data-name="Heater">Heater</button>
+                <button type="button" class="chip" data-name="Restaurant">Restaurant</button>
+            </div>
+            <label for="f-name">Name of the cylinder</label>
+            <input id="f-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Kitchen" aria-describedby="f-name-err">
+            <p class="err" id="f-name-err" role="alert"></p>
+            <label for="f-size">Cylinder size</label>
+            <select id="f-size">
+                <option value="11800|kg">11.8 kg (home, Pakistan)</option>
+                <option value="14200|kg">14.2 kg (home, India)</option>
+                <option value="45400|kg">45.4 kg (commercial, Pakistan)</option>
+                <option value="19000|kg">19 kg (commercial, India)</option>
+                <option value="12500|kg">12.5 kg</option>
+                <option value="13000|kg">13 kg</option>
+                <option value="15000|kg">15 kg</option>
+                <option value="9000|kg">9 kg</option>
+                <option value="6000|kg">6 kg</option>
+                <option value="5000|kg">5 kg (small)</option>
+                <option value="20000|lb">20 lb (BBQ tank)</option>
+                <option value="30000|lb">30 lb</option>
+                <option value="40000|lb">40 lb</option>
+                <option value="100000|lb">100 lb</option>
+                <option value="other">Other size&hellip;</option>
+            </select>
+            <div class="two" id="f-osize-box" hidden>
+                <div class="field">
+                    <label for="f-osize">Gas in a full cylinder</label>
+                    <input id="f-osize" type="text" inputmode="decimal" maxlength="10" autocomplete="off" placeholder="e.g. 11" aria-describedby="f-osize-err">
+                </div>
+                <div class="field">
+                    <label for="f-ounit">Unit</label>
+                    <select id="f-ounit"><option value="kg">kg</option><option value="lb">lb</option></select>
+                </div>
+            </div>
+            <p class="err" id="f-osize-err" role="alert"></p>
+            <label for="f-lead">When to get the refill</label>
+            <select id="f-lead">
+                <option value="0">On the day it should run out</option>
+                <option value="1">1 day before it runs out</option>
+                <option value="2">2 days before it runs out</option>
+                <option value="3">3 days before it runs out</option>
+                <option value="5">5 days before it runs out</option>
+                <option value="7">7 days before it runs out</option>
+            </select>
+            <p class="hint">How long the shop or delivery usually takes, plus a safety day.</p>
+            <label class="check"><input type="checkbox" id="f-spare"><span>I keep a full spare cylinder for this one</span></label>
+
+            <button type="button" class="link" id="f-usual-open">+ How long does a full cylinder last? (optional)</button>
+            <div id="f-usual-box" hidden>
+                <label for="f-usual">A full cylinder usually lasts, in days</label>
+                <input id="f-usual" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="e.g. 25" aria-describedby="f-usual-err">
+                <p class="err" id="f-usual-err" role="alert"></p>
+                <p class="hint">A rough guess is fine. It is used only until your first cylinder runs out; after that the app uses your own refills.</p>
+            </div>
+
+            <div class="row-btns">
+                <button type="button" class="primary" id="f-save">Add cylinder</button>
+                <button type="button" class="secondary" id="f-cancel" hidden>Cancel</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Add your cylinder</b>: its name, its size (such as 11.8 kg) and how many days before it runs out you want to get the refill.</li>
+                <li><b>Log the cylinder you are using now</b>: the day it was put on and, if you know it, the price.</li>
+                <li><b>Each time you change the cylinder, log the refill.</b> The app learns how many days a cylinder lasts you.</li>
+                <li><b>See the answer</b>: "Likely empty around 5 Nov, get a refill by 3 Nov", the gas left, the price per kg and what gas costs you a month.</li>
+            </ol>
+        </section>
+        <section class="cyls" id="cyls" aria-label="Your cylinders" hidden>
+            <div class="c-list" id="c-list"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does the app know when my cylinder will run out?</summary><p>It counts how many days your last 3 cylinders lasted for the gas in them. For example 3 cylinders of 11.8 kg that lasted 26 days each is <b>35.4 kg in 78 days, 0.45 kg a day</b>, so a full 11.8 kg cylinder lasts <b>26 days</b>. If the current one was put on 10 Oct, it will likely be empty around <b>5 Nov</b>. Before your first cylinder has run out, it uses the days you typed in <b>+ How long does a full cylinder last?</b>, if any.</p></details>
+        <details><summary>Can it tell if the shop under-filled my cylinder, or if there is a leak?</summary><p>When a cylinder runs out at least 30% faster than the ones before it, its row says so, for example <b>"Ran out 8 days sooner than usual"</b>. If you did not cook more, have guests or use a heater, the cylinder may have been under-filled, or gas may be leaking. To check for a leak, brush soapy water on the valve, regulator and pipe: bubbles mean a leak. Close the valve and call your supplier; never use a flame to check.</p></details>
+        <details><summary>My gas use changes in winter. Does the date still work?</summary><p>Yes. Only your last 3 cylinders are used, so when you start using more gas (a heater, guests, Ramadan cooking) the date adjusts within a cylinder or two.</p></details>
+        <details><summary>The shop filled less than a full cylinder</summary><p>Type the amount in <b>Gas filled</b> when you log the refill, for example 6 kg. The app expects it to last about half as long, and the price per kg is worked out from what was really filled.</p></details>
+        <details><summary>I have two cylinders that take turns</summary><p>Tick <b>I keep a full spare cylinder</b> and log a refill each time you connect a full one. The box then tells you when to swap to the spare and get the empty one refilled. A heater or a second stove on its own cylinder is best added as its own cylinder.</p></details>
+        <details><summary>I forgot to log a refill, or was away</summary><p>Add it later with its real date. A cylinder that lasted much longer than usual is left out of the average and its row asks you to check it. If it ran out and you got the refill days later, open <b>Edit</b> on that refill and add the day it ran out, so the days without gas are not counted.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/lpg-gas-cylinder-refill-log">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the LPG Gas Cylinder Refill Log", "sections": [
+ {"h": "1. Add a cylinder", "steps": ["Tap \"Kitchen\", \"Heater\" or \"Restaurant\", or type the \"Name of the cylinder\" yourself.", "Pick the \"Cylinder size\", such as 11.8 kg or 14.2 kg. \"Other size...\" lets you type the gas in a full cylinder, in kg or lb.", "\"When to get the refill\": how many days before it runs out you want to get the next one, for example 2 days if the shop takes a day.", "Tick \"I keep a full spare cylinder for this one\" if you have a second full cylinder ready to swap in.", "\"+ How long does a full cylinder last? (optional)\": a rough number of days, used only until your first cylinder runs out.", "Tap \"Add cylinder\". Each cylinder gets its own box."]},
+ {"h": "2. Log the refills", "steps": ["In the cylinder's box, under \"Log a refill\", pick the \"Date the full cylinder was put on\". Start with the cylinder you are using now.", "\"Gas filled\": leave it empty for a full cylinder, or type less if the shop filled only part of it.", "\"Price paid\" is optional. With it, the app shows the price per kg, how the price changed and what gas costs you a month.", "Tap \"Save refill\". Do the same each time you put on a full cylinder.", "When the cylinder runs out, tap \"It ran out today\". The days until the next refill are then not counted as use.", "\"Edit\" next to a refill changes its date, gas, price or the day it ran out; \"Delete\" removes it, with \"Undo\"."]},
+ {"h": "3. What the box tells you", "steps": ["\"Likely empty around\" is the day the cylinder will probably run out, based on how long your last 3 cylinders lasted.", "\"Get a refill by\" is that day minus the days you chose in \"When to get the refill\".", "\"About ... left\" is an estimate of the gas still in the cylinder today.", "\"A full cylinder usually lasts\" is the number of days one full cylinder lasts you, with the gas used per day.", "With prices, the box shows the price per kg now, the change since earlier refills, what gas costs you a month at today's price, and what you spent this month and this year.", "A refill marked \"Ran out ... sooner than usual\" may have been under-filled, or there may be a leak.", "\"Copy summary\" and \"Email\" send the numbers; \"Add reminder to calendar\" saves a calendar file for the refill day."]},
+ {"h": "Backup and settings", "steps": ["\"Currency symbol\" adds a symbol such as Rs or ₹ to every amount, or none for plain numbers.", "\"Edit cylinder\" changes the name, size or settings. \"Delete cylinder\" removes it, with \"Undo\".", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\".", "\"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The dates are estimates from your own refills. The more refills you log, the closer they get.", "If you smell gas, close the cylinder valve, open the windows and do not switch on lights or flames.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

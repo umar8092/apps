@@ -1,0 +1,15 @@
+{
+  "name": "LPG Gas Cylinder Refill Log",
+  "short_name": "LPG Refill Log",
+  "description": "Log each LPG refill and see when the cylinder will run out, when to get the next one and what gas costs you a month.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1f0f0c",
+  "theme_color": "#c2261f",
+  "categories": ["utilities", "lifestyle", "finance"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
