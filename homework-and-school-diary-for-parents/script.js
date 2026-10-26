@@ -415,7 +415,7 @@
         if (split) entries = ls;
         else {
             if (!subject && !text) { err.textContent = 'Write what to do, or pick a subject.'; $('what').setAttribute('aria-invalid', 'true'); $('what').focus(); return; }
-            if (text.length > HW.LIMITS.text) { err.textContent = 'That is too long for one item (' + text.length + ' of ' + HW.LIMITS.text + ' letters). Tick "Add each line as its own item" or shorten it.'; $('what').setAttribute('aria-invalid', 'true'); $('what').focus(); return; }
+            if (text.length > HW.LIMITS.text) { err.textContent = 'That is too long for one item (' + text.length + ' letters, the limit is ' + HW.LIMITS.text + '). ' + (text.indexOf('\n') >= 0 ? 'Tick "Add each line as its own item" or shorten it.' : 'Please shorten it.'); $('what').setAttribute('aria-invalid', 'true'); $('what').focus(); return; }
             entries = [{ subject: subject, text: text }];
         }
         if (state.items.length + entries.length > HW.LIMITS.items) { err.textContent = 'The diary is full. Delete old items first.'; return; }

@@ -259,7 +259,7 @@ async function overlapCheck(page) {
         has(await page.locator('#due-note').innerText(), 'That day has passed, so it will show as late.', 'past date note');
         // very long single text
         await page.fill('#what', 'x'.repeat(700)); await page.click('#add-btn');
-        has(await page.locator('#add-err').innerText(), 'too long for one item (700 of 600 letters)', 'very long text refused with the reason');
+        has(await page.locator('#add-err').innerText(), 'too long for one item (700 letters, the limit is 600)', 'very long text refused with the reason');
         // emoji, script and symbols render as text
         await page.fill('#what', '<img src=x onerror=alert(1)> ریاضی ✏️'); await page.fill('#due', '2026-10-27'); await page.click('#add-btn');
         has(await tonightText(page), '<img src=x onerror=alert(1)> ریاضی ✏️', 'typed text shown as text');
