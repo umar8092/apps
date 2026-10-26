@@ -731,6 +731,14 @@ Take a parent, a child or yourself to several doctors? Write what each doctor sa
 
 <a href="doctor-visit-notes-and-questions-for-the-family/"><img src="doctor-visit-notes-and-questions-for-the-family/screenshots/phone.png" alt="Doctor Visit Notes and Questions for the Family screenshot" width="260"></a>
 
+### <img src="homework-and-school-diary-for-parents/favicon.svg" width="36" height="36" align="center"> [Homework and School Diary for Parents](https://umar8092.github.io/apps/homework-and-school-diary-for-parents/)
+
+Two or three children at school? Write down each child's homework, tests, projects and things to bring, or paste the teacher's WhatsApp message to add every line at once. Every evening see what each child has due on their own next school day, what is late and which tests are coming up, then copy or email it to the other parent. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/homework-and-school-diary-for-parents/) &middot; [Details and screenshots](homework-and-school-diary-for-parents/)
+
+<a href="homework-and-school-diary-for-parents/"><img src="homework-and-school-diary-for-parents/screenshots/phone.png" alt="Homework and School Diary for Parents screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

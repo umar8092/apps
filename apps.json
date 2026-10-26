@@ -544,5 +544,11 @@
     "name": "Doctor Visit Notes and Questions for the Family",
     "description": "Take a parent, a child or yourself to several doctors? Write what each doctor said, the medicines started, changed or stopped and the tests, and see the medicines each person is on now, the next appointment and the questions to ask next time. Print or email the history for a new doctor. Private, works offline.",
     "color": "#2f7fc8"
+  },
+  {
+    "slug": "homework-and-school-diary-for-parents",
+    "name": "Homework and School Diary for Parents",
+    "description": "Two or three children at school? Write down each child's homework, tests, projects and things to bring (or paste the teacher's WhatsApp message), and every evening see what is due on their next school day, what is late and which tests are coming up. Private, works offline.",
+    "color": "#2b8a6e"
   }
 ]

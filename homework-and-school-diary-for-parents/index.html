@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework and School Diary for Parents: What Is Due Tomorrow</title>
+    <meta name="description" content="Free homework diary for parents with one or more children at school. Write down each child's homework, tests, projects and things to bring, then check every evening what is due tomorrow (or the next school day), what is late and which tests are coming up. Paste the teacher's WhatsApp message to add every line at once. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/homework-and-school-diary-for-parents/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#2b8a6e">
+    <meta name="theme-color" content="#2b8a6e">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Homework and School Diary for Parents">
+    <meta property="og:url" content="https://umar8092.github.io/apps/homework-and-school-diary-for-parents/">
+    <meta property="og:title" content="Homework and School Diary for Parents">
+    <meta property="og:description" content="What does each child have due tomorrow? Homework, tests, projects and things to bring, for every child, in one evening check. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Homework and School Diary for Parents","alternateName":["Homework Tracker for Parents","School Diary","Kids Homework Planner","Homework and Test Reminder"],"url":"https://umar8092.github.io/apps/homework-and-school-diary-for-parents/","description":"Free homework diary for parents: each child's homework, tests, projects and things to bring, with an evening check of what is due on the next school day. Private on your device.","applicationCategory":"EducationalApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"homework tracker for parents, school diary, homework planner for kids, test reminder, what is due tomorrow, several children","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does Tonight's check show?","acceptedAnswer":{"@type":"Answer","text":"For each child: anything late, anything due today that is not ticked, everything due on their next school day, and tests or projects in the week after it."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account, your data is never sent anywhere, and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Homework and School Diary for Parents</h1>
+        <p class="sub">Each child's homework, tests and things to bring, and one evening check: what is due tomorrow, what is late, what is coming up.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Everything will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card tonight" id="tonight" aria-labelledby="tonight-h">
+            <h2 id="tonight-h">Tonight's check</h2>
+            <p class="hint" id="tonight-date"></p>
+            <div id="tonight-body" aria-live="polite"></div>
+            <div class="row-btns" id="tonight-tools">
+                <button type="button" class="secondary" id="copy-tonight">Copy</button>
+                <button type="button" class="secondary" id="share-tonight" hidden>Share</button>
+                <a class="secondary" id="email-tonight" href="mailto:">Email</a>
+            </div>
+            <div class="msg" id="tonight-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card kids" id="kids" aria-labelledby="kids-h">
+            <h2 id="kids-h">Your children</h2>
+            <div class="msg" id="kids-msg" role="status" aria-live="polite"></div>
+            <ul class="kid-list" id="kid-list"></ul>
+            <div id="child-form-slot"></div>
+            <button type="button" class="primary" id="add-child">+ Add a child</button>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card adder" id="adder" aria-labelledby="add-h">
+            <h2 id="add-h">Add homework or a test</h2>
+            <p class="hint" id="add-empty" hidden>Add a child first in "Your children", then write their homework here.</p>
+            <form id="add-form" novalidate>
+                <fieldset class="chips-field" id="child-field">
+                    <legend>Child</legend>
+                    <div class="chips" id="child-chips"></div>
+                </fieldset>
+                <fieldset class="chips-field">
+                    <legend>What kind</legend>
+                    <div class="seg" id="type-seg">
+                        <label><input type="radio" name="type" value="homework" checked><span>Homework</span></label>
+                        <label><input type="radio" name="type" value="test"><span>Test</span></label>
+                        <label><input type="radio" name="type" value="project"><span>Project</span></label>
+                        <label><input type="radio" name="type" value="reminder"><span>Reminder</span></label>
+                    </div>
+                </fieldset>
+                <label for="subject">Subject</label>
+                <input id="subject" type="text" maxlength="40" autocomplete="off" list="subject-list" placeholder="e.g. Maths">
+                <datalist id="subject-list"></datalist>
+                <div class="chips small-chips" id="subject-chips"></div>
+                <label for="what" id="what-label">What to do</label>
+                <textarea id="what" maxlength="1800" rows="3" placeholder="e.g. Exercise 4.2, questions 1 to 10"></textarea>
+                <div class="split-box" id="split-box" hidden>
+                    <label class="check"><input type="checkbox" id="split" checked> <span id="split-text">Add each line as its own item</span></label>
+                    <ul class="split-preview" id="split-preview"></ul>
+                </div>
+                <fieldset class="chips-field">
+                    <legend>Due</legend>
+                    <div class="chips" id="due-chips"></div>
+                    <label for="due" class="sr-label">Or pick a date</label>
+                    <input id="due" type="date">
+                    <p class="hint" id="due-note"></p>
+                </fieldset>
+                <button type="button" class="link" id="repeat-open">+ Repeat every week (optional)</button>
+                <label class="check" id="repeat-row" hidden><input type="checkbox" id="repeat"> <span id="repeat-text">Repeats every week on this day</span></label>
+                <p class="err" id="add-err" role="alert"></p>
+                <button type="submit" class="primary" id="add-btn">Add</button>
+            </form>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card weekcard" id="week" aria-labelledby="week-h">
+            <h2 id="week-h">Week at a glance</h2>
+            <div class="week-nav">
+                <button type="button" class="secondary small" id="week-prev" aria-label="Previous week">&larr; Previous</button>
+                <button type="button" class="secondary small" id="week-now">This week</button>
+                <button type="button" class="secondary small" id="week-next" aria-label="Next week">Next &rarr;</button>
+            </div>
+            <p class="week-title" id="week-title"></p>
+            <ul class="week-list" id="week-list"></ul>
+            <button type="button" class="secondary" id="copy-week">Copy this week</button>
+            <div class="msg" id="week-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Backup</h2>
+            <p class="hint">Your diary lives only in this browser. Save a backup file now and then, or to move to a new phone.</p>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>What does "Tonight's check" show?</summary><p>For each child: anything <b>late</b> (its day has passed and it is not ticked), anything <b>due today</b> that is not ticked yet, <b>everything due on their next school day</b> (on Friday evening that is Monday, or Sunday for schools that open on Sunday), and <b>tests and projects</b> in the week after that. Each child uses their own school days and holidays.</p></details>
+        <details><summary>The teacher sends homework on WhatsApp. Do I type it all again?</summary><p>No. Copy the message and paste it into "What to do". If it has several lines, like "English: learn the poem" and "Maths: Ex 4.2", the app offers to add each line as its own item, with the word before the colon as the subject.</p></details>
+        <details><summary>What happens to homework that was not done?</summary><p>It stays open and shows as <b>late</b> in red, with how many days late, until you tick it <b>Done</b>. "Move to" puts it on the next school day if the teacher gave more time.</p></details>
+        <details><summary>What is a reminder?</summary><p>Anything that is not homework: bring the PE kit, sign the trip form, pay the fee, a parents' meeting. Tick "Repeat every week" for something that happens every week, like a spelling test on Friday. Weekly items never pile up as late.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your diary stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. If you clear the browser's data the diary is gone, so save a backup file now and then.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/homework-and-school-diary-for-parents">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Homework and School Diary for Parents", "sections": [
+ {"h": "Start", "steps": ["Tap \"+ Add a child\" and type their name. \"+ Add class or school (optional)\" adds their class, like Class 5.", "Tick their \"School days\" (Mon to Fri is ticked for you). Choose Mon to Sat or Sun to Thu if their school is different.", "\"Subjects (optional)\": tap the subjects they have so you can pick them in one tap later. \"+ Add a holiday or break (optional)\" keeps holidays out of the next school day.", "Tap \"Save child\". Each child gets their own box. Add every child, each with their own school days."]},
+ {"h": "Write down homework", "steps": ["In \"Add homework or a test\" pick the child and the kind: Homework, Test, Project or Reminder (bring the PE kit, sign a form, pay the fee).", "Pick or type the \"Subject\" and write \"What to do\".", "Under \"Due\" tap Today, Tomorrow, Next school day or In 1 week, or pick any date. The line under it says which day that is.", "Pasted a teacher's message with several lines? Leave \"Add each line as its own item\" ticked: each line becomes one item, and the word before a colon becomes its subject.", "\"+ Repeat every week (optional)\" is for things that come every week, like a spelling test on Friday.", "Tap \"Add\". A mistake? Tap \"Undo\" in the message."]},
+ {"h": "Every evening", "steps": ["\"Tonight's check\" shows each child's box: Late items in red, Due today, everything for their next school day, and tests or projects in the week after it.", "Tap \"Done\" when an item is finished. \"All done for Mon 27 Oct\" means nothing is left for that child.", "\"Copy\", \"Share\" or \"Email\" sends the whole check to the other parent. Email works without typing an address first."]},
+ {"h": "Change or remove", "steps": ["In a child's box tap \"Edit\" next to an item to change it or tap \"Delete\". \"Move to\" puts a late item on the next school day.", "\"Done recently\" lists ticked items; \"Not done\" brings one back.", "\"Edit child\" changes the name, class, subjects, school days or holidays, or deletes the child with all their items.", "\"Week at a glance\" lists every child's items day by day. \"Previous\" and \"Next\" move a week; \"Copy this week\" copies it."]},
+ {"h": "Good to know", "tips": true, "steps": ["Each child has their own school days and holidays, so two schools with different weekends both work.", "Homework that is not ticked stays late until you tick it, so nothing is forgotten. Weekly items never pile up.", "\"Save a backup file\" keeps everything in one file; \"Restore a backup\" brings it back on this or a new phone.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
