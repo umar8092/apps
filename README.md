@@ -715,6 +715,14 @@ Paid in advance for 10 swimming lessons, a 20-visit gym card, 8 physio sessions 
 
 <a href="prepaid-class-pack-and-sessions-tracker/"><img src="prepaid-class-pack-and-sessions-tracker/screenshots/phone.png" alt="Prepaid Class Pack and Sessions Tracker screenshot" width="260"></a>
 
+### <img src="business-mileage-log-for-tax-and-expense-claims/favicon.svg" width="36" height="36" align="center"> [Business Mileage Log for Tax and Expense Claims](https://umar8092.github.io/apps/business-mileage-log-for-tax-and-expense-claims/)
+
+Drive your own car for work and claim mileage? Log each trip in seconds (from, to, what for, miles or km, there and back, odometer readings, passengers) and see "October 2026: 412.0 miles, £194.20 to claim" and how many miles are left this tax year at the higher rate. Built-in HMRC 45p then 25p after 10,000 miles (plus 5p per passenger, motorcycle and bicycle rates), the IRS rate including the 1 July 2026 change from 72.5¢ to 76¢, the CRA 73¢ then 67¢ a km, or your employer's own rate that can change from a date. Splits the trip that crosses the yearly limit, two or more vehicles, copy, email, print or save a spreadsheet for your claim, currency symbol, backup. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/business-mileage-log-for-tax-and-expense-claims/) &middot; [Details and screenshots](business-mileage-log-for-tax-and-expense-claims/)
+
+<a href="business-mileage-log-for-tax-and-expense-claims/"><img src="business-mileage-log-for-tax-and-expense-claims/screenshots/phone.png" alt="Business Mileage Log for Tax and Expense Claims screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

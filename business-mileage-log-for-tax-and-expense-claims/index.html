@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Mileage Log for Tax and Expense Claims: HMRC, IRS and CRA rates</title>
+    <meta name="description" content="Free business mileage log for the self-employed and employees who drive their own car for work. Log each trip in seconds and see what you can claim this month and this tax year: HMRC 45p then 25p after 10,000 miles, IRS 72.5 and 76 cents for 2026, CRA 73 and 67 cents a km, or your employer's own rate. Passengers, two vehicles, odometer readings, copy, email or save a spreadsheet for your claim. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/business-mileage-log-for-tax-and-expense-claims/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#5f3dc4">
+    <meta name="theme-color" content="#5f3dc4">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Business Mileage Log for Tax and Expense Claims">
+    <meta property="og:url" content="https://umar8092.github.io/apps/business-mileage-log-for-tax-and-expense-claims/">
+    <meta property="og:title" content="Business Mileage Log for Tax and Expense Claims">
+    <meta property="og:description" content="Log your work trips and see the mileage you can claim: HMRC, IRS, CRA or your employer's rate. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Business Mileage Log for Tax and Expense Claims","alternateName":["Mileage Log","Mileage Tracker","Mileage Claim Calculator","HMRC Mileage Log","IRS Mileage Log"],"url":"https://umar8092.github.io/apps/business-mileage-log-for-tax-and-expense-claims/","description":"A free business mileage log: log work trips and see the mileage allowance you can claim with HMRC, IRS, CRA or your own rate. Private on your device.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"mileage log, mileage tracker, HMRC mileage 45p, IRS mileage rate 2026, CRA mileage, mileage claim, business miles","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is the HMRC 10,000 mile limit worked out?","acceptedAnswer":{"@type":"Answer","text":"The first 10,000 business miles in each tax year (6 April to 5 April) are at 45p a mile and the rest at 25p. The app adds your trips up in date order and splits the trip that crosses 10,000 miles, so part of it is at 45p and the rest at 25p."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your trips stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Business Mileage Log for Tax and Expense Claims</h1>
+        <p class="sub">Log each work trip in seconds and see what you can claim: HMRC, IRS, CRA or your employer's own rate.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Everything will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card start" id="start" aria-labelledby="start-h" hidden>
+            <h2 id="start-h">Start here</h2>
+            <p>First choose your vehicle and the mileage rate you claim: the UK HMRC rate, the US IRS rate, the Canada CRA rate, or your employer's own rate. Then add each work trip, and this page adds up your claim.</p>
+            <button type="button" class="primary" id="start-btn">Choose my vehicle and rate</button>
+        </section>
+
+        <div class="add-row" id="add-row" hidden>
+            <button type="button" class="primary big-btn" id="add-trip">+ Add a trip</button>
+        </div>
+        <div class="msg" id="trip-msg" role="status" aria-live="polite"></div>
+
+        <section class="card claim" id="claim" aria-labelledby="claim-h" hidden>
+            <h2 id="claim-h">Your claim</h2>
+            <div class="quick periods" id="periods" role="group" aria-label="Which dates">
+                <button type="button" class="chip" data-p="month" aria-pressed="true">This month</button>
+                <button type="button" class="chip" data-p="last" aria-pressed="false">Last month</button>
+                <button type="button" class="chip" data-p="year" aria-pressed="false">This tax year</button>
+                <button type="button" class="chip" data-p="lastyear" aria-pressed="false">Last tax year</button>
+                <button type="button" class="chip" data-p="all" aria-pressed="false">All trips</button>
+                <button type="button" class="chip" data-p="custom" aria-pressed="false">Pick dates</button>
+            </div>
+            <div class="two" id="custom-range" hidden>
+                <div><label for="r-from">From</label><input id="r-from" type="date"></div>
+                <div><label for="r-to">To</label><input id="r-to" type="date"></div>
+            </div>
+            <div id="claim-body" aria-live="polite"></div>
+            <div class="tool-grid gap" id="claim-tools">
+                <button type="button" class="secondary" id="copy-claim">Copy claim</button>
+                <a class="secondary" id="email-claim" href="mailto:">Email claim</a>
+                <button type="button" class="secondary" id="csv">Save spreadsheet (CSV)</button>
+                <button type="button" class="secondary" id="print">Print</button>
+            </div>
+        </section>
+
+        <section class="card trips" id="trips" aria-labelledby="trips-h" hidden>
+            <h2 id="trips-h">Trips</h2>
+            <div id="trip-list"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card year" id="year" aria-labelledby="year-h" hidden>
+            <h2 id="year-h">This tax year so far</h2>
+            <div id="year-body"></div>
+        </section>
+
+        <section class="card vehicles" id="vehicles" aria-labelledby="veh-h" hidden>
+            <h2 id="veh-h">Vehicles and rates</h2>
+            <ul class="veh-list" id="veh-list"></ul>
+            <button type="button" class="secondary" id="add-veh">+ Add another vehicle</button>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Settings and backup</h2>
+            <label for="s-cur">Currency symbol</label>
+            <select id="s-cur"></select>
+            <button type="button" class="link" id="so-name">+ Add your name to the claim (optional)</button>
+            <div class="opt" id="sw-name" hidden>
+                <label for="s-name">Your name on the claim</label>
+                <input id="s-name" type="text" maxlength="60" autocomplete="name" placeholder="e.g. Sarah Khan">
+            </div>
+            <div class="tool-grid gap">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Which trips count as business mileage?</summary><p>Trips you make for work in your own vehicle: to customers, clients, suppliers, other sites, training or a temporary workplace. The normal trip from home to your permanent workplace (commuting) usually does not count. Log only the business part of a trip: if you stop at the shops on the way back, leave out the extra miles.</p></details>
+        <details><summary>How does the HMRC 45p and 25p split work?</summary><p>HMRC allows 45p a mile for the first 10,000 business miles in the tax year (6 April to 5 April) and 25p for every mile after that, for cars and vans together. The app adds your trips up in date order. The trip that passes 10,000 miles is split: for example 30 miles at 45p and 18 miles at 25p. On 6 April the count starts again at 0. A business passenger adds 5p a mile each. Motorcycles are 24p and bicycles 20p, with no limit.</p></details>
+        <details><summary>Which IRS and CRA rates does it use?</summary><p>IRS business rate: 65.5 cents a mile in 2023, 67 cents in 2024, 70 cents in 2025, and in 2026 72.5 cents up to 30 June and 76 cents from 1 July (the IRS raised it mid-year because of fuel prices). Each trip uses the rate for its date. CRA allowance rate: 73 cents a km for the first 5,000 km in 2026 and 67 cents after (72 and 66 cents in 2025, 70 and 64 in 2024). In the territories it is 4 cents more: choose "My employer's or my own rate" and type it. If a rate changes again, choose your own rate and pick "Only trips from a date".</p></details>
+        <details><summary>My employer pays a different rate, or I live elsewhere.</summary><p>Choose "My employer's or my own rate" for the vehicle. Type the rate per mile or km (like 0.45, 45p or 30), and if it drops after a number of miles a year, the lower rate too. Pick the day your tax or claim year starts: 1 Jan, 6 Apr, 1 Apr, 1 Jul or 1 Oct. When the rate changes, edit the vehicle, type the new rate and choose "Only trips from" a date, so older trips keep the old rate.</p></details>
+        <details><summary>Why can a trip's amount change after I add another trip?</summary><p>Only when there is a yearly limit (like HMRC's 10,000 miles). If you add a trip with an earlier date, it comes first in the year, so the trip that crosses the limit can change. The total for the year stays right.</p></details>
+        <details><summary>How is the total rounded?</summary><p>Each trip's amount is worked out exactly and the total is rounded to the cent or penny once, the same as distance times rate. A trip's amount on its own is rounded for display, so adding up the rounded trips by hand can differ by a penny.</p></details>
+        <details><summary>What should I keep for the tax office?</summary><p>HMRC and the IRS want a record made at the time, with the date, where you went, why, and how far. Add each trip on the day, then use "Save spreadsheet (CSV)" or "Print" for your records, and "Save a backup file" now and then in case the phone is lost.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your trips stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. This app is a record-keeping tool, not tax advice: check the current rate with your tax office or employer.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/business-mileage-log-for-tax-and-expense-claims">Open source (MIT)</a></footer>
+</main>
+
+<dialog class="form-dlg" id="d-trip" aria-labelledby="dt-h">
+    <form id="f-trip" novalidate>
+        <h2 id="dt-h">Add a trip</h2>
+        <div id="tw-veh">
+            <label for="t-veh">Vehicle</label>
+            <select id="t-veh" aria-describedby="te-veh"></select>
+            <p class="err" id="te-veh" role="alert"></p>
+        </div>
+        <div id="tw-repeat" hidden>
+            <p class="label-like" id="tl-repeat">Same as a past trip? Tap it</p>
+            <div class="quick repeat" id="t-repeat" role="group" aria-labelledby="tl-repeat"></div>
+        </div>
+        <label for="t-date">Date of the trip</label>
+        <input id="t-date" type="date" aria-describedby="te-date">
+        <div class="quick" id="t-quick-date">
+            <button type="button" class="chip" data-ago="0">Today</button>
+            <button type="button" class="chip" data-ago="1">Yesterday</button>
+        </div>
+        <p class="err" id="te-date" role="alert"></p>
+        <div class="two">
+            <div>
+                <label for="t-from">From</label>
+                <input id="t-from" type="text" maxlength="80" autocomplete="off" list="places" placeholder="e.g. Home">
+            </div>
+            <div>
+                <label for="t-to">To</label>
+                <input id="t-to" type="text" maxlength="80" autocomplete="off" list="places" placeholder="e.g. Customer in Leeds" aria-describedby="te-to">
+                <p class="err" id="te-to" role="alert"></p>
+            </div>
+        </div>
+        <datalist id="places"></datalist>
+        <label for="t-purpose">What was it for?</label>
+        <input id="t-purpose" type="text" maxlength="140" autocomplete="off" placeholder="e.g. Boiler repair">
+
+        <div id="tw-dist">
+            <label for="t-dist" id="tl-dist">Business miles</label>
+            <input id="t-dist" type="text" inputmode="decimal" maxlength="12" autocomplete="off" placeholder="e.g. 12.5" aria-describedby="te-dist">
+            <p class="err" id="te-dist" role="alert"></p>
+            <label class="check"><input type="checkbox" id="t-back"> <span>There and back (counts it twice)</span></label>
+        </div>
+        <button type="button" class="link" id="to-odo">+ Use odometer readings instead (optional)</button>
+        <div class="opt" id="tw-odo" hidden>
+            <div class="two">
+                <div>
+                    <label for="t-odo-s">Odometer at the start</label>
+                    <input id="t-odo-s" type="text" inputmode="decimal" maxlength="12" autocomplete="off" placeholder="e.g. 48213" aria-describedby="te-odo-s">
+                    <p class="err" id="te-odo-s" role="alert"></p>
+                </div>
+                <div>
+                    <label for="t-odo-e">Odometer at the end</label>
+                    <input id="t-odo-e" type="text" inputmode="decimal" maxlength="12" autocomplete="off" placeholder="e.g. 48261" aria-describedby="te-odo-e">
+                    <p class="err" id="te-odo-e" role="alert"></p>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="link" id="to-pass">+ Business passengers (optional)</button>
+        <div class="opt" id="tw-pass" hidden>
+            <label for="t-pass">How many business passengers?</label>
+            <input id="t-pass" type="text" inputmode="numeric" maxlength="1" autocomplete="off" placeholder="e.g. 1" aria-describedby="th-pass te-pass">
+            <p class="hint" id="th-pass"></p>
+            <p class="err" id="te-pass" role="alert"></p>
+        </div>
+        <p class="preview" id="t-preview" aria-live="polite"></p>
+        <p class="hint warn-line" id="t-warn"></p>
+        <div class="row-btns">
+            <button type="submit" class="primary" id="t-save">Add trip</button>
+            <button type="button" class="secondary" data-close>Cancel</button>
+        </div>
+        <div class="row-btns edit-only" id="t-edit" hidden>
+            <button type="button" class="danger" id="t-del">Delete this trip</button>
+        </div>
+    </form>
+</dialog>
+
+<dialog class="form-dlg" id="d-veh" aria-labelledby="dv-h">
+    <form id="f-veh" novalidate>
+        <h2 id="dv-h">Your vehicle and mileage rate</h2>
+        <label for="v-name">Vehicle name</label>
+        <input id="v-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. My car" aria-describedby="ve-name">
+        <div class="quick" id="v-names">
+            <button type="button" class="chip" data-n="My car">My car</button>
+            <button type="button" class="chip" data-n="Van">Van</button>
+            <button type="button" class="chip" data-n="Motorbike">Motorbike</button>
+            <button type="button" class="chip" data-n="Bicycle">Bicycle</button>
+        </div>
+        <p class="err" id="ve-name" role="alert"></p>
+        <fieldset class="kinds" aria-describedby="ve-rule">
+            <legend>Which mileage rate do you claim?</legend>
+            <div id="v-rules"></div>
+        </fieldset>
+        <p class="err" id="ve-rule" role="alert"></p>
+        <div class="opt own" id="vw-own" hidden>
+            <label for="v-unit">Distance in</label>
+            <select id="v-unit">
+                <option value="mi">Miles</option>
+                <option value="km">Kilometres</option>
+            </select>
+            <label for="v-rate" id="vl-rate">Rate per mile</label>
+            <input id="v-rate" type="text" inputmode="decimal" maxlength="12" autocomplete="off" placeholder="e.g. 0.45 or 45p" aria-describedby="ve-rate">
+            <p class="err" id="ve-rate" role="alert"></p>
+            <button type="button" class="link" id="vo-limit">+ A lower rate after a number of miles a year (optional)</button>
+            <div class="opt" id="vw-limit" hidden>
+                <div class="two">
+                    <div>
+                        <label for="v-after" id="vl-after">After how many miles a year?</label>
+                        <input id="v-after" type="text" inputmode="numeric" maxlength="9" autocomplete="off" placeholder="e.g. 10000" aria-describedby="ve-after">
+                        <p class="err" id="ve-after" role="alert"></p>
+                    </div>
+                    <div>
+                        <label for="v-rate2" id="vl-rate2">Then the rate per mile is</label>
+                        <input id="v-rate2" type="text" inputmode="decimal" maxlength="12" autocomplete="off" placeholder="e.g. 0.25" aria-describedby="ve-rate2">
+                        <p class="err" id="ve-rate2" role="alert"></p>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="link" id="vo-pass">+ Extra per passenger (optional)</button>
+            <div class="opt" id="vw-pass" hidden>
+                <label for="v-pass" id="vl-pass">Extra per passenger per mile</label>
+                <input id="v-pass" type="text" inputmode="decimal" maxlength="12" autocomplete="off" placeholder="e.g. 0.05" aria-describedby="ve-pass">
+                <p class="err" id="ve-pass" role="alert"></p>
+            </div>
+            <label for="v-ys">Your tax or claim year starts on</label>
+            <select id="v-ys" aria-describedby="ve-ys"></select>
+            <p class="err" id="ve-ys" role="alert"></p>
+            <fieldset class="kinds" id="vw-when" hidden>
+                <legend>Use the new rate for</legend>
+                <label class="radio"><input type="radio" name="v-when" value="all" checked> <span>All trips, old and new</span></label>
+                <label class="radio"><input type="radio" name="v-when" value="from"> <span>Only trips from a date (older trips keep the old rate)</span></label>
+                <div id="vw-when-date" hidden>
+                    <label for="v-when-date">New rate from</label>
+                    <input id="v-when-date" type="date" aria-describedby="ve-when">
+                    <p class="err" id="ve-when" role="alert"></p>
+                </div>
+            </fieldset>
+        </div>
+        <p class="preview" id="v-preview" aria-live="polite"></p>
+        <div class="row-btns">
+            <button type="submit" class="primary" id="v-save">Save</button>
+            <button type="button" class="secondary" data-close>Cancel</button>
+        </div>
+        <div class="row-btns edit-only" id="v-edit" hidden>
+            <button type="button" class="danger" id="v-del">Delete this vehicle</button>
+        </div>
+    </form>
+</dialog>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Business Mileage Log for Tax and Expense Claims", "sections": [
+ {"h": "Set up once", "steps": ["Tap \"Choose my vehicle and rate\". Give the vehicle a name (tap \"My car\", \"Van\", \"Motorbike\" or \"Bicycle\", or type one).", "Under \"Which mileage rate do you claim?\" pick yours: \"UK: HMRC car or van\" (45p, then 25p after 10,000 miles a tax year, 5p per passenger), HMRC motorcycle or bicycle, \"US: IRS business standard rate\", \"Canada: CRA allowance rate\", or \"My employer's or my own rate\".", "For your own rate, choose miles or kilometres, type the \"Rate per mile\" (0.45 or 45p both work), and if needed the lower rate after a number of miles a year, an extra per passenger, and the day your tax or claim year starts. Tap \"Save\".", "Drive two vehicles, like a car and a motorbike? Tap \"+ Add another vehicle\". Vehicles on the same HMRC or CRA rate share the yearly limit."]},
+ {"h": "Log a trip", "steps": ["Tap \"+ Add a trip\". Choose the \"Date of the trip\" (Today and Yesterday are one tap), type \"From\", \"To\" and \"What was it for?\".", "Type the \"Business miles\" (or km). Tick \"There and back (counts it twice)\" when you drove back the same way.", "Prefer the dashboard numbers? Tap \"+ Use odometer readings instead\" and type the readings at the start and the end.", "\"+ Business passengers\" adds the HMRC 5p a mile per passenger, or your own passenger rate.", "Driving a route you have done before? Tap it under \"Same as a past trip?\": everything is filled in except the date.", "The line above \"Add trip\" shows what the trip adds to your claim. A wrong entry? Tap \"Undo\" in the message, or \"Edit\" on the trip to change or delete it."]},
+ {"h": "Your claim", "steps": ["\"Your claim\" shows the total to claim for \"This month\", \"Last month\", \"This tax year\", \"Last tax year\", \"All trips\" or \"Pick dates\", with the miles at each rate.", "\"This tax year so far\" shows how many miles are left at the higher rate before it drops (for HMRC 10,000 miles, for CRA 5,000 km) and when the count starts again.", "\"Trips\" lists the trips in the chosen dates, newest first. A trip that crosses the yearly limit shows the miles at each rate.", "\"Copy claim\" and \"Email claim\" give a ready-to-send claim with every trip. Email works without typing an address first.", "\"Save spreadsheet (CSV)\" opens in Excel, Numbers or Google Sheets for your employer or accountant. \"Print\" prints the claim and the trips."]},
+ {"h": "Good to know", "tips": true, "steps": ["Log trips on the day: tax offices want records made at the time, with the date, where, why and how far.", "The normal trip from home to your permanent workplace usually does not count as business mileage.", "When an official rate changes, the app uses the rate for each trip's date (the IRS rate went from 72.5 to 76 cents on 1 July 2026). For your own rate, edit the vehicle and choose \"Only trips from a date\".", "\"Currency symbol\" is remembered; choosing a UK, US or Canada rate sets it the first time. \"Your name on the claim\" is optional and is added to copied and emailed claims.", "\"Save a backup file\" keeps everything in one file; \"Restore a backup\" brings it back on this or a new device. \"Delete everything\" empties the app, with \"Undo\".", "Everything stays on this device and works offline. Your data is never sent anywhere. This is a record-keeping tool, not tax advice."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
