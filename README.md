@@ -723,6 +723,14 @@ Drive your own car for work and claim mileage? Log each trip in seconds (from, t
 
 <a href="business-mileage-log-for-tax-and-expense-claims/"><img src="business-mileage-log-for-tax-and-expense-claims/screenshots/phone.png" alt="Business Mileage Log for Tax and Expense Claims screenshot" width="260"></a>
 
+### <img src="doctor-visit-notes-and-questions-for-the-family/favicon.svg" width="36" height="36" align="center"> [Doctor Visit Notes and Questions for the Family](https://umar8092.github.io/apps/doctor-visit-notes-and-questions-for-the-family/)
+
+Take a parent, a child or yourself to several doctors? Write what each doctor said, the medicines started, changed or stopped and the tests, and see the medicines each person is on now, the next appointment and the questions to ask next time. Print or email the history for a new doctor. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/doctor-visit-notes-and-questions-for-the-family/) &middot; [Details and screenshots](doctor-visit-notes-and-questions-for-the-family/)
+
+<a href="doctor-visit-notes-and-questions-for-the-family/"><img src="doctor-visit-notes-and-questions-for-the-family/screenshots/phone.png" alt="Doctor Visit Notes and Questions for the Family screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

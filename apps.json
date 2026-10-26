@@ -538,5 +538,11 @@
     "name": "Business Mileage Log for Tax and Expense Claims",
     "description": "Drive your own car for work? Log each trip in seconds and see \"October: 412 miles, £185.40 to claim\" with the HMRC 45p then 25p after 10,000 miles, the IRS 72.5¢ and 76¢ rates for 2026, CRA 73¢ a km or your employer's own rate. Passengers, two vehicles, odometer readings, copy, email or save a spreadsheet for your claim. Private, works offline.",
     "color": "#5f3dc4"
+  },
+  {
+    "slug": "doctor-visit-notes-and-questions-for-the-family",
+    "name": "Doctor Visit Notes and Questions for the Family",
+    "description": "Take a parent, a child or yourself to several doctors? Write what each doctor said, the medicines started, changed or stopped and the tests, and see the medicines each person is on now, the next appointment and the questions to ask next time. Print or email the history for a new doctor. Private, works offline.",
+    "color": "#2f7fc8"
   }
 ]

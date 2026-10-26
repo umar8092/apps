@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Visit Notes and Questions for the Family: What the Doctor Said</title>
+    <meta name="description" content="Free notes for every doctor visit, for each person you take to the doctor: an elderly parent, a child or yourself. Write what the doctor said, which medicines were started, changed or stopped, and the tests ordered. See the medicines each person is on now, the next appointment and the questions to ask next time, then print or email the history for a new doctor. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/doctor-visit-notes-and-questions-for-the-family/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#2f7fc8">
+    <meta name="theme-color" content="#2f7fc8">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Doctor Visit Notes and Questions for the Family">
+    <meta property="og:url" content="https://umar8092.github.io/apps/doctor-visit-notes-and-questions-for-the-family/">
+    <meta property="og:title" content="Doctor Visit Notes and Questions for the Family">
+    <meta property="og:description" content="What did the doctor say, which medicines changed, and what to ask next time? Notes for each person you take to the doctor. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Doctor Visit Notes and Questions for the Family","alternateName":["Doctor Visit Notes","Questions for the Doctor","Medical Appointment Notes","Caregiver Doctor Visit Log"],"url":"https://umar8092.github.io/apps/doctor-visit-notes-and-questions-for-the-family/","description":"Free notes for each family member's doctor visits: what the doctor said, medicine changes, tests, the next appointment and questions to ask. Private on your device.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"doctor visit notes, questions to ask the doctor, medical appointment log, caregiver notes, elderly parent doctor visits, medicine changes","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does it know which medicines my parent is on now?","acceptedAnswer":{"@type":"Answer","text":"At each visit you write only what changed: started, dose changed or stopped. The app goes through the visits from oldest to newest and lists what is still being taken, with the date and the doctor."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account, your data is never sent anywhere, and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Doctor Visit Notes and Questions for the Family</h1>
+        <p class="sub">For each person you take to the doctor: what the doctor said, which medicines changed, the next visit and what to ask next time.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Everything will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card summary" id="summary" aria-labelledby="up-h">
+            <h2 id="up-h">Coming up</h2>
+            <div id="up-body" aria-live="polite"></div>
+        </section>
+
+        <section class="card people" id="people" aria-labelledby="people-h">
+            <h2 id="people-h">Your family</h2>
+            <div class="msg" id="person-msg" role="status" aria-live="polite"></div>
+            <ul class="person-list" id="person-list"></ul>
+            <button type="button" class="primary" id="add-person">+ Add a person</button>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card finder" id="finder" aria-labelledby="find-h">
+            <h2 id="find-h">Find a past visit</h2>
+            <label for="q">Doctor, medicine or any word from your notes</label>
+            <input id="q" type="search" maxlength="100" autocomplete="off" placeholder="e.g. Metformin or Dr Khan">
+            <p class="hint" id="q-count" aria-live="polite"></p>
+            <ul class="visit-list" id="q-results"></ul>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Backup</h2>
+            <p class="hint">Your notes live only in this browser. Save a backup file now and then, or to move to a new phone.</p>
+            <div class="tool-grid gap">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does it know which medicines are being taken now?</summary><p>At each visit you write only what changed: <b>Started</b>, <b>Dose changed</b> or <b>Stopped</b>. The app goes through the visits from the oldest to the newest and lists what is still being taken, with the date and the doctor. A dose change with no new dose keeps the old dose. It only knows what you wrote, so always check with the doctor or the pharmacy label.</p></details>
+        <details><summary>How do the questions work?</summary><p>Type a question in the person's box whenever you think of it, at home or in the waiting room. Pasting a list adds one question per line. At the doctor, tap <b>Mark asked</b>, or tick the questions in the visit notes. Asked questions move to "Asked before", where <b>Ask again</b> brings one back.</p></details>
+        <details><summary>What is an appointment, and what is a visit?</summary><p>A <b>visit</b> is one that already happened, with what the doctor said. An <b>appointment</b> is still to come. When you write the notes for an appointment (or add a visit with the same doctor from 3 days before to 14 days after it) the appointment is done and leaves "Coming up". An appointment whose day has passed stays at the top until you add the notes or remove it.</p></details>
+        <details><summary>We see a new doctor. What do I show them?</summary><p>Tap <b>Print</b>, <b>Copy</b> or <b>Email</b> in the person's box. You get the health notes, the medicines now, the next visits, the open questions and every visit, newest first.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your notes stay in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. If you clear the browser's data the notes are gone, so save a backup file now and then.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/doctor-visit-notes-and-questions-for-the-family">Open source (MIT)</a></footer>
+</main>
+
+<div id="print-area" class="print-area" aria-hidden="true"></div>
+
+<datalist id="doc-list"></datalist>
+<datalist id="med-list"></datalist>
+
+<dialog class="form-dlg" id="d-person" aria-labelledby="dp-h">
+    <form id="f-person" novalidate>
+        <h2 id="dp-h">Add a person</h2>
+        <label for="p-name">Name</label>
+        <input id="p-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Abbu, Mum or Ali" aria-describedby="pe-name">
+        <p class="err" id="pe-name" role="alert"></p>
+        <button type="button" class="link" id="po-note">+ Add health notes (optional)</button>
+        <div class="opt" id="pw-note" hidden>
+            <label for="p-note">Health notes</label>
+            <textarea id="p-note" rows="3" maxlength="400" placeholder="e.g. Diabetic. Allergic to penicillin. Blood group B+"></textarea>
+            <p class="hint">Shown at the top of the person's box and on the printed history.</p>
+        </div>
+        <div class="row-btns">
+            <button type="submit" class="primary" id="p-save">Add person</button>
+            <button type="button" class="secondary" data-close>Cancel</button>
+        </div>
+        <div class="row-btns edit-only" id="p-edit" hidden>
+            <button type="button" class="danger" id="p-del">Delete this person and all their notes</button>
+        </div>
+    </form>
+</dialog>
+
+<dialog class="form-dlg" id="d-visit" aria-labelledby="dv-h">
+    <form id="f-visit" novalidate>
+        <h2 id="dv-h">Add visit notes</h2>
+        <p class="dlg-sub" id="v-for"></p>
+        <label for="v-person">Who saw the doctor?</label>
+        <select id="v-person" aria-describedby="ve-person"></select>
+        <p class="err" id="ve-person" role="alert"></p>
+
+        <label for="v-date">Date of the visit</label>
+        <input id="v-date" type="date" aria-describedby="ve-date">
+        <div class="quick" id="v-quick">
+            <button type="button" class="chip" data-ago="0">Today</button>
+            <button type="button" class="chip" data-ago="1">Yesterday</button>
+        </div>
+        <p class="err" id="ve-date" role="alert"></p>
+
+        <label for="v-doctor">Doctor or clinic</label>
+        <input id="v-doctor" type="text" maxlength="80" autocomplete="off" list="doc-list" placeholder="e.g. Dr Khan (heart)" aria-describedby="ve-doctor">
+        <p class="err" id="ve-doctor" role="alert"></p>
+
+        <button type="button" class="link" id="vo-reason">+ Add why you went (optional)</button>
+        <div class="opt" id="vw-reason" hidden>
+            <label for="v-reason">Why you went</label>
+            <input id="v-reason" type="text" maxlength="200" autocomplete="off" placeholder="e.g. Swollen feet">
+        </div>
+
+        <label for="v-said">What the doctor said</label>
+        <textarea id="v-said" rows="4" maxlength="5000" placeholder="e.g. BP is a bit high. Less salt. Walk 20 minutes a day."></textarea>
+
+        <fieldset class="asked" id="v-asked-box" hidden>
+            <legend>Which questions did you ask?</legend>
+            <div id="v-asked"></div>
+        </fieldset>
+
+        <div class="label-like" id="v-meds-h">Medicines changed at this visit</div>
+        <p class="hint" id="v-meds-hint">Only what changed: a new medicine, a new dose, or one to stop.</p>
+        <ul class="med-rows" id="v-meds" aria-labelledby="v-meds-h"></ul>
+        <button type="button" class="link" id="v-add-med">+ Add a medicine change</button>
+
+        <button type="button" class="link" id="vo-tests">+ Add tests ordered (optional)</button>
+        <div class="opt" id="vw-tests" hidden>
+            <label for="v-tests">Tests ordered</label>
+            <textarea id="v-tests" rows="2" maxlength="600" placeholder="e.g. HbA1c and kidney test, fasting"></textarea>
+        </div>
+
+        <button type="button" class="link" id="vo-next">+ Add the next visit (optional)</button>
+        <div class="opt nextbox" id="vw-next" hidden>
+            <label for="v-next">Next visit with this doctor</label>
+            <input id="v-next" type="date" aria-describedby="ve-next">
+            <div class="quick" id="v-quick-next">
+                <button type="button" class="chip" data-d="7">In 1 week</button>
+                <button type="button" class="chip" data-d="14">In 2 weeks</button>
+                <button type="button" class="chip" data-m="1">In 1 month</button>
+                <button type="button" class="chip" data-m="3">In 3 months</button>
+                <button type="button" class="chip" data-m="6">In 6 months</button>
+            </div>
+            <label for="v-next-time">Time (optional)</label>
+            <input id="v-next-time" type="time" aria-describedby="ve-next">
+            <p class="err" id="ve-next" role="alert"></p>
+            <button type="button" class="link" id="v-next-clear">Remove the next visit</button>
+        </div>
+        <p class="hint warn-line" id="v-warn"></p>
+        <div class="row-btns">
+            <button type="submit" class="primary" id="v-save">Save visit notes</button>
+            <button type="button" class="secondary" data-close>Cancel</button>
+        </div>
+        <div class="row-btns edit-only" id="v-edit" hidden>
+            <button type="button" class="danger" id="v-del">Delete this visit</button>
+        </div>
+    </form>
+</dialog>
+
+<dialog class="form-dlg" id="d-appt" aria-labelledby="da-h">
+    <form id="f-appt" novalidate>
+        <h2 id="da-h">Add an appointment</h2>
+        <label for="a-person">Who is it for?</label>
+        <select id="a-person" aria-describedby="ae-person"></select>
+        <p class="err" id="ae-person" role="alert"></p>
+        <label for="a-doctor">Doctor or clinic</label>
+        <input id="a-doctor" type="text" maxlength="80" autocomplete="off" list="doc-list" placeholder="e.g. Dr Sana (eyes)" aria-describedby="ae-doctor">
+        <p class="err" id="ae-doctor" role="alert"></p>
+        <label for="a-date">Date</label>
+        <input id="a-date" type="date" aria-describedby="ae-date">
+        <div class="quick" id="a-quick">
+            <button type="button" class="chip" data-d="1">Tomorrow</button>
+            <button type="button" class="chip" data-d="7">In 1 week</button>
+            <button type="button" class="chip" data-d="14">In 2 weeks</button>
+            <button type="button" class="chip" data-m="1">In 1 month</button>
+        </div>
+        <p class="err" id="ae-date" role="alert"></p>
+        <label for="a-time">Time (optional)</label>
+        <input id="a-time" type="time" aria-describedby="ae-time">
+        <p class="err" id="ae-time" role="alert"></p>
+        <button type="button" class="link" id="ao-note">+ Add a note (optional)</button>
+        <div class="opt" id="aw-note" hidden>
+            <label for="a-note">Note</label>
+            <input id="a-note" type="text" maxlength="200" autocomplete="off" placeholder="e.g. Bring old reports">
+        </div>
+        <p class="hint warn-line" id="a-warn"></p>
+        <div class="row-btns">
+            <button type="submit" class="primary" id="a-save">Add appointment</button>
+            <button type="button" class="secondary" data-close>Cancel</button>
+        </div>
+        <div class="row-btns edit-only" id="a-edit" hidden>
+            <button type="button" class="danger" id="a-del">Delete this appointment</button>
+        </div>
+    </form>
+</dialog>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Doctor Visit Notes and Questions for the Family", "sections": [
+ {"h": "Start", "steps": ["Tap \"+ Add a person\" and type a name, like Abbu, Mum or Ali. \"+ Add health notes (optional)\" keeps things like allergies or blood group at the top of their box.", "Each person gets their own box with their questions, medicines, appointments and visits. Add everyone you take to the doctor, yourself too."]},
+ {"h": "Before the visit", "steps": ["In the person's box, type a question in \"Question for the doctor\" and tap \"Add\". Pasting a list adds one question per line.", "Tap \"+ Add an appointment\" for a visit that is booked: the doctor or clinic, the date, and the time and a note if you like. It shows in \"Coming up\" at the top with how many questions you have, like \"in 9 days. 3 questions to ask.\"", "\"Calendar\" next to an appointment saves a calendar file with reminders the day before (and 2 hours before when it has a time) and your questions in it."]},
+ {"h": "At or after the visit", "steps": ["Tap \"Mark asked\" next to a question once the doctor answers it.", "Tap \"Add notes from this visit\" next to the appointment, or \"+ Add visit notes\" in the box. Fill in \"Date of the visit\", \"Doctor or clinic\" and \"What the doctor said\". Tick the questions you asked.", "\"+ Add a medicine change\": choose Started, Dose changed or Stopped, type the medicine and the new dose. Write only what changed.", "\"+ Add tests ordered\" and \"+ Add the next visit\" are optional. The next visit becomes an appointment in \"Coming up\".", "Tap \"Save visit notes\". A wrong save? Tap \"Undo\" in the message."]},
+ {"h": "What the box tells you", "steps": ["\"Medicines now (from your notes)\": what is still being taken, worked out from the changes you wrote, with the date and doctor.", "\"Last visit\" shows the latest visit. \"All visits\" lists every one, newest first; tap \"Edit\" on one to change or delete it.", "An appointment whose day has passed shows in red at the top until you add the notes or tap \"Remove\"."]},
+ {"h": "Find, share and back up", "steps": ["\"Find a past visit\" searches every person's notes for a doctor, a medicine or any word.", "\"Print\", \"Copy\" and \"Email\" in the box give that person's whole history for a new doctor or a family member. Email works without typing an address first.", "\"Save a backup file\" keeps everything in one file; \"Restore a backup\" brings it back on this or a new device. \"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The app only knows what you write. Always check medicines with the doctor or the pharmacy label.", "A visit with the same doctor from 3 days before to 14 days after an appointment closes that appointment, even if you did not open it from there.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
