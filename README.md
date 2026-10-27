@@ -779,6 +779,14 @@ Stop guessing where your groceries are cheapest. Note what cooking oil, rice, eg
 
 <a href="grocery-price-book-for-comparing-shops/"><img src="grocery-price-book-for-comparing-shops/screenshots/phone.png" alt="Grocery Price Book for Comparing Shops screenshot" width="260"></a>
 
+### <img src="prepaid-mobile-data-bundle-tracker/favicon.svg" width="36" height="36" align="center"> [Prepaid Mobile Data Bundle Tracker](https://umar8092.github.io/apps/prepaid-mobile-data-bundle-tracker/)
+
+Will your prepaid data last until it expires? Type the GB left from your operator's balance message and see how much you can use a day, the day you will run out at your pace, the cost per GB of each bundle and what you spend on data each month. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/prepaid-mobile-data-bundle-tracker/) &middot; [Details and screenshots](prepaid-mobile-data-bundle-tracker/)
+
+<a href="prepaid-mobile-data-bundle-tracker/"><img src="prepaid-mobile-data-bundle-tracker/screenshots/phone.png" alt="Prepaid Mobile Data Bundle Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

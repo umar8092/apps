@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prepaid Mobile Data Bundle Tracker: Will My GB Last Until Expiry?</title>
+    <meta name="description" content="Free tracker for prepaid mobile data bundles. Type the GB left from your operator's balance message and see how much you can use a day until it expires, the day you will run out at your pace, the cost per GB of each bundle and what you spend on data a month. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/prepaid-mobile-data-bundle-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#4c6ef5">
+    <meta name="theme-color" content="#3b5bdb">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Prepaid Mobile Data Bundle Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/prepaid-mobile-data-bundle-tracker/">
+    <meta property="og:title" content="Prepaid Mobile Data Bundle Tracker: Will My GB Last Until Expiry?">
+    <meta property="og:description" content="Type the data left on your prepaid bundle and see how much you can use a day, when you will run out at your pace and the cost per GB. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Prepaid Mobile Data Bundle Tracker","alternateName":["Data Bundle Calculator","Mobile Data Per Day Calculator","Will my data last","Internet Package Tracker","GB Left Per Day Calculator"],"url":"https://umar8092.github.io/apps/prepaid-mobile-data-bundle-tracker/","description":"A free tracker for prepaid mobile data bundles that shows how much data you can use a day until expiry, the day you will run out at your pace, the cost per GB of each bundle and the money spent on data each month.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"data bundle tracker, mobile data per day, how many GB per day, internet package calculator, prepaid data usage, data left until expiry, cost per GB","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does it work out how much data I can use a day?","acceptedAnswer":{"@type":"Answer","text":"It divides the data left by the time left until the bundle expires. For example 7.4 GB left with 9 days 20 hours to go is about 771 MB a day."}},{"@type":"Question","name":"How does it know when I will run out?","acceptedAnswer":{"@type":"Answer","text":"It takes the data you used from the time you bought the bundle to your last balance check, works out your use per day and counts forward from the data left."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Prepaid Mobile Data Bundle Tracker</h1>
+        <p class="sub">Type the data left on your bundle and see how much you can use a day until it expires, and the day you will run out at your pace.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a data bundle</h2>
+            <p class="hint top" id="add-intro">Add the bundle you are using now. Each SIM or bundle gets its own box; when you buy the next one, log it in the same box.</p>
+            <div class="quick" id="quick" role="group" aria-label="Quick pick">
+                <button type="button" class="chip" data-name="Monthly bundle" data-days="30">Monthly</button>
+                <button type="button" class="chip" data-name="Weekly bundle" data-days="7">Weekly</button>
+                <button type="button" class="chip" data-name="Daily bundle" data-days="1">Daily</button>
+            </div>
+            <label for="f-name">Name of the SIM or bundle</label>
+            <input id="f-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Jazz monthly" aria-describedby="f-name-err">
+            <p class="err" id="f-name-err" role="alert"></p>
+            <div id="f-buy"></div>
+            <div class="row-btns">
+                <button type="button" class="primary" id="f-save">Add bundle</button>
+                <button type="button" class="secondary" id="f-cancel" hidden>Cancel</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Add your bundle</b>: how much data it has, the price if you like, when you bought it and when it expires.</li>
+                <li><b>Check your balance</b> now and then (your operator's balance code, app or text message) and type the data left.</li>
+                <li><b>See the answer</b>: "7.4 GB left, 9 days to go: you can use 771 MB a day", and the day you will run out if you keep using it at your pace.</li>
+                <li><b>Log each new bundle</b> in the same box to compare the cost per GB and see what data costs you each month.</li>
+            </ol>
+        </section>
+        <section class="card spend" id="spend" aria-labelledby="spend-h" hidden>
+            <h2 id="spend-h">Spent on data</h2>
+            <div id="spend-body"></div>
+        </section>
+        <section class="lines" id="lines" aria-label="Your bundles" hidden>
+            <div class="l-list" id="l-list"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does it work out how much I can use a day?</summary><p>It divides the data left by the time left until the bundle expires. For example <b>7.4 GB left with 9 days 20 hours to go</b> is about <b>771 MB a day</b>. Use less than that each day and the data lasts until it expires.</p></details>
+        <details><summary>How does it know when I will run out?</summary><p>It takes the data you used from the time you bought the bundle to your last balance check. For example <b>30 GB bought on 1 Oct at 10:00</b> with <b>7.4 GB left on 21 Oct at 14:00</b> is 22.6 GB in 20 days 4 hours, <b>1.12 GB a day</b>. At that pace the 7.4 GB lasts about 6.6 more days, so it runs out around <b>28 Oct</b>, 3 days before it expires on 31 Oct. Check your balance more often and the date gets closer.</p></details>
+        <details><summary>My operator shows MB, not GB</summary><p>Pick <b>MB</b> next to the box, or type the unit, such as <b>750 MB</b>. The app counts <b>1 GB = 1024 MB</b>, as mobile operators do in their balance messages.</p></details>
+        <details><summary>My bundle has day and night data, or social media data</summary><p>Track the main data, the one you run out of. If you want to watch the night or social data too, add it as its own bundle with its own box.</p></details>
+        <details><summary>I bought extra data, or renewed early</summary><p>Use <b>+ Add extra data</b> in the bundle's box for a top-up that shares the same expiry. If you bought a new bundle before the old one expired, tap <b>Bought a new bundle</b>: the old one ends then, and if your operator carries the unused data over, tick <b>Add the data left from the old bundle</b>.</p></details>
+        <details><summary>Weekly or monthly: which bundle is cheaper?</summary><p>Every bundle you log shows its <b>cost per GB</b>, and past bundles also show the cost per GB you really used. Data that expires unused makes a cheap bundle dear, so the second number is the fairer one.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. The app does not read your phone's data use; you type the balance your operator shows. Once loaded, it works with no connection. Save a backup file before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/prepaid-mobile-data-bundle-tracker">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Prepaid Mobile Data Bundle Tracker", "sections": [
+ {"h": "1. Add a data bundle", "steps": ["Tap \"Monthly\", \"Weekly\" or \"Daily\", or type the \"Name of the SIM or bundle\" yourself, such as Jazz monthly.", "\"Data in the bundle\": the GB or MB it came with. Pick GB or MB beside the box.", "\"Price paid\" is optional. With it, the app shows the cost per GB and what you spend on data each month.", "\"Bought on\": the date and time you bought or turned on the bundle.", "\"Valid for\" fills in \"Expires on\". If your operator's message shows the exact expiry, type that date and time instead.", "Tap \"Add bundle\". Each SIM or bundle gets its own box."]},
+ {"h": "2. Check your balance", "steps": ["Dial your operator's balance code, open their app or read their text message to see the data left.", "In the bundle's box, type it in \"Data left now\" and tap \"Save\".", "\"+ Checked at a different time\" lets you save a balance you saw earlier, with its date and time.", "\"Edit\" next to a balance changes it; \"Delete\" removes it, with \"Undo\"."]},
+ {"h": "3. What the box tells you", "steps": ["The big line is the data left and the time until the bundle expires. \"About\" means it is an estimate from your pace since your last check.", "\"You can use ... a day\" is the most you can use each day so the data lasts until it expires.", "\"At your pace so far\" is how much you used a day since you bought the bundle. It says whether the data will last, or the day it will run out and how early.", "The two bars compare the data used with the time gone. If the data bar is ahead, you are using it too fast.", "\"Cost per GB\" is the price divided by the data, to compare bundles."]},
+ {"h": "4. Top-ups and new bundles", "steps": ["\"+ Add extra data\" adds a top-up that shares the bundle's expiry.", "\"Bought a new bundle\" starts the next bundle in the same box, filled in like the last one. If the old one has not expired, it ends then; tick \"Add the data left from the old bundle\" if your operator carries it over.", "\"Earlier bundles\" lists past bundles with their cost per GB, the data used and the data that expired unused.", "\"Copy summary\" and \"Email\" send the numbers; \"Expiry reminder\" saves a calendar file for a day before it expires.", "\"Edit bundle\" changes the name and the current bundle; \"Delete\" removes the box, with \"Undo\"."]},
+ {"h": "Backup and settings", "steps": ["\"Currency symbol\" adds a symbol such as Rs or ₹ to every amount, or none for plain numbers.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\".", "\"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The app does not read your phone's data use. It works from the balances you type, so check now and then for a closer answer.", "1 GB is counted as 1024 MB, as operators do.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

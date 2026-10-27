@@ -580,5 +580,11 @@
     "name": "Grocery Price Book for Comparing Shops",
     "description": "Note what your groceries cost at each shop and see where each item is cheapest per kg, litre or item. Type the price in front of you to see at once whether another shop was cheaper and whether a sale is really cheaper. Private, works offline.",
     "color": "#5c940d"
+  },
+  {
+    "slug": "prepaid-mobile-data-bundle-tracker",
+    "name": "Prepaid Mobile Data Bundle Tracker",
+    "description": "Will your prepaid data last until it expires? Type the GB left from your operator's balance message and see how much you can use a day, the day you will run out at your pace, the cost per GB of each bundle and what you spend on data each month. Private, works offline.",
+    "color": "#4c6ef5"
   }
 ]
