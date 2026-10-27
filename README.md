@@ -763,6 +763,14 @@ Stop losing money on medical bills you forgot to claim. Log each doctor, lab, me
 
 <a href="medical-bill-reimbursement-tracker-for-employer-and-insurance-claims/"><img src="medical-bill-reimbursement-tracker-for-employer-and-insurance-claims/screenshots/phone.png" alt="Medical Bill Reimbursement Tracker screenshot" width="260"></a>
 
+### <img src="keep-in-touch-reminder-for-family-and-friends/favicon.svg" width="36" height="36" align="center"> [Keep in Touch Reminder for Family and Friends](https://umar8092.github.io/apps/keep-in-touch-reminder-for-family-and-friends/)
+
+Stop letting weeks slip by without calling the people you love. Choose how often you want to be in touch with each person (every 3 days for parents, every week for a grandmother, every month for an old friend), tap **Called**, **Messaged** or **Met up** after each contact, and see who is overdue, who is due today and when each one is due next. For family abroad it shows the time where they are and whether now is a good time to call. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/keep-in-touch-reminder-for-family-and-friends/) &middot; [Details and screenshots](keep-in-touch-reminder-for-family-and-friends/)
+
+<a href="keep-in-touch-reminder-for-family-and-friends/"><img src="keep-in-touch-reminder-for-family-and-friends/screenshots/phone.png" alt="Keep in Touch Reminder for Family and Friends screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

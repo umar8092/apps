@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keep in Touch Reminder for Family and Friends: Who Should I Call Today?</title>
+    <meta name="description" content="Free keep in touch reminder for family and friends. Set how often you want to be in touch with each person (every 3 days, every week, every month or any number of days), tap Called or Messaged after each contact, and see who is overdue, who is due today and when each person is due next. Shows their local time and a good time to call for people abroad. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/keep-in-touch-reminder-for-family-and-friends/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#7950f2">
+    <meta name="theme-color" content="#6741d9">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Keep in Touch Reminder for Family and Friends">
+    <meta property="og:url" content="https://umar8092.github.io/apps/keep-in-touch-reminder-for-family-and-friends/">
+    <meta property="og:title" content="Keep in Touch Reminder for Family and Friends: Who Should I Call Today?">
+    <meta property="og:description" content="Set how often you want to be in touch with each person, tap Called after each call, and see who is overdue and who is due next. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Keep in Touch Reminder for Family and Friends","alternateName":["Stay in Touch Reminder","Call Your Parents Reminder","Contact Frequency Tracker","Who Should I Call Today","Friends and Family Call Tracker"],"url":"https://umar8092.github.io/apps/keep-in-touch-reminder-for-family-and-friends/","description":"A free, private reminder to keep in touch with family and friends: set how often for each person, log each call, message or meet-up, and see who is overdue, who is due today and when each person is due next, with their local time for people abroad.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"keep in touch reminder, stay in touch app, call parents reminder, how often to call family, friends contact tracker, personal crm, call grandparents reminder","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the app know who is overdue?","acceptedAnswer":{"@type":"Answer","text":"For each person you choose how often you want to be in touch, for example every 7 days. The app adds that to the day you were last in touch: called on 18 Oct plus 7 days is due on 25 Oct, so on 27 Oct that person is 2 days overdue."}},{"@type":"Question","name":"Does Tried, no answer count?","acceptedAnswer":{"@type":"Answer","text":"No. It is noted in the person's box so you remember you tried, but the person stays due until you really talk or message."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. The names and notes stay in this browser on this device. There is no account, it does not read your contacts, and it works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Keep in Touch Reminder for Family and Friends</h1>
+        <p class="sub">Choose how often you want to be in touch with each person. Tap <b>Called</b> or <b>Messaged</b> after each contact, and see who is overdue and who to call today.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a person</h2>
+            <p class="hint top" id="add-intro">Add each person or family you want to stay in touch with. Each one gets their own box.</p>
+            <div class="quick" id="quick" role="group" aria-label="Quick pick">
+                <button type="button" class="chip" data-name="Parents" data-every="3">Parents</button>
+                <button type="button" class="chip" data-name="Grandparents" data-every="7">Grandparents</button>
+                <button type="button" class="chip" data-name="Brother" data-every="7">Brother or sister</button>
+                <button type="button" class="chip" data-name="Close friend" data-every="14">Close friend</button>
+                <button type="button" class="chip" data-name="Old friend" data-every="30">Old friend</button>
+            </div>
+            <label for="f-name">Name</label>
+            <input id="f-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Nani, or Ammi and Abbu" aria-describedby="f-name-err">
+            <p class="err" id="f-name-err" role="alert"></p>
+            <label for="f-every">How often do you want to be in touch?</label>
+            <select id="f-every">
+                <option value="1">Every day</option>
+                <option value="2">Every 2 days</option>
+                <option value="3">Every 3 days</option>
+                <option value="7" selected>Every week</option>
+                <option value="14">Every 2 weeks</option>
+                <option value="30">Every month (30 days)</option>
+                <option value="60">Every 2 months</option>
+                <option value="90">Every 3 months</option>
+                <option value="182">Every 6 months</option>
+                <option value="other">Other number of days&hellip;</option>
+            </select>
+            <div id="f-oevery-box" hidden>
+                <label for="f-oevery">Every how many days?</label>
+                <input id="f-oevery" type="text" inputmode="numeric" maxlength="10" autocomplete="off" placeholder="e.g. 10" aria-describedby="f-oevery-err">
+                <p class="err" id="f-oevery-err" role="alert"></p>
+            </div>
+            <div id="f-last-box">
+                <label for="f-last">When were you last in touch?</label>
+                <select id="f-last">
+                    <option value="">Not sure, or not yet</option>
+                    <option value="0">Today</option>
+                    <option value="1">Yesterday</option>
+                    <option value="pick">Pick a day&hellip;</option>
+                </select>
+                <div id="f-lastd-box" hidden>
+                    <label for="f-lastd">Day you were last in touch</label>
+                    <input id="f-lastd" type="date" aria-describedby="f-lastd-err">
+                    <p class="err" id="f-lastd-err" role="alert"></p>
+                </div>
+                <p class="hint">&ldquo;Not sure&rdquo; puts them on today&rsquo;s list, so you get in touch soon.</p>
+            </div>
+
+            <button type="button" class="link" id="f-tz-open">+ Their time zone and good times to call (optional)</button>
+            <div id="f-tz-box" class="sub-box" hidden>
+                <label for="f-tz">Their time zone</label>
+                <select id="f-tz"></select>
+                <p class="hint">For family or friends in another country. Their box then shows the time where they are.</p>
+                <label for="f-win">Good times to call them (their time)</label>
+                <select id="f-win">
+                    <option value="">Any time</option>
+                    <option value="540-1260">Daytime, 09:00 to 21:00</option>
+                    <option value="600-1200">10:00 to 20:00</option>
+                    <option value="1080-1320">Evenings, 18:00 to 22:00</option>
+                    <option value="custom">Other times&hellip;</option>
+                </select>
+                <div class="two" id="f-cwin-box" hidden>
+                    <div class="field"><label for="f-from">From</label><select id="f-from"></select></div>
+                    <div class="field"><label for="f-to">To</label><select id="f-to"></select></div>
+                </div>
+                <p class="err" id="f-from-err" role="alert"></p>
+                <p class="hint" id="f-cwin-hint" hidden>Works for night shifts too, for example 22:00 to 06:00.</p>
+            </div>
+            <button type="button" class="link" id="f-note-open">+ Add a note (optional)</button>
+            <div id="f-note-box" hidden>
+                <label for="f-note">Note</label>
+                <textarea id="f-note" rows="3" maxlength="500" placeholder="e.g. Birthday in March. Ask about the new job."></textarea>
+            </div>
+
+            <div class="row-btns">
+                <button type="button" class="primary" id="f-save">Add person</button>
+                <button type="button" class="secondary" id="f-cancel" hidden>Cancel</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Add each person</b> and how often you want to be in touch, such as every 3 days for parents or every month for an old friend.</li>
+                <li><b>After each call, message or visit</b>, tap <b>Called</b>, <b>Messaged</b> or <b>Met up</b> in their box.</li>
+                <li><b>Open the app any day</b> to see who to get in touch with today: &ldquo;Nani: 2 days overdue, last called 9 days ago&rdquo;. The most overdue come first.</li>
+            </ol>
+        </section>
+        <section class="card today" id="today" aria-labelledby="today-h" hidden>
+            <h2 id="today-h">Today</h2>
+            <div id="today-body"></div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy the list</button>
+                <a class="secondary" id="mail" href="mailto:">Email the list</a>
+            </div>
+            <div class="msg" id="today-msg" role="status" aria-live="polite"></div>
+        </section>
+        <div class="find" id="find-box" hidden>
+            <label for="find">Find a person</label>
+            <input id="find" type="search" maxlength="40" autocomplete="off" placeholder="Type a name">
+        </div>
+        <section class="people" id="people" aria-label="Your people" hidden>
+            <div class="p-list" id="p-list"></div>
+            <p class="hint" id="find-none" hidden>No one with that name.</p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does it work out who is overdue?</summary><p>It adds how often you want to be in touch to the day you were last in touch. Nani, every week, last called on <b>Sun 18 Oct</b>: due on <b>Sun 25 Oct</b>, so on Tue 27 Oct her box says <b>2 days overdue</b>. Someone you message every 3 days, last on Sat 24 Oct, is <b>due today</b>. The most overdue person is always at the top.</p></details>
+        <details><summary>I called but nobody answered</summary><p>Tap <b>Tried, no answer</b>. Their box then says when you tried, so you remember to try again, but they stay due until you really talk or message.</p></details>
+        <details><summary>I forgot to log a call, or it was days ago</summary><p>Tap <b>+ Another day or a note about it (optional)</b> in their box, pick the day, and then tap Called, Messaged or Met up. You can also add what you talked about. Anything in <b>History</b> can be changed with <b>Edit</b> or removed with <b>Delete</b>, with <b>Undo</b>.</p></details>
+        <details><summary>They live abroad. When can I call?</summary><p>Add their time zone under <b>+ Their time zone and good times to call</b>. Their box shows the time where they are now and how far ahead or behind you they are. With good times to call, for example 09:00 to 21:00, it says whether now is a good time, or when the next good time starts in your time. Daylight saving is handled by your device.</p></details>
+        <details><summary>We are on holiday together, or they are staying with us</summary><p>Tap <b>Pause reminders</b> in their box. They move to the end and are not counted as overdue. Tap <b>Resume</b> later: if they would have been overdue, they are due that day, not weeks late.</p></details>
+        <details><summary>Can it remind me on my phone?</summary><p>Tap <b>Add next due day to calendar</b> in a person's box. It saves a calendar file for the day they are due with a reminder at 09:00, which your phone's calendar can open.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>The names and notes stay in this browser on this device: no account, it never reads your contacts, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/keep-in-touch-reminder-for-family-and-friends">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Keep in Touch Reminder", "sections": [
+ {"h": "1. Add a person", "steps": ["Tap a quick pick such as \"Parents\" or \"Old friend\", or type the \"Name\" yourself. A family or couple can share one box, such as \"Ammi and Abbu\".", "\"How often do you want to be in touch?\": every day up to every 6 months. \"Other number of days...\" lets you type any number from 1 to 365.", "\"When were you last in touch?\": Today, Yesterday or \"Pick a day...\". \"Not sure, or not yet\" puts them on today's list.", "\"+ Their time zone and good times to call (optional)\": pick their time zone if they live elsewhere, and the hours that suit them, such as \"Daytime, 09:00 to 21:00\" or \"Other times...\" for night shifts.", "\"+ Add a note (optional)\": anything to remember, such as a birthday month or what to ask about.", "Tap \"Add person\". Each person gets their own box."]},
+ {"h": "2. After you get in touch", "steps": ["In their box tap \"Called\", \"Messaged\" or \"Met up\". The box moves down the list and shows when they are due next.", "\"Tried, no answer\" notes the try, but they stay due until you really talk.", "For an earlier day, tap \"+ Another day or a note about it (optional)\", pick the day and add a note if you like, then tap Called, Messaged or Met up.", "\"History\" lists every contact. \"Edit\" changes the day, what you did or the note; \"Delete\" removes it, with \"Undo\"."]},
+ {"h": "3. What the boxes tell you", "steps": ["\"Today\" at the top lists who to get in touch with today, how many are overdue and who is next.", "Each box says \"2 days overdue\", \"Due today\", \"Due in 4 days\" or \"Get in touch today\" (no contact logged yet), with the last time you were in touch. The most overdue box is first.", "With a time zone, \"Their time now\" shows the time where they are and whether it is a good time to call. If not, it says when the good time starts in your time.", "\"Last 30 days\" counts your calls, messages and meet-ups with that person.", "\"Copy the list\" and \"Email the list\" send today's list as text."]},
+ {"h": "Other buttons", "steps": ["\"Add next due day to calendar\" saves a calendar file with a reminder for the day they are due.", "\"Pause reminders\" stops counting a person, for example while you are together on holiday. \"Resume\" turns it back on.", "\"Edit person\" changes the name, how often, time zone or note. \"Delete person\" removes them, with \"Undo\".", "\"Find a person\" appears when you have many people.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\". \"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The app does not read your contacts or make calls. It just remembers for you.", "Open it once a day, for example with your morning tea, and get in touch with whoever is at the top.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

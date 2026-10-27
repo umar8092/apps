@@ -568,5 +568,11 @@
     "name": "Medical Bill Reimbursement Tracker for Employer and Insurance Claims",
     "description": "Stop losing money on medical bills you forgot to claim. Log each doctor, lab, medicine or hospital bill for the family and see what is not claimed yet and the last day to claim it, what is waiting, what was refunded or rejected, and how much of your yearly limit is left. Private, works offline.",
     "color": "#12968a"
+  },
+  {
+    "slug": "keep-in-touch-reminder-for-family-and-friends",
+    "name": "Keep in Touch Reminder for Family and Friends",
+    "description": "Stop letting weeks slip by without calling the people you love. Choose how often you want to be in touch with each person, tap Called or Messaged after each contact, and see who is overdue, who is due today and when each one is due next, with their local time for family abroad. Private, works offline.",
+    "color": "#7950f2"
   }
 ]
