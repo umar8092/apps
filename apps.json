@@ -562,5 +562,11 @@
     "name": "LPG Gas Cylinder Refill Log",
     "description": "Never run out of gas mid-cooking. Log each LPG refill (date, kg, price) and see when the cylinder will likely run out, when to get the next one, the gas left, the price per kg and what gas costs you a month. Flags a cylinder that ran out much sooner than usual. Private, works offline.",
     "color": "#d6402b"
+  },
+  {
+    "slug": "medical-bill-reimbursement-tracker-for-employer-and-insurance-claims",
+    "name": "Medical Bill Reimbursement Tracker for Employer and Insurance Claims",
+    "description": "Stop losing money on medical bills you forgot to claim. Log each doctor, lab, medicine or hospital bill for the family and see what is not claimed yet and the last day to claim it, what is waiting, what was refunded or rejected, and how much of your yearly limit is left. Private, works offline.",
+    "color": "#12968a"
   }
 ]

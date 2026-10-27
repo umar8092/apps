@@ -747,6 +747,22 @@ Clothes at the tailor for the whole family? Keep each person's measurements in t
 
 <a href="tailor-orders-and-family-measurements/"><img src="tailor-orders-and-family-measurements/screenshots/phone.png" alt="Tailor Orders and Family Measurements screenshot" width="260"></a>
 
+### <img src="lpg-gas-cylinder-refill-log/favicon.svg" width="36" height="36" align="center"> [LPG Gas Cylinder Refill Log](https://umar8092.github.io/apps/lpg-gas-cylinder-refill-log/)
+
+Never run out of gas mid-cooking. Log each refill of your LPG cylinder (the date, the kg and the price) and see when it will likely run out, when to get the next one, about how much gas is left, the price per kg and what gas costs you a month. Flags a cylinder that ran out much sooner than usual (under-filled or a leak). Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/lpg-gas-cylinder-refill-log/) &middot; [Details and screenshots](lpg-gas-cylinder-refill-log/)
+
+<a href="lpg-gas-cylinder-refill-log/"><img src="lpg-gas-cylinder-refill-log/screenshots/phone.png" alt="LPG Gas Cylinder Refill Log screenshot" width="260"></a>
+
+### <img src="medical-bill-reimbursement-tracker-for-employer-and-insurance-claims/favicon.svg" width="36" height="36" align="center"> [Medical Bill Reimbursement Tracker for Employer and Insurance Claims](https://umar8092.github.io/apps/medical-bill-reimbursement-tracker-for-employer-and-insurance-claims/)
+
+Stop losing money on medical bills you forgot to claim. Log each doctor, lab, medicine or hospital bill for anyone in the family and see what is not claimed yet and the last day to claim it, which claims are still waiting, what was refunded, part refunded or rejected, and how much of your yearly limit is left. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/medical-bill-reimbursement-tracker-for-employer-and-insurance-claims/) &middot; [Details and screenshots](medical-bill-reimbursement-tracker-for-employer-and-insurance-claims/)
+
+<a href="medical-bill-reimbursement-tracker-for-employer-and-insurance-claims/"><img src="medical-bill-reimbursement-tracker-for-employer-and-insurance-claims/screenshots/phone.png" alt="Medical Bill Reimbursement Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
@@ -760,11 +776,3 @@ Every app page and the hub load [GoatCounter](https://www.goatcounter.com) (cook
 ```html
 <script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 ```
-
-### <img src="lpg-gas-cylinder-refill-log/favicon.svg" width="36" height="36" align="center"> [LPG Gas Cylinder Refill Log](https://umar8092.github.io/apps/lpg-gas-cylinder-refill-log/)
-
-Never run out of gas mid-cooking. Log each refill of your LPG cylinder (the date, the kg and the price) and see when it will likely run out, when to get the next one, about how much gas is left, the price per kg and what gas costs you a month. Flags a cylinder that ran out much sooner than usual (under-filled or a leak). Private, works offline.
-
-[**Open the app**](https://umar8092.github.io/apps/lpg-gas-cylinder-refill-log/) &middot; [Details and screenshots](lpg-gas-cylinder-refill-log/)
-
-<a href="lpg-gas-cylinder-refill-log/"><img src="lpg-gas-cylinder-refill-log/screenshots/phone.png" alt="LPG Gas Cylinder Refill Log screenshot" width="260"></a>

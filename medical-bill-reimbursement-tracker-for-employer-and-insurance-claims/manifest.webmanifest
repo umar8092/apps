@@ -1,0 +1,15 @@
+{
+  "name": "Medical Bill Reimbursement Tracker for Employer and Insurance Claims",
+  "short_name": "Medical Claims",
+  "description": "Log the family's medical bills and see what is not claimed yet, the last day to claim it, what is waiting and what was refunded.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#061513",
+  "theme_color": "#0f7f75",
+  "categories": ["finance", "medical", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

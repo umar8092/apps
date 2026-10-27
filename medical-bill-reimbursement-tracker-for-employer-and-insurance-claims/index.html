@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Bill Reimbursement Tracker for Employer and Insurance Claims</title>
+    <meta name="description" content="Free medical bill reimbursement tracker for employees and families. Log each doctor, lab, medicine and hospital bill for anyone in the family, see which bills are not claimed yet and the last day to claim them, what is claimed and still waiting, what was refunded or rejected, and how much of your yearly limit is left. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/medical-bill-reimbursement-tracker-for-employer-and-insurance-claims/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#12968a">
+    <meta name="theme-color" content="#0f7f75">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Medical Bill Reimbursement Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/medical-bill-reimbursement-tracker-for-employer-and-insurance-claims/">
+    <meta property="og:title" content="Medical Bill Reimbursement Tracker for Employer and Insurance Claims">
+    <meta property="og:description" content="See which medical bills you have not claimed yet, the last day to claim them, what is waiting, what was refunded and how much of your yearly limit is left. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Medical Bill Reimbursement Tracker for Employer and Insurance Claims","alternateName":["Medical Claim Tracker","Medical Reimbursement Log","Medical Expense Log","Health Insurance Claim Tracker","FSA HSA Receipt Tracker"],"url":"https://umar8092.github.io/apps/medical-bill-reimbursement-tracker-for-employer-and-insurance-claims/","description":"A free log of the family's medical bills that shows which are not claimed yet and the last day to claim them, which claims are waiting, what was refunded, part refunded or rejected, and how much of the yearly limit is left.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"medical reimbursement tracker, medical claim tracker, medical bills log, employer medical allowance, health insurance claim status, fsa receipts, opd claim","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the app know the last day to claim a bill?","acceptedAnswer":{"@type":"Answer","text":"In Where you claim, set Claim within to the days your employer or insurer allows, such as 90 days. Each bill then shows its claim-by date: the bill date plus those days."}},{"@type":"Question","name":"What happens when only part of a claim is refunded?","acceptedAnswer":{"@type":"Answer","text":"Type the amount you really got. The app shares it between the bills in that claim and shows what was not refunded. If you can claim the rest somewhere else, tap Claim the rest somewhere else and the bills go back to Not claimed yet for that amount."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Medical Bill Reimbursement Tracker for Employer and Insurance Claims</h1>
+        <p class="sub">For medical bills your employer or health insurance pays back. Log each bill and see what you have not claimed yet, the last day to claim it, what is still waiting and what was refunded.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a medical bill</h2>
+            <p class="hint top" id="add-intro">One bill at a time: the doctor's fee, a lab test, medicine from the pharmacy, a hospital bill.</p>
+            <div class="two">
+                <div class="field">
+                    <label for="b-date">Date of the bill</label>
+                    <input id="b-date" type="date" aria-describedby="b-date-err">
+                </div>
+                <div class="field">
+                    <label for="b-amt">Amount paid</label>
+                    <div class="amount-row"><span class="cur-tag" data-cur hidden></span><input id="b-amt" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 2500" aria-describedby="b-amt-err"></div>
+                </div>
+            </div>
+            <p class="err" id="b-date-err" role="alert"></p>
+            <p class="err" id="b-amt-err" role="alert"></p>
+            <label for="b-who">Who was it for?</label>
+            <div class="quick" id="who-quick" role="group" aria-label="People you added before"></div>
+            <input id="b-who" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Me, Mother, Ali" aria-describedby="b-who-err">
+            <p class="err" id="b-who-err" role="alert"></p>
+            <label for="b-kind">What was it for?</label>
+            <select id="b-kind"></select>
+            <div id="b-payer-box">
+                <label for="b-payer">Claim it from</label>
+                <select id="b-payer"></select>
+            </div>
+            <button type="button" class="link" id="b-more-open">+ Add the doctor, lab or shop and a note (optional)</button>
+            <div id="b-more" hidden>
+                <label for="b-place">Doctor, lab, pharmacy or hospital</label>
+                <input id="b-place" type="text" maxlength="60" autocomplete="off" placeholder="e.g. City Lab">
+                <label for="b-note">Note</label>
+                <input id="b-note" type="text" maxlength="300" autocomplete="off" placeholder="e.g. Receipt in the blue file">
+            </div>
+            <div class="row-btns">
+                <button type="button" class="primary" id="b-save">Save bill</button>
+                <button type="button" class="secondary" id="b-cancel" hidden>Cancel</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card payers" id="payers" aria-labelledby="payers-h">
+            <h2 id="payers-h">Where you claim</h2>
+            <p class="hint top">Your employer, health insurance or FSA/HSA. Each one has its own time limit and yearly limit.</p>
+            <div class="p-list" id="p-list"></div>
+            <button type="button" class="secondary" id="p-add">+ Add another place you claim from</button>
+            <div class="msg" id="payers-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="secondary csv-btn" id="csv">Save the list as a spreadsheet (CSV)</button>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Set Where you claim</b>: your employer or insurer, how many days after the bill you can claim, and any yearly limit.</li>
+                <li><b>Add each medical bill</b> when you pay it: date, amount, and who it was for.</li>
+                <li><b>Send a claim</b>: tick the bills you are sending together and tap <b>Mark as claimed</b>.</li>
+                <li><b>When the money comes</b>, tap <b>Refund received</b>. The app shows what was refunded, what was not, and how much of your limit is left.</li>
+            </ol>
+        </section>
+
+        <section class="card glance" id="glance" aria-labelledby="glance-h" hidden>
+            <h2 id="glance-h">Your claims at a glance</h2>
+            <div id="glance-body"></div>
+            <div class="g-btns">
+                <button type="button" class="secondary small" id="g-copy">Copy summary</button>
+                <a class="secondary small" id="g-mail" href="mailto:">Email</a>
+                <button type="button" class="secondary small" id="g-cal">Add claim-by reminder to calendar</button>
+            </div>
+            <div class="msg" id="glance-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card bills" id="bills" aria-labelledby="bills-h" hidden>
+            <h2 id="bills-h">Bills</h2>
+            <div class="tabs" role="group" aria-label="Which bills to show">
+                <button type="button" class="tab" data-tab="todo" aria-pressed="true">Not claimed yet <span class="n" id="n-todo">0</span></button>
+                <button type="button" class="tab" data-tab="all" aria-pressed="false">All bills <span class="n" id="n-all">0</span></button>
+            </div>
+            <p class="hint" id="bills-hint"></p>
+            <div class="b-list" id="b-list"></div>
+            <button type="button" class="link" id="b-showall" hidden></button>
+            <div class="newclaim" id="newclaim" hidden aria-labelledby="nc-h">
+                <h3 id="nc-h">New claim</h3>
+                <div class="nc-list" id="nc-list"></div>
+                <div id="nc-payer-box">
+                    <label for="nc-payer">Claim from</label>
+                    <select id="nc-payer"></select>
+                </div>
+                <label for="nc-date">Date you sent the claim</label>
+                <input id="nc-date" type="date" aria-describedby="nc-date-err">
+                <p class="err" id="nc-date-err" role="alert"></p>
+                <button type="button" class="link" id="nc-ref-open">+ Add the claim number (optional)</button>
+                <div id="nc-ref-box" hidden>
+                    <label for="nc-ref">Claim number or reference</label>
+                    <input id="nc-ref" type="text" maxlength="40" autocomplete="off" placeholder="e.g. HR-2231">
+                </div>
+                <div class="row-btns">
+                    <button type="button" class="primary" id="nc-save">Mark as claimed</button>
+                    <button type="button" class="secondary" id="nc-copy">Copy list for the claim form</button>
+                </div>
+                <button type="button" class="link" id="nc-clear">Untick all</button>
+            </div>
+            <div class="msg" id="bills-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card waiting" id="waiting" aria-labelledby="waiting-h" hidden>
+            <h2 id="waiting-h">Claimed, waiting for the refund</h2>
+            <div class="cl-list" id="w-list"></div>
+            <div class="msg" id="waiting-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card history" id="history" aria-labelledby="history-h" hidden>
+            <h2 id="history-h">Refunded and rejected claims</h2>
+            <div class="cl-list" id="h-list"></div>
+            <button type="button" class="link" id="h-showall" hidden></button>
+            <div class="msg" id="history-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card people" id="people" aria-labelledby="people-h" hidden>
+            <h2 id="people-h">Each person</h2>
+            <p class="hint top">All the bills you have logged, by who they were for.</p>
+            <div class="pp-list" id="pp-list"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does it know the last day to claim a bill?</summary><p>In <b>Where you claim</b>, tap <b>Edit</b> and set <b>Claim within</b> to the days your employer or insurer allows, for example <b>90 days</b>. A lab bill from <b>12 Sep</b> then shows <b>Claim by 11 Dec</b>. Bills within 14 days of the limit are marked <b>Claim soon</b>, and bills past it are marked in red, because many employers no longer accept them. If you are not sure of the rule, ask HR or read your policy; leave it on <b>No time limit</b> until then.</p></details>
+        <details><summary>I sent several bills in one claim</summary><p>Tick each bill under <b>Not claimed yet</b>. A <b>New claim</b> box appears with the total; tap <b>Mark as claimed</b>. The bills move to <b>Claimed, waiting for the refund</b> as one claim. <b>Copy list for the claim form</b> gives you the dates, names and amounts to paste into the form or an email to HR.</p></details>
+        <details><summary>Only part of the claim was refunded</summary><p>Tap <b>Refund received</b> and type the amount that really came, for example <b>3,200</b> of a <b>4,000</b> claim. The app shows <b>800 not refunded</b> and shares the 3,200 between the bills in proportion to what was claimed for each, to the cent. If the rest can be claimed elsewhere (for example from insurance after the employer), tap <b>Claim the rest somewhere else</b>.</p></details>
+        <details><summary>A claim was rejected</summary><p>Tap <b>Rejected</b> and type the reason, such as <b>receipt not stamped</b>. Its bills go back to <b>Not claimed yet</b> with the reason shown, so you can fix it and send them again. The rejected claim stays in the history.</p></details>
+        <details><summary>How is the yearly limit counted?</summary><p>By the date of each bill, inside the claim year you chose (for example July to June). Refunded and waiting amounts both count, because a waiting claim will use the limit if it is paid. With <b>each person</b>, each family member has their own limit. Rejected claims do not count.</p></details>
+        <details><summary>A bill I do not want to claim</summary><p>Tap <b>Not claiming</b> on it. It stays in <b>All bills</b> and in each person's total, but no longer in <b>Not claimed yet</b>. Tap <b>Claim after all</b> to bring it back.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/medical-bill-reimbursement-tracker-for-employer-and-insurance-claims">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Medical Bill Reimbursement Tracker", "sections": [
+ {"h": "1. Set where you claim", "steps": ["Under \"Where you claim\", tap \"Edit\" on \"My employer\" to give it its real name, such as your company or insurer.", "\"Claim within\": how many days after the bill you are allowed to claim, such as 90 days. Pick \"No time limit\" if there is none.", "\"+ Add a yearly limit (optional)\": the most that is paid back in a year, for the whole family or for each person.", "\"Claim year starts in\": the month your limit starts again, such as July or April.", "\"+ Add another place you claim from\" adds health insurance or an FSA/HSA, each with its own limits."]},
+ {"h": "2. Add each bill", "steps": ["Under \"Add a medical bill\", type the \"Date of the bill\" and the \"Amount paid\".", "\"Who was it for?\": type a name, or tap one you used before.", "\"What was it for?\": Doctor, Lab test, Medicine, Hospital, Dentist, Eyes or Other.", "\"Claim it from\" appears when you have more than one place you claim from.", "\"+ Add the doctor, lab or shop and a note (optional)\" keeps where you paid and where the receipt is.", "Tap \"Save bill\". The date and the person stay filled in, so several bills from one visit are quick."]},
+ {"h": "3. Send a claim", "steps": ["\"Not claimed yet\" lists the bills to claim, the ones closest to their last day first. \"Claim by\" is the last day to claim; red means it is past the limit.", "Tick \"Add to the new claim\" on each bill you are sending. The \"New claim\" box shows the total. You can lower the amount claimed for a bill.", "\"Copy list for the claim form\" copies the bills to paste into the form or an email.", "Pick the \"Date you sent the claim\", add the claim number if you have one, and tap \"Mark as claimed\"."]},
+ {"h": "4. When you hear back", "steps": ["Under \"Claimed, waiting for the refund\", tap \"Refund received\", type the amount that came and the date, and tap \"Save refund\".", "If less came than you claimed, the claim shows what was not refunded. \"Claim the rest somewhere else\" puts that amount back in \"Not claimed yet\".", "\"Rejected\" with a reason puts the bills back in \"Not claimed yet\" so you can send them again.", "\"Edit claim\" changes the date, number or amounts; \"Delete claim\" puts its bills back. \"Mark as waiting again\" undoes a refund or rejection."]},
+ {"h": "What the summary tells you", "steps": ["\"Still to claim\": the money in bills you have not claimed yet, and the earliest last day to claim one.", "\"Claimed, waiting\": claims sent but not paid yet, and how long the oldest has been waiting.", "\"Refunded so far\" and \"Not refunded\": what you got back and what you paid yourself.", "Each place you claim from shows its claim year, how much of the yearly limit is used (refunded plus waiting) and what is left.", "\"Each person\" shows what was spent, refunded, waiting and still to claim for each family member.", "\"Copy summary\", \"Email\" and \"Add claim-by reminder to calendar\" share the numbers or save a reminder for the earliest last day."]},
+ {"h": "Good to know", "tips": true, "steps": ["\"Edit\" and \"Delete\" on a bill fix mistakes; \"Not claiming\" hides a bill from the claim list. Every change has \"Undo\".", "\"Currency symbol\" adds a symbol such as Rs, ₹ or $ to every amount, or none for plain numbers.", "\"Save the list as a spreadsheet (CSV)\" gives your accountant or HR every bill with its status.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
