@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Price Book for Comparing Shops: Where Is It Cheapest?</title>
+    <meta name="description" content="Free grocery price book for comparing shops. Note what cooking oil, rice, milk, eggs or nappies cost at each supermarket, corner shop or market, and see where each item is cheapest per kg, litre or item, whether the price in front of you is a good one and whether a sale is really cheaper. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/grocery-price-book-for-comparing-shops/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#5c940d">
+    <meta name="theme-color" content="#4c7d0a">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Grocery Price Book for Comparing Shops">
+    <meta property="og:url" content="https://umar8092.github.io/apps/grocery-price-book-for-comparing-shops/">
+    <meta property="og:title" content="Grocery Price Book for Comparing Shops: Where Is It Cheapest?">
+    <meta property="og:description" content="Note grocery prices at each shop and see where each item is cheapest, whether today's price is good and whether a sale is real. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Grocery Price Book for Comparing Shops","alternateName":["Grocery Price Book","Price Book App","Compare Grocery Prices Between Shops","Where is it cheapest","Grocery Price Tracker"],"url":"https://umar8092.github.io/apps/grocery-price-book-for-comparing-shops/","description":"A free, private grocery price book. Note the prices you see at each shop and it shows where each item is cheapest per kg, litre or item, whether a price is good, and whether a sale is really cheaper than the usual price.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"grocery price book, compare grocery prices, cheapest shop, price per kg, price per litre, price tracker, is this sale real","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a grocery price book?","acceptedAnswer":{"@type":"Answer","text":"A list of what the things you buy often cost at each shop. After a few weeks you know where each item is cheapest and whether a price or a sale is really good."}},{"@type":"Question","name":"How does it compare a 5 litre tin with a 1 litre bottle?","acceptedAnswer":{"@type":"Answer","text":"Every price is turned into a price per kg, per litre or per item, so packs of any size can be compared fairly."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Grocery Price Book for Comparing Shops</h1>
+        <p class="sub">Note what your groceries cost at each shop, and see where each item is cheapest, whether the price in front of you is a good one, and whether a sale is really cheaper.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add an item</h2>
+            <p class="hint top" id="add-intro">Add the things you buy often. Each item gets its own box where you note its price at each shop.</p>
+            <div class="quick" id="quick" role="group" aria-label="Quick pick">
+                <button type="button" class="chip" data-name="Cooking oil" data-per="l">Cooking oil</button>
+                <button type="button" class="chip" data-name="Rice" data-per="kg">Rice</button>
+                <button type="button" class="chip" data-name="Flour" data-per="kg">Flour</button>
+                <button type="button" class="chip" data-name="Sugar" data-per="kg">Sugar</button>
+                <button type="button" class="chip" data-name="Milk" data-per="l">Milk</button>
+                <button type="button" class="chip" data-name="Eggs" data-per="dz">Eggs</button>
+                <button type="button" class="chip" data-name="Tea" data-per="100g">Tea</button>
+                <button type="button" class="chip" data-name="Nappies" data-per="pc">Nappies</button>
+                <button type="button" class="chip" data-name="Washing powder" data-per="kg">Washing powder</button>
+            </div>
+            <label for="f-name">Item name</label>
+            <input id="f-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Cooking oil" aria-describedby="f-name-err">
+            <p class="err" id="f-name-err" role="alert"></p>
+            <label for="f-per">Compare prices</label>
+            <select id="f-per"></select>
+            <p class="hint" id="f-per-hint">Packs of different sizes are compared by this price, so a 5 L tin and a 1 L bottle are fair to compare.</p>
+            <div class="row-btns">
+                <button type="button" class="primary" id="f-save">Add item</button>
+                <button type="button" class="secondary" id="f-cancel" hidden>Cancel</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card plan" id="plan" aria-labelledby="plan-h" hidden>
+            <h2 id="plan-h">Where to buy what</h2>
+            <p class="hint top">The shop with the cheapest price you have noted for each item.</p>
+            <div class="plan-list" id="plan-list"></div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="plan-copy">Copy list</button>
+                <a class="secondary" id="plan-mail" href="mailto:">Email list</a>
+            </div>
+            <div class="msg" id="plan-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Shops, backup and settings</h2>
+            <div id="shops-box" hidden>
+                <h3>Your shops</h3>
+                <div class="shop-list" id="shop-list"></div>
+            </div>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Add the things you buy often</b>, such as cooking oil (compared per litre) or rice (per kg).</li>
+                <li><b>Note the price whenever you see it</b>: the shop, the price and the pack size, such as 2,690 for 5 L at Metro.</li>
+                <li><b>In the shop, type the price in front of you.</b> The app says at once if another shop was cheaper, and whether a sale is really cheaper than the usual price.</li>
+                <li><b>Before you go shopping</b>, open <b>Where to buy what</b> to see which shop is cheapest for each item.</li>
+            </ol>
+        </section>
+        <section class="items" id="items" aria-label="Your items" hidden>
+            <div class="find" id="find-box" hidden>
+                <label for="find">Find an item</label>
+                <input id="find" type="search" maxlength="60" autocomplete="off" placeholder="e.g. oil">
+                <p class="hint" id="find-none" hidden></p>
+            </div>
+            <div class="i-list" id="i-list"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does it compare a 5 litre tin with a 1 litre bottle?</summary><p>Every price is turned into a price per kg, litre, item or dozen. For example <b>2,690 for 5 L is 538 per litre</b> and <b>595 for 1 L is 595 per litre</b>, so the 5 L tin is cheaper even though it costs more at the till. Pack sizes in g and kg, ml and L, oz and lb are all converted.</p></details>
+        <details><summary>Which price counts when a shop has several?</summary><p>The newest one: the latest date, or the one typed last on the same day. Older prices stay in <b>All prices</b>, and the box shows how much the price went up or down since the one before.</p></details>
+        <details><summary>How do I know if a sale is real?</summary><p>Tick <b>This is a sale or special offer</b> when you type the price. The app compares it with the last price at the same shop that was not a sale, for example <b>"The sale is real: 3.5% less than the usual price at Imtiaz"</b>, or tells you the "sale" is not cheaper at all.</p></details>
+        <details><summary>What about "buy 2" deals and multipacks?</summary><p>Tap <b>+ Multipack or "buy 2" deal</b> and type how many packs the price is for. "2 bottles of 1.5 L for 500" is 166.67 per litre.</p></details>
+        <details><summary>Prices change all the time. Is an old price still useful?</summary><p>It still counts, but a price older than 3 months is marked <b>may have changed</b>, so you know to check it again.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection, even in a shop with no signal. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/grocery-price-book-for-comparing-shops">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Grocery Price Book", "sections": [
+ {"h": "1. Add an item", "steps": ["Tap a quick pick such as \"Cooking oil\" or \"Rice\", or type the \"Item name\" yourself.", "\"Compare prices\" sets how packs of different sizes are compared: per kg, per 100 g, per lb, per litre, per 100 ml, per item or per dozen.", "Tap \"Add item\". Each item gets its own box."]},
+ {"h": "2. Note a price, or check one in the shop", "steps": ["In the item's box, under \"Check or add a price\", pick the \"Shop\". The first time, or for a new shop, choose \"+ New shop...\" and type its name.", "Type the \"Price\" and the \"Pack size\" with its unit, such as 2690 for 5 L. You can also type the unit, such as 500 g.", "\"+ Multipack or \"buy 2\" deal (optional)\" is for a price that covers several packs.", "\"Date seen\" starts at today; change it for a price you saw earlier.", "Tick \"This is a sale or special offer\" for a sale price.", "As you type, the green or red box tells you the price per kg, litre or item, whether another shop was cheaper and by how much, and how it compares with the last price at the same shop.", "Tap \"Save price\" to keep it, or just leave it if you only wanted to check."]},
+ {"h": "3. What the item box tells you", "steps": ["\"Cheapest now\" is the shop with the lowest newest price, with the price for its pack and the price per kg, litre or item.", "Under it, every shop's newest price, cheapest first, with how much more it is than the cheapest, and how it changed since that shop's price before.", "\"may have changed\" marks a price older than 3 months.", "\"All prices\" lists every price you saved. \"Edit\" changes one and \"Delete\" removes it, with \"Undo\".", "\"Change item\" renames the item; \"Delete item\" removes it and its prices, with \"Undo\"."]},
+ {"h": "4. Where to buy what", "steps": ["This card lists, shop by shop, the items that are cheapest there.", "\"only one shop checked\" means you have not noted a price for that item at another shop yet.", "\"Copy list\" and \"Email list\" send the list, for example to whoever does the shopping."]},
+ {"h": "Shops, backup and settings", "steps": ["\"Your shops\" lists every shop. \"Rename\" fixes a name; \"Delete\" removes the shop and its prices, with \"Undo\".", "\"Currency symbol\" adds a symbol such as Rs or $ to every amount, or none for plain numbers.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\".", "\"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["With 4 or more items, \"Find an item\" at the top of the list finds one quickly while you are in the shop.", "The shop you used last is picked for you, so noting several prices in one shop is quick.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

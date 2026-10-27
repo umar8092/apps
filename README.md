@@ -771,6 +771,14 @@ Stop letting weeks slip by without calling the people you love. Choose how often
 
 <a href="keep-in-touch-reminder-for-family-and-friends/"><img src="keep-in-touch-reminder-for-family-and-friends/screenshots/phone.png" alt="Keep in Touch Reminder for Family and Friends screenshot" width="260"></a>
 
+### <img src="grocery-price-book-for-comparing-shops/favicon.svg" width="36" height="36" align="center"> [Grocery Price Book for Comparing Shops](https://umar8092.github.io/apps/grocery-price-book-for-comparing-shops/)
+
+Stop guessing where your groceries are cheapest. Note what cooking oil, rice, eggs or nappies cost at each supermarket, corner shop or market, and see where each item is cheapest per kg, litre or item. In the shop, type the price in front of you to see at once whether another shop was cheaper and whether a sale is really cheaper than the usual price. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/grocery-price-book-for-comparing-shops/) &middot; [Details and screenshots](grocery-price-book-for-comparing-shops/)
+
+<a href="grocery-price-book-for-comparing-shops/"><img src="grocery-price-book-for-comparing-shops/screenshots/phone.png" alt="Grocery Price Book for Comparing Shops screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

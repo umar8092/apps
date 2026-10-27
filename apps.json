@@ -574,5 +574,11 @@
     "name": "Keep in Touch Reminder for Family and Friends",
     "description": "Stop letting weeks slip by without calling the people you love. Choose how often you want to be in touch with each person, tap Called or Messaged after each contact, and see who is overdue, who is due today and when each one is due next, with their local time for family abroad. Private, works offline.",
     "color": "#7950f2"
+  },
+  {
+    "slug": "grocery-price-book-for-comparing-shops",
+    "name": "Grocery Price Book for Comparing Shops",
+    "description": "Note what your groceries cost at each shop and see where each item is cheapest per kg, litre or item. Type the price in front of you to see at once whether another shop was cheaper and whether a sale is really cheaper. Private, works offline.",
+    "color": "#5c940d"
   }
 ]
