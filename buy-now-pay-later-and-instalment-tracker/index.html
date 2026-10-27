@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Now Pay Later and Instalment Tracker: What Do I Owe and When?</title>
+    <meta name="description" content="Free tracker for Klarna, Afterpay, Clearpay, Affirm, Tabby, bank 0% plans and shop instalments in one place. See what is due next, what is still to pay this month and next month, what you still owe in total and which payments are late. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/buy-now-pay-later-and-instalment-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#be4bdb">
+    <meta name="theme-color" content="#ae3ec9">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Buy Now Pay Later and Instalment Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/buy-now-pay-later-and-instalment-tracker/">
+    <meta property="og:title" content="Buy Now Pay Later and Instalment Tracker: What Do I Owe and When?">
+    <meta property="og:description" content="All your pay-later and instalment plans in one list: what is due next, what to keep aside this month, what you still owe and what is late. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Buy Now Pay Later and Instalment Tracker","alternateName":["BNPL Tracker","Klarna and Afterpay Payment Tracker","Instalment Payment Tracker","Pay in 4 Tracker","Installment Tracker"],"url":"https://umar8092.github.io/apps/buy-now-pay-later-and-instalment-tracker/","description":"A free tracker for buy now pay later and instalment plans from any provider that shows the next payments, what is still to pay this month and next month, the total still owed and late payments.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"buy now pay later tracker, BNPL tracker, Klarna payments, Afterpay payments, instalment tracker, installment plan tracker, pay in 4, 0% plan","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I track Klarna, Afterpay and a bank plan together?","acceptedAnswer":{"@type":"Answer","text":"Yes. Each plan gets its own box whatever the provider, and the top of the page adds them all up: what is due next, what is still to pay this month and next month, and what you still owe in total."}},{"@type":"Question","name":"How are odd cents split?","acceptedAnswer":{"@type":"Answer","text":"100.00 in 3 payments is 33.34, then 33.33 and 33.33. The extra cent goes to the first payments, as most providers do, and every payment can be edited to match your statement."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account, it does not connect to your bank or provider, and it works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Buy Now Pay Later and Instalment Tracker</h1>
+        <p class="sub">All your pay-later and instalment plans in one list: what is due next, what to keep aside this month and what you still owe.</p>
+    </header>
+    <p class="store-warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a plan</h2>
+            <p class="hint top">One plan for each thing you bought in instalments. Tap a common plan to fill in the payments, or type your own.</p>
+            <div class="quick" id="quick" role="group" aria-label="Common plans">
+                <button type="button" class="chip" data-n="4" data-freq="2w" data-first="0">Pay in 4, every 2 weeks</button>
+                <button type="button" class="chip" data-n="3" data-freq="m" data-first="0">Pay in 3, monthly</button>
+                <button type="button" class="chip" data-n="1" data-freq="m" data-first="30">Pay in 30 days</button>
+                <button type="button" class="chip" data-n="6" data-freq="m" data-first="m">6 months</button>
+                <button type="button" class="chip" data-n="12" data-freq="m" data-first="m">12 months</button>
+            </div>
+            <label for="f-name">What did you buy?</label>
+            <input id="f-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. New phone" aria-describedby="f-name-err">
+            <p class="err" id="f-name-err" role="alert"></p>
+            <label for="f-prov">Paid with</label>
+            <input id="f-prov" type="text" maxlength="40" autocomplete="off" list="prov-list" placeholder="e.g. Klarna, bank 0% plan" aria-describedby="f-prov-err">
+            <datalist id="prov-list"></datalist>
+            <p class="err" id="f-prov-err" role="alert"></p>
+
+            <fieldset class="seg-wrap">
+                <legend>The amount I know</legend>
+                <div class="seg">
+                    <label class="seg-o"><input type="radio" name="f-mode" value="total" checked><span>Total price</span></label>
+                    <label class="seg-o"><input type="radio" name="f-mode" value="each"><span>Each payment</span></label>
+                </div>
+            </fieldset>
+            <label for="f-amt" id="f-amt-l">Total price</label>
+            <div class="amount-row"><span class="cur-tag" id="f-amt-cur" hidden></span><input id="f-amt" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 120" aria-describedby="f-amt-err"></div>
+            <p class="err" id="f-amt-err" role="alert"></p>
+            <button type="button" class="link" id="f-down-open">+ Add a down payment (optional)</button>
+            <div id="f-down-box" hidden>
+                <label for="f-down">Down payment paid at checkout</label>
+                <div class="amount-row"><span class="cur-tag" id="f-down-cur" hidden></span><input id="f-down" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 20" aria-describedby="f-down-err"></div>
+                <p class="err" id="f-down-err" role="alert"></p>
+                <p class="hint" id="f-down-hint">Paid on the day you bought it. The rest of the price is split into the payments.</p>
+            </div>
+
+            <div class="two nf">
+                <div class="field">
+                    <label for="f-n">Number of payments</label>
+                    <input id="f-n" type="text" inputmode="numeric" maxlength="3" autocomplete="off" value="4" aria-describedby="f-n-err">
+                </div>
+                <div class="field">
+                    <label for="f-freq">How often</label>
+                    <select id="f-freq">
+                        <option value="w">Every week</option>
+                        <option value="2w" selected>Every 2 weeks</option>
+                        <option value="m">Every month</option>
+                        <option value="d">Every X days</option>
+                    </select>
+                </div>
+            </div>
+            <p class="err" id="f-n-err" role="alert"></p>
+            <div id="f-every-box" hidden>
+                <label for="f-every">Every how many days?</label>
+                <input id="f-every" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="e.g. 10" aria-describedby="f-every-err">
+                <p class="err" id="f-every-err" role="alert"></p>
+            </div>
+            <label for="f-first">First payment on</label>
+            <input id="f-first" type="date" aria-describedby="f-first-err">
+            <p class="err" id="f-first-err" role="alert"></p>
+            <label class="check" id="f-past-l" hidden><input type="checkbox" id="f-past" checked><span id="f-past-t">I have already paid this</span></label>
+            <div class="preview" id="f-preview" aria-live="polite" hidden></div>
+            <button type="button" class="primary" id="f-save">Add plan</button>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Add each plan</b>: what you bought, who you pay (Klarna, Afterpay, a bank 0% plan, a shop), the price, how many payments and when the first one is.</li>
+                <li><b>See what is coming</b>: "Next: 30 to Klarna on Tue 11 Nov", what is still to pay this month and next month, and what you owe in total.</li>
+                <li><b>Tap Paid</b> after each payment. Late payments turn red so you can pay before the late fee.</li>
+                <li><b>Returned something?</b> Tap <b>Returned it</b> and the payments still to pay are cancelled.</li>
+            </ol>
+        </section>
+        <section class="card sum" id="sum" aria-labelledby="sum-h" hidden>
+            <h2 id="sum-h">What you owe</h2>
+            <div id="sum-body"></div>
+            <div class="msg" id="sum-msg" role="status" aria-live="polite"></div>
+        </section>
+        <section class="plans" id="plans" aria-label="Your plans" hidden>
+            <h2 class="list-h">Your plans</h2>
+            <div class="p-list" id="p-list"></div>
+        </section>
+        <section class="done-wrap" id="done-wrap" hidden>
+            <details class="done" id="done-d">
+                <summary id="done-s">Paid off and returned</summary>
+                <div class="p-list" id="done-list"></div>
+            </details>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Can I track Klarna, Afterpay and a bank plan together?</summary><p>Yes. Each plan gets its own box whatever the provider: Klarna, Afterpay, Clearpay, Affirm, Zip, PayPal Pay in 4, Tabby, Tamara, a credit card or bank 0% plan, or a shop's monthly plan. The top of the page adds them all up.</p></details>
+        <details><summary>How are odd cents split?</summary><p><b>100.00 in 3 payments</b> is <b>33.34</b>, then <b>33.33</b> and <b>33.33</b>. The extra cents go to the first payments, as most providers do. If your statement shows something else, tap <b>Edit</b> on that payment.</p></details>
+        <details><summary>What does "Still to pay this month" include?</summary><p>Every payment not yet marked paid that is due by the end of this month, <b>late ones included</b>. It is the money to keep in your account or on your card until the month ends.</p></details>
+        <details><summary>The first payment was taken when I bought it</summary><p>Pay in 4 and Pay in 3 plans usually take the first payment at checkout. Set <b>First payment on</b> to the day you bought it and keep <b>I have already paid this</b> ticked. A shop that took a deposit: use <b>+ Add a down payment</b>.</p></details>
+        <details><summary>I returned the item, or got part of the money back</summary><p>Returned all of it: tap <b>Returned it</b>. The payments still to pay are cancelled and the box shows the refund to expect for what you had already paid. Got part of the price back, or the provider added interest or changed the plan: tap <b>Change amount owed</b> and type what your provider says you still owe; it is shared over the payments still to pay.</p></details>
+        <details><summary>I was charged a late fee</summary><p>Tap <b>+ Add a fee</b> in that plan's box. It is added to what you owe, and you can tick it as paid like any other payment.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, it does not connect to your bank or provider, and your data is never sent anywhere. Once loaded, it works with no connection. Save a backup file before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/buy-now-pay-later-and-instalment-tracker">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Buy Now Pay Later and Instalment Tracker", "sections": [
+ {"h": "1. Add a plan", "steps": ["Tap a common plan, such as \"Pay in 4, every 2 weeks\" or \"12 months\", to fill in the number of payments, how often and the first date. You can change them after.", "\"What did you buy?\": a short name, such as New phone or Zara order.", "\"Paid with\": the provider or the shop, such as Klarna, Afterpay or Bank 0% plan.", "\"The amount I know\": pick \"Total price\" to have the price split into equal payments (odd cents go to the first ones), or \"Each payment\" if you know the amount of each one.", "\"+ Add a down payment (optional)\" is for money paid at checkout that is not one of the payments.", "\"Number of payments\", \"How often\" and \"First payment on\" make the dates. Monthly payments stay on the same day of the month; the 31st moves to the last day of shorter months.", "If some payments fall on or before today, \"I have already paid\" marks them as paid. Untick it if you have not paid them.", "Check the line under the form, then tap \"Add plan\"."]},
+ {"h": "2. What you owe", "steps": ["\"Still to pay in\" this month is every payment not yet paid that is due by the end of the month, late ones included: the money to keep aside.", "The next box is next month. \"Still owed in total\" is everything left on all plans, with the date of the very last payment.", "\"Next payments\" lists the coming payments from all plans by date. Tap \"Paid\" after you pay one.", "\"Month by month\" shows what is due in each month until the end.", "\"Copy summary\" and \"Email summary\" send the list; \"Add to calendar\" saves a calendar file with every payment still to pay and a reminder the day before."]},
+ {"h": "3. Each plan's box", "steps": ["The big number is what you still owe on that plan, with how many payments are made and a bar for how much is paid.", "Red \"Late\" means a payment's date has passed and it is not marked paid. Pay it and tap the button to mark it.", "\"All payments\" lists every payment. \"Paid\" marks one as paid today; \"Edit\" changes its date, amount or the day you paid; \"Not paid\" undoes it.", "\"Paid off early\" marks everything left as paid; if the provider gave you a discount, type the amount you really paid.", "\"Returned it\" cancels the payments still to pay and shows the refund to expect. Tap \"Refund received\" when it arrives.", "\"Change amount owed\" shares a new amount over the payments still to pay, after a part refund, interest or a new plan from the provider.", "\"+ Add a fee\" adds a late fee or an extra payment. \"Edit details\" changes the name, the provider and the down payment. \"Copy\" copies that plan. \"Delete plan\" removes it, with \"Undo\"."]},
+ {"h": "Backup and settings", "steps": ["\"Currency symbol\" adds a symbol such as $, £ or Rs to every amount, or none for plain numbers.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\".", "\"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The app does not connect to Klarna, Afterpay or your bank. It works from what you type, so tap \"Paid\" after each payment.", "Plans that are fully paid or returned move to \"Paid off and returned\" at the bottom.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

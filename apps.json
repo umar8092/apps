@@ -586,5 +586,11 @@
     "name": "Prepaid Mobile Data Bundle Tracker",
     "description": "Will your prepaid data last until it expires? Type the GB left from your operator's balance message and see how much you can use a day, the day you will run out at your pace, the cost per GB of each bundle and what you spend on data each month. Private, works offline.",
     "color": "#4c6ef5"
+  },
+  {
+    "slug": "buy-now-pay-later-and-instalment-tracker",
+    "name": "Buy Now Pay Later and Instalment Tracker",
+    "description": "All your Klarna, Afterpay, Tabby, bank 0% and shop instalment plans in one list: what is due next, what is still to pay this month and next month, what you still owe in total and which payments are late. Private, works offline.",
+    "color": "#be4bdb"
   }
 ]

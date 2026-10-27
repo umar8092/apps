@@ -787,6 +787,14 @@ Will your prepaid data last until it expires? Type the GB left from your operato
 
 <a href="prepaid-mobile-data-bundle-tracker/"><img src="prepaid-mobile-data-bundle-tracker/screenshots/phone.png" alt="Prepaid Mobile Data Bundle Tracker screenshot" width="260"></a>
 
+### <img src="buy-now-pay-later-and-instalment-tracker/favicon.svg" width="36" height="36" align="center"> [Buy Now Pay Later and Instalment Tracker](https://umar8092.github.io/apps/buy-now-pay-later-and-instalment-tracker/)
+
+All your Klarna, Afterpay, Tabby, bank 0% and shop instalment plans in one list: what is due next, what is still to pay this month and next month, what you still owe in total and which payments are late. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/buy-now-pay-later-and-instalment-tracker/) &middot; [Details and screenshots](buy-now-pay-later-and-instalment-tracker/)
+
+<a href="buy-now-pay-later-and-instalment-tracker/"><img src="buy-now-pay-later-and-instalment-tracker/screenshots/phone.png" alt="Buy Now Pay Later and Instalment Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
