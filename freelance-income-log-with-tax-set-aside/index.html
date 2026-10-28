@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Income Log with Tax Set-Aside: What You Really Earned</title>
+    <meta name="description" content="Free income log for freelancers, tutors and remote workers paid by several clients, often in dollars through Payoneer, Wise, PayPal or Upwork. Log each payment with the fee and what reached your bank, and see what you really earned this month, how much to keep aside for tax, your average month, your best client and the tax-year total. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/freelance-income-log-with-tax-set-aside/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#139a74">
+    <meta name="theme-color" content="#139a74">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Freelance Income Log with Tax Set-Aside">
+    <meta property="og:url" content="https://umar8092.github.io/apps/freelance-income-log-with-tax-set-aside/">
+    <meta property="og:title" content="Freelance Income Log with Tax Set-Aside: What You Really Earned">
+    <meta property="og:description" content="Log each client payment with the fee and what reached your bank. See what you really earned this month, how much to keep aside for tax and which client pays best. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Freelance Income Log with Tax Set-Aside","alternateName":["Freelance Income Tracker","Freelancer Income Log","Payoneer Income Tracker","Freelance Tax Set-Aside Calculator","Upwork Earnings Tracker"],"url":"https://umar8092.github.io/apps/freelance-income-log-with-tax-set-aside/","description":"A free income log for freelancers paid by several clients in different currencies. It records the fee taken and the amount that reached the bank, and shows the month's real income, the tax to keep aside, the average month, the best client and the tax-year total.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"freelance income tracker, freelancer income log, tax set aside, Payoneer fees, Upwork earnings, Wise, PayPal, income by client","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it connect to Payoneer, Wise, PayPal or Upwork?","acceptedAnswer":{"@type":"Answer","text":"No. You type each payment in a few seconds. Nothing is linked to your bank or your accounts."}},{"@type":"Question","name":"What percentage should I keep aside for tax?","acceptedAnswer":{"@type":"Answer","text":"It depends on your country, your income and how you are registered. Ask an accountant or your tax office, then set that percentage. The app only does the sums."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and it works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Freelance Income Log with Tax Set-Aside</h1>
+        <p class="sub">Log each client payment with the fee and what reached your bank. See what you really earned this month and how much to keep aside for tax.</p>
+    </header>
+    <p class="store-warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a payment</h2>
+            <p class="hint top" id="add-hint">Each time a client pays you, add it here. Takes a few seconds.</p>
+            <label for="f-client">Who paid you</label>
+            <select id="f-client"></select>
+            <div id="f-new-box">
+                <label for="f-new">Client's name</label>
+                <input id="f-new" type="text" maxlength="50" autocomplete="off" placeholder="e.g. Northwind Studio" aria-describedby="f-new-err">
+                <p class="err" id="f-new-err" role="alert"></p>
+            </div>
+            <label for="f-date">Date paid</label>
+            <input id="f-date" type="date" aria-describedby="f-date-err">
+            <p class="err" id="f-date-err" role="alert"></p>
+            <div class="two cur-two">
+                <div class="field">
+                    <label for="f-gross">Amount the client paid</label>
+                    <input id="f-gross" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 500" aria-describedby="f-gross-err">
+                </div>
+                <div class="field">
+                    <label for="f-cur">In</label>
+                    <select id="f-cur"></select>
+                </div>
+            </div>
+            <p class="err" id="f-gross-err" role="alert"></p>
+            <label for="f-fee">Fee taken <span class="opt">(optional)</span></label>
+            <input id="f-fee" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 10% or 25" aria-describedby="f-fee-hint f-fee-err">
+            <p class="hint" id="f-fee-hint">Platform or transfer fee, as an amount or a %. Leave blank if none.</p>
+            <p class="err" id="f-fee-err" role="alert"></p>
+            <fieldset class="seg-wrap" id="f-conv-box">
+                <legend id="f-conv-l">How much reached your bank?</legend>
+                <div class="seg three" role="radiogroup" aria-labelledby="f-conv-l">
+                    <label class="seg-o"><input type="radio" name="f-conv" value="home" checked><span>Amount in my bank</span></label>
+                    <label class="seg-o"><input type="radio" name="f-conv" value="rate"><span>Exchange rate</span></label>
+                    <label class="seg-o"><input type="radio" name="f-conv" value="none"><span>Not in my bank yet</span></label>
+                </div>
+                <div id="f-home-box">
+                    <label for="f-home">Amount that reached your bank</label>
+                    <div class="amount-row"><span class="cur-tag" id="f-home-tag" hidden></span><input id="f-home" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="in your own money" aria-describedby="f-home-err"></div>
+                    <p class="err" id="f-home-err" role="alert"></p>
+                </div>
+                <div id="f-rate-box" hidden>
+                    <label for="f-rate" id="f-rate-l">Exchange rate</label>
+                    <input id="f-rate" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 279.50" aria-describedby="f-rate-err">
+                    <p class="err" id="f-rate-err" role="alert"></p>
+                </div>
+                <p class="hint" id="f-none-hint" hidden>Still in your Payoneer, Wise or PayPal balance. Tap Edit on the payment when you withdraw it.</p>
+            </fieldset>
+            <label class="check"><input type="checkbox" id="f-refund"><span>Money taken back (refund or chargeback)</span></label>
+            <button type="button" class="link" id="f-note-open">+ Add a note (optional)</button>
+            <div id="f-note-box" hidden>
+                <label for="f-note">Note</label>
+                <input id="f-note" type="text" maxlength="120" autocomplete="off" placeholder="e.g. Invoice 14, logo design">
+            </div>
+            <div class="preview" id="f-preview" aria-live="polite" hidden></div>
+            <button type="button" class="primary" id="f-save">Add payment</button>
+            <button type="button" class="secondary" id="f-cancel" hidden>Cancel editing</button>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tax" id="tax" aria-labelledby="tax-h">
+            <h2 id="tax-h">Tax set-aside</h2>
+            <p class="hint top">Ask an accountant or your tax office what share to keep. The app only does the sums.</p>
+            <label for="t-pct">Keep aside for tax</label>
+            <select id="t-pct"></select>
+            <div id="t-custom-box" hidden>
+                <label for="t-custom">Your own %</label>
+                <div class="amount-row"><input id="t-custom" type="text" inputmode="decimal" maxlength="6" autocomplete="off" placeholder="e.g. 12.5" aria-describedby="t-custom-err"><span class="cur-tag">%</span></div>
+                <p class="err" id="t-custom-err" role="alert"></p>
+                <button type="button" class="secondary" id="t-custom-save">Use this %</button>
+            </div>
+            <label for="t-year">Your tax year</label>
+            <select id="t-year"></select>
+            <h3>Money you have put aside</h3>
+            <p class="hint">Each time you move money to a tax savings account, or pay tax in advance, add it here.</p>
+            <div class="two s-row">
+                <div class="field">
+                    <label for="s-amt">Amount put aside</label>
+                    <div class="amount-row"><span class="cur-tag" id="s-tag" hidden></span><input id="s-amt" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 50000" aria-describedby="s-amt-err"></div>
+                </div>
+                <div class="field">
+                    <label for="s-date">On</label>
+                    <input id="s-date" type="date">
+                </div>
+            </div>
+            <p class="err" id="s-amt-err" role="alert"></p>
+            <button type="button" class="secondary" id="s-add">Add money put aside</button>
+            <ul class="saved-list" id="s-list"></ul>
+            <div class="msg" id="tax-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <label for="cur">Your currency symbol</label>
+            <select id="cur"></select>
+            <p class="hint">The money that reaches your bank. Payments in other currencies are shown with their code, such as USD.</p>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Add each payment</b> when a client pays: who, how much, in which currency, and the fee taken (such as 10% on Upwork).</li>
+                <li><b>Add what reached your bank</b> in your own money, or the exchange rate. Still sitting in Payoneer or Wise? Pick <b>Not in my bank yet</b>.</li>
+                <li><b>See what you really earned</b> this month after fees, and how much to <b>keep aside for tax</b>.</li>
+                <li><b>See your average month, your best client</b> and the total for your tax year, and save a list for your accountant.</li>
+            </ol>
+        </section>
+        <section class="card sum" id="sum" aria-labelledby="sum-h" hidden>
+            <div class="m-nav">
+                <button type="button" class="secondary small" id="m-prev" aria-label="Previous month">&lsaquo; Prev</button>
+                <h2 id="sum-h">October 2026</h2>
+                <button type="button" class="secondary small" id="m-next" aria-label="Next month">Next &rsaquo;</button>
+            </div>
+            <button type="button" class="link center" id="m-now" hidden>Back to this month</button>
+            <div id="sum-body"></div>
+            <div class="msg" id="sum-msg" role="status" aria-live="polite"></div>
+        </section>
+        <section class="card pays-card" id="pays" aria-labelledby="pays-h" hidden>
+            <h2 id="pays-h">Payments</h2>
+            <ul class="pay-list" id="p-list"></ul>
+            <div class="msg" id="pays-msg" role="status" aria-live="polite"></div>
+        </section>
+        <section class="clients" id="clients" aria-labelledby="clients-h" hidden>
+            <h2 class="list-h" id="clients-h">Your clients</h2>
+            <p class="hint top" id="clients-hint"></p>
+            <div class="c-list" id="c-list"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Does it connect to Payoneer, Wise, PayPal or Upwork?</summary><p>No. You type each payment in a few seconds. Nothing is linked to your bank or your accounts, so it works with any platform, any bank and any country.</p></details>
+        <details><summary>What do I type as the fee?</summary><p>What the platform or transfer service kept, in the client's currency: a % such as <b>10%</b> (Upwork's service fee) or an amount such as <b>25</b>. Leave it blank if nothing was taken. The exchange rate loss is not a fee here; it shows in what reached your bank.</p></details>
+        <details><summary>The money is still in my Payoneer or Wise balance</summary><p>Pick <b>Not in my bank yet</b>. The payment is counted as paid by the client but not in your bank total, and the summary shows it as waiting. Tap <b>Edit</b> on the payment when you withdraw it and type what arrived.</p></details>
+        <details><summary>Amount in my bank or exchange rate?</summary><p>If you know what arrived in your bank, type that: it is the most exact. If you only know the rate, type the rate and the app works out the amount from what was left after the fee.</p></details>
+        <details><summary>What percentage should I keep aside for tax?</summary><p>It depends on your country, your income and how you are registered, so ask an accountant or your tax office. Set it under <b>Tax set-aside</b>. The app works it out on what reached your bank in the month and in your tax year.</p></details>
+        <details><summary>A client asked for money back</summary><p>Add it as a payment from that client with <b>Money taken back</b> ticked. It is taken off that month's income and the tax to keep aside.</p></details>
+        <details><summary>How is the average month worked out?</summary><p>It adds up what reached your bank over the last 6 months (or since your first payment, if that is sooner) and divides by the number of months, months with no income included.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, it works with no connection. Save a backup file before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/freelance-income-log-with-tax-set-aside">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Freelance Income Log with Tax Set-Aside", "sections": [
+ {"h": "1. Add a payment", "steps": ["\"Who paid you\": pick the client, or \"+ New client\" and type the \"Client's name\". The first time, just type the name.", "\"Date paid\" is today unless you change it.", "\"Amount the client paid\" is the full amount before any fee, and \"In\" is its currency. Pick \"My own currency\" if you were paid in your own money.", "\"Fee taken (optional)\" is what the platform or transfer service kept, as a % such as 10% or an amount such as 25, in the client's currency.", "For another currency, answer \"How much reached your bank?\": \"Amount in my bank\" (what arrived, in your money), \"Exchange rate\" (the app works out the amount), or \"Not in my bank yet\" if it is still in your Payoneer, Wise or PayPal balance.", "Tick \"Money taken back (refund or chargeback)\" when a client takes money back. \"+ Add a note (optional)\" keeps an invoice number or the project.", "The green box shows what you get before you save. Tap \"Add payment\". The same client's currency and fee are filled in next time."]},
+ {"h": "2. The month's summary", "steps": ["\"Reached your bank\" is what you really earned in the month, after fees and exchange, refunds taken off.", "\"Keep aside for tax\" is your tax % of that amount.", "\"Paid by clients\" and \"Fees taken\" show the totals in each currency, with the fee as a share of what clients paid.", "\"Not in your bank yet\" lists payments still in a Payoneer, Wise or PayPal balance. They are not in the bank total until you edit them.", "\"Average month\" is over the last 6 and 12 months, or since your first payment.", "\"Tax year\" shows what reached your bank this tax year, what to keep aside, what you have put aside and what is still to put aside.", "\"‹ Prev\" and \"Next ›\" move between months. \"Last 12 months\" shows each month's income.", "\"Copy summary\" and \"Email summary\" send the month to someone. \"Save list for accountant\" saves a CSV file of the tax year that opens in Excel or Google Sheets."]},
+ {"h": "3. Payments and clients", "steps": ["\"Payments\" lists the month's payments. \"Edit\" changes one (for example to add what reached your bank after you withdraw) and \"Delete\" removes it, with \"Undo\".", "\"Your clients\" has a box for each client, best paying first: what they paid this tax year, the share of your income, the fees and the last payment.", "\"Add a payment\" in a client's box fills in that client. \"Rename\" changes the name. \"Delete client\" removes the client and their payments, with \"Undo\"."]},
+ {"h": "4. Tax set-aside", "steps": ["\"Keep aside for tax\" is the % to keep. Pick \"Your own %\" to type any % up to 60.", "\"Your tax year\" is when your tax year starts: January, 1 April, 6 April (UK) or 1 July.", "When you move money to tax savings or pay tax in advance, type it in \"Amount put aside\" and tap \"Add money put aside\". Each one can be removed with \"Remove\"."]},
+ {"h": "Backup and settings", "steps": ["\"Your currency symbol\" adds Rs, $, £ or another symbol to the money in your bank, or none for plain numbers.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\".", "\"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The app does not connect to Payoneer, Wise, PayPal, Upwork or your bank. It works from what you type.", "Every sum is exact to the cent. The fee share is rounded to one decimal place.", "It is not tax advice: ask an accountant what % to keep.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

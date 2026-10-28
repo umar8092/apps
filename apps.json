@@ -598,5 +598,11 @@
     "name": "Utility Bill Due Dates and Payment Log",
     "description": "Electricity, gas, water, internet, phone and maintenance bills in one list: what is overdue, what is due this week, what is still to pay this month, and the date and reference of every payment. Private, works offline.",
     "color": "#f08c00"
+  },
+  {
+    "slug": "freelance-income-log-with-tax-set-aside",
+    "name": "Freelance Income Log with Tax Set-Aside",
+    "description": "For freelancers paid by several clients, often in dollars through Payoneer, Wise, PayPal or Upwork: log each payment with the fee and what reached your bank, and see what you really earned this month, how much to keep aside for tax, your best client and the tax-year total. Private, works offline.",
+    "color": "#139a74"
   }
 ]

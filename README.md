@@ -803,6 +803,14 @@ Electricity, gas, water, internet, phone and maintenance bills in one list: what
 
 <a href="utility-bill-due-dates-and-payment-log/"><img src="utility-bill-due-dates-and-payment-log/screenshots/phone.png" alt="Utility Bill Due Dates and Payment Log screenshot" width="260"></a>
 
+### <img src="freelance-income-log-with-tax-set-aside/favicon.svg" width="36" height="36" align="center"> [Freelance Income Log with Tax Set-Aside](https://umar8092.github.io/apps/freelance-income-log-with-tax-set-aside/)
+
+For freelancers paid by several clients, often in dollars through Payoneer, Wise, PayPal or Upwork: log each payment with the fee and what reached your bank, and see what you really earned this month, how much to keep aside for tax, your best client and the tax-year total. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/freelance-income-log-with-tax-set-aside/) &middot; [Details and screenshots](freelance-income-log-with-tax-set-aside/)
+
+<a href="freelance-income-log-with-tax-set-aside/"><img src="freelance-income-log-with-tax-set-aside/screenshots/phone.png" alt="Freelance Income Log with Tax Set-Aside screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

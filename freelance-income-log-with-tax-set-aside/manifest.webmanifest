@@ -1,0 +1,15 @@
+{
+  "name": "Freelance Income Log with Tax Set-Aside",
+  "short_name": "Freelance Income",
+  "description": "Log each client payment with the fee and what reached your bank. See what you really earned this month, how much to keep aside for tax and which client pays best.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#06281e",
+  "theme_color": "#139a74",
+  "categories": ["finance", "business", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
