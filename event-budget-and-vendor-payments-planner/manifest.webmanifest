@@ -1,0 +1,15 @@
+{
+  "name": "Event Budget and Vendor Payments Planner",
+  "short_name": "Event Budget",
+  "description": "A budget for each wedding function, birthday or Eid dinner, and every vendor's agreed price, advances paid, what is still to pay and when it is due.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#12060e",
+  "theme_color": "#97266d",
+  "categories": ["finance", "lifestyle", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

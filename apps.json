@@ -616,5 +616,11 @@
     "name": "Gift Ideas List for Family and Friends",
     "description": "For anyone who hears a gift hint months ahead and forgets it by the day: each person in their own box with their birthday, Eid, Christmas or anniversary and a budget, gift ideas saved in seconds with price, shop, link or photo, marked bought and given, and a warning before you repeat an old gift. Private, works offline.",
     "color": "#e8384f"
+  },
+  {
+    "slug": "event-budget-and-vendor-payments-planner",
+    "name": "Event Budget and Vendor Payments Planner",
+    "description": "A budget for each wedding function, birthday or Eid dinner, and every vendor's agreed price (or price per guest), advances paid, what is still to pay and when each payment is due.",
+    "color": "#b83280"
   }
 ]

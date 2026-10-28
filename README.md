@@ -827,6 +827,14 @@ For anyone who hears a gift hint in March and has forgotten it by the birthday i
 
 <a href="gift-ideas-list-for-family-and-friends/"><img src="gift-ideas-list-for-family-and-friends/screenshots/phone.png" alt="Gift Ideas List for Family and Friends screenshot" width="260"></a>
 
+### <img src="event-budget-and-vendor-payments-planner/favicon.svg" width="36" height="36" align="center"> [Event Budget and Vendor Payments Planner](https://umar8092.github.io/apps/event-budget-and-vendor-payments-planner/)
+
+For families organising a wedding, mehndi, walima, birthday party or Eid dinner. Give each event a budget, add the hall, caterer, decorator and photographer with the agreed price (or price per guest), record advances and due dates, and see "Mehndi: 8,40,000 agreed of 9,00,000 budget, 3,50,000 paid, 4,90,000 still to pay", which payment is due next, which is late and which categories are over budget. Price changes, cancellations and refunds are kept.
+
+[**Open the app**](https://umar8092.github.io/apps/event-budget-and-vendor-payments-planner/) &middot; [Details and screenshots](event-budget-and-vendor-payments-planner/)
+
+<a href="event-budget-and-vendor-payments-planner/"><img src="event-budget-and-vendor-payments-planner/screenshots/phone.png" alt="Event Budget and Vendor Payments Planner screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

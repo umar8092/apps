@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Budget and Vendor Payments Planner: Weddings, Mehndi, Birthdays</title>
+    <meta name="description" content="Free event budget and vendor payments planner for weddings, mehndi, walima, birthdays and Eid dinners. Give each event its own budget, add the hall, caterer, decorator and photographer with the agreed price (or price per guest), record advances and see what is paid, what is still to pay and when each payment is due. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/event-budget-and-vendor-payments-planner/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#b83280">
+    <meta name="theme-color" content="#97266d">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Event Budget and Vendor Payments Planner">
+    <meta property="og:url" content="https://umar8092.github.io/apps/event-budget-and-vendor-payments-planner/">
+    <meta property="og:title" content="Event Budget and Vendor Payments Planner: Weddings, Mehndi, Birthdays">
+    <meta property="og:description" content="Track each event's budget and every vendor: agreed price, advances paid, what is still to pay and when it is due. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Event Budget and Vendor Payments Planner","alternateName":["Wedding Budget Planner","Wedding Vendor Payment Tracker","Event Budget Tracker","Shaadi Budget Planner","Party Budget Planner"],"url":"https://umar8092.github.io/apps/event-budget-and-vendor-payments-planner/","description":"A free, private planner for the money side of weddings, mehndi, walima, birthdays and Eid dinners: a budget per event, each vendor's agreed price, advances, balance due and due dates, cancellations and refunds.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"wedding budget planner, vendor payment tracker, event budget, mehndi budget, shaadi budget, caterer advance, balance due, party budget","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does agreed of budget mean?","acceptedAnswer":{"@type":"Answer","text":"Agreed is the total of the prices you have settled with your vendors. The budget is what you want to spend on the event. 8,40,000 agreed of 9,00,000 budget means 60,000 of the budget is not promised to anyone yet."}},{"@type":"Question","name":"How do I track an advance and the rest?","acceptedAnswer":{"@type":"Answer","text":"Record the advance as a payment, then tap + Due date to say when the rest is due. The vendor box shows Paid, Still to pay and each due date, and Payments due at the top lists every payment across all events, soonest first."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account, your data is never sent anywhere, and it works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Event Budget and Vendor Payments Planner</h1>
+        <p class="sub">For weddings, mehndi, walima, birthdays and Eid dinners. Give each event a budget, add every vendor with the price you agreed, record advances, and always know <b>what is paid</b>, <b>what is still to pay</b> and <b>when</b>.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add your first event</h2>
+            <p class="hint top">Each event gets its own box with its budget and its vendors. A wedding with a mehndi, barat and walima can be three events.</p>
+            <div class="quick" id="quick" role="group" aria-label="Quick pick">
+                <button type="button" class="chip" data-name="Wedding">Wedding</button>
+                <button type="button" class="chip" data-name="Mehndi">Mehndi</button>
+                <button type="button" class="chip" data-name="Barat">Barat</button>
+                <button type="button" class="chip" data-name="Walima">Walima</button>
+                <button type="button" class="chip" data-name="Engagement">Engagement</button>
+                <button type="button" class="chip" data-name="Birthday party">Birthday party</button>
+                <button type="button" class="chip" data-name="Eid dinner">Eid dinner</button>
+                <button type="button" class="chip" data-name="Aqiqah">Aqiqah</button>
+            </div>
+            <label for="e-name">Event name</label>
+            <input id="e-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Sara's mehndi" aria-describedby="e-name-err">
+            <p class="err" id="e-name-err" role="alert"></p>
+            <label for="e-date">Date (optional)</label>
+            <input id="e-date" type="date" aria-describedby="e-date-err">
+            <p class="err" id="e-date-err" role="alert"></p>
+            <button type="button" class="link" id="e-budget-open">+ Total budget for this event (optional)</button>
+            <div id="e-budget-box" hidden>
+                <label for="e-budget">Total budget for this event</label>
+                <div class="amount-row"><span class="cur-tag" id="e-budget-cur" hidden></span><input id="e-budget" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 900000 or 9 lakh" aria-describedby="e-budget-err"></div>
+                <p class="err" id="e-budget-err" role="alert"></p>
+            </div>
+            <div class="row-btns">
+                <button type="button" class="primary" id="e-save">Add event</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Money and backup</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <label for="group">How to write big numbers</label>
+            <select id="group">
+                <option value="west">1,234,567 (thousands, millions)</option>
+                <option value="lakh">12,34,567 (lakhs, crores)</option>
+            </select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Add each event</b>, such as the mehndi or the walima, with its date and total budget.</li>
+                <li><b>Add every vendor</b> in its box: the hall, caterer (price per guest works too), decorator, photographer, tailor. Type the price you agreed and any advance you paid.</li>
+                <li><b>See where you stand</b>: &ldquo;Mehndi: 8,40,000 agreed of 9,00,000 budget, 3,50,000 paid, 4,90,000 still to pay&rdquo;, and when each payment is due.</li>
+            </ol>
+        </section>
+        <section class="card due" id="due" aria-labelledby="due-h" hidden>
+            <h2 id="due-h">Payments due</h2>
+            <div id="due-body"></div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy-all">Copy everything</button>
+                <a class="secondary" id="mail-all" href="mailto:">Email everything</a>
+                <button type="button" class="secondary" id="csv">Save as spreadsheet</button>
+                <button type="button" class="secondary" id="print">Print</button>
+            </div>
+            <div class="msg" id="due-msg" role="status" aria-live="polite"></div>
+        </section>
+        <section class="events" id="events" aria-label="Your events" hidden>
+            <div class="ev-list" id="ev-list"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>What do agreed, paid and still to pay mean?</summary><p><b>Agreed</b> is the price you settled with a vendor (for a caterer, the price per guest times the guests). <b>Paid</b> is everything you have given them so far, less any money they gave back. <b>Still to pay</b> is agreed minus paid. For an event, &ldquo;8,40,000 agreed of 9,00,000 budget&rdquo; means 60,000 of the budget is not promised to anyone yet.</p></details>
+        <details><summary>I paid an advance and the rest is due on the day</summary><p>Add the vendor with <b>+ Advance already paid</b>, or tap <b>Record a payment</b> later. Then tap <b>+ Due date</b> and pick when the rest is due. You can add several due dates, such as half a week before and the rest on the day. When you pay, tap <b>Paid it</b> on the due date and it is taken off.</p></details>
+        <details><summary>The price changed after we agreed</summary><p>Tap <b>Edit</b> on the vendor and type the new price, or the new number of guests. The box shows &ldquo;Price changed on 3 Nov from 3,80,000 to 4,00,000&rdquo; so you can show the family why the total moved.</p></details>
+        <details><summary>A booking was cancelled</summary><p>Tap <b>Cancel booking</b> and type the refund you got back, if any. What the vendor kept is shown as <b>Money lost</b> and still counts in the event&rsquo;s total, because it was spent. <b>Book again</b> undoes it.</p></details>
+        <details><summary>One vendor for two events</summary><p>Add the vendor in one event, tap <b>Copy to event</b> and pick the other one. The name, category, price and phone are copied, not the payments. Give each event its own part of the price, so neither total counts it twice.</p></details>
+        <details><summary>Can the family see it? Is it private?</summary><p>Tap <b>Copy summary</b> or <b>Email summary</b> on an event, or <b>Copy everything</b>, and paste it into the family group. <b>Save as spreadsheet</b> gives a CSV with every payment for Excel or Google Sheets. Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded it works with no connection. Save a backup file before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/event-budget-and-vendor-payments-planner">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Event Budget and Vendor Payments Planner", "sections": [
+ {"h": "1. Add an event", "steps": ["Tap a quick pick such as \"Mehndi\" or \"Birthday party\", or type the \"Event name\" yourself.", "Pick the \"Date (optional)\" if you know it.", "\"+ Total budget for this event (optional)\" sets how much you want to spend on it. You can type 900000, 9,00,000 or 9 lakh.", "Tap \"Add event\". Each event gets its own box. A wedding with several functions can be one event or one event per function."]},
+ {"h": "2. Add the vendors", "steps": ["In the event's box tap \"+ Add a vendor\". Type \"Vendor or what it is\" and pick \"What is it for?\", such as \"Food and catering\". Pick \"Other\" to name your own category.", "\"How is the price set?\": \"One agreed price\", or \"Price per guest × number of guests\" for a caterer. Type the \"Agreed price\", or the \"Price per guest\" and the \"Number of guests\".", "\"+ Advance already paid (optional)\" records what you paid at booking. \"+ When the rest is due (optional)\" sets the due date. \"+ Phone number or note (optional)\" keeps their number and what is included.", "Tap \"Add vendor\"."]},
+ {"h": "3. Payments and due dates", "steps": ["\"Record a payment\" saves money you gave a vendor, with the date and a note. If they gave money back, pick \"gave money back (refund)\".", "\"+ Due date\" says when the next payment is due and how much. Add several for instalments.", "On a due date, \"Paid it\" records the payment and takes it off. \"Edit\" changes the date or amount and \"Delete\" removes it.", "\"Show payments\" lists every payment, with \"Edit\" and \"Delete\"."]},
+ {"h": "4. What the app tells you", "steps": ["Each vendor shows \"Agreed\", \"Paid\" and \"Still to pay\", its due dates (\"3 days late\" in red), and \"Fully paid\" when nothing is left.", "Each event shows \"8,40,000 agreed of 9,00,000 budget\" and how much of the budget is not promised yet, or \"Over budget by\". \"By category\" adds up food, decor and the rest.", "\"+ Budget per category (optional)\" sets a budget for food, decor or any category, and shows which ones are over.", "\"Payments due\" at the top lists the next payments across all events, soonest first, with late ones first."]},
+ {"h": "5. Changes and cancellations", "steps": ["\"Edit\" on a vendor changes the name, category, price or guests. A price change is kept as \"Price changed on ... from ... to ...\".", "\"Cancel booking\" asks for any refund. What they kept is shown as \"Money lost\". \"Book again\" undoes it.", "\"Copy to event\" copies a vendor to another event without its payments.", "\"Edit event\" changes the name, date, budget and note. \"Delete\" and \"Delete event\" remove them, with \"Undo\"."]},
+ {"h": "6. Share and back up", "steps": ["\"Copy summary\" and \"Email summary\" send one event as text; \"Copy everything\" and \"Email everything\" send all events.", "\"Save as spreadsheet\" saves a CSV of every payment and due date. \"Print\" prints the list.", "\"Currency symbol\" adds Rs, $, AED or any symbol, or plain numbers. \"How to write big numbers\" picks 1,234,567 or 12,34,567.", "\"Save a backup file\" downloads everything and \"Restore a backup\" loads it on this or another phone. \"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Amounts can be typed as 250000, 2,50,000, 2.5 lakh, 50k or 1.2 crore.", "Everything stays on this device. Your data is never sent anywhere and it works offline.", "Save a backup before changing phones or clearing your browser."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
