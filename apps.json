@@ -592,5 +592,11 @@
     "name": "Buy Now Pay Later and Instalment Tracker",
     "description": "All your Klarna, Afterpay, Tabby, bank 0% and shop instalment plans in one list: what is due next, what is still to pay this month and next month, what you still owe in total and which payments are late. Private, works offline.",
     "color": "#be4bdb"
+  },
+  {
+    "slug": "utility-bill-due-dates-and-payment-log",
+    "name": "Utility Bill Due Dates and Payment Log",
+    "description": "Electricity, gas, water, internet, phone and maintenance bills in one list: what is overdue, what is due this week, what is still to pay this month, and the date and reference of every payment. Private, works offline.",
+    "color": "#f08c00"
   }
 ]

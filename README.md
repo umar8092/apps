@@ -795,6 +795,14 @@ All your Klarna, Afterpay, Tabby, bank 0% and shop instalment plans in one list:
 
 <a href="buy-now-pay-later-and-instalment-tracker/"><img src="buy-now-pay-later-and-instalment-tracker/screenshots/phone.png" alt="Buy Now Pay Later and Instalment Tracker screenshot" width="260"></a>
 
+### <img src="utility-bill-due-dates-and-payment-log/favicon.svg" width="36" height="36" align="center"> [Utility Bill Due Dates and Payment Log](https://umar8092.github.io/apps/utility-bill-due-dates-and-payment-log/)
+
+Electricity, gas, water, internet, phone and maintenance bills in one list: what is overdue, what is due this week, what is still to pay this month, and the date and reference of every payment. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/utility-bill-due-dates-and-payment-log/) &middot; [Details and screenshots](utility-bill-due-dates-and-payment-log/)
+
+<a href="utility-bill-due-dates-and-payment-log/"><img src="utility-bill-due-dates-and-payment-log/screenshots/phone.png" alt="Utility Bill Due Dates and Payment Log screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

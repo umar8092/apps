@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utility Bill Due Dates and Payment Log: Never Miss a Bill</title>
+    <meta name="description" content="Free tracker for household bills: electricity, gas, water, internet, phone and building maintenance. See which bill is due this week, which is overdue and what is still to pay this month, tick each bill as paid with the date and reference number, and spot a bill that jumped. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/utility-bill-due-dates-and-payment-log/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#f08c00">
+    <meta name="theme-color" content="#f08c00">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Utility Bill Due Dates and Payment Log">
+    <meta property="og:url" content="https://umar8092.github.io/apps/utility-bill-due-dates-and-payment-log/">
+    <meta property="og:title" content="Utility Bill Due Dates and Payment Log: Never Miss a Bill">
+    <meta property="og:description" content="Every household bill in one list: what is due this week, what is overdue, what is left to pay this month, and proof of every payment. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Utility Bill Due Dates and Payment Log","alternateName":["Utility Bill Tracker","Bill Due Date Reminder","Electricity and Gas Bill Tracker","Household Bill Payment Log","Bill Payment Tracker"],"url":"https://umar8092.github.io/apps/utility-bill-due-dates-and-payment-log/","description":"A free tracker for household utility bills that shows the bills due this week, overdue bills and what is still to pay this month, logs each payment with its date and reference number, and compares each bill with last year.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"utility bill tracker, bill due date reminder, electricity bill tracker, gas bill, internet bill, bill payment log, household bills","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it connect to my electricity or gas company?","acceptedAnswer":{"@type":"Answer","text":"No. You type the amount and due date when the bill comes, and tap Paid when you pay. Nothing is linked to your bank or your provider."}},{"@type":"Question","name":"My bill has a higher amount after the due date. Can I add it?","acceptedAnswer":{"@type":"Answer","text":"Yes. Tap + Add the amount after the due date. If the bill is not paid in full by the due date, that amount is what the app asks for."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and it works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Utility Bill Due Dates and Payment Log</h1>
+        <p class="sub">Electricity, gas, water, internet, phones and maintenance in one list: what is due this week, what is overdue, and proof of every payment.</p>
+    </header>
+    <p class="store-warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a bill</h2>
+            <p class="hint top">Add each bill you pay once. Then each month you only type the amount and due date when it comes.</p>
+            <div class="quick" id="quick" role="group" aria-label="Type of bill">
+                <button type="button" class="chip" data-kind="electricity" aria-pressed="false">Electricity</button>
+                <button type="button" class="chip" data-kind="gas" aria-pressed="false">Gas</button>
+                <button type="button" class="chip" data-kind="water" aria-pressed="false">Water</button>
+                <button type="button" class="chip" data-kind="internet" aria-pressed="false">Internet</button>
+                <button type="button" class="chip" data-kind="phone" aria-pressed="false">Mobile phone</button>
+                <button type="button" class="chip" data-kind="tv" aria-pressed="false">TV or cable</button>
+                <button type="button" class="chip" data-kind="maintenance" aria-pressed="false">Building maintenance</button>
+                <button type="button" class="chip" data-kind="other" aria-pressed="false">Other</button>
+            </div>
+            <label for="f-name">Name of the bill</label>
+            <input id="f-name" type="text" maxlength="50" autocomplete="off" placeholder="e.g. Home internet" aria-describedby="f-name-err">
+            <p class="err" id="f-name-err" role="alert"></p>
+            <div class="two">
+                <div class="field">
+                    <label for="f-day">Usually due on</label>
+                    <select id="f-day"></select>
+                </div>
+                <div class="field">
+                    <label for="f-every">A new bill comes</label>
+                    <select id="f-every">
+                        <option value="1" selected>Every month</option>
+                        <option value="2">Every 2 months</option>
+                        <option value="3">Every 3 months</option>
+                        <option value="6">Every 6 months</option>
+                        <option value="12">Once a year</option>
+                    </select>
+                </div>
+            </div>
+            <label class="check"><input type="checkbox" id="f-auto"><span>Paid automatically (direct debit or auto-pay)</span></label>
+            <button type="button" class="link" id="f-acct-open">+ Add the account or customer number (optional)</button>
+            <div id="f-acct-box" hidden>
+                <label for="f-acct">Account or customer number</label>
+                <input id="f-acct" type="text" maxlength="40" autocomplete="off" placeholder="e.g. 0400012345678">
+                <p class="hint">Printed on the bill. Handy when you pay at a bank or shop.</p>
+            </div>
+            <button type="button" class="link" id="f-payer-open">+ Add who pays it (optional)</button>
+            <div id="f-payer-box" hidden>
+                <label for="f-payer">Who pays it</label>
+                <input id="f-payer" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Me, Dad, Ali">
+            </div>
+            <button type="button" class="primary" id="f-save">Add bill</button>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Add each bill once</b>: electricity, gas, water, internet, each phone, the building maintenance, and the day it is usually due.</li>
+                <li><b>When a bill comes</b>, type the amount and due date (or tap <b>Same as last bill</b>).</li>
+                <li><b>See what needs paying</b>: "Internet 3,499 due Thu (in 2 days)", overdue bills in red, and what is still to pay this month.</li>
+                <li><b>Tap Paid</b> with the date and the reference number, so you can prove it was paid. Each bill is compared with last year to spot a jump.</li>
+            </ol>
+        </section>
+        <section class="card sum" id="sum" aria-labelledby="sum-h" hidden>
+            <h2 id="sum-h">Bills to pay</h2>
+            <div id="sum-body"></div>
+            <div class="msg" id="sum-msg" role="status" aria-live="polite"></div>
+        </section>
+        <section class="accts" id="accts" aria-label="Your bills" hidden>
+            <h2 class="list-h">Your bills</h2>
+            <div class="a-list" id="a-list"></div>
+        </section>
+        <section class="done-wrap" id="done-wrap" hidden>
+            <details class="done" id="done-d">
+                <summary id="done-s">Stopped bills</summary>
+                <div class="a-list" id="done-list"></div>
+            </details>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Does it connect to my electricity or gas company?</summary><p>No. You type the amount and the due date when the bill comes, and tap <b>Paid</b> when you pay. Nothing is linked to your bank or your provider, so it works for any company in any country.</p></details>
+        <details><summary>My bill has a higher amount after the due date</summary><p>Many bills show "payable after due date". Tap <b>+ Add the amount after the due date</b> when you type the bill in. If it is not paid in full by the due date, the app asks for that amount instead.</p></details>
+        <details><summary>I paid a bill in two parts</summary><p>Tap <b>Paid</b> and type the amount you paid. The bill shows what is left; tap <b>Paid</b> again for the rest.</p></details>
+        <details><summary>A bill comes every 2 months, or once a year</summary><p>Choose it under <b>A new bill comes</b>. The next due date is worked out from the last bill.</p></details>
+        <details><summary>How is "higher than last year" worked out?</summary><p>Each bill is compared with the bill due in the same month a year before, so summer is compared with summer. If there is none yet, it is compared with the bill before it.</p></details>
+        <details><summary>The bill is paid automatically</summary><p>Tick <b>Paid automatically</b> for that bill. It is not shown as overdue; after the due date the app asks you to check it was taken, then tap <b>It was taken</b>.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, it works with no connection. Save a backup file before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/utility-bill-due-dates-and-payment-log">Open source (MIT)</a></footer>
+</main>
+<datalist id="how-list"></datalist>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Utility Bill Due Dates and Payment Log", "sections": [
+ {"h": "1. Add each bill once", "steps": ["Tap the type of bill, such as Electricity, Gas or Internet. It fills in \"Name of the bill\"; change it to something you will recognise, such as K-Electric or Mum's phone.", "\"Usually due on\" is the day of the month the bill is normally due. Pick \"Not sure or it changes\" if it moves around.", "\"A new bill comes\": every month, every 2 months, every 3 months, every 6 months or once a year.", "Tick \"Paid automatically\" if the money is taken by direct debit or auto-pay.", "\"+ Add the account or customer number (optional)\" and \"+ Add who pays it (optional)\" are only if you want them.", "Tap \"Add bill\". Its box opens so you can type in the current bill."]},
+ {"h": "2. When a bill comes", "steps": ["In the bill's box tap \"Type in the new bill\".", "\"Amount on the bill\" and \"Due date\" are on the paper or in the SMS or email. \"Same as last bill\" fills in last time's amount.", "\"+ Add the amount after the due date (optional)\" is for bills that cost more if paid late.", "Paying it right now, or typing in an old bill? Tick \"I have already paid it\" and fill in the date.", "Tap \"Save bill\"."]},
+ {"h": "3. Pay and keep proof", "steps": ["Tap \"Paid\" in the bill's box or in the \"To pay\" list.", "\"Amount paid\" is filled in with what is left. Type less if you paid part of it; the rest stays to pay.", "\"Paid on\" is today unless you change it. \"How you paid\" is optional, such as Bank app or Cash at the bank.", "\"+ Add a reference or receipt number (optional)\" keeps the transaction number, so you can prove the payment.", "Tap \"Save payment\". The bill turns green."]},
+ {"h": "4. Bills to pay", "steps": ["Red lines at the top are overdue bills: the due date has passed and it is not marked paid.", "\"Still to pay by\" the end of the month adds up every bill left to pay, overdue ones included.", "\"Due in the next 7 days\" and \"Paid in\" this month are the other two totals.", "\"To pay\" lists every unpaid bill by due date. \"Bills not in yet\" lists bills expected within a week that you have not typed in.", "\"Paid per month\" shows what you paid in each of the last 12 months.", "\"Copy summary\" and \"Email summary\" send the list to someone; \"Add due dates to calendar\" saves a calendar file with a reminder 2 days before each bill."]},
+ {"h": "5. Each bill's box", "steps": ["The line under the amount compares it with the same month last year, or with the bill before, such as \"41% higher than Jul 2025\".", "\"Past bills\" lists every bill with what was paid, when, how and the reference number. \"Edit\" changes a bill's amount, due date or late amount, removes a payment, or deletes the bill.", "\"Edit details\" changes the name, due day, how often, auto-pay, account number or who pays it.", "\"Copy\" copies that bill's history. \"Stop this bill\" is for a closed account; it moves to \"Stopped bills\" and can be started again. \"Delete\" removes it, with \"Undo\"."]},
+ {"h": "Backup and settings", "steps": ["\"Currency symbol\" adds a symbol such as Rs, $ or £ to every amount, or none for plain numbers.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\".", "\"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The app does not connect to your provider or your bank. It works from what you type.", "Auto-pay bills are never shown as overdue. After the due date they ask you to check the money was taken.", "A bill of 0 (covered by a credit) is shown as nothing to pay.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
