@@ -1,0 +1,15 @@
+{
+  "name": "Gift Ideas List for Family and Friends",
+  "short_name": "Gift Ideas",
+  "description": "Save gift ideas for each person with their birthday, Eid or Christmas and a budget, mark gifts bought and given, and never give the same gift twice.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#14060a",
+  "theme_color": "#b51f38",
+  "categories": ["lifestyle", "shopping", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

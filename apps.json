@@ -610,5 +610,11 @@
     "name": "School Run Carpool Rota for Parents",
     "description": "For parents who take turns driving the children to school: each family with its children, car seats and the days it cannot drive, a fair rota of who drives each morning and afternoon, swaps, sick days, holidays and optional fuel cost sharing. Copy the week for the group chat. Private, works offline.",
     "color": "#e8a100"
+  },
+  {
+    "slug": "gift-ideas-list-for-family-and-friends",
+    "name": "Gift Ideas List for Family and Friends",
+    "description": "For anyone who hears a gift hint months ahead and forgets it by the day: each person in their own box with their birthday, Eid, Christmas or anniversary and a budget, gift ideas saved in seconds with price, shop, link or photo, marked bought and given, and a warning before you repeat an old gift. Private, works offline.",
+    "color": "#e8384f"
   }
 ]

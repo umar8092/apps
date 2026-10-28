@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Ideas List for Family and Friends: Never Forget What They Wanted</title>
+    <meta name="description" content="Free gift ideas list for family and friends. Give each person their own box with their birthday, Eid, Christmas or anniversary and an optional budget, save a gift idea in seconds when you hear it, mark it bought and given, and see what is coming up and what you already gave, so a gift is never repeated. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/gift-ideas-list-for-family-and-friends/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#e8384f">
+    <meta name="theme-color" content="#b51f38">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Gift Ideas List for Family and Friends">
+    <meta property="og:url" content="https://umar8092.github.io/apps/gift-ideas-list-for-family-and-friends/">
+    <meta property="og:title" content="Gift Ideas List for Family and Friends: Never Forget What They Wanted">
+    <meta property="og:description" content="Save gift ideas for each person when you hear them, with their birthday or Eid and a budget. Mark gifts bought and given so a gift is never repeated. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Gift Ideas List for Family and Friends","alternateName":["Gift Idea Tracker","Gift List Organiser","Christmas Gift List","Eid Gift List","Birthday Gift Planner","Gift Tracker"],"url":"https://umar8092.github.io/apps/gift-ideas-list-for-family-and-friends/","description":"A free, private gift ideas list: each person gets their own box with their birthdays and other occasions and a budget, gift ideas are saved in seconds, marked bought and given, and past gifts are kept so nothing is given twice.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"gift ideas list, gift tracker, gift list app, christmas gift list, eid gift list, birthday gift planner, gift budget, gifts given history","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does it stop me giving the same gift twice?","acceptedAnswer":{"@type":"Answer","text":"When you tap Given it, the gift moves to that person's Already given list with the occasion and year. When you later type a new idea that looks like an old gift, for example Perfume again, the app warns you that you gave it before."}},{"@type":"Question","name":"How is the budget worked out?","acceptedAnswer":{"@type":"Answer","text":"Each occasion can have its own budget. Gifts bought for it, and gifts given for it since the last time it came round, are added up, so 5,000 spent of a 6,000 budget shows 1,000 left. Last year's gifts do not count against this year's budget."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Names, ideas and photos stay in this browser on this device, so the person you are buying for cannot see them. There is no account, your data is never sent anywhere, and it works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Gift Ideas List for Family and Friends</h1>
+        <p class="sub">Save a gift idea the moment you hear it, for each person and their birthday, Eid or Christmas. Mark it <b>bought</b> and <b>given</b>, keep to a budget, and never give the same gift twice.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-a">
+        <section class="card idea-card" id="idea-card" aria-labelledby="idea-h" hidden>
+            <h2 id="idea-h">Save a gift idea</h2>
+            <label for="i-who">Who is it for?</label>
+            <select id="i-who"></select>
+            <label for="i-what">What is the gift?</label>
+            <input id="i-what" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Rose perfume, 50 ml" aria-describedby="i-what-err i-rep">
+            <p class="err" id="i-what-err" role="alert"></p>
+            <p class="rep" id="i-rep" hidden></p>
+            <label for="i-occ">For which occasion?</label>
+            <select id="i-occ"></select>
+            <button type="button" class="link" id="i-more-open">+ Price, shop or link (optional)</button>
+            <div id="i-more" class="sub-box" hidden>
+                <label for="i-price">Rough price</label>
+                <div class="amount-row"><span class="cur-tag" id="i-price-cur" hidden></span><input id="i-price" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 4500" aria-describedby="i-price-err"></div>
+                <p class="err" id="i-price-err" role="alert"></p>
+                <label for="i-where">Where to buy it</label>
+                <input id="i-where" type="text" maxlength="200" autocomplete="off" placeholder="e.g. Dolmen Mall, or Daraz">
+                <label for="i-link">Web link</label>
+                <input id="i-link" type="text" inputmode="url" maxlength="500" autocomplete="off" placeholder="Paste the shop page link" aria-describedby="i-link-err">
+                <p class="err" id="i-link-err" role="alert"></p>
+            </div>
+            <button type="button" class="link" id="i-note-open">+ Note or photo (optional)</button>
+            <div id="i-note-box" class="sub-box" hidden>
+                <label for="i-note">Note</label>
+                <textarea id="i-note" rows="3" maxlength="500" placeholder="e.g. She said she loved the one her friend has"></textarea>
+                <label for="i-photo">Photo</label>
+                <input id="i-photo" type="file" accept="image/*">
+                <p class="err" id="i-photo-err" role="alert"></p>
+                <div class="ph-prev" id="i-photo-prev" hidden></div>
+            </div>
+            <div class="row-btns">
+                <button type="button" class="primary" id="i-save">Save gift idea</button>
+            </div>
+            <div class="msg" id="idea-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a person</h2>
+            <p class="hint top">Each person gets their own box for their gift ideas, their days and the gifts you already gave.</p>
+            <div class="quick" id="quick" role="group" aria-label="Quick pick">
+                <button type="button" class="chip" data-name="Mum">Mum</button>
+                <button type="button" class="chip" data-name="Dad">Dad</button>
+                <button type="button" class="chip" data-name="Sister">Sister</button>
+                <button type="button" class="chip" data-name="Brother">Brother</button>
+                <button type="button" class="chip" data-name="Partner">Partner</button>
+                <button type="button" class="chip" data-name="Best friend">Best friend</button>
+                <button type="button" class="chip" data-name="Teacher">Teacher</button>
+            </div>
+            <label for="p-name">Name</label>
+            <input id="p-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Sana, or Ammi" aria-describedby="p-name-err">
+            <p class="err" id="p-name-err" role="alert"></p>
+            <label for="p-bd-d" id="p-bd-l">Birthday</label>
+            <div class="two" role="group" aria-labelledby="p-bd-l">
+                <div class="field"><select id="p-bd-d" aria-label="Birthday day"></select></div>
+                <div class="field"><select id="p-bd-m" aria-label="Birthday month"></select></div>
+            </div>
+            <p class="err" id="p-bd-d-err" role="alert"></p>
+            <p class="hint">Not sure? Leave it. Add Eid, Christmas, an anniversary or any other day later in their box.</p>
+            <button type="button" class="link" id="p-budget-open">+ Budget for the birthday gift (optional)</button>
+            <div id="p-budget-box" hidden>
+                <label for="p-budget">Budget for the birthday gift</label>
+                <div class="amount-row"><span class="cur-tag" id="p-budget-cur" hidden></span><input id="p-budget" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 6000" aria-describedby="p-budget-err"></div>
+                <p class="err" id="p-budget-err" role="alert"></p>
+            </div>
+            <button type="button" class="link" id="p-likes-open">+ Sizes, favourite colours, things they like (optional)</button>
+            <div id="p-likes-box" hidden>
+                <label for="p-likes">Sizes, favourite colours, things they like</label>
+                <textarea id="p-likes" rows="3" maxlength="500" placeholder="e.g. Shirt size M, shoe size 38. Loves green and gold. No sweets."></textarea>
+            </div>
+            <div class="row-btns">
+                <button type="button" class="primary" id="p-save">Add person</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Money and backup</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Add each person</b> you buy gifts for, with their birthday if you know it. Add Eid, Christmas or an anniversary in their box.</li>
+                <li><b>Hear a hint? Save it</b> in seconds: &ldquo;Sana: rose perfume, 4,500, from Dolmen Mall&rdquo;.</li>
+                <li><b>Tap Bought it</b> and <b>Given it</b>. See what is coming up, how much budget is left, and what you gave before, so nothing is repeated.</li>
+            </ol>
+        </section>
+        <section class="card soon" id="soon" aria-labelledby="soon-h" hidden>
+            <h2 id="soon-h">Coming up</h2>
+            <div id="soon-body"></div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy the list</button>
+                <a class="secondary" id="mail" href="mailto:">Email the list</a>
+                <button type="button" class="secondary wide" id="ics">Add the days to my calendar</button>
+            </div>
+            <div class="msg" id="soon-msg" role="status" aria-live="polite"></div>
+        </section>
+        <div class="find" id="find-box" hidden>
+            <label for="find">Find a person</label>
+            <input id="find" type="search" maxlength="40" autocomplete="off" placeholder="Type a name">
+        </div>
+        <section class="people" id="people" aria-label="Your people" hidden>
+            <div class="p-list" id="p-list"></div>
+            <p class="hint" id="find-none" hidden>No one with that name.</p>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How does it stop me giving the same gift twice?</summary><p>When you tap <b>Given it</b>, the gift moves to that person&rsquo;s <b>Already given</b> list with the occasion and the year, such as &ldquo;Perfume (Birthday 2025)&rdquo;. When you later type a new idea that looks like an old gift, the app warns you: &ldquo;You gave Sana Perfume for Birthday 2025&rdquo;.</p></details>
+        <details><summary>How is the budget worked out?</summary><p>Each occasion can have its own budget. Gifts you bought for it, and gifts you gave for it since the last time it came round, are added up. Sana&rsquo;s birthday budget 6,000 with a 5,000 perfume bought shows <b>5,000 spent of 6,000: 1,000 left</b>. Last year&rsquo;s birthday gift does not count against this year&rsquo;s budget. Ideas you have not bought yet are not counted.</p></details>
+        <details><summary>Eid and Diwali are on a different day every year</summary><p>Add them as <b>One time</b> with this year&rsquo;s date. After the day has passed their box says &ldquo;Was on ...&rdquo;: tap <b>Edit</b> on the occasion and pick next year&rsquo;s date. Birthdays, anniversaries and Christmas are <b>Every year</b> and move on by themselves. A birthday on 29 February is shown on 28 February in other years.</p></details>
+        <details><summary>One gift for two people, or I bought it early</summary><p>Tap <b>Edit</b> on an idea and use <b>Also save it for</b> to copy it to another person, such as a gift for a couple. Tap <b>Bought it</b> as soon as you buy, and add where you hid it under <b>Where it is kept</b>, so you can find it on the day.</p></details>
+        <details><summary>Can my partner see the list?</summary><p>Tap <b>Copy their list</b> in a person&rsquo;s box, or <b>Copy the list</b> and <b>Email the list</b> for everyone, and send it. Links are copied as plain text.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Names, ideas and photos stay in this browser on this device, so the person you are buying for cannot see them. No account, and your data is never sent anywhere. Once loaded, the app works with no connection. Photos are made small before they are saved. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/gift-ideas-list-for-family-and-friends">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Gift Ideas List", "sections": [
+ {"h": "1. Add a person", "steps": ["Tap a quick pick such as \"Mum\" or \"Best friend\", or type the \"Name\" yourself.", "Pick their \"Birthday\" day and month if you know it. Leave it as \"Day\" and \"Month\" if you are not sure.", "\"+ Budget for the birthday gift (optional)\" sets how much you want to spend on it.", "\"+ Sizes, favourite colours, things they like (optional)\" keeps their sizes and likes in their box.", "Tap \"Add person\". Each person gets their own box."]},
+ {"h": "2. Add their other days", "steps": ["In their box tap \"+ Add an occasion\" and pick one, such as \"Anniversary\", \"Eid ul-Fitr\", \"Christmas\" or \"Other\".", "\"When is it?\": \"Every year on the same day\" for birthdays, anniversaries and Christmas; \"One time\" with a date for Eid, Diwali, a wedding or a graduation; or \"No date yet\".", "\"+ Budget (optional)\" sets a budget for that occasion only.", "\"Edit\" changes an occasion and \"Delete\" removes it, with \"Undo\". After a one-time date has passed, Edit it to set next year's date."]},
+ {"h": "3. Save a gift idea", "steps": ["Under \"Save a gift idea\" pick \"Who is it for?\", type \"What is the gift?\" and pick \"For which occasion?\" (or \"Any occasion\").", "\"+ Price, shop or link (optional)\" adds a rough price, where to buy it and a web link. \"+ Note or photo (optional)\" adds a note and a photo of it.", "Tap \"Save gift idea\". \"+ Add a gift idea for ...\" in a person's box picks that person for you.", "If the gift looks like one you already gave them, a warning shows the gift and the year."]},
+ {"h": "4. Bought and given", "steps": ["\"Bought it\": type the price you paid, the day, the occasion, and \"Where it is kept\" if you hid it. It moves to \"Bought, not given yet\".", "\"Given it\": pick the day and the occasion. It moves to \"Already given\" with the year, so you never give it twice.", "\"Edit\" changes anything, including \"Status\" to put a gift back to an idea. \"Also save it for\" copies the idea to another person. \"Delete\" removes it, with \"Undo\"."]},
+ {"h": "5. What the app tells you", "steps": ["\"Coming up\" shows the next day to buy for, then \"After that\" lists the other days in the next 60 days (at least the next 3), soonest first, with how many gifts are bought and ideas saved. \"Nothing bought yet\" is shown when a day is 2 weeks away or less.", "Each occasion shows its budget: \"5,000 spent of 6,000: 1,000 left\" or how much is over budget. Only bought and given gifts count, not ideas.", "\"Bought, not given yet\" lists gifts waiting to be given, and \"Spent on gifts\" adds up this year's gifts.", "\"Copy the list\", \"Email the list\" and \"Copy their list\" send the ideas as text. \"Add the days to my calendar\" saves a calendar file with a reminder a week before each day."]},
+ {"h": "Other buttons", "steps": ["\"Edit person\" changes the name and their sizes and likes. \"Delete person\" removes them and their gifts, with \"Undo\".", "\"Find a person\" appears when you have many people.", "\"Currency symbol\" shows prices with $, Rs, AED or any other symbol, or plain numbers.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\". \"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Everything stays on this device, so the person cannot see their surprise. Your data is never sent anywhere and it works offline.", "Links are shown as text and open only when you tap them.", "Save a backup before changing phones or clearing your browser."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

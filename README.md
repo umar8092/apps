@@ -819,6 +819,14 @@ For parents who take turns driving the children to school. Add each family with 
 
 <a href="school-run-carpool-rota-for-parents/"><img src="school-run-carpool-rota-for-parents/screenshots/phone.png" alt="School Run Carpool Rota for Parents screenshot" width="260"></a>
 
+### <img src="gift-ideas-list-for-family-and-friends/favicon.svg" width="36" height="36" align="center"> [Gift Ideas List for Family and Friends](https://umar8092.github.io/apps/gift-ideas-list-for-family-and-friends/)
+
+For anyone who hears a gift hint in March and has forgotten it by the birthday in October. Give each person their own box with their birthday, Eid, Christmas or anniversary and a budget, save an idea in seconds (price, shop, link or photo), tap Bought it and Given it, and see what is coming up ("Sana, Birthday: Mon 16 Nov, in 18 days, 4,200 spent of 6,000") and what you already gave, with a warning before you repeat a gift.
+
+[**Open the app**](https://umar8092.github.io/apps/gift-ideas-list-for-family-and-friends/) &middot; [Details and screenshots](gift-ideas-list-for-family-and-friends/)
+
+<a href="gift-ideas-list-for-family-and-friends/"><img src="gift-ideas-list-for-family-and-friends/screenshots/phone.png" alt="Gift Ideas List for Family and Friends screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
