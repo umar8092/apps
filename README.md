@@ -811,6 +811,14 @@ For freelancers paid by several clients, often in dollars through Payoneer, Wise
 
 <a href="freelance-income-log-with-tax-set-aside/"><img src="freelance-income-log-with-tax-set-aside/screenshots/phone.png" alt="Freelance Income Log with Tax Set-Aside screenshot" width="260"></a>
 
+### <img src="school-run-carpool-rota-for-parents/favicon.svg" width="36" height="36" align="center"> [School Run Carpool Rota for Parents](https://umar8092.github.io/apps/school-run-carpool-rota-for-parents/)
+
+For parents who take turns driving the children to school. Add each family with its children, car seats and the days it cannot drive, and see who drives each morning and afternoon, a fair count of drives, swaps, children off sick, holidays and optional fuel cost sharing ("Ayesha pays Bilal 150.00"). Copy the week for the parents' group chat.
+
+[**Open the app**](https://umar8092.github.io/apps/school-run-carpool-rota-for-parents/) &middot; [Details and screenshots](school-run-carpool-rota-for-parents/)
+
+<a href="school-run-carpool-rota-for-parents/"><img src="school-run-carpool-rota-for-parents/screenshots/phone.png" alt="School Run Carpool Rota for Parents screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

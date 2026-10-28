@@ -604,5 +604,11 @@
     "name": "Freelance Income Log with Tax Set-Aside",
     "description": "For freelancers paid by several clients, often in dollars through Payoneer, Wise, PayPal or Upwork: log each payment with the fee and what reached your bank, and see what you really earned this month, how much to keep aside for tax, your best client and the tax-year total. Private, works offline.",
     "color": "#139a74"
+  },
+  {
+    "slug": "school-run-carpool-rota-for-parents",
+    "name": "School Run Carpool Rota for Parents",
+    "description": "For parents who take turns driving the children to school: each family with its children, car seats and the days it cannot drive, a fair rota of who drives each morning and afternoon, swaps, sick days, holidays and optional fuel cost sharing. Copy the week for the group chat. Private, works offline.",
+    "color": "#e8a100"
   }
 ]
