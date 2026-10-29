@@ -628,5 +628,11 @@
     "name": "Work Expense Claim Log for Employees",
     "description": "Log the taxis, meals, hotels, mileage and office purchases you pay for at work. See what is not claimed yet, which claims are waiting to be paid back, what was cut, and copy the list for your claim form.",
     "color": "#b0652a"
+  },
+  {
+    "slug": "gold-and-jewellery-record-for-the-family",
+    "name": "Gold and Jewellery Record for the Family",
+    "description": "Each person's gold and silver jewellery with its karat and weight in tola, masha, ratti or grams, where it is kept and what was paid. Type today's rate and see what each person's and the whole family's gold is worth.",
+    "color": "#0b8a5e"
   }
 ]

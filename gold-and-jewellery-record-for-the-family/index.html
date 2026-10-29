@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold and Jewellery Record for the Family</title>
+    <meta name="description" content="Free gold and jewellery record for the family: list every piece for each person with its karat and weight in tola, masha, ratti or grams, where it is kept and what was paid, type today's gold rate and see what each person's and the whole family's gold is worth. Sold and given pieces stay in history. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/gold-and-jewellery-record-for-the-family/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#0b8a5e">
+    <meta name="theme-color" content="#08734e">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Gold and Jewellery Record">
+    <meta property="og:url" content="https://umar8092.github.io/apps/gold-and-jewellery-record-for-the-family/">
+    <meta property="og:title" content="Gold and Jewellery Record for the Family">
+    <meta property="og:description" content="Every piece of the family's gold for each person, in tola or grams and any karat, with today's value at the rate you type. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Gold and Jewellery Record for the Family","alternateName":["Gold Tola Calculator","Family Gold Tracker","Jewellery Inventory","Gold Value Calculator"],"url":"https://umar8092.github.io/apps/gold-and-jewellery-record-for-the-family/","description":"A free record of the family's gold and silver jewellery: each person's pieces with karat, weight in tola, masha, ratti or grams, stones taken off, where it is kept and what was paid, and what it is worth at today's rate.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"gold record, jewellery list, tola calculator, gold value, 22 karat, tola masha ratti, family gold, bank locker list","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is a 22k piece valued?","acceptedAnswer":{"@type":"Answer","text":"At the 24k rate times 22/24, so 2.5 tola of 22k at 3,50,000 per tola of 24k is 8,02,083. If your jeweller gives a separate 22k rate, type it and the app uses that instead."}},{"@type":"Question","name":"How many grams is one tola?","acceptedAnswer":{"@type":"Answer","text":"One tola is 11.6638 grams, 12 masha or 96 ratti."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything, including photos, stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Gold and Jewellery Record for the Family</h1>
+        <p class="sub">Every piece of gold and silver each person in the family has: karat, weight in tola or grams, where it is kept and what was paid. Type today's rate and see what it is all worth.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a piece of jewellery</h2>
+            <p class="hint top" id="add-intro">One piece or one set at a time: a necklace set, a pair of bangles, a ring, a coin.</p>
+            <label for="p-owner">Whose is it?</label>
+            <div class="quick" id="owner-quick" role="group" aria-label="People already in the list"></div>
+            <input id="p-owner" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Ammi or Ayesha" aria-describedby="p-owner-err">
+            <p class="err" id="p-owner-err" role="alert"></p>
+            <label for="p-name">What is it?</label>
+            <input id="p-name" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Wedding necklace set" aria-describedby="p-name-err">
+            <p class="err" id="p-name-err" role="alert"></p>
+            <label for="p-pur">Metal and purity</label>
+            <select id="p-pur">
+                <option value="g24">24k gold (999)</option>
+                <option value="g22" selected>22k gold (916)</option>
+                <option value="g21">21k gold (875)</option>
+                <option value="g18">18k gold (750)</option>
+                <option value="g14">14k gold (585)</option>
+                <option value="gx">Gold, another karat…</option>
+                <option value="s999">Fine silver (999)</option>
+                <option value="s925">Sterling silver (925)</option>
+                <option value="sx">Silver, another purity…</option>
+            </select>
+            <div id="pur-x-box" hidden>
+                <label for="p-purx" id="p-purx-l">Karat (1 to 24)</label>
+                <input id="p-purx" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="e.g. 20" aria-describedby="p-purx-err">
+                <p class="err" id="p-purx-err" role="alert"></p>
+            </div>
+            <p class="hint">The stamp on the piece tells you: 916 is 22k, 875 is 21k, 750 is 18k.</p>
+            <label for="p-unit">Weighed in</label>
+            <select id="p-unit">
+                <option value="tola">Tola</option>
+                <option value="tmr">Tola, masha and ratti</option>
+                <option value="g">Grams</option>
+                <option value="oz">Troy ounces</option>
+            </select>
+            <div class="w-one" id="w-one">
+                <label for="p-w" id="p-w-l">Weight in tola</label>
+                <input id="p-w" type="text" inputmode="decimal" maxlength="14" autocomplete="off" placeholder="e.g. 2.5" aria-describedby="p-w-err">
+            </div>
+            <div class="three w-tmr" id="w-tmr" hidden>
+                <div class="field"><label for="p-wt">Tola</label><input id="p-wt" type="text" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="2" aria-describedby="p-w-err"></div>
+                <div class="field"><label for="p-wm">Masha</label><input id="p-wm" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="6" aria-describedby="p-w-err"></div>
+                <div class="field"><label for="p-wr">Ratti</label><input id="p-wr" type="text" inputmode="decimal" maxlength="4" autocomplete="off" placeholder="0" aria-describedby="p-w-err"></div>
+            </div>
+            <p class="err" id="p-w-err" role="alert"></p>
+            <p class="hint ok" id="p-w-out" aria-live="polite"></p>
+            <button type="button" class="link" id="stone-open">+ It has stones, pearls or beads (take their weight off)</button>
+            <div class="sub-box" id="stone-box" hidden>
+                <p class="sub-h">Weight of the stones, pearls or beads</p>
+                <div class="w-one" id="s-one">
+                    <label for="p-s" id="p-s-l">In tola</label>
+                    <input id="p-s" type="text" inputmode="decimal" maxlength="14" autocomplete="off" placeholder="e.g. 0.25" aria-describedby="p-s-err">
+                </div>
+                <div class="three" id="s-tmr" hidden>
+                    <div class="field"><label for="p-st">Tola</label><input id="p-st" type="text" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="0" aria-describedby="p-s-err"></div>
+                    <div class="field"><label for="p-sm">Masha</label><input id="p-sm" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="3" aria-describedby="p-s-err"></div>
+                    <div class="field"><label for="p-sr">Ratti</label><input id="p-sr" type="text" inputmode="decimal" maxlength="4" autocomplete="off" placeholder="0" aria-describedby="p-s-err"></div>
+                </div>
+                <p class="err" id="p-s-err" role="alert"></p>
+                <p class="hint">The jeweller's receipt usually shows it. Only the metal is counted in the value.</p>
+                <button type="button" class="link small-link" id="stone-close">No stones, remove this</button>
+            </div>
+            <label for="p-place">Where is it kept? <span class="opt">(optional)</span></label>
+            <div class="quick" id="place-quick" role="group" aria-label="Places"></div>
+            <input id="p-place" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Bank locker">
+            <button type="button" class="link" id="more-open">+ Add what was paid, the date, a note or a photo (optional)</button>
+            <div id="more-box" hidden>
+                <div class="two">
+                    <div class="field">
+                        <label for="p-got">Bought or received on</label>
+                        <input id="p-got" type="date" aria-describedby="p-got-err">
+                    </div>
+                    <div class="field">
+                        <label for="p-paid">Price paid</label>
+                        <div class="amount-row"><span class="cur-tag" data-cur hidden></span><input id="p-paid" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 210000" aria-describedby="p-paid-err"></div>
+                    </div>
+                </div>
+                <p class="err" id="p-got-err" role="alert"></p>
+                <p class="err" id="p-paid-err" role="alert"></p>
+                <label for="p-note">Note</label>
+                <input id="p-note" type="text" maxlength="400" autocomplete="off" placeholder="e.g. Gift from Nani">
+                <div class="photo-row" id="photo-row">
+                    <img id="p-photo-img" alt="Photo of this piece" hidden>
+                    <div class="photo-btns">
+                        <button type="button" class="secondary small" id="p-photo-pick">Add a photo</button>
+                        <button type="button" class="link small-link" id="p-photo-del" hidden>Remove the photo</button>
+                    </div>
+                    <input type="file" id="p-photo" accept="image/*" hidden>
+                </div>
+                <p class="hint" id="photo-hint">The photo stays on this device only.</p>
+            </div>
+            <div class="row-btns">
+                <button type="button" class="primary" id="p-save">Save piece</button>
+                <button type="button" class="secondary" id="p-cancel" hidden>Cancel</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card rates" id="rates" aria-labelledby="rates-h">
+            <h2 id="rates-h">Today's gold rate</h2>
+            <p class="hint top">Type the rate your jeweller or the gold market gives today. The app never looks it up, so it works offline and never gets it wrong.</p>
+            <label for="r-unit">The rate is</label>
+            <select id="r-unit">
+                <option value="tola">Per tola</option>
+                <option value="10g">Per 10 grams</option>
+                <option value="g">Per gram</option>
+                <option value="oz">Per troy ounce</option>
+            </select>
+            <label for="r-gold" id="r-gold-l">24k gold rate per tola</label>
+            <div class="amount-row"><span class="cur-tag" data-cur hidden></span><input id="r-gold" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 350000" aria-describedby="r-gold-err"></div>
+            <p class="err" id="r-gold-err" role="alert"></p>
+            <p class="hint">22k, 21k and 18k pieces are worked out from it: 22k is 22/24 of the 24k rate.</p>
+            <button type="button" class="link" id="rk-open">+ My jeweller gives separate 22k, 21k or 18k rates (optional)</button>
+            <div class="sub-box" id="rk-box" hidden>
+                <div class="three">
+                    <div class="field"><label for="r-k22">22k</label><input id="r-k22" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="—" aria-describedby="r-k-err"></div>
+                    <div class="field"><label for="r-k21">21k</label><input id="r-k21" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="—" aria-describedby="r-k-err"></div>
+                    <div class="field"><label for="r-k18">18k</label><input id="r-k18" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="—" aria-describedby="r-k-err"></div>
+                </div>
+                <p class="err" id="r-k-err" role="alert"></p>
+                <p class="hint">Leave a box empty to work that karat out from the 24k rate.</p>
+            </div>
+            <button type="button" class="link" id="rs-open">+ Silver rate (optional)</button>
+            <div id="rs-box" hidden>
+                <label for="r-silver" id="r-silver-l">Fine silver rate per tola</label>
+                <div class="amount-row"><span class="cur-tag" data-cur hidden></span><input id="r-silver" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 4500" aria-describedby="r-silver-err"></div>
+                <p class="err" id="r-silver-err" role="alert"></p>
+            </div>
+            <button type="button" class="primary save-rates" id="r-save">Save today's rate</button>
+            <p class="hint" id="r-when"></p>
+            <div class="msg" id="rates-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <label for="wunit">Show weights in</label>
+            <select id="wunit">
+                <option value="tola">Tola first (grams after)</option>
+                <option value="g">Grams first (tola after)</option>
+            </select>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <label for="group">How to write big numbers</label>
+            <select id="group">
+                <option value="west">1,234,567</option>
+                <option value="lakh">12,34,567 (lakhs, crores)</option>
+            </select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="secondary csv-btn" id="csv">Save the list as a spreadsheet (CSV)</button>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Add each piece</b>: whose it is, what it is, the karat and the weight in tola, tola-masha-ratti or grams.</li>
+                <li><b>Type today's gold rate</b> from your jeweller or the market, for 24k gold per tola, per 10 grams or per gram.</li>
+                <li>See <b>each person's gold</b> and the <b>whole family's</b>: how many tola, how much is pure gold and what it is worth today.</li>
+                <li>When a piece is <b>sold or given</b> to someone, mark it. It moves to the history, so nothing is forgotten.</li>
+            </ol>
+        </section>
+
+        <section class="card glance" id="glance" aria-labelledby="glance-h" hidden>
+            <h2 id="glance-h">The family's gold at a glance</h2>
+            <div id="glance-body"></div>
+            <div class="g-btns">
+                <button type="button" class="secondary small" id="g-copy">Copy the full list</button>
+                <a class="secondary small" id="g-mail" href="mailto:">Email the list</a>
+                <button type="button" class="secondary small" id="g-print">Print the list</button>
+            </div>
+            <div class="msg" id="glance-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card family" id="family" aria-labelledby="family-h" hidden>
+            <h2 id="family-h">Each person's jewellery</h2>
+            <div class="people" id="people"></div>
+            <div class="msg" id="family-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card places" id="places" aria-labelledby="places-h" hidden>
+            <h2 id="places-h">Where it is kept</h2>
+            <p class="hint top">A checklist for each place, for a bank locker visit or before a move.</p>
+            <div class="pl-list" id="pl-list"></div>
+            <div class="msg" id="places-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card history" id="history" aria-labelledby="history-h" hidden>
+            <h2 id="history-h">Sold and given away</h2>
+            <div class="h-list" id="h-list"></div>
+            <div class="msg" id="history-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is a 22k piece valued?</summary><p>Gold rates are given for 24k (pure) gold. A 22k piece is 22 parts gold out of 24, so 2.5 tola of 22k at <b>3,50,000</b> per tola is 2.5 × 22/24 × 3,50,000 = <b>8,02,083</b>. If your jeweller gives a separate 22k, 21k or 18k rate, tap <b>+ My jeweller gives separate 22k, 21k or 18k rates</b> and type it: that rate is then used as it is.</p></details>
+        <details><summary>How many grams is a tola? What are masha and ratti?</summary><p>One tola is <b>11.6638 grams</b>. A tola has 12 masha and a masha has 8 ratti, so one tola is 96 ratti. Pick <b>Tola, masha and ratti</b> under <b>Weighed in</b> to type a weight such as 2 tola 6 masha 4 ratti, the way many jewellers write it.</p></details>
+        <details><summary>Will I get this much if I sell?</summary><p>No, the value is the gold at today's rate. A shop buying jewellery usually takes off some weight or a percentage for wastage and testing, and does not pay for stones or making charges. Ask two or three shops before selling.</p></details>
+        <details><summary>A set is shared between two people</summary><p>Add each part on its own: the necklace for one person and the earrings for the other. If a piece is given to someone in the family later, tap <b>Given</b> and pick their name: it moves to their box and the piece keeps a line saying who gave it and when.</p></details>
+        <details><summary>Can it work out zakat?</summary><p>It shows each person's gold and silver weight, the pure gold in it and today's value, which is where a zakat calculation starts. Rules differ, for example on jewellery that is worn and on the nisab, so please ask a scholar you trust for the amount.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything, including photos, stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/gold-and-jewellery-record-for-the-family">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Gold and Jewellery Record", "sections": [
+ {"h": "1. Add each piece", "steps": ["Under \"Add a piece of jewellery\", type \"Whose is it?\" or tap a name already in the list. Each person gets their own box.", "Type \"What is it?\", such as Wedding necklace set or 6 bangles.", "Pick the \"Metal and purity\". The stamp on the piece helps: 916 is 22k, 875 is 21k, 750 is 18k. \"Gold, another karat…\" and \"Silver, another purity…\" let you type your own.", "Pick how it was \"Weighed in\": Tola, Tola masha and ratti, Grams or Troy ounces, and type the weight. The line under it shows the same weight in the other units.", "\"+ It has stones, pearls or beads\": type their weight and only the metal is counted.", "\"Where is it kept?\" is optional, such as Home or Bank locker.", "\"+ Add what was paid, the date, a note or a photo\" is optional. The photo stays on this device.", "Tap \"Save piece\". The person stays filled in, so adding several pieces for one person is quick."]},
+ {"h": "2. Type today's rate", "steps": ["Under \"Today's gold rate\", pick whether the rate is per tola, per 10 grams, per gram or per troy ounce.", "Type the 24k gold rate and tap \"Save today's rate\". The app never looks the rate up by itself.", "\"+ My jeweller gives separate 22k, 21k or 18k rates\": a rate typed here is used as it is for that karat. Empty boxes are worked out from the 24k rate.", "\"+ Silver rate\" values the silver pieces."]},
+ {"h": "3. What you see", "steps": ["\"The family's gold at a glance\" shows the whole family's gold in tola and grams, how much of it is pure gold, and what it is worth at the rate you typed.", "If the rate is more than 7 days old it says so, and when you type a new rate it shows how much the value went up or down.", "\"Each person's jewellery\" has a box for each person with their total and each piece: karat, weight, where it is kept, what it is worth and what was paid for it.", "\"Where it is kept\" groups the pieces by place. \"Copy the checklist\" gives a list to tick off at the bank locker.", "\"Copy the full list\", \"Email the list\" and \"Print the list\" share everything, for the family or the insurance."]},
+ {"h": "4. Sold, given, changed", "steps": ["\"Sold\" on a piece: type the date and what you got for it. It moves to \"Sold and given away\".", "\"Given\": pick someone in the family and it moves to their box, or pick Someone outside the family and it moves to the history.", "\"I still have it\" in the history brings a piece back.", "\"Edit\" fixes any detail; \"Delete\" removes a piece added by mistake; \"Rename\" changes a person's name on all their pieces. Every change has \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Values are rounded to a whole amount and are before any shop deduction for wastage, stones or making.", "Rates and prices can be typed as 350000, 3,50,000 or 3.5 lakh.", "\"Show weights in\", \"Currency symbol\" and \"How to write big numbers\" are under \"Backup and settings\".", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones; it includes the photos."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -843,6 +843,14 @@ For office workers, sales reps and field staff who pay for taxis, client lunches
 
 <a href="work-expense-claim-log-for-employees/"><img src="work-expense-claim-log-for-employees/screenshots/phone.png" alt="Work Expense Claim Log for Employees screenshot" width="260"></a>
 
+### <img src="gold-and-jewellery-record-for-the-family/favicon.svg" width="36" height="36" align="center"> [Gold and Jewellery Record for the Family](https://umar8092.github.io/apps/gold-and-jewellery-record-for-the-family/)
+
+For families in Pakistan, India, Bangladesh and the Gulf who keep wedding sets, bangles, rings and coins for each person, often in a bank locker, and never know how much gold there is, whose it is or what it is worth today. Add each piece with its karat and weight in tola, tola-masha-ratti or grams (stones taken off), type today's 24k rate and see "Ayesha: 7.500 tola of gold, 6.875 tola pure, worth 24,06,250" and the whole family's total, with a checklist for each place it is kept and sold or given pieces kept in history.
+
+[**Open the app**](https://umar8092.github.io/apps/gold-and-jewellery-record-for-the-family/) &middot; [Details and screenshots](gold-and-jewellery-record-for-the-family/)
+
+<a href="gold-and-jewellery-record-for-the-family/"><img src="gold-and-jewellery-record-for-the-family/screenshots/phone.png" alt="Gold and Jewellery Record for the Family screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
