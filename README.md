@@ -851,6 +851,14 @@ For families in Pakistan, India, Bangladesh and the Gulf who keep wedding sets, 
 
 <a href="gold-and-jewellery-record-for-the-family/"><img src="gold-and-jewellery-record-for-the-family/screenshots/phone.png" alt="Gold and Jewellery Record for the Family screenshot" width="260"></a>
 
+### <img src="home-inventory-for-insurance-and-moving/favicon.svg" width="36" height="36" align="center"> [Home Inventory for Insurance and Moving](https://umar8092.github.io/apps/home-inventory-for-insurance-and-moving/)
+
+For households with contents insurance, a rented flat or a move coming up who could not say what they own, what it is worth or where the receipts are if they were burgled tonight. Add each thing room by room with what it would cost to buy new, its serial number, receipt and photos, and see "Whole home: 16 items, £10,458", "Contents cover £10,000: £458 short" and which items are over the single item limit; after a burglary, fire or flood, the claim list is ready to send.
+
+[**Open the app**](https://umar8092.github.io/apps/home-inventory-for-insurance-and-moving/) &middot; [Details and screenshots](home-inventory-for-insurance-and-moving/)
+
+<a href="home-inventory-for-insurance-and-moving/"><img src="home-inventory-for-insurance-and-moving/screenshots/phone.png" alt="Home Inventory for Insurance and Moving screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Inventory for Insurance and Moving</title>
+    <meta name="description" content="Free home inventory for insurance and moving: list what you own room by room with its value, serial number, receipt and photos, see what your whole home is worth, check your contents cover is enough, and keep a ready list for a claim after a burglary, fire or flood. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/home-inventory-for-insurance-and-moving/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#3563c9">
+    <meta name="theme-color" content="#2a52b0">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Home Inventory">
+    <meta property="og:url" content="https://umar8092.github.io/apps/home-inventory-for-insurance-and-moving/">
+    <meta property="og:title" content="Home Inventory for Insurance and Moving">
+    <meta property="og:description" content="Everything you own, room by room, with values, serial numbers, receipts and photos. Check your contents cover and have a claim list ready. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Home Inventory for Insurance and Moving","alternateName":["Home Contents Inventory","Household Inventory List","Insurance Inventory","Moving Inventory"],"url":"https://umar8092.github.io/apps/home-inventory-for-insurance-and-moving/","description":"A free home contents inventory: each room's things with value, serial number, receipt and photos, the whole home's total against your contents cover, items over the single item limit, and a claim list for lost, stolen or damaged things.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"home inventory, contents insurance, household inventory list, insurance claim list, moving inventory, burglary list, serial numbers","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What value should I type?","acceptedAnswer":{"@type":"Answer","text":"What it would cost to buy the same thing, or the nearest model, new today. Most home contents policies pay that, and the contents cover should be at least the total."}},{"@type":"Question","name":"Why does the single item limit matter?","acceptedAnswer":{"@type":"Answer","text":"Many policies pay at most a set amount for any one item, often 1,000 to 2,000, unless it is named on the policy. The app lists every item worth more than your limit so you can tell your insurer."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything, including photos, stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Home Inventory for Insurance and Moving</h1>
+        <p class="sub">Everything you own, room by room, with what it would cost to replace, its serial number, receipt and photos. Ready for an insurance claim, a policy renewal or a move.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add an item</h2>
+            <p class="hint top">One thing at a time, or several of the same: 6 dining chairs is one item with How many 6.</p>
+            <label for="i-room">Which room is it in?</label>
+            <div class="quick" id="room-quick" role="group" aria-label="Rooms"></div>
+            <input id="i-room" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Living room" aria-describedby="i-room-err">
+            <p class="err" id="i-room-err" role="alert"></p>
+            <label for="i-name">What is it?</label>
+            <input id="i-name" type="text" maxlength="80" autocomplete="off" placeholder="e.g. 55-inch TV" aria-describedby="i-name-err">
+            <p class="err" id="i-name-err" role="alert"></p>
+            <div class="two qv">
+                <div class="field">
+                    <label for="i-qty">How many?</label>
+                    <input id="i-qty" type="text" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="1" aria-describedby="i-qty-err">
+                </div>
+                <div class="field">
+                    <label for="i-value" id="i-value-l">Value, to buy it new</label>
+                    <div class="amount-row"><span class="cur-tag" data-cur hidden></span><input id="i-value" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 650" aria-describedby="i-value-err"></div>
+                </div>
+            </div>
+            <p class="err" id="i-qty-err" role="alert"></p>
+            <p class="err" id="i-value-err" role="alert"></p>
+            <p class="hint ok" id="i-total" aria-live="polite"></p>
+            <p class="hint">What it would cost to buy again new today. Not sure? Leave it empty and add it later.</p>
+            <button type="button" class="link" id="more-open">+ Add brand, serial number, date bought, receipt or photos (optional)</button>
+            <div class="sub-box" id="more-box" hidden>
+                <label for="i-brand">Brand and model</label>
+                <input id="i-brand" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Samsung QE55Q60">
+                <label for="i-serial">Serial number</label>
+                <input id="i-serial" type="text" maxlength="60" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="On a sticker on the back">
+                <div class="two">
+                    <div class="field">
+                        <label for="i-got">Date bought</label>
+                        <input id="i-got" type="date" aria-describedby="i-got-err">
+                    </div>
+                    <div class="field">
+                        <label for="i-paid" id="i-paid-l">Price paid</label>
+                        <div class="amount-row"><span class="cur-tag" data-cur hidden></span><input id="i-paid" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 799" aria-describedby="i-paid-err"></div>
+                    </div>
+                </div>
+                <p class="err" id="i-got-err" role="alert"></p>
+                <p class="err" id="i-paid-err" role="alert"></p>
+                <label for="i-receipt">Receipt or proof of purchase</label>
+                <input id="i-receipt" type="text" maxlength="120" autocomplete="off" placeholder="e.g. Email from the shop">
+                <label for="i-note">Note</label>
+                <input id="i-note" type="text" maxlength="400" autocomplete="off" placeholder="e.g. With wall bracket">
+                <div class="photos" id="photo-rows">
+                    <div class="photo-row">
+                        <img id="ph-photo-img" alt="Photo of this item" hidden>
+                        <div class="photo-btns">
+                            <button type="button" class="secondary small" id="ph-photo-pick">Add a photo of it</button>
+                            <button type="button" class="link small-link" id="ph-photo-del" hidden>Remove this photo</button>
+                        </div>
+                        <input type="file" id="ph-photo" accept="image/*" hidden>
+                    </div>
+                    <div class="photo-row">
+                        <img id="ph-rphoto-img" alt="Photo of the receipt" hidden>
+                        <div class="photo-btns">
+                            <button type="button" class="secondary small" id="ph-rphoto-pick">Add a photo of the receipt</button>
+                            <button type="button" class="link small-link" id="ph-rphoto-del" hidden>Remove this photo</button>
+                        </div>
+                        <input type="file" id="ph-rphoto" accept="image/*" hidden>
+                    </div>
+                </div>
+                <p class="hint" id="photo-hint">Photos stay on this device only.</p>
+            </div>
+            <div class="row-btns">
+                <button type="button" class="primary" id="i-save">Save item</button>
+                <button type="button" class="secondary" id="i-cancel" hidden>Cancel</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card cover" id="cover" aria-labelledby="cover-h">
+            <h2 id="cover-h">Your insurance cover <span class="opt">(optional)</span></h2>
+            <p class="hint top">Both are on your home contents policy. The app then tells you if the cover is enough and which items to name to your insurer.</p>
+            <label for="c-cover">Contents cover (the most the policy pays in total)</label>
+            <div class="amount-row"><span class="cur-tag" data-cur hidden></span><input id="c-cover" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 50000" aria-describedby="c-cover-err"></div>
+            <p class="err" id="c-cover-err" role="alert"></p>
+            <label for="c-limit">Single item limit (the most it pays for one item)</label>
+            <div class="amount-row"><span class="cur-tag" data-cur hidden></span><input id="c-limit" type="text" inputmode="decimal" maxlength="24" autocomplete="off" placeholder="e.g. 1500" aria-describedby="c-limit-err"></div>
+            <p class="err" id="c-limit-err" role="alert"></p>
+            <p class="hint">Leave a box empty if your policy does not say.</p>
+            <button type="button" class="primary save-cover" id="c-save">Save the cover</button>
+            <div class="msg" id="cover-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <label for="group">How to write big numbers</label>
+            <select id="group">
+                <option value="west">1,234,567</option>
+                <option value="lakh">12,34,567 (lakhs, crores)</option>
+            </select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="secondary csv-btn" id="csv">Save the list as a spreadsheet (CSV)</button>
+            <p class="hint">Keep a backup file somewhere other than your home, such as your email or cloud drive: if the phone is stolen or the house burns, the list is still there.</p>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Go room by room</b> and add each thing worth listing: furniture, TV, laptop, jewellery, bikes, clothes as one item.</li>
+                <li>Type <b>what it would cost to buy new today</b>. Add the serial number, receipt and a photo for the valuable things.</li>
+                <li>See <b>each room's total</b> and the <b>whole home's</b>, and, if you add your policy, whether your <b>contents cover is enough</b>.</li>
+                <li>After a burglary, fire or flood, mark things <b>Lost, stolen or damaged</b> and send the <b>claim list</b> to your insurer.</li>
+            </ol>
+        </section>
+
+        <section class="card glance" id="glance" aria-labelledby="glance-h" hidden>
+            <h2 id="glance-h">Your home at a glance</h2>
+            <div id="glance-body"></div>
+            <div class="g-btns">
+                <button type="button" class="secondary small" id="g-copy">Copy the full list</button>
+                <a class="secondary small" id="g-mail" href="mailto:">Email the list</a>
+                <button type="button" class="secondary small" id="g-print">Print the list</button>
+            </div>
+            <div class="msg" id="glance-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card rooms" id="rooms" aria-labelledby="rooms-h" hidden>
+            <h2 id="rooms-h">Room by room</h2>
+            <label for="find" class="find-l">Find an item</label>
+            <input id="find" type="search" maxlength="60" autocomplete="off" placeholder="Name, brand or serial">
+            <p class="hint" id="find-out" aria-live="polite"></p>
+            <div class="room-list" id="room-list"></div>
+            <div class="msg" id="rooms-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card valuables" id="valuables" aria-labelledby="valuables-h" hidden>
+            <h2 id="valuables-h">Most valuable items</h2>
+            <p class="hint top" id="val-intro">The ones to photograph, keep receipts for and check with your insurer.</p>
+            <ol class="val-list" id="val-list"></ol>
+        </section>
+
+        <section class="card claim" id="claim" aria-labelledby="claim-h" hidden>
+            <h2 id="claim-h">Claim list: lost, stolen or damaged</h2>
+            <div id="claim-body"></div>
+            <div class="g-btns">
+                <button type="button" class="secondary small" id="cl-copy">Copy the claim list</button>
+                <a class="secondary small" id="cl-mail" href="mailto:">Email the claim list</a>
+                <button type="button" class="secondary small" id="cl-print">Print the claim list</button>
+            </div>
+            <div class="it-list" id="claim-list"></div>
+            <div class="msg" id="claim-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card history" id="history" aria-labelledby="history-h" hidden>
+            <h2 id="history-h">Sold, given or thrown away</h2>
+            <p class="hint top">Kept so you know what you no longer have.</p>
+            <div class="it-list" id="h-list"></div>
+            <div class="msg" id="history-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>What value should I type?</summary><p>What it would cost to buy the same thing, or the nearest model, <b>new today</b>. Most home contents policies pay that ("new for old"), so your <b>contents cover</b> should be at least the whole home's total. For clothes, books or kitchen things, one item per room with a rough value is fine, such as "Clothes, 40,000".</p></details>
+        <details><summary>What is the single item limit?</summary><p>Many policies pay at most a set amount for any one thing, often 1,000 to 2,000, unless it is named on the policy. Type it under <b>Your insurance cover</b> and the app lists every item worth more than that, so you can ask your insurer to add them.</p></details>
+        <details><summary>Something was stolen. What do I do?</summary><p>Tap <b>Gone</b> on each item, pick <b>Lost, stolen or damaged</b> and the date. They move to the <b>Claim list</b> with their value, serial number, date bought and receipt. <b>Copy</b>, <b>Email</b> or <b>Print</b> it for the police report and your insurer. When the insurer pays and you replace something, add the new one as a new item.</p></details>
+        <details><summary>Does it help with moving house?</summary><p>Yes. Each room has <b>Copy the checklist</b>: a list with a box to tick for every item, to check off when you pack and again when you unpack. The whole list shows the removal company or its insurance what is being moved and what it is worth. Use <b>Move</b> on an item to put it in its room in the new home.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything, including photos, stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file and keep it away from home (email it to yourself), so the list survives if the phone is lost too.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/home-inventory-for-insurance-and-moving">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Home Inventory", "sections": [
+ {"h": "1. Add your things, room by room", "steps": ["Under \"Add an item\", tap a room or type one under \"Which room is it in?\". Each room gets its own box.", "Type \"What is it?\", such as 55-inch TV or Sofa.", "\"How many?\" is 1 if you leave it empty. For 6 dining chairs type 6, and type the value of one chair: the line under it shows the total.", "\"Value, to buy it new\" is what it would cost to buy again new today. Leave it empty if you are not sure; the item is counted as without a value until you add it.", "\"+ Add brand, serial number, date bought, receipt or photos\" is optional. Add these for valuable things: insurers ask for them. The photos stay on this device.", "Tap \"Save item\". The room stays filled in, so a whole room is quick to add."]},
+ {"h": "2. Your insurance cover", "steps": ["Under \"Your insurance cover\", type the \"Contents cover\" and the \"Single item limit\" from your policy and tap \"Save the cover\". Both are optional.", "\"Your home at a glance\" then says whether the cover is enough, or how much short it is.", "\"Most valuable items\" marks every item worth more than the single item limit: ask your insurer to name these on the policy."]},
+ {"h": "3. What you see", "steps": ["\"Your home at a glance\" shows how many items you have, what they would cost to buy new, how many have no value yet, and a tile for each room.", "\"Room by room\" has a box for each room with its total and every item in its own box. \"Find an item\" searches names, brands, serial numbers and notes.", "\"Copy the checklist\" on a room gives a list to tick off when packing or unpacking.", "\"Copy the full list\", \"Email the list\" and \"Print the list\" share everything, for your insurer or a removal company."]},
+ {"h": "4. Changes, losses and claims", "steps": ["\"Edit\" fixes any detail. \"Move\" puts an item in another room. \"Delete\" removes an item added by mistake. Every change has \"Undo\".", "\"Gone\" on an item: pick Sold, Given away, Thrown away, or Lost, stolen or damaged, and the date.", "Lost, stolen or damaged items go to the \"Claim list\" with their total. \"Copy the claim list\", \"Email the claim list\" and \"Print the claim list\" send it to your insurer.", "Sold, given or thrown away items are kept under \"Sold, given or thrown away\". \"I still have it\" brings an item back.", "\"Rename\" on a room changes its name for every item in it."]},
+ {"h": "Good to know", "tips": true, "steps": ["Amounts can be typed as 1250, 1,250.50 or 1.5 lakh.", "\"Currency symbol\" and \"How to write big numbers\" are under \"Backup and settings\".", "Everything stays on this device and works offline. Your data is never sent anywhere.", "Save a backup file (it includes the photos) and keep it away from home, such as in your email, so the list is safe if the phone is lost or the house is damaged."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
