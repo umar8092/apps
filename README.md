@@ -835,6 +835,14 @@ For families organising a wedding, mehndi, walima, birthday party or Eid dinner.
 
 <a href="event-budget-and-vendor-payments-planner/"><img src="event-budget-and-vendor-payments-planner/screenshots/phone.png" alt="Event Budget and Vendor Payments Planner screenshot" width="260"></a>
 
+### <img src="work-expense-claim-log-for-employees/favicon.svg" width="36" height="36" align="center"> [Work Expense Claim Log for Employees](https://umar8092.github.io/apps/work-expense-claim-log-for-employees/)
+
+For office workers, sales reps and field staff who pay for taxis, client lunches, hotel nights, mileage and printer ink and get paid back only after filing a claim. Log each expense in seconds (also in another currency or from a distance), tick the ones you are sending, copy the list for the claim form, and see "Not claimed yet: 23,849.59, oldest from 3 Oct (26 days ago)", "Claimed, waiting to be paid: 10,150, sent 5 Oct" and what was cut, with totals by month, type and client.
+
+[**Open the app**](https://umar8092.github.io/apps/work-expense-claim-log-for-employees/) &middot; [Details and screenshots](work-expense-claim-log-for-employees/)
+
+<a href="work-expense-claim-log-for-employees/"><img src="work-expense-claim-log-for-employees/screenshots/phone.png" alt="Work Expense Claim Log for Employees screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

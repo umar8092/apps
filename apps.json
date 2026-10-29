@@ -622,5 +622,11 @@
     "name": "Event Budget and Vendor Payments Planner",
     "description": "A budget for each wedding function, birthday or Eid dinner, and every vendor's agreed price (or price per guest), advances paid, what is still to pay and when each payment is due.",
     "color": "#b83280"
+  },
+  {
+    "slug": "work-expense-claim-log-for-employees",
+    "name": "Work Expense Claim Log for Employees",
+    "description": "Log the taxis, meals, hotels, mileage and office purchases you pay for at work. See what is not claimed yet, which claims are waiting to be paid back, what was cut, and copy the list for your claim form.",
+    "color": "#b0652a"
   }
 ]

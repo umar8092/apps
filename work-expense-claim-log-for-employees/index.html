@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Expense Claim Log for Employees</title>
+    <meta name="description" content="Free work expense claim log for employees who pay for taxis, meals, hotels, fuel and office purchases and get paid back later. See what you have not claimed yet, which claims are still waiting to be paid, what was cut, and copy the list for your claim form. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/work-expense-claim-log-for-employees/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#b0652a">
+    <meta name="theme-color" content="#97521c">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Work Expense Claim Log">
+    <meta property="og:url" content="https://umar8092.github.io/apps/work-expense-claim-log-for-employees/">
+    <meta property="og:title" content="Work Expense Claim Log for Employees">
+    <meta property="og:description" content="Log the taxis, meals, hotels and office purchases you pay for at work. See what is not claimed yet, what is waiting to be paid back and what was cut. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Work Expense Claim Log for Employees","alternateName":["Expense Claim Tracker","Work Expenses Reimbursement Log","Expense Report Tracker","Business Expense Claim Log"],"url":"https://umar8092.github.io/apps/work-expense-claim-log-for-employees/","description":"A free log of the work expenses an employee pays for and claims back: what is not claimed yet, which claims are waiting to be paid, what was paid back or cut, totals by month, category and client, and a list to copy into the claim form.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"expense claim tracker, work expenses log, reimbursement tracker, expense report, travel expenses, mileage claim, per diem","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I send a claim?","acceptedAnswer":{"@type":"Answer","text":"Tick the expenses you are claiming under Not claimed yet, tap Copy list for the claim form to paste them into your form or email, then tap Mark as claimed."}},{"@type":"Question","name":"What if only part of a claim is paid back?","acceptedAnswer":{"@type":"Answer","text":"Tap Paid back, lower the line that was cut (for example a meal over the limit) and save. The app shows what was not paid back, and Claim the cut part again puts it back in Not claimed yet."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Work Expense Claim Log for Employees</h1>
+        <p class="sub">For the taxis, meals, hotels and office things you pay for at work and claim back. See what you have not claimed yet, what is still waiting to be paid, and copy the list for your claim form.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a work expense</h2>
+            <p class="hint top" id="add-intro">One expense at a time, when you pay it: a taxi, a client lunch, a hotel night, printer ink.</p>
+            <div class="two">
+                <div class="field">
+                    <label for="e-date">Date you paid</label>
+                    <input id="e-date" type="date" aria-describedby="e-date-err">
+                </div>
+                <div class="field">
+                    <label for="e-amt">Amount</label>
+                    <div class="amount-row"><span class="cur-tag" data-cur hidden></span><input id="e-amt" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 1450" aria-describedby="e-amt-err"></div>
+                </div>
+            </div>
+            <p class="err" id="e-date-err" role="alert"></p>
+            <p class="err" id="e-amt-err" role="alert"></p>
+            <div id="calc-btns" class="calc-btns">
+                <button type="button" class="link" id="fx-open">+ Paid in another currency</button>
+                <button type="button" class="link" id="km-open">+ Work it out from distance (mileage)</button>
+            </div>
+            <div class="sub-box" id="fx-box" hidden>
+                <p class="sub-h">Paid in another currency</p>
+                <div class="three">
+                    <div class="field"><label for="fx-code">Currency</label><input id="fx-code" type="text" maxlength="3" autocomplete="off" autocapitalize="characters" placeholder="USD" aria-describedby="fx-code-err"></div>
+                    <div class="field"><label for="fx-amt">Amount paid</label><input id="fx-amt" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="15.99" aria-describedby="fx-amt-err"></div>
+                    <div class="field"><label for="fx-rate">Rate</label><input id="fx-rate" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="281.4" aria-describedby="fx-rate-err"></div>
+                </div>
+                <p class="err" id="fx-code-err" role="alert"></p>
+                <p class="err" id="fx-amt-err" role="alert"></p>
+                <p class="err" id="fx-rate-err" role="alert"></p>
+                <p class="hint" id="fx-out">Rate: how much 1 of that currency cost you, from your card statement. The Amount above is worked out for you.</p>
+                <button type="button" class="link small-link" id="fx-close">Remove the other currency</button>
+            </div>
+            <div class="sub-box" id="km-box" hidden>
+                <p class="sub-h">Work it out from distance</p>
+                <div class="three">
+                    <div class="field"><label for="km-dist">Distance</label><input id="km-dist" type="text" inputmode="decimal" maxlength="10" autocomplete="off" placeholder="120" aria-describedby="km-dist-err"></div>
+                    <div class="field"><label for="km-unit">In</label><select id="km-unit"><option value="km">km</option><option value="mi">miles</option></select></div>
+                    <div class="field"><label for="km-rate">Paid per km</label><input id="km-rate" type="text" inputmode="decimal" maxlength="12" autocomplete="off" placeholder="65" aria-describedby="km-rate-err"></div>
+                </div>
+                <p class="err" id="km-dist-err" role="alert"></p>
+                <p class="err" id="km-rate-err" role="alert"></p>
+                <p class="hint" id="km-out">The rate your company pays per km or mile. The Amount above is worked out for you.</p>
+                <button type="button" class="link small-link" id="km-close">Remove the distance</button>
+            </div>
+            <label for="e-cat">Type of expense</label>
+            <select id="e-cat"></select>
+            <label for="e-what">What was it for?</label>
+            <input id="e-what" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Taxi to client office" aria-describedby="e-what-err">
+            <p class="err" id="e-what-err" role="alert"></p>
+            <label for="e-proj">Client or project <span class="opt">(optional)</span></label>
+            <div class="quick" id="proj-quick" role="group" aria-label="Clients and projects you used before"></div>
+            <input id="e-proj" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Habib Foods">
+            <label class="check"><input type="checkbox" id="e-norec"><span>I have no receipt for this</span></label>
+            <button type="button" class="link" id="e-more-open">+ Add a note (optional)</button>
+            <div id="e-more" hidden>
+                <label for="e-note">Note</label>
+                <input id="e-note" type="text" maxlength="300" autocomplete="off" placeholder="e.g. Receipt in the blue folder">
+            </div>
+            <div class="row-btns">
+                <button type="button" class="primary" id="e-save">Save expense</button>
+                <button type="button" class="secondary" id="e-cancel" hidden>Cancel</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card rules" id="rules" aria-labelledby="rules-h">
+            <h2 id="rules-h">Your company's claim rules</h2>
+            <p class="hint top">Optional. Used for the last day to claim and in the list you copy.</p>
+            <label for="co-name">Company name <span class="opt">(optional)</span></label>
+            <input id="co-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Orion Traders">
+            <label for="co-days">Claim within</label>
+            <select id="co-days"></select>
+            <div id="co-odays-box" hidden>
+                <label for="co-odays">Days after you paid</label>
+                <input id="co-odays" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="e.g. 45" aria-describedby="co-odays-err">
+                <p class="err" id="co-odays-err" role="alert"></p>
+            </div>
+            <p class="hint">Many companies only pay back expenses claimed within 30, 60 or 90 days. Ask HR or finance if you are not sure.</p>
+            <button type="button" class="secondary" id="co-save">Save the rules</button>
+            <div class="msg" id="rules-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and settings</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="secondary csv-btn" id="csv">Save the list as a spreadsheet (CSV)</button>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Add each work expense</b> when you pay it: date, amount, type and what it was for.</li>
+                <li><b>Send a claim</b>: tick the expenses you are claiming, tap <b>Copy list for the claim form</b>, then <b>Mark as claimed</b>.</li>
+                <li><b>When the money comes</b>, tap <b>Paid back</b>. Lower any line that was cut, and the app shows what you were not paid back.</li>
+                <li>The summary always shows what is <b>not claimed yet</b> and what is <b>still waiting</b>, so no expense is forgotten.</li>
+            </ol>
+        </section>
+
+        <section class="card glance" id="glance" aria-labelledby="glance-h" hidden>
+            <h2 id="glance-h">Your expenses at a glance</h2>
+            <div id="glance-body"></div>
+            <div class="g-btns">
+                <button type="button" class="secondary small" id="g-copy">Copy summary</button>
+                <a class="secondary small" id="g-mail" href="mailto:">Email summary</a>
+            </div>
+            <div class="msg" id="glance-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card exps" id="exps" aria-labelledby="exps-h" hidden>
+            <h2 id="exps-h">Expenses</h2>
+            <div class="tabs" role="group" aria-label="Which expenses to show">
+                <button type="button" class="tab" data-tab="todo" aria-pressed="true">Not claimed yet <span class="n" id="n-todo">0</span></button>
+                <button type="button" class="tab" data-tab="all" aria-pressed="false">All expenses <span class="n" id="n-all">0</span></button>
+            </div>
+            <p class="hint" id="exps-hint"></p>
+            <button type="button" class="link" id="tick-all" hidden>Tick all for one claim</button>
+            <div class="e-list" id="e-list"></div>
+            <button type="button" class="link" id="e-showall" hidden></button>
+            <div class="newclaim" id="newclaim" hidden aria-labelledby="nc-h">
+                <h3 id="nc-h">New claim</h3>
+                <div class="nc-list" id="nc-list"></div>
+                <label for="nc-date">Date you sent the claim</label>
+                <input id="nc-date" type="date" aria-describedby="nc-date-err">
+                <p class="err" id="nc-date-err" role="alert"></p>
+                <button type="button" class="link" id="nc-ref-open">+ Add the claim number (optional)</button>
+                <div id="nc-ref-box" hidden>
+                    <label for="nc-ref">Claim number or reference</label>
+                    <input id="nc-ref" type="text" maxlength="40" autocomplete="off" placeholder="e.g. EXP-0412">
+                </div>
+                <div class="row-btns">
+                    <button type="button" class="secondary" id="nc-copy">Copy list for the claim form</button>
+                    <button type="button" class="primary" id="nc-save">Mark as claimed</button>
+                </div>
+                <button type="button" class="link" id="nc-clear">Untick all</button>
+            </div>
+            <div class="msg" id="exps-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card waiting" id="waiting" aria-labelledby="waiting-h" hidden>
+            <h2 id="waiting-h">Claimed, waiting to be paid</h2>
+            <div class="cl-list" id="w-list"></div>
+            <div class="msg" id="waiting-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card history" id="history" aria-labelledby="history-h" hidden>
+            <h2 id="history-h">Paid and rejected claims</h2>
+            <div class="cl-list" id="h-list"></div>
+            <button type="button" class="link" id="h-showall" hidden></button>
+            <div class="msg" id="history-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card months" id="months" aria-labelledby="months-h" hidden>
+            <h2 id="months-h">Month by month</h2>
+            <div class="m-nav">
+                <button type="button" class="secondary small" id="m-prev" aria-label="Previous month">&larr;</button>
+                <p class="m-name" id="m-name" aria-live="polite"></p>
+                <button type="button" class="secondary small" id="m-next" aria-label="Next month">&rarr;</button>
+            </div>
+            <div id="m-body"></div>
+            <button type="button" class="secondary small m-copy" id="m-copy">Copy this month</button>
+            <div class="msg" id="months-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>I claim everything once a month</summary><p>At the end of the month open <b>Not claimed yet</b> and tap <b>Tick all for one claim</b>. Untick anything you are keeping for later, tap <b>Copy list for the claim form</b> and paste it into the form or the email to finance, then tap <b>Mark as claimed</b>. The expenses move to <b>Claimed, waiting to be paid</b> as one claim.</p></details>
+        <details><summary>Only part of my claim was paid back</summary><p>Tap <b>Paid back</b> on the claim, lower the line that was cut (for example a dinner of <b>5,900</b> paid only up to the <b>4,000</b> limit) and tap <b>Save payment</b>. The claim shows <b>1,900 not paid back</b>. If you can send that part again, for example with a manager's approval, tap <b>Claim the cut part again</b> and it goes back to <b>Not claimed yet</b>.</p></details>
+        <details><summary>A claim was rejected</summary><p>Tap <b>Rejected</b> and type the reason, such as <b>missing receipt</b>. Its expenses go back to <b>Not claimed yet</b> with the reason shown, so you can fix it and send them again. The rejected claim stays in the history.</p></details>
+        <details><summary>I paid in dollars, euros or dirhams</summary><p>Tap <b>+ Paid in another currency</b>, type the currency (such as <b>USD</b>), the amount you paid in it and the rate from your card statement. The app works out the amount in your own money, to the cent: <b>USD 15.99 at 281.4 = 4,499.59</b>. The list you copy shows both.</p></details>
+        <details><summary>My company pays per km or mile for my own car</summary><p>Tap <b>+ Work it out from distance (mileage)</b> and type the distance and the rate per km or mile. <b>120 km at 65 = 7,800</b>. For a full trip log for tax, use the Business Mileage Log in All apps.</p></details>
+        <details><summary>An expense was for two clients</summary><p>Add it twice, once for each client or project, with each one's share. <b>Month by month</b> then shows the right total for each client, for example to bill them.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/work-expense-claim-log-for-employees">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Work Expense Claim Log", "sections": [
+ {"h": "1. Add each expense", "steps": ["Under \"Add a work expense\", pick the \"Date you paid\" and type the \"Amount\".", "\"+ Paid in another currency\": type the currency, the amount you paid in it and the rate; the Amount is worked out for you.", "\"+ Work it out from distance (mileage)\": type the distance and what your company pays per km or mile.", "Pick the \"Type of expense\" and type \"What was it for?\", such as Taxi to client office.", "\"Client or project\" is optional: type one or tap one you used before.", "Tick \"I have no receipt for this\" if the receipt is lost, so you remember to ask how to claim it.", "Tap \"Save expense\". The date and client stay filled in, so several expenses from one trip are quick."]},
+ {"h": "2. Set your company's rules (optional)", "steps": ["\"Company name\" goes at the top of the list you copy.", "\"Claim within\": how many days after paying you are allowed to claim, such as 60 days. Each expense then shows \"Claim by\" and turns orange or red as the last day comes near or passes.", "Tap \"Save the rules\"."]},
+ {"h": "3. Send a claim", "steps": ["\"Not claimed yet\" lists every expense you still have to claim, oldest first.", "Tick \"Add to the new claim\" on each one, or tap \"Tick all for one claim\". The \"New claim\" box shows the total. You can lower the amount claimed for a line.", "\"Copy list for the claim form\" copies each line and the totals by type, ready to paste into a form or an email.", "Pick the \"Date you sent the claim\", add the claim number if you have one, and tap \"Mark as claimed\"."]},
+ {"h": "4. When you hear back", "steps": ["Under \"Claimed, waiting to be paid\", tap \"Paid back\". Each line starts at what you claimed: lower any line that was cut, or type 0 if it was refused, then tap \"Save payment\".", "A claim paid less shows what was not paid back. \"Claim the cut part again\" puts that amount back in \"Not claimed yet\".", "\"Rejected\" with a reason puts all its expenses back in \"Not claimed yet\" so you can send them again.", "\"Edit claim\" changes the date, number or amounts; \"Delete claim\" puts its expenses back. \"Mark as waiting again\" undoes a payment or rejection."]},
+ {"h": "What the summary tells you", "steps": ["\"Not claimed yet\": money you spent for work and have not asked for yet, with the oldest expense and the earliest last day to claim.", "\"Claimed, waiting to be paid\": claims sent but not paid, and how long the oldest has waited. Over 30 days, it reminds you to ask finance.", "\"Spent for work\", \"Paid back\" and \"Not paid back\": what you paid, what came back, and what you paid yourself (cut lines, refusals, and expenses marked Not claiming).", "\"Month by month\" shows each month's total by type and by client or project. \"Copy this month\" copies it."]},
+ {"h": "Good to know", "tips": true, "steps": ["\"Edit\" and \"Delete\" on an expense fix mistakes; \"Not claiming\" keeps a private or personal expense out of the claim list. Every change has \"Undo\".", "\"Currency symbol\" adds a symbol such as Rs, $ or € to every amount, or none for plain numbers.", "\"Save the list as a spreadsheet (CSV)\" gives finance or your accountant every expense with its status.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

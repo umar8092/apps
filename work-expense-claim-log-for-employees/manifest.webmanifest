@@ -1,0 +1,15 @@
+{
+  "name": "Work Expense Claim Log for Employees",
+  "short_name": "Expense Claims",
+  "description": "Log the work expenses you pay for and see what is not claimed yet, what is waiting to be paid back and what was cut.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#140c05",
+  "theme_color": "#97521c",
+  "categories": ["finance", "business", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
