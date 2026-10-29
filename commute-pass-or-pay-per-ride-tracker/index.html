@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commute Pass or Pay Per Ride Tracker: Is the Pass Worth It?</title>
+    <meta name="description" content="Free tracker for bus, metro and train commuters. Log each ride in one tap and see whether a weekly or monthly pass, a 30-day pass or a 10-ride card would have been cheaper than paying per ride, whether the pass you bought is paying for itself, and which to buy next month. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/commute-pass-or-pay-per-ride-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#0f9b8e">
+    <meta name="theme-color" content="#0f9b8e">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Commute Pass or Pay Per Ride Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/commute-pass-or-pay-per-ride-tracker/">
+    <meta property="og:title" content="Commute Pass or Pay Per Ride Tracker">
+    <meta property="og:description" content="Is the monthly pass worth it? Log your rides and see whether a pass or paying per ride is cheaper, this month and next. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Commute Pass or Pay Per Ride Tracker","alternateName":["Is a Monthly Pass Worth It Calculator","Transit Pass Break-Even Calculator","Metro Card Ride Log","Bus Pass vs Pay As You Go"],"url":"https://umar8092.github.io/apps/commute-pass-or-pay-per-ride-tracker/","description":"A free ride log for bus, metro and train commuters that shows whether a weekly or monthly pass or a ride card is cheaper than paying per ride. Private on your device.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"monthly pass worth it, transit pass calculator, metro pass vs pay per ride, bus pass break even, commute cost tracker","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How many rides make a monthly pass worth it?","acceptedAnswer":{"@type":"Answer","text":"Divide the pass price by one fare and round up. A 3,000 pass with an 80 fare pays for itself at 38 rides (38 x 80 = 3,040). The app counts your real rides, so months with leave or work-from-home days are counted as they were."}},{"@type":"Question","name":"How are ride cards compared?","acceptedAnswer":{"@type":"Answer","text":"Unused rides stay on a card for later, so each ride on a card costs the card price divided by its rides: 700 for 10 rides is 70 a ride."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your rides stay in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Commute Pass or Pay Per Ride Tracker</h1>
+        <p class="sub">Log your bus, metro or train rides and see whether a pass or paying for each ride is cheaper.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your rides will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card summary" id="summary" aria-labelledby="sum-h">
+            <h2 id="sum-h">Pass or pay per ride?</h2>
+            <div class="month-nav">
+                <button type="button" class="secondary small" id="m-prev" aria-label="Previous month">&lsaquo;</button>
+                <p class="m-name" id="m-name" aria-live="polite"></p>
+                <button type="button" class="secondary small" id="m-next" aria-label="Next month">&rsaquo;</button>
+            </div>
+            <button type="button" class="link to-now" id="to-now" hidden>Back to this month</button>
+            <div id="sum-body" aria-live="polite"></div>
+        </section>
+
+        <section class="card log" id="log" aria-labelledby="log-h">
+            <h2 id="log-h">Log a ride</h2>
+            <label for="l-date">Day</label>
+            <div class="day-nav">
+                <button type="button" class="secondary small" id="d-prev" aria-label="Day before">&lsaquo;</button>
+                <input id="l-date" type="date" aria-describedby="l-day e-date">
+                <button type="button" class="secondary small" id="d-next" aria-label="Day after">&rsaquo;</button>
+            </div>
+            <p class="hint" id="l-day"></p>
+            <p class="err" id="e-date" role="alert"></p>
+            <div id="w-fare">
+                <label for="l-fare">Which ride?</label>
+                <select id="l-fare"></select>
+            </div>
+            <p class="fare-line" id="fare-line"></p>
+            <div class="log-btns">
+                <button type="button" class="primary" id="add1">One way<small>1 ride</small></button>
+                <button type="button" class="primary" id="add2">There and back<small>2 rides</small></button>
+            </div>
+            <button type="button" class="link" id="o-more">+ Add a different number of rides</button>
+            <div class="opt" id="w-more" hidden>
+                <label for="l-n">How many rides?</label>
+                <div class="inline">
+                    <input id="l-n" type="text" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="3" aria-describedby="e-n">
+                    <button type="button" class="secondary small" id="add-n">Add these rides</button>
+                </div>
+                <p class="err" id="e-n" role="alert"></p>
+            </div>
+            <div class="msg" id="log-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card mine" id="mine" aria-labelledby="mine-h">
+            <h2 id="mine-h">Passes you bought</h2>
+            <p class="hint top" id="mine-empty">When you buy a pass or card, tap <b>I bought this pass</b> on it under "Your fares and passes" to see whether it pays for itself.</p>
+            <ul class="boxes" id="mine-list"></ul>
+            <div class="msg" id="mine-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card list" id="list" aria-labelledby="list-h">
+            <h2 id="list-h">Rides</h2>
+            <p class="hint top" id="list-empty"></p>
+            <ul class="days" id="days"></ul>
+            <button type="button" class="link" id="more-days" aria-controls="days" hidden></button>
+            <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card ahead" id="ahead" aria-labelledby="ahead-h">
+            <h2 id="ahead-h">Should I buy a pass?</h2>
+            <p class="label-like" id="l-wd">The days you usually travel</p>
+            <div class="wd" id="wd" role="group" aria-labelledby="l-wd"></div>
+            <label for="p-per">Rides on each of those days</label>
+            <div class="inline">
+                <input id="p-per" type="text" inputmode="numeric" maxlength="2" autocomplete="off" aria-describedby="e-per">
+                <div class="quick" id="quick-per">
+                    <button type="button" class="chip" data-v="1">1</button>
+                    <button type="button" class="chip" data-v="2">2</button>
+                    <button type="button" class="chip" data-v="3">3</button>
+                    <button type="button" class="chip" data-v="4">4</button>
+                </div>
+            </div>
+            <p class="err" id="e-per" role="alert"></p>
+            <div id="w-pfare">
+                <label for="p-fare">Your usual ride</label>
+                <select id="p-fare"></select>
+            </div>
+            <label for="p-off" id="l-off">Days you will not travel next month</label>
+            <input id="p-off" type="text" inputmode="numeric" maxlength="2" autocomplete="off" class="short" aria-describedby="h-off e-off">
+            <p class="hint" id="h-off">Leave, public holidays or working from home on your usual days.</p>
+            <p class="err" id="e-off" role="alert"></p>
+            <p class="recent" id="recent"></p>
+            <div id="ahead-body" aria-live="polite"></div>
+        </section>
+
+        <section class="card setup" id="setup" aria-labelledby="setup-h">
+            <h2 id="setup-h">Your fares and passes</h2>
+            <h3 class="sub-h">Fares (what one ride costs)</h3>
+            <ul class="boxes" id="fares"></ul>
+            <button type="button" class="link" id="add-fare">+ Add another fare (peak, off-peak, another route)</button>
+            <p class="hint">Changing a price changes only the rides you log after that. Fix an older ride with "Edit" under Rides.</p>
+            <h3 class="sub-h">Passes and ride cards on offer</h3>
+            <ul class="boxes" id="passes"></ul>
+            <button type="button" class="link" id="add-pass">+ Add a pass or ride card</button>
+            <label for="s-cur">Currency symbol</label>
+            <select id="s-cur"></select>
+            <div class="msg" id="setup-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card fill" id="fill" aria-labelledby="fill-h">
+            <h2 id="fill-h">Fill in several days</h2>
+            <p class="hint top">For rides you did not log, for example last month. Rides are added on the days you usually travel (ticked above).</p>
+            <div class="pair">
+                <div><label for="g-from">From</label><input id="g-from" type="date"></div>
+                <div><label for="g-to">To</label><input id="g-to" type="date"></div>
+            </div>
+            <div class="pair">
+                <div><label for="g-n">Rides each day</label><input id="g-n" type="text" inputmode="numeric" maxlength="2" autocomplete="off" value="2"></div>
+                <div id="w-gfare"><label for="g-fare">Which ride?</label><select id="g-fare"></select></div>
+            </div>
+            <p class="err" id="e-fill" role="alert"></p>
+            <button type="button" class="primary gap-top" id="g-go">Add these rides</button>
+            <div class="msg" id="fill-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Share, export and backup</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy this month</button>
+                <a class="secondary" id="mail" href="mailto:">Email this month</a>
+                <button type="button" class="secondary" id="csv">Download all rides (CSV)</button>
+                <button type="button" class="secondary" id="print">Print this month</button>
+            </div>
+            <div class="tool-grid gap">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How many rides make a pass worth it?</summary><p>Divide the pass price by one fare and round up. A 3,000 monthly pass with an 80 fare pays for itself at 38 rides (38 × 80 = 3,040). Commuting there and back on 19 days is exactly that, so a month with 3 days of leave or working from home can tip it either way. That is why the app counts the rides you really took.</p></details>
+        <details><summary>How does the month compare the passes?</summary><p>For each pass on its own it works out the cheapest way to have paid for that month's rides: buying the pass only when it helps and paying per ride for the rest. A 7-day pass can start on any day, so it checks every start day. A calendar month pass covers the 1st to the last day. Each pass bought is counted in full, even if it runs into the next month.</p></details>
+        <details><summary>How are ride cards (10 rides, 20 rides) compared?</summary><p>Unused rides stay on a card for later, so a ride on a card costs the card price divided by its rides: 700 for 10 rides is 70 a ride. A ride goes on the card only when its fare costs more than that. "Rides left for later" are on the last card you would have bought.</p></details>
+        <details><summary>The fare went up. What happens to my old rides?</summary><p>Each ride keeps the price it had when you logged it. Change the price under "Your fares and passes" and only new rides use it. To fix an older ride, tap <b>Edit</b> on it under Rides.</p></details>
+        <details><summary>I lost my card and bought a new one.</summary><p>Tap <b>I bought this pass</b> again on the day you bought the new one. Both prices count as spent, and each ride is counted once, on the pass you bought first.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your rides stay in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to move them to a new phone. Once loaded, the app works with no connection, for example underground.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/commute-pass-or-pay-per-ride-tracker">Open source (MIT)</a></footer>
+</main>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Commute Pass or Pay Per Ride Tracker", "sections": [
+ {"h": "Set it up once", "steps": ["Under \"Your fares and passes\", type what one ride costs in \"Price per ride\". Give it a name such as Metro or Bus to work.", "Different prices at peak and off-peak times, a second route or a student fare? Tap \"+ Add another fare\" for each one.", "Under \"Passes and ride cards on offer\", type the price of each pass and choose \"How long it lasts\": 7 days or 30 days from the day you start, a calendar month (1st to last day), another number of days, or a card with a number of rides (for example a 10-ride card).", "With more than one fare, untick the fares a pass does not cover under \"Covers these rides\".", "\"Currency symbol\" is optional. Leave it on None for plain numbers."]},
+ {"h": "Log each ride", "steps": ["Under \"Log a ride\", tap \"One way\" (1 ride) or \"There and back\" (2 rides). The day is today unless you change \"Day\" or use the arrows.", "With more than one fare, choose \"Which ride?\" first.", "\"+ Add a different number of rides\" adds 3 or more at once.", "Every ride shows \"Undo\". Under \"Rides\", use \"−\" and \"+\" to change the number, \"Edit\" to change the number or the price, and \"Delete\" to remove it.", "\"Fill in several days\" adds rides on your usual days between two dates, for example the rest of last month."]},
+ {"h": "Read the answer", "steps": ["\"Pass or pay per ride?\" shows the month: how many rides, what they cost paying per ride, and what each pass would have cost. A green line names the pass that would have saved the most; otherwise paying per ride was cheapest. Use the arrows to see other months.", "\"Should I buy a pass?\" uses the days you usually travel and the rides on each of those days. \"If you buy it today\" says whether each pass would pay for itself and on about which day. \"Next month\" compares the passes for the whole of next month. Type \"Days you will not travel next month\" for leave or holidays.", "When you buy a pass, tap \"I bought this pass\" on it and choose the day it started. \"Passes you bought\" then shows how many rides it covered and whether it paid for itself."]},
+ {"h": "Share and backup", "steps": ["\"Copy this month\" and \"Email this month\" share the answer. Email works without typing an address first.", "\"Download all rides (CSV)\" saves every ride for a spreadsheet or an expense claim. \"Print this month\" prints the answer and the rides.", "\"Save a backup file\" and \"Restore a backup\" move your rides to another device. \"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["A pass pays for itself at the pass price divided by one fare, rounded up: 3,000 / 80 = 37.5, so at 38 rides.", "A ride on a ride card costs the card price divided by its rides, because unused rides stay on the card.", "Each ride keeps the price it had when you logged it, so a fare rise does not change older months.", "A calendar month pass bought on the 25th still ends on the last day of that month.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

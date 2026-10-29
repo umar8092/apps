@@ -646,5 +646,11 @@
     "name": "Food Allergy Card for Eating Out and School",
     "description": "Pick the foods someone must not eat and how serious it is, and get a card to show the waiter or cook in English plus Spanish, French, German, Italian, Portuguese, Turkish, Arabic, Urdu, Hindi or Chinese, a printable wallet card and a note for school or a babysitter.",
     "color": "#e4572e"
+  },
+  {
+    "slug": "commute-pass-or-pay-per-ride-tracker",
+    "name": "Commute Pass or Pay Per Ride Tracker",
+    "description": "Log your bus, metro or train rides in one tap and see whether a weekly or monthly pass, a 30-day pass or a ride card would have been cheaper than paying per ride, whether the pass you bought is paying for itself, and which to buy next month.",
+    "color": "#0f9b8e"
   }
 ]

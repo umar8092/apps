@@ -867,6 +867,14 @@ For parents of a child with a nut, egg or milk allergy, and adults with coeliac 
 
 <a href="food-allergy-card-for-eating-out-and-school/"><img src="food-allergy-card-for-eating-out-and-school/screenshots/phone.png" alt="Food Allergy Card for Eating Out and School screenshot" width="260"></a>
 
+### <img src="commute-pass-or-pay-per-ride-tracker/favicon.svg" width="36" height="36" align="center"> [Commute Pass or Pay Per Ride Tracker](https://umar8092.github.io/apps/commute-pass-or-pay-per-ride-tracker/)
+
+For office workers and students who take the bus, metro or train most days and never know whether the weekly or monthly pass is really cheaper than paying per ride, especially in months with leave, holidays or work-from-home days. Tap "There and back" each day and see "October: 38 rides, 3,040 paying per ride; the Monthly pass would have saved 40", whether the pass you bought has paid for itself yet, and which pass to buy for next month at your usual pace. Handles peak and off-peak fares, two routes, 7-day and 30-day passes, calendar-month passes and 10-ride cards, fare rises and lost cards. Private on your device, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/commute-pass-or-pay-per-ride-tracker/) &middot; [Details and screenshots](commute-pass-or-pay-per-ride-tracker/)
+
+<a href="commute-pass-or-pay-per-ride-tracker/"><img src="commute-pass-or-pay-per-ride-tracker/screenshots/phone.png" alt="Commute Pass or Pay Per Ride Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
