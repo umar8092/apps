@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Allergy Card for Eating Out and School: Chef Card in Your Language</title>
+    <meta name="description" content="Free food allergy card maker. Pick the foods someone must not eat and how serious it is, and get a card to show the waiter or cook in English plus Spanish, French, German, Italian, Portuguese, Turkish, Arabic, Urdu, Hindi or Chinese, a printable wallet card and a note for school or a babysitter. Several family members, no sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/food-allergy-card-for-eating-out-and-school/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#e4572e">
+    <meta name="theme-color" content="#e4572e">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Food Allergy Card for Eating Out and School">
+    <meta property="og:url" content="https://umar8092.github.io/apps/food-allergy-card-for-eating-out-and-school/">
+    <meta property="og:title" content="Food Allergy Card for Eating Out and School">
+    <meta property="og:description" content="Stop explaining the allergy again at every restaurant and school. Make a clear card for the cook in English and a second language, a wallet card and a note for school. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Food Allergy Card for Eating Out and School","alternateName":["Allergy Chef Card Maker","Food Allergy Translation Card","Allergy Card for Restaurants","Coeliac Restaurant Card"],"url":"https://umar8092.github.io/apps/food-allergy-card-for-eating-out-and-school/","description":"A free maker for a food allergy card to show restaurant staff, in English plus a second language, with a printable wallet card and a note for school or carers, private on your device.","applicationCategory":"HealthApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"allergy card, chef card, food allergy translation card, nut allergy card, coeliac card, allergy card for school","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is an allergy chef card?","acceptedAnswer":{"@type":"Answer","text":"A short card you hand to the waiter or show the cook that lists the foods you must not eat and asks the kitchen to check sauces, oils and cross-contact. It is clearer than explaining it again at every meal, and works abroad when it is in the local language."}},{"@type":"Question","name":"Who wrote the translations?","acceptedAnswer":{"@type":"Answer","text":"The sentences and food names were written by hand for each language, not by a translation machine. Foods you type yourself stay as you typed them, and you can add how to write them in the other language."}},{"@type":"Question","name":"Is my information uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. The card and the note are made in your browser and kept only on this device. Your data is never sent anywhere."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Food Allergy Card for Eating Out and School</h1>
+        <p class="sub">Stop explaining it again at every meal. Make a clear card for the waiter or cook, in a second language too, and a note for school or a babysitter.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. What you type will be lost when you close it. Print the card or use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card who" aria-labelledby="who-h">
+            <h2 id="who-h">Whose card is it?</h2>
+            <div class="chips" id="people" role="group" aria-label="People"></div>
+            <button type="button" class="link" id="add-person">+ Add another person</button>
+            <p class="msg" id="who-msg" role="status" aria-live="polite"></p>
+            <label for="f-name">Name on the card</label>
+            <input type="text" id="f-name" autocomplete="given-name" maxlength="60" placeholder="e.g. Ayaan">
+            <p class="hint">Without a name the card says "this person".</p>
+        </section>
+
+        <section class="card" aria-labelledby="food-h">
+            <h2 id="food-h">Foods <span id="food-who">they</span> must not eat</h2>
+            <p class="hint top">Tap each one. Tap again to take it off.</p>
+            <div class="picks" id="picks" role="group" aria-label="Common foods"></div>
+            <label for="f-other">Something else (one food, or paste a list)</label>
+            <div class="add-line">
+                <input type="text" id="f-other" maxlength="400" placeholder="e.g. kiwi">
+                <button type="button" class="secondary" id="add-other">Add</button>
+            </div>
+            <p class="msg" id="food-msg" role="status" aria-live="polite"></p>
+            <h3 class="sub-h" id="chosen-h">On the card</h3>
+            <p class="sum-empty" id="foods-empty">Nothing picked yet.</p>
+            <ul class="rows" id="foods" aria-labelledby="chosen-h"></ul>
+        </section>
+
+        <section class="card" aria-labelledby="more-h">
+            <h2 id="more-h">More details (optional)</h2>
+            <button type="button" class="link" id="o-emerg" aria-expanded="false" aria-controls="w-emerg">+ Add an adrenaline pen and who to call (optional)</button>
+            <div id="w-emerg" hidden>
+                <label class="check"><input type="checkbox" id="f-pen"> Carries an adrenaline pen (EpiPen, Jext, Anapen)</label>
+                <div id="w-penwhere" hidden>
+                    <label for="f-penwhere">Where the pen is kept</label>
+                    <input type="text" id="f-penwhere" maxlength="80" placeholder="e.g. Red school bag">
+                </div>
+                <div class="pair">
+                    <div class="opt"><label for="f-cname">Who to call</label><input type="text" id="f-cname" maxlength="80" placeholder="e.g. Mum (Sara)"></div>
+                    <div class="opt"><label for="f-cphone">Their phone</label><input type="tel" id="f-cphone" maxlength="30" placeholder="e.g. +92 300 1234567"></div>
+                </div>
+                <p class="err" id="cphone-err" aria-live="polite"></p>
+            </div>
+            <button type="button" class="link" id="o-school" aria-expanded="false" aria-controls="w-school">+ Add notes for school or carers (optional)</button>
+            <div id="w-school" hidden>
+                <label for="f-act">What to do if they react, one step per line</label>
+                <textarea id="f-act" maxlength="500" rows="3" placeholder="As the doctor's action plan says, e.g. Give the pen, then call 1122"></textarea>
+                <label for="f-med">Other medicine</label>
+                <input type="text" id="f-med" maxlength="500" placeholder="e.g. Cetirizine 5 ml">
+                <label for="f-safe">Safe foods and swaps</label>
+                <textarea id="f-safe" maxlength="500" rows="2" placeholder="e.g. Oat milk, sunflower seed butter, fruit"></textarea>
+                <p class="hint">These go on the note for school, not on the restaurant card.</p>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card out" aria-labelledby="card-h">
+            <h2 id="card-h">Card to show the waiter or cook</h2>
+            <label for="f-lang">Second language on the card</label>
+            <select id="f-lang"><option value="">None: English only</option></select>
+            <ul class="todo" id="todo"></ul>
+            <p class="sum-empty" id="card-empty">Pick at least one food on the left (above, on a phone) to make the card.</p>
+            <div id="card-ready">
+                <div class="previews" id="previews"></div>
+                <div class="row-btns">
+                    <button type="button" class="primary" id="show-full">Show it full screen</button>
+                    <button type="button" class="secondary" id="print-cards">Print the cards</button>
+                    <button type="button" class="secondary" id="copy-card">Copy the card text</button>
+                    <a class="secondary" id="email-card" href="mailto:">Email the card text</a>
+                </div>
+                <p class="hint">"Copy the card text" is handy for messaging a restaurant or hotel before you book. The printout has a big card for the kitchen and a folding wallet card.</p>
+                <p class="msg" id="card-msg" role="status" aria-live="polite"></p>
+            </div>
+        </section>
+
+        <section class="card out" aria-labelledby="note-h" id="note-sec">
+            <h2 id="note-h">Note for school, a babysitter or a party host</h2>
+            <p class="hint top">In English, with what to do in a reaction and who to call.</p>
+            <pre class="plain" id="note"></pre>
+            <div class="row-btns">
+                <button type="button" class="secondary" id="copy-note">Copy the note</button>
+                <a class="secondary" id="email-note" href="mailto:">Email the note</a>
+                <button type="button" class="secondary" id="print-note">Print the note</button>
+            </div>
+            <p class="msg" id="note-msg" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="card settings" aria-labelledby="set-h">
+            <h2 id="set-h">Backup and start over</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary small" id="backup">Save a backup file</button>
+                <button type="button" class="secondary small" id="restore">Restore a backup</button>
+                <button type="button" class="secondary small wide bad-btn" id="del-person">Delete this person's card</button>
+                <button type="button" class="secondary small wide bad-btn" id="del-all">Delete everything</button>
+            </div>
+            <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            <p class="msg" id="set-msg" role="status" aria-live="polite"></p>
+        </section>
+    </div>
+
+    <section class="faq" aria-labelledby="faq-h">
+        <h2 id="faq-h">Questions</h2>
+        <details><summary>What is "Even a trace is dangerous"?</summary><p>Pick it when a crumb, a shared spoon or oil used for other food can cause a reaction, as with most nut allergies and coeliac disease. The card then also asks the kitchen to use clean pans and utensils, not to fry in shared oil, and says that food labelled "may contain" is not safe. Pick "Must not eat it" for foods that only matter in normal amounts, such as many intolerances.</p></details>
+        <details><summary>Who wrote the translations?</summary><p>The sentences and the food names were written by hand for each language, not by a translation machine. Foods you type yourself stay as you typed them on the second-language card; the app asks you to add how to write them, so a cook can read them. If you can, ask a speaker of the language to check the card once.</p></details>
+        <details><summary>Does the card replace asking?</summary><p>No. It makes the question clear, but always ask, and check labels yourself. If the staff are not sure, choose something else or eat elsewhere.</p></details>
+        <details><summary>Is my information uploaded?</summary><p>No. The card and the note are made in your browser and kept only on this device. Your data is never sent anywhere.</p></details>
+        <details><summary>Is this medical advice?</summary><p>No. It only shows what you pick and type. Your doctor's allergy action plan says what to do in a reaction.</p></details>
+    </section>
+    <footer><p>Free, no sign-up, no ads. <a href="https://github.com/umar8092/apps/tree/main/food-allergy-card-for-eating-out-and-school">Source code</a></p></footer>
+</main>
+
+<dialog class="full" id="full" aria-labelledby="full-title">
+    <div class="full-top">
+        <h2 id="full-title" class="visually-hidden">The allergy card</h2>
+        <div class="full-langs" id="full-langs" role="group" aria-label="Language"></div>
+        <button type="button" class="secondary small" id="full-close">Close</button>
+    </div>
+    <div id="full-card"></div>
+</dialog>
+
+<div id="print-area" aria-hidden="true"></div>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script>if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));</script>
+<script type="application/json" id="help-data">{"title": "How to use Food Allergy Card for Eating Out and School", "sections": [
+ {"h": "Make the card", "steps": ["Type the \"Name on the card\", for example your child's first name. Without a name the card says \"this person\".", "Under \"Foods they must not eat\" tap each food. Tap it again to take it off. For anything not in the list, type it in \"Something else (one food, or paste a list)\" and tap \"Add\"; you can paste a list such as \"kiwi, banana\" and each one is added.", "Each food under \"On the card\" has its own box. Pick \"Even a trace is dangerous\" when a crumb, a shared spoon or shared frying oil can cause a reaction, or \"Must not eat it\" when only normal amounts matter. \"Remove\" takes a food off, with Undo.", "\"+ Add an adrenaline pen and who to call (optional)\" adds an emergency part to the card: that they carry a pen, where it is kept, and a name and phone number to call.", "Everything is saved on this device as you type."]},
+ {"h": "Show it at a restaurant", "steps": ["Pick the \"Second language on the card\" for the country you are in, or leave \"None: English only\". English always comes first; the second card says the same in the other language.", "If you typed your own foods, the app asks you to add how to write them in that language in their box. Otherwise they show as you typed them.", "\"Show it full screen\" fills the screen with big text to hand your phone to the waiter. Tap a language at the top to switch, and \"Close\" to go back.", "\"Print the cards\" prints a big card for the kitchen and a wallet card that you cut out and fold, with English on the front and the second language on the back.", "\"Copy the card text\" and \"Email the card text\" let you send it to a restaurant, hotel or airline before you go."]},
+ {"h": "School, babysitters and party hosts", "steps": ["\"+ Add notes for school or carers (optional)\" adds what to do in a reaction (copy your doctor's action plan, one step per line), other medicine, and safe foods and swaps.", "The \"Note for school, a babysitter or a party host\" is ready in English. Use \"Copy the note\", \"Email the note\" or \"Print the note\"."]},
+ {"h": "Family members", "steps": ["\"+ Add another person\" starts a new card for a child, a partner or a parent. Tap a name under \"Whose card is it?\" to switch.", "\"Delete this person's card\" and \"Delete everything\" can be undone straight after.", "\"Save a backup file\" saves every card to a file; \"Restore a backup\" loads it on another phone or browser."]},
+ {"h": "Good to know", "tips": true, "steps": ["\"Tree nuts\" lists the common nuts by name. If only one nut is a problem, pick just that nut instead.", "The card lists the foods with the most dangerous first, in red.", "The translations were written by hand. If you can, ask a speaker of the language to read it once.", "The card does not replace asking: always ask, and check labels yourself.", "It works offline once opened, so the card is there in a restaurant with no signal."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -640,5 +640,11 @@
     "name": "Home Inventory for Insurance and Moving",
     "description": "Everything you own, room by room, with what it would cost to replace, serial numbers, receipts and photos. See the whole home's total, check your contents cover is enough, and keep a claim list ready after a burglary, fire or flood.",
     "color": "#3563c9"
+  },
+  {
+    "slug": "food-allergy-card-for-eating-out-and-school",
+    "name": "Food Allergy Card for Eating Out and School",
+    "description": "Pick the foods someone must not eat and how serious it is, and get a card to show the waiter or cook in English plus Spanish, French, German, Italian, Portuguese, Turkish, Arabic, Urdu, Hindi or Chinese, a printable wallet card and a note for school or a babysitter.",
+    "color": "#e4572e"
   }
 ]

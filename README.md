@@ -859,6 +859,14 @@ For households with contents insurance, a rented flat or a move coming up who co
 
 <a href="home-inventory-for-insurance-and-moving/"><img src="home-inventory-for-insurance-and-moving/screenshots/phone.png" alt="Home Inventory for Insurance and Moving screenshot" width="260"></a>
 
+### <img src="food-allergy-card-for-eating-out-and-school/favicon.svg" width="36" height="36" align="center"> [Food Allergy Card for Eating Out and School](https://umar8092.github.io/apps/food-allergy-card-for-eating-out-and-school/)
+
+For parents of a child with a nut, egg or milk allergy, and adults with coeliac disease or a serious allergy, who are tired of explaining it again at every restaurant, school canteen, party or babysitter. Tap the foods they must not eat, mark which ones are dangerous even as a trace, and get a clear card for the waiter or cook in English plus a second language (Spanish, French, German, Italian, Portuguese, Turkish, Arabic, Urdu, Hindi or Chinese, written by hand), full screen on the phone or printed with a folding wallet card, and a ready note for school with the adrenaline pen, what to do and who to call.
+
+[**Open the app**](https://umar8092.github.io/apps/food-allergy-card-for-eating-out-and-school/) &middot; [Details and screenshots](food-allergy-card-for-eating-out-and-school/)
+
+<a href="food-allergy-card-for-eating-out-and-school/"><img src="food-allergy-card-for-eating-out-and-school/screenshots/phone.png" alt="Food Allergy Card for Eating Out and School screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
