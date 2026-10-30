@@ -664,5 +664,11 @@
     "name": "Declutter and Sell Tracker for Second-Hand Items",
     "description": "Selling your old things on OLX, Facebook Marketplace, eBay or Vinted? Keep each item's price, where it is listed, every offer, who reserved it and when they collect, then see what sold and how much money you made.",
     "color": "#f0643c"
+  },
+  {
+    "slug": "work-hours-limit-tracker-for-international-students",
+    "name": "Work Hours Limit Tracker for International Students",
+    "description": "On a student visa with a part-time job? Log every shift from each employer and see how many hours you have left this week under your visa limit (20 a week in the UK, 48 a fortnight in Australia), with night shifts, holidays and planned shifts.",
+    "color": "#845ef7"
   }
 ]

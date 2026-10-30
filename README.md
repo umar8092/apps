@@ -891,6 +891,14 @@ For anyone clearing out a home before a move, after the children outgrow things,
 
 <a href="declutter-and-sell-tracker-for-second-hand-items/"><img src="declutter-and-sell-tracker-for-second-hand-items/screenshots/phone.png" alt="Declutter and Sell Tracker for Second-Hand Items screenshot" width="260"></a>
 
+### <img src="work-hours-limit-tracker-for-international-students/favicon.svg" width="36" height="36" align="center"> [Work Hours Limit Tracker for International Students](https://umar8092.github.io/apps/work-hours-limit-tracker-for-international-students/)
+
+For international students with a part-time job whose visa allows only so many hours in term time (20 a week in the UK, 48 a fortnight in Australia, 24 off campus in Canada, 20 in Ireland and on US campuses, 25 in New Zealand, or your own limit), often across two employers whose rotas do not talk to each other. Add each shift with its employer, times and any unpaid break and see "3 h left" and "17 h of 20 h this week", worked and planned hours, and the hours at each job. Before saying yes to an extra shift, the form already says "With it you would be over the limit by 1 h". Night shifts are split over the right days and weeks, Australian fortnights overlap as the rule says, and official holidays lift or change the limit. Private on your device, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/work-hours-limit-tracker-for-international-students/) &middot; [Details and screenshots](work-hours-limit-tracker-for-international-students/)
+
+<a href="work-hours-limit-tracker-for-international-students/"><img src="work-hours-limit-tracker-for-international-students/screenshots/phone.png" alt="Work Hours Limit Tracker for International Students screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Hours Limit Tracker for International Students: 20 Hours a Week Visa Rule</title>
+    <meta name="description" content="Free tracker for international students with a part-time job: log every shift from one or two employers and see how many hours you have left this week under your visa limit (20 hours a week in the UK, 48 a fortnight in Australia, 24 in Canada), with night shifts, holidays and planned shifts. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/work-hours-limit-tracker-for-international-students/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#845ef7">
+    <meta name="theme-color" content="#6741d9">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Work Hours Limit Tracker for International Students">
+    <meta property="og:url" content="https://umar8092.github.io/apps/work-hours-limit-tracker-for-international-students/">
+    <meta property="og:title" content="Work Hours Limit Tracker for International Students">
+    <meta property="og:description" content="On a student visa with a part-time job? Log your shifts and always know how many hours you have left this week before you go over the limit. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Work Hours Limit Tracker for International Students","alternateName":["Student Visa Work Hours Tracker","20 Hour Rule Tracker","Student Visa Hours Calculator","48 Hours a Fortnight Tracker"],"url":"https://umar8092.github.io/apps/work-hours-limit-tracker-for-international-students/","description":"A free, private shift log for international students that shows the hours worked and left this week or fortnight under the student visa work limit, across several employers, with night shifts and official holidays.","applicationCategory":"BusinessApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is a week counted?","acceptedAnswer":{"@type":"Answer","text":"For the UK a week runs from Monday to Sunday and hours cannot be averaged over several weeks. The app starts weeks on Monday; you can change the start day under Your visa rule."}},{"@type":"Question","name":"How does the Australian 48 hours a fortnight rule work?","acceptedAnswer":{"@type":"Answer","text":"Every 14-day period that starts on a Monday counts, so fortnights overlap. The app checks both fortnights that contain the week you are looking at and shows the hours left in the tighter one."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Work Hours Limit Tracker for International Students</h1>
+        <p class="sub">On a student visa with a part-time job? Log every shift and always know how many hours you have left this week before you go over your visa limit.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. Your shifts will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-b">
+        <section class="card sum" id="week" aria-labelledby="week-h">
+            <div class="week-nav" role="group" aria-label="Choose the week">
+                <button type="button" class="secondary" id="prev" aria-label="Previous week">&larr; Previous</button>
+                <button type="button" class="secondary" id="today">This week</button>
+                <button type="button" class="secondary" id="next" aria-label="Next week">Next &rarr;</button>
+            </div>
+            <h2 id="week-h"><span id="week-name">This week</span> <span class="range" id="week-range"></span></h2>
+            <p class="big" id="big"></p>
+            <div class="bar" id="bar" role="img" aria-label=""><span id="bar-fill"></span><i id="bar-plan"></i></div>
+            <p class="s-sub" id="big-sub"></p>
+            <ul class="stats" id="stats"></ul>
+            <div class="over-box" id="over-box" hidden>
+                <p class="o-h" id="over-h"></p>
+                <ul id="over-list"></ul>
+            </div>
+            <p class="rule-line"><span id="rule-line"></span> <button type="button" class="link inline" id="rule-jump">Change</button></p>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy this week</button>
+                <a class="secondary" id="mail" href="mailto:">Email this week</a>
+            </div>
+            <div class="msg" id="week-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="list-sec" id="shifts-sec" aria-labelledby="shifts-h">
+            <h2 id="shifts-h">Shifts in this week</h2>
+            <div class="i-list" id="shift-list"></div>
+            <p class="hint empty" id="shift-none" hidden>No shifts in this week. Add one under &ldquo;Add a shift&rdquo;.</p>
+        </section>
+
+        <section class="card hist" id="hist" aria-labelledby="hist-h" hidden>
+            <h2 id="hist-h">Every week so far</h2>
+            <p class="hint" id="hist-note"></p>
+            <ul class="weeks" id="hist-list"></ul>
+            <button type="button" class="secondary" id="hist-more" hidden>Show all</button>
+        </section>
+    </div>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a shift</h2>
+            <label for="a-emp">Employer</label>
+            <input id="a-emp" type="text" maxlength="60" autocomplete="off" list="emp-list" placeholder="e.g. Costa, Tesco, uni library">
+            <datalist id="emp-list"></datalist>
+            <div class="quick emp-chips" id="emp-chips" role="group" aria-label="Your employers"></div>
+            <label for="a-date">Day the shift starts</label>
+            <input id="a-date" type="date" aria-describedby="a-date-err">
+            <p class="err" id="a-date-err" role="alert"></p>
+            <div class="two">
+                <div>
+                    <label for="a-start">Start</label>
+                    <input id="a-start" type="time" aria-describedby="a-start-err">
+                    <p class="err" id="a-start-err" role="alert"></p>
+                </div>
+                <div>
+                    <label for="a-end">End</label>
+                    <input id="a-end" type="time" aria-describedby="a-end-err">
+                    <p class="err" id="a-end-err" role="alert"></p>
+                </div>
+            </div>
+            <p class="len" id="a-len" aria-live="polite"></p>
+            <button type="button" class="link" id="a-brk-open" aria-expanded="false">+ Add an unpaid break (optional)</button>
+            <div class="sub-box" id="a-brk-box" hidden>
+                <label for="a-brk">Unpaid break in minutes</label>
+                <input id="a-brk" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="e.g. 30" aria-describedby="a-brk-err a-brk-hint">
+                <p class="err" id="a-brk-err" role="alert"></p>
+                <div class="quick" id="brk-chips" role="group" aria-label="Common breaks">
+                    <button type="button" class="chip" data-brk="15">15 min</button>
+                    <button type="button" class="chip" data-brk="30">30 min</button>
+                    <button type="button" class="chip" data-brk="45">45 min</button>
+                    <button type="button" class="chip" data-brk="60">1 h</button>
+                </div>
+                <p class="hint" id="a-brk-hint">An unpaid break is not work, so it is taken off the hours. Leave it blank if your break is paid.</p>
+            </div>
+            <button type="button" class="link" id="a-note-open" aria-expanded="false">+ Add a note (optional)</button>
+            <div class="sub-box" id="a-note-box" hidden>
+                <label for="a-note">Note</label>
+                <textarea id="a-note" maxlength="200" rows="2" placeholder="e.g. Covered for Sam"></textarea>
+            </div>
+            <div class="row-btns">
+                <button type="button" class="primary" id="a-save">Add shift</button>
+                <button type="button" class="secondary" id="a-cancel" hidden>Cancel</button>
+            </div>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card rule" id="rule" aria-labelledby="rule-h">
+            <h2 id="rule-h">Your visa rule</h2>
+            <label for="r-preset">Where you study</label>
+            <select id="r-preset"></select>
+            <p class="rule-sum" id="r-sum"></p>
+            <button type="button" class="link" id="r-more-open" aria-expanded="false">+ Change the hours or the day weeks start</button>
+            <div class="sub-box" id="r-more" hidden>
+                <div class="two">
+                    <div>
+                        <label for="r-limit">Most hours in term time</label>
+                        <input id="r-limit" type="text" inputmode="decimal" maxlength="5" autocomplete="off" aria-describedby="r-limit-err">
+                    </div>
+                    <div>
+                        <label for="r-period">Per</label>
+                        <select id="r-period"><option value="7">Week</option><option value="14">Fortnight (2 weeks)</option></select>
+                    </div>
+                </div>
+                <p class="err" id="r-limit-err" role="alert"></p>
+                <label for="r-start" id="r-start-l">Weeks start on</label>
+                <select id="r-start"></select>
+                <label for="r-hol">In official holidays</label>
+                <select id="r-hol"><option value="none">No limit (full time allowed)</option><option value="limit">A different limit</option></select>
+                <div id="r-hol-box" hidden>
+                    <label for="r-hol-h">Most hours in a holiday week</label>
+                    <input id="r-hol-h" type="text" inputmode="decimal" maxlength="5" autocomplete="off" aria-describedby="r-hol-err">
+                    <p class="err" id="r-hol-err" role="alert"></p>
+                </div>
+            </div>
+            <p class="hint">These are the usual rules, not legal advice. Your own visa or permit may say something different: check its conditions or ask your university's international student office.</p>
+        </section>
+
+        <section class="card hols" id="hols" aria-labelledby="hols-h">
+            <h2 id="hols-h">Official holidays</h2>
+            <p class="hint">Add your university's official vacation dates. A week only counts as a holiday week when every day of it is inside a holiday; otherwise the term-time limit applies, to keep you safe.</p>
+            <div class="i-list hol-list" id="hol-list"></div>
+            <button type="button" class="secondary" id="h-open">+ Add a holiday</button>
+            <div class="sub-box" id="h-box" hidden>
+                <div class="two">
+                    <div>
+                        <label for="h-from">First day</label>
+                        <input id="h-from" type="date" aria-describedby="h-from-err">
+                        <p class="err" id="h-from-err" role="alert"></p>
+                    </div>
+                    <div>
+                        <label for="h-to">Last day</label>
+                        <input id="h-to" type="date" aria-describedby="h-to-err">
+                        <p class="err" id="h-to-err" role="alert"></p>
+                    </div>
+                </div>
+                <label for="h-name">Name (optional)</label>
+                <input id="h-name" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Christmas vacation">
+                <div class="row-btns">
+                    <button type="button" class="primary" id="h-save">Save holiday</button>
+                    <button type="button" class="secondary" id="h-cancel">Cancel</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup and export</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <button type="button" class="secondary wide" id="csv">Download all shifts (CSV for Excel)</button>
+            </div>
+            <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is a week counted?</summary><p>For the UK a week runs from <b>Monday to Sunday</b>, and you cannot average your hours: working 25 hours one week and 15 the next is still going over. The app starts weeks on Monday. If your rule or employer counts from another day, change it under <b>Your visa rule</b>.</p></details>
+        <details><summary>A shift goes past midnight</summary><p>Type the real start and end, for example 22:00 to 06:00. The app splits it: 2 hours on the first day and 6 on the next. A Sunday night shift is counted partly in this week and partly in next week, just as the rule does.</p></details>
+        <details><summary>How does the Australian 48 hours a fortnight rule work?</summary><p>Every 14 days that start on a Monday count, so the fortnights overlap. For the week you are looking at, the app checks the fortnight that ends this Sunday and the one that starts this Monday, and shows the hours left in the tighter one.</p></details>
+        <details><summary>What is a planned shift?</summary><p>Any shift that has not ended yet. Planned hours count towards the limit, so you see before you work it whether a shift offered for Saturday would take you over. If you do not work it, delete it.</p></details>
+        <details><summary>Do unpaid breaks count?</summary><p>A break where you are not working is not work, so an unpaid break is taken off the hours. A paid break counts: leave the break blank. Volunteering and unpaid work placements can count too: add them as shifts.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your shifts stay in this browser on this device. No account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/work-hours-limit-tracker-for-international-students">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Work Hours Limit Tracker", "sections": [
+ {"h": "1. Set your visa rule once", "steps": ["Under \"Your visa rule\" pick \"Where you study\", for example \"UK Student visa, degree level\" (20 h a week) or \"Australia Student visa\" (48 h a fortnight).", "\"+ Change the hours or the day weeks start\" lets you set your own limit, a week or a fortnight, the day weeks start and a limit for holiday weeks. Changing the hours switches the rule to \"My own limit\".", "Under \"Official holidays\" tap \"+ Add a holiday\" and type your university's vacation dates. A week where every day is in a holiday uses the holiday rule (no limit, or 40 h in Ireland)."]},
+ {"h": "2. Add each shift", "steps": ["Under \"Add a shift\" type the \"Employer\" (or tap one you used before), the \"Day the shift starts\", the \"Start\" and the \"End\".", "A shift past midnight, such as 22:00 to 06:00, is fine: the app shows \"ends the next day\" and splits the hours between the two days.", "\"+ Add an unpaid break (optional)\" takes the break off the hours. Leave it closed if your break is paid.", "Tap \"Add shift\". Add shifts you are offered for later in the week too: they show as \"Planned\" until they end."]},
+ {"h": "3. Read the answer", "steps": ["The box at the top shows the week and the hours left, for example \"3 h left\" and \"17 h of 20 h this week\". The bar shows worked hours solid and planned hours lighter.", "\"Over by 1 h 15 min\" in red means the week is over the limit. If it is only planned shifts, the box lists them so you can drop or shorten one before you work it.", "\"No limit this week\" means every day of the week is in an official holiday.", "With a fortnight rule the box shows both fortnights that hold this week and the hours left in the tighter one.", "\"By employer\" shows the hours at each job when you have more than one."]},
+ {"h": "4. Change or check other weeks", "steps": ["\"Previous\", \"This week\" and \"Next\" move between weeks. \"Every week so far\" lists each week with its total; tap one to open it.", "Each shift has \"Edit\", \"Same time next week\" (copies it 7 days later) and \"Delete\", with \"Undo\".", "\"Copy this week\" and \"Email this week\" give a list of the week's shifts, for example to show an employer."]},
+ {"h": "5. Backup", "steps": ["\"Save a backup file\" and \"Restore a backup\" move your shifts to another phone or computer.", "\"Download all shifts (CSV for Excel)\" gives a spreadsheet of every shift.", "\"Delete everything\" starts again, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The usual rules are built in, but they are not legal advice. Check your own visa conditions or ask your international student office.", "You cannot average hours over weeks in the UK. 25 hours one week is over even if the next week is 15.", "Everything stays on this device. Your data is never sent anywhere and it works offline."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
