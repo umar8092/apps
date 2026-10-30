@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Shedding Schedule and Power Cut Log: When Is the Next Power Cut?</title>
+    <meta name="description" content="Free load shedding schedule and power cut log for homes and shops. Type your area's cut times once and see when the next power cut is and when the power comes back. Log real cuts in two taps and get the hours without power this week or month, how much more than the schedule, and a list ready for a complaint. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/load-shedding-schedule-and-power-cut-log/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#4c5fd5">
+    <meta name="theme-color" content="#3442b8">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Load Shedding Schedule and Power Cut Log">
+    <meta property="og:url" content="https://umar8092.github.io/apps/load-shedding-schedule-and-power-cut-log/">
+    <meta property="og:title" content="Load Shedding Schedule and Power Cut Log: When Is the Next Power Cut?">
+    <meta property="og:description" content="See when the next power cut is and when the power comes back, log real cuts in two taps and get the hours lost this month for a complaint. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Load Shedding Schedule and Power Cut Log","alternateName":["Load Shedding Timer","Next Power Cut Countdown","Power Outage Log","Bijli Load Shedding Schedule","Power Cut Hours Tracker"],"url":"https://umar8092.github.io/apps/load-shedding-schedule-and-power-cut-log/","description":"A free load shedding schedule and power cut log: type your area's cut times once, see when the next cut is and when the power comes back, log real cuts and get the hours without power for a complaint.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"load shedding schedule, next power cut, power outage log, load shedding timings, power cut hours, electricity complaint, LESCO, K-Electric, IESCO, feeder schedule","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Where do I get my area's load shedding times?","acceptedAnswer":{"@type":"Answer","text":"From your electricity company's website, app, helpline or SMS for your feeder or area, or from the times your neighbours see. Type them once; you can paste a message with the times too."}},{"@type":"Question","name":"Does the app know when the power really goes?","acceptedAnswer":{"@type":"Answer","text":"No. It shows the planned times you typed. Tap Power went and Power is back to log real cuts; the app then adds up the hours without power and compares them with the plan."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Load Shedding Schedule and Power Cut Log</h1>
+        <p class="sub">See when the next power cut is and when the power comes back. Log real cuts and get the hours without power for a complaint.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toast-text"></span><button type="button" class="link inline" id="toast-undo">Undo</button></div>
+
+    <div class="col-a">
+        <section class="places" id="places" aria-label="Your places"></section>
+
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add your area's cut times</h2>
+            <p class="hint top" id="add-intro">Type the load shedding times for your home or shop once, from your electricity company's schedule for your feeder or area.</p>
+            <div id="add-editor"></div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+        </section>
+        <button type="button" class="secondary add-more" id="add-more" hidden>+ Add another place (shop, office, parents' home)</button>
+    </div>
+
+    <div class="col-b">
+        <section class="card log" id="log" aria-labelledby="log-h" hidden>
+            <h2 id="log-h">Power cut log</h2>
+            <div class="field" id="log-place-box">
+                <label for="log-place">Place</label>
+                <select id="log-place"></select>
+            </div>
+            <label for="log-period">Show</label>
+            <select id="log-period">
+                <option value="month">This month</option>
+                <option value="7d">Last 7 days</option>
+                <option value="lastmonth">Last month</option>
+                <option value="year">This year</option>
+                <option value="custom">Pick dates&hellip;</option>
+            </select>
+            <div class="two" id="custom-box" hidden>
+                <div class="field"><label for="log-from">From</label><input id="log-from" type="date"></div>
+                <div class="field"><label for="log-to">To</label><input id="log-to" type="date"></div>
+            </div>
+            <p class="err" id="period-err" role="alert"></p>
+            <div class="sum" id="sum" aria-live="polite"></div>
+            <div class="share" id="share">
+                <button type="button" class="secondary" id="copy">Copy for a complaint</button>
+                <button type="button" class="secondary" id="email">Email</button>
+                <button type="button" class="secondary" id="print">Print</button>
+                <button type="button" class="secondary" id="csv">Save CSV</button>
+            </div>
+            <div class="msg" id="log-msg" role="status" aria-live="polite"></div>
+
+            <button type="button" class="link" id="past-open">+ Add a cut you forgot to log</button>
+            <div class="sub-box" id="past-box" hidden></div>
+            <h3 id="rows-h">Cuts</h3>
+            <div class="rows" id="rows"></div>
+        </section>
+
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Type your area's cut times once</b>, for example 08:00 to 09:00 and 14:00 to 16:00, every day or on certain days. You can paste them from a message.</li>
+                <li><b>See the answer at a glance</b>: "Next cut 14:00 to 16:00, in 1 h 40 min" or "Planned cut now, power back at 16:00".</li>
+                <li><b>Tap Power went and Power is back</b> when it really happens. Forgot? Add it later with the right times.</li>
+                <li><b>Get the totals</b>: "10 h 35 min without power this week, 6 h 35 min outside the planned times", ready to copy for a complaint.</li>
+            </ol>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Backup</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Where do I get my area's load shedding times?</summary><p>From your electricity company for your feeder or area: its website, app, helpline or SMS (in Pakistan, for example, LESCO, IESCO, MEPCO and the other companies post feeder schedules, and K-Electric shows them in its app and on 118). Or note the times the power goes for a few days. You can paste a whole message into <b>+ Paste the times from a message</b> and the app picks out the times.</p></details>
+        <details><summary>Does the app know when the power really goes?</summary><p>No, nothing can know that without a device on your wiring. The top of each box shows the <b>planned</b> times you typed. When the power really goes, tap <b>Power went</b>, and <b>Power is back</b> when it returns. Those logged cuts are what the totals add up.</p></details>
+        <details><summary>What does "outside the planned times" mean?</summary><p>The part of your logged cuts that was not in your area's schedule. A cut from 13:50 to 18:00 when 14:00 to 16:00 was planned has <b>2 h 10 min outside the planned times</b>. A cut with no planned cut at all, such as 03:00 to 05:30, is an <b>unplanned cut</b>. This is the number to quote in a complaint.</p></details>
+        <details><summary>Our schedule changes in summer, or by day</summary><p>Pick the days for each cut time (for example Fri only), and add as many cut times as you need. When the company changes the times, tap <b>Edit cut times</b> and save the new ones: they apply from today, and earlier days keep the old times in your totals.</p></details>
+        <details><summary>Can it remind me before a cut?</summary><p>Yes, through your phone's calendar. Tap <b>Add to calendar</b> in the place's box, pick how many minutes before, and open the file: each cut time is added as a repeating event with a reminder. If the times change, delete the old events in your calendar and add them again.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection, even when the internet goes with the power. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/load-shedding-schedule-and-power-cut-log">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Load Shedding Schedule and Power Cut Log", "sections": [
+ {"h": "1. Add your area's cut times", "steps": ["Tap \"Home\", \"Shop\" or \"Office\", or type the \"Name of the place\" yourself.", "Under \"Cut times\", set \"Power goes\" and \"Power comes back\" for each planned cut, for example 14:00 and 16:00. If it comes back after midnight, the box says \"ends the next day\".", "Under \"On these days\", leave every day ticked, or untick the days that cut does not happen.", "\"+ Add a cut time\" adds another box. \"Remove\" takes one away.", "\"+ Paste the times from a message\" reads times such as \"08:00-10:00, 14:00 to 16:00\" or \"2-4pm\" out of a message from your electricity company. Tap \"Add these times\".", "Tap \"Save\". Each place gets its own box. \"+ Add another place\" adds a shop or a second home with its own times."]},
+ {"h": "2. What the box tells you", "steps": ["\"Power should be on\" with \"Next cut 14:00 to 16:00, in 1 h 40 min\": when the next planned cut starts and ends.", "\"Planned cut now\" with \"Power back at 16:00, in 35 min\": a planned cut is going on.", "\"Power is off since 13:12\": you tapped \"Power went\" and have not tapped \"Power is back\" yet.", "The bar shows today from midnight to midnight: striped parts are planned cuts, solid red parts are cuts you logged, the line is now.", "\"Today\" and \"Tomorrow\" list the planned cut times."]},
+ {"h": "3. Log real cuts", "steps": ["Tap \"Power went\" when the power goes, and \"Power is back\" when it returns. The time you tap is saved.", "Tapped late? Tap \"Edit\" on the cut in the \"Power cut log\" and change the times.", "\"+ Add a cut you forgot to log\" adds a past cut with the date and time the power went and came back. Tick \"Still off\" if it has not come back.", "\"Delete\" removes a cut, with \"Undo\"."]},
+ {"h": "4. Totals and complaints", "steps": ["Pick the \"Place\" and what to \"Show\": this month, the last 7 days, last month, this year, or your own dates.", "\"Without power\" is the total time of your logged cuts in that time, with the number of cuts and the average a day.", "\"Planned\" is the load shedding your schedule says you should have had, counted from the day you started using the app, and how much more or less you really had.", "\"Outside the planned times\" is the time without power that was not in the schedule. \"Unplanned cuts\" had no planned cut at all.", "Each cut is marked \"Planned\", \"Outside planned times\" with the extra time, or \"Not planned\".", "\"Copy for a complaint\" copies the totals and the list of cuts. \"Email\" opens your email app with it, \"Print\" prints it and \"Save CSV\" saves it for a spreadsheet."]},
+ {"h": "Reminders, editing and backup", "steps": ["\"Add to calendar\" saves a calendar file with every cut time as a repeating event and a reminder the minutes before you pick.", "\"Edit cut times\" changes the name or the times. New times count from today; earlier days keep the old times.", "\"Delete place\" removes a place and its log, with \"Undo\".", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\". \"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The app shows the planned times you typed. It cannot sense your power supply, so log the real cuts yourself.", "Times use this device's clock and time zone, including summer time.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

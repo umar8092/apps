@@ -899,6 +899,14 @@ For international students with a part-time job whose visa allows only so many h
 
 <a href="work-hours-limit-tracker-for-international-students/"><img src="work-hours-limit-tracker-for-international-students/screenshots/phone.png" alt="Work Hours Limit Tracker for International Students screenshot" width="260"></a>
 
+### <img src="load-shedding-schedule-and-power-cut-log/favicon.svg" width="36" height="36" align="center"> [Load Shedding Schedule and Power Cut Log](https://umar8092.github.io/apps/load-shedding-schedule-and-power-cut-log/)
+
+Know when the power goes and when it comes back. Type your area's load shedding times once and see "Next cut 14:00 to 16:00, in 1 h 40 min" or "Planned cut now, power back at 16:00". Tap Power went and Power is back when it really happens, and get the hours without power this month, how much was outside the planned times, and a list ready for a complaint. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/load-shedding-schedule-and-power-cut-log/) &middot; [Details and screenshots](load-shedding-schedule-and-power-cut-log/)
+
+<a href="load-shedding-schedule-and-power-cut-log/"><img src="load-shedding-schedule-and-power-cut-log/screenshots/phone.png" alt="Load Shedding Schedule and Power Cut Log screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

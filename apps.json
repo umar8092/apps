@@ -670,5 +670,11 @@
     "name": "Work Hours Limit Tracker for International Students",
     "description": "On a student visa with a part-time job? Log every shift from each employer and see how many hours you have left this week under your visa limit (20 a week in the UK, 48 a fortnight in Australia), with night shifts, holidays and planned shifts.",
     "color": "#845ef7"
+  },
+  {
+    "slug": "load-shedding-schedule-and-power-cut-log",
+    "name": "Load Shedding Schedule and Power Cut Log",
+    "description": "Type your area's load shedding times once and see when the next power cut is and when the power comes back. Log real cuts in two taps and get the hours without power this month, how much more than planned, and a list for a complaint.",
+    "color": "#4c5fd5"
   }
 ]
