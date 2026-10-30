@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Declutter and Sell Tracker for Second-Hand Items: Listings, Offers, Buyers</title>
+    <meta name="description" content="Free tracker for selling your used things on OLX, Facebook Marketplace, eBay or Vinted. Keep each item's price, where it is listed, every offer, who reserved it and when they collect, then see what sold and how much money you made. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/declutter-and-sell-tracker-for-second-hand-items/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#f0643c">
+    <meta name="theme-color" content="#d9482b">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Declutter and Sell Tracker for Second-Hand Items">
+    <meta property="og:url" content="https://umar8092.github.io/apps/declutter-and-sell-tracker-for-second-hand-items/">
+    <meta property="og:title" content="Declutter and Sell Tracker for Second-Hand Items">
+    <meta property="og:description" content="Selling your old things online? Keep every item, price, offer and buyer in one list and see what sold and what you made. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Declutter and Sell Tracker for Second-Hand Items","alternateName":["Second-Hand Selling Tracker","Marketplace Listing Tracker","OLX Sale Tracker","Facebook Marketplace Tracker","Declutter Sale Log"],"url":"https://umar8092.github.io/apps/declutter-and-sell-tracker-for-second-hand-items/","description":"A free, private tracker for selling used things from home: where each item is listed, its asking price, offers, reserved buyers and collection days, sold prices and the money made.","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"When should I lower my price?","acceptedAnswer":{"@type":"Answer","text":"If an item has had the same price for 14 days and nobody has made an offer, the app marks it Price drop due. Many sellers drop the price by about 10 percent at that point."}},{"@type":"Question","name":"A buyer did not turn up. What do I do?","acceptedAnswer":{"@type":"Answer","text":"Tap Buyer did not come. The item goes back to For sale and the no-show is noted on it. If they paid a deposit, choose whether you gave it back or kept it."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Declutter and Sell Tracker for Second-Hand Items</h1>
+        <p class="sub">Selling your old things on OLX, Facebook Marketplace, eBay or Vinted? Keep every item, price, offer and buyer in one list, and see what sold and how much you made.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. Your list will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add something to sell</h2>
+            <label for="a-name">What are you selling?</label>
+            <input id="a-name" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Baby cot" aria-describedby="a-name-err">
+            <p class="err" id="a-name-err" role="alert"></p>
+            <label for="a-price">Asking price</label>
+            <div class="amount-row"><span class="cur-tag" id="a-price-cur" hidden></span><input id="a-price" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 9000" aria-describedby="a-price-err a-price-hint"></div>
+            <p class="err" id="a-price-err" role="alert"></p>
+            <p class="hint" id="a-price-hint">Leave it blank if you are asking for offers.</p>
+            <fieldset class="sites">
+                <legend>Where is it listed? (tap all that apply)</legend>
+                <div class="quick" id="a-sites" role="group" aria-label="Where it is listed"></div>
+                <label for="a-other">Other places</label>
+                <input id="a-other" type="text" maxlength="120" autocomplete="off" placeholder="e.g. Shpock, school group">
+            </fieldset>
+            <button type="button" class="link" id="a-more-open">+ Lowest price, date listed, ad text, photo (optional)</button>
+            <div id="a-more" class="sub-box" hidden>
+                <label for="a-min">Lowest price you will take</label>
+                <div class="amount-row"><span class="cur-tag" id="a-min-cur" hidden></span><input id="a-min" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 7500" aria-describedby="a-min-err"></div>
+                <p class="err" id="a-min-err" role="alert"></p>
+                <p class="hint">Only you see this. Offers below it are marked.</p>
+                <label for="a-listed">Date listed</label>
+                <input id="a-listed" type="date" aria-describedby="a-listed-err">
+                <p class="err" id="a-listed-err" role="alert"></p>
+                <label for="a-note">Ad text (size, condition, collection area)</label>
+                <textarea id="a-note" maxlength="300" rows="3" placeholder="e.g. Wooden cot with mattress, good condition. Collect from Gulberg."></textarea>
+                <p class="label-like">Photo</p>
+                <div class="photo-row">
+                    <img id="a-photo-img" class="thumb" alt="Photo of the item" hidden>
+                    <button type="button" class="secondary" id="a-photo-btn">Add a photo</button>
+                    <button type="button" class="secondary" id="a-photo-del" hidden>Remove photo</button>
+                    <input type="file" id="a-photo" accept="image/*" hidden>
+                </div>
+                <p class="hint">A small copy is kept on this device so you know which item is which.</p>
+            </div>
+            <div class="row-btns">
+                <button type="button" class="primary" id="a-save">Add to my sale list</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Settings and backup</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Add each thing you are selling</b> with its price and the sites you listed it on.</li>
+                <li><b>Note every offer.</b> When a buyer agrees, tap <b>Reserve for a buyer</b> with the price and the day they collect.</li>
+                <li><b>When they pay and take it</b>, tap <b>Collected and paid</b>. You see what sold, what is left and the money you made.</li>
+            </ol>
+        </section>
+        <section class="card sum" id="sum" aria-labelledby="sum-h" hidden>
+            <h2 id="sum-h">Money made</h2>
+            <p class="big" id="sum-big"></p>
+            <p class="s-sub" id="sum-sub"></p>
+            <ul class="stats" id="sum-list"></ul>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy the list</button>
+                <a class="secondary" id="mail" href="mailto:">Email the list</a>
+            </div>
+            <div class="msg" id="sum-msg" role="status" aria-live="polite"></div>
+        </section>
+        <section class="list-sec" id="res-sec" aria-labelledby="res-h" hidden>
+            <h2 id="res-h">Waiting to be collected</h2>
+            <div class="i-list" id="res-list"></div>
+        </section>
+        <section class="list-sec" id="sale-sec" aria-labelledby="sale-h" hidden>
+            <h2 id="sale-h">For sale</h2>
+            <div class="i-list" id="sale-list"></div>
+        </section>
+        <section class="list-sec" id="done-sec" aria-labelledby="done-h" hidden>
+            <h2 id="done-h">Done</h2>
+            <div class="quick tabs" role="group" aria-label="Show">
+                <button type="button" class="chip on" id="tab-sold" aria-pressed="true">Sold</button>
+                <button type="button" class="chip" id="tab-given" aria-pressed="false">Given away</button>
+                <button type="button" class="chip" id="tab-kept" aria-pressed="false">Kept</button>
+            </div>
+            <div class="i-list" id="done-list"></div>
+            <p class="hint" id="done-none" hidden></p>
+            <button type="button" class="secondary" id="done-more" hidden>Show all</button>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>When should I lower my price?</summary><p>If an item has had the same price for <b>14 days</b> and nobody has made an offer, it is marked <b>Price drop due</b> and moves to the top of For sale. Many sellers drop about 10% at that point. Tap <b>Change price</b>: the old prices are kept, so you see &ldquo;Was 15,000, then 13,500, now 12,000&rdquo;.</p></details>
+        <details><summary>A buyer did not turn up</summary><p>Tap <b>Buyer did not come</b>. The item goes back to <b>For sale</b> and the no-show is noted on it, so you remember next time. If they paid a deposit, choose whether you gave it back or kept it; a kept deposit is added to Money made.</p></details>
+        <details><summary>I sold several things together</summary><p>Tap <b>Mark as sold</b> on one of them, open <b>+ Sold together with other items</b> and tick the others. Type the one price you got: it is split between the items by their asking prices, to the cent. A cot asking 9,000 and a high chair asking 3,000 sold together for 10,000 count as 7,500 and 2,500.</p></details>
+        <details><summary>I swapped it instead of selling it</summary><p>In <b>Mark as sold</b>, open <b>+ Swapped it for something</b> and type what you got, plus any money (or 0). Swaps are not counted in the &ldquo;% of what you first asked&rdquo; figure.</p></details>
+        <details><summary>What does &ldquo;% of what you first asked&rdquo; mean?</summary><p>It compares what your sold items fetched with the first asking price you gave them. Asking 10,000 and 5,000 and selling for 8,000 and 5,000 shows <b>87%</b> (13,000 of 15,000). Items with no asking price and swaps are left out.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your list and photos stay in this browser on this device. No account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/declutter-and-sell-tracker-for-second-hand-items">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Declutter and Sell Tracker", "sections": [
+ {"h": "1. Add what you are selling", "steps": ["Under \"Add something to sell\" type \"What are you selling?\" and the \"Asking price\". Leave the price blank if you are asking for offers.", "Under \"Where is it listed?\" tap every site it is on, such as OLX and Facebook Marketplace. Type any others in \"Other places\".", "\"+ Lowest price, date listed, ad text, photo (optional)\" lets you add the lowest price you will take (only you see it), the day you listed it if that was before today, the ad text and a photo.", "Tap \"Add to my sale list\". The item appears under \"For sale\" in its own box."]},
+ {"h": "2. While it is for sale", "steps": ["\"+ Offer\": type who offered and how much. Offers below your lowest price are marked. Each offer has \"Accept\" and \"Decline\".", "\"Change price\" sets a new asking price. The old prices stay on the item: \"Was 15,000, then 13,500, now 12,000\".", "\"Copy ad text\" copies the name, price and ad text to paste into a listing.", "\"Price drop due\" appears when an item has had the same price for 14 days with no offers.", "\"More\" has \"Edit\", \"Given away\", \"I will keep it\" and \"Delete\"."]},
+ {"h": "3. A buyer agrees", "steps": ["Tap \"Reserve for a buyer\" (or \"Accept\" on their offer). Type the buyer's name, the price agreed, the collection day and any deposit paid.", "The item moves to \"Waiting to be collected\" at the top, with the money still to collect.", "When they pay and take it, tap \"Collected and paid\". Change the price if they paid a different amount.", "If they never come, tap \"Buyer did not come\". The item goes back on sale and the no-show is noted. With a deposit, choose \"Gave the deposit back\" or \"Kept the deposit\"."]},
+ {"h": "4. Sold without a reservation", "steps": ["Tap \"Mark as sold\", type the buyer (optional) and the price you got, and tap \"Save as sold\".", "\"+ Swapped it for something\" records a swap: type what you got and any money, or 0.", "\"+ Sold together with other items\" sells a bundle for one price: tick the other items and the price is split between them by their asking prices."]},
+ {"h": "5. What the numbers mean", "steps": ["\"Money made\" adds up everything sold plus any deposits kept from buyers who did not come.", "\"% of what you first asked\" compares the sold prices with each item's first asking price. Swaps and items with no price are left out.", "\"For sale\" counts the items still listed and adds up their asking prices.", "\"Waiting to be collected\" shows the money still to come from reserved items, after deposits.", "\"By place\" shows how many items are listed and sold on each site."]},
+ {"h": "Other buttons", "steps": ["\"Done\" lists items you \"Sold\", \"Given away\" or \"Kept\". \"Put back on sale\" undoes that; \"Delete\" removes an item, with \"Undo\".", "\"Copy the list\" and \"Email the list\" send the whole list as text.", "\"Currency symbol\" shows prices with $, Rs, £ or any other symbol, or plain numbers.", "\"Save a backup file\" and \"Restore a backup\" move your list to another phone. \"Delete everything\" starts again, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["One item can be on several sites. When it sells, remember to remove the ad on each site listed in its box.", "Everything, photos too, stays on this device. Your data is never sent anywhere and it works offline.", "Save a backup before changing phones or clearing your browser."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

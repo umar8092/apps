@@ -658,5 +658,11 @@
     "name": "Shopping Wishlist with a Cooling-Off Wait",
     "description": "Stop impulse buys: put what you want on the list with its price and wait a day, a week or 30 days. When the wait ends, tap Buy it or Skip it, and see how much you did not spend this year.",
     "color": "#7b2cbf"
+  },
+  {
+    "slug": "declutter-and-sell-tracker-for-second-hand-items",
+    "name": "Declutter and Sell Tracker for Second-Hand Items",
+    "description": "Selling your old things on OLX, Facebook Marketplace, eBay or Vinted? Keep each item's price, where it is listed, every offer, who reserved it and when they collect, then see what sold and how much money you made.",
+    "color": "#f0643c"
   }
 ]

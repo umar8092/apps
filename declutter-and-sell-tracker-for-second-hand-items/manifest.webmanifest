@@ -1,0 +1,15 @@
+{
+  "name": "Declutter and Sell Tracker for Second-Hand Items",
+  "short_name": "Declutter Sell",
+  "description": "Keep every item you are selling second-hand: where it is listed, its price, offers, who reserved it and when they collect, and the money you made.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#160604",
+  "theme_color": "#d9482b",
+  "categories": ["finance", "shopping", "lifestyle"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

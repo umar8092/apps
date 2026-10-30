@@ -883,6 +883,14 @@ Saw something you want? Put it on the list with its price instead of buying it o
 
 <a href="shopping-wishlist-with-a-cooling-off-wait/"><img src="shopping-wishlist-with-a-cooling-off-wait/screenshots/phone.png" alt="Shopping Wishlist with a Cooling-Off Wait screenshot" width="260"></a>
 
+### <img src="declutter-and-sell-tracker-for-second-hand-items/favicon.svg" width="36" height="36" align="center"> [Declutter and Sell Tracker for Second-Hand Items](https://umar8092.github.io/apps/declutter-and-sell-tracker-for-second-hand-items/)
+
+For anyone clearing out a home before a move, after the children outgrow things, or just to make space, who lists a dozen things on OLX, Facebook Marketplace, eBay or Vinted and loses track of what is listed where, who offered what and who still has to come and pay. Each item gets its own box with its asking price, the sites it is on, every offer (marked when it is below your lowest price) and a "Price drop due" note after 14 days with no offers. Reserve it for a buyer with the price, collection day and deposit, then tap "Collected and paid" or "Buyer did not come". See "Money made: 18,200 from 6 items sold, 88% of what you first asked", what is still for sale and what is left to collect. Handles bundles sold together (split to the cent), swaps, giving away and keeping. Private on your device, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/declutter-and-sell-tracker-for-second-hand-items/) &middot; [Details and screenshots](declutter-and-sell-tracker-for-second-hand-items/)
+
+<a href="declutter-and-sell-tracker-for-second-hand-items/"><img src="declutter-and-sell-tracker-for-second-hand-items/screenshots/phone.png" alt="Declutter and Sell Tracker for Second-Hand Items screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
