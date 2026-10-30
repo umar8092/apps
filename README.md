@@ -907,6 +907,14 @@ Know when the power goes and when it comes back. Type your area's load shedding 
 
 <a href="load-shedding-schedule-and-power-cut-log/"><img src="load-shedding-schedule-and-power-cut-log/screenshots/phone.png" alt="Load Shedding Schedule and Power Cut Log screenshot" width="260"></a>
 
+### <img src="bus-and-train-timetable-for-my-stops/favicon.svg" width="36" height="36" align="center"> [Bus and Train Timetable for My Stops](https://umar8092.github.io/apps/bus-and-train-timetable-for-my-stops/)
+
+For commuters and students whose bus, train or school, university or work shuttle runs to a printed timetable. Type or paste the times for your stop once and see "Next 07:40, in 7 min, then 08:05 and 08:30", "Leave in 2 min to catch the 07:40" from your walk to the stop, and "Last one today: 00:10 (after midnight)". Weekday, Saturday and Sunday times, a bus every N minutes, after-midnight buses that belong to the night before, summer timetables between dates and public holidays on Sunday times. Private, works offline on the platform.
+
+[**Open the app**](https://umar8092.github.io/apps/bus-and-train-timetable-for-my-stops/) &middot; [Details and screenshots](bus-and-train-timetable-for-my-stops/)
+
+<a href="bus-and-train-timetable-for-my-stops/"><img src="bus-and-train-timetable-for-my-stops/screenshots/phone.png" alt="Bus and Train Timetable for My Stops screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

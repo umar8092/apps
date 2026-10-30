@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus and Train Timetable for My Stops: When Is My Next Bus?</title>
+    <meta name="description" content="Free bus and train timetable for your own stops. Type or paste the departure times from the printed timetable once and see when your next bus, train or shuttle leaves, how many minutes away it is, when to leave home and when the last one goes tonight. Weekday, Saturday, Sunday and holiday times. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/bus-and-train-timetable-for-my-stops/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#f76707">
+    <meta name="theme-color" content="#c2410c">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Bus and Train Timetable for My Stops">
+    <meta property="og:url" content="https://umar8092.github.io/apps/bus-and-train-timetable-for-my-stops/">
+    <meta property="og:title" content="Bus and Train Timetable for My Stops: When Is My Next Bus?">
+    <meta property="og:description" content="Type your stop's timetable once and see the next departure, the minutes left, when to leave home and the last one tonight. Free, private, works offline.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Bus and Train Timetable for My Stops","alternateName":["Next Bus Countdown","My Bus Timetable","Personal Train Timetable","Shuttle Bus Timetable","Offline Bus Times"],"url":"https://umar8092.github.io/apps/bus-and-train-timetable-for-my-stops/","description":"Type or paste the departure times for your own bus, train or shuttle stops once and see the next departure, the minutes left, when to leave home and the last one tonight.","applicationCategory":"TravelApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"next bus, bus timetable, train timetable, my stop, shuttle timetable, last bus tonight, offline timetable, commute","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does the app know where the bus is?","acceptedAnswer":{"@type":"Answer","text":"No. It shows the times from the timetable you typed. If your bus runs late, the timetable cannot know that."}},{"@type":"Question","name":"What about buses after midnight?","acceptedAnswer":{"@type":"Answer","text":"Type them in order after the evening times, like 23:40 00:15 00:50. They count as the night before, the way printed timetables show them."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and the app works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Bus and Train Timetable for My Stops</h1>
+        <p class="sub">Type your stop's timetable once. See when the next bus, train or shuttle leaves, when to set off and when the last one goes.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. Your timetables will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toast-text"></span><button type="button" class="link inline" id="toast-undo">Undo</button></div>
+
+    <div class="col-a">
+        <div class="clock" id="clock-bar" hidden>
+            <p class="clock-now" id="clock"></p>
+            <label class="check holiday"><input type="checkbox" id="today-holiday"><span>Today is a public holiday (Sunday times)</span></label>
+        </div>
+        <section class="routes" id="routes" aria-label="Your stops"></section>
+
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a stop and its times</h2>
+            <p class="hint top" id="add-intro">Copy the departure times from the timetable at the stop, the station or the school's or company's shuttle sheet. You only do this once.</p>
+            <div id="add-editor"></div>
+            <div class="first-links" id="first-links">
+                <button type="button" class="link" id="example">Try it with an example timetable</button>
+                <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            </div>
+        </section>
+        <button type="button" class="secondary add-more" id="add-more" hidden>+ Add another stop or direction (the way home)</button>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Type the times once</b> for your stop, for example 07:15 07:40 08:05, or paste the column from a timetable. Separate times for weekdays, Saturday and Sunday if they differ.</li>
+                <li><b>See the answer at a glance</b>: "Next 07:40, in 7 min, then 08:05 and 08:30".</li>
+                <li><b>Add your walk to the stop</b> and it tells you when to leave: "Leave in 2 min to catch the 07:40".</li>
+                <li><b>Add the way home</b> as a second stop, so the evening times are ready too, with the last one tonight.</li>
+            </ol>
+        </section>
+
+        <section class="card hols" id="hols" aria-labelledby="hols-h" hidden>
+            <h2 id="hols-h">Public holidays</h2>
+            <p class="hint top">On these dates every stop runs its Sunday times, like most buses and trains.</p>
+            <div class="hol-add">
+                <div class="field"><label for="hol-date">Date</label><input type="date" id="hol-date"></div>
+                <button type="button" class="secondary" id="hol-add">Add holiday</button>
+            </div>
+            <p class="err" id="hol-err" role="alert"></p>
+            <ul class="hol-list" id="hol-list"></ul>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h" hidden>
+            <h2 id="tools-h">Backup</h2>
+            <p class="hint top">Save a backup file before changing phones, or to give the same timetables to a friend or your child.</p>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+        <input type="file" id="restore-file" accept=".json,application/json" hidden>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Does the app know where the bus really is?</summary><p>No. It shows the times from the timetable you typed, so it works for any town, any company and a school or factory shuttle with no app at all. If a bus runs late or is cancelled, the timetable cannot know that.</p></details>
+        <details><summary>Where do I get the times?</summary><p>From the timetable at the stop or the station, the company's website or leaflet, or the shuttle sheet from your school, university or work. Take a photo of it and type the times for your stop, or copy the text from a website and paste it into <b>Departure times</b>: the app picks out the times and skips the words.</p></details>
+        <details><summary>What about buses after midnight?</summary><p>Type them in order after the evening times, like <b>23:40 00:15 00:50</b>. They count as the night before, like on a printed timetable, so on Friday night the 00:15 still shows after the 23:40. You can also type 24:15.</p></details>
+        <details><summary>Saturday and Sunday are different</summary><p>Tap <b>Weekdays, Saturday, Sunday</b> when you add a stop, or <b>+ Add times for other days</b>, and tick the days for each set of times. For a Friday and Saturday weekend, tick those days instead. A day with no times shows "No departures today" and the first one on the next day it runs.</p></details>
+        <details><summary>The timetable changes in the summer or school holidays</summary><p>Add a set of times with <b>+ Only between dates (optional)</b>. Between those dates it replaces the normal times for the days you ticked; before and after, the normal times run again. On a public holiday tick <b>Today is a public holiday</b>, or add the dates under <b>Public holidays</b>: those days run the Sunday times.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, the app works with no connection, on a platform underground too. Add it to your home screen to open it in one tap.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/bus-and-train-timetable-for-my-stops">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Bus and Train Timetable for My Stops", "sections": [
+ {"h": "1. Add a stop and its times", "steps": ["Under \"Where does it take you?\" tap a quick pick such as \"To work\" or type your own name, like \"Bus 42 to City Centre\".", "\"+ Add the stop name (optional)\" lets you note where you get on, like \"Gulberg Main Market\".", "\"Walk to the stop\" is how long it takes you to get there. Pick a time, \"Other\" to type minutes, or \"Do not count\".", "Under \"Departure times\" type the times the bus or train leaves your stop, for example 07:15 07:40 08:05. One per line, commas, am and pm all work, and you can paste a whole column from a timetable: words are skipped.", "The line under the box says what was read, such as \"14 times, 06:00 to 23:40\". A time that cannot be right, like 25:70, is shown in red to fix.", "\"+ Add times every N minutes\" fills in a bus that runs, for example, every 12 minutes from 06:00 to 22:00. Tap \"Add these times\".", "Tap \"Save\". Each stop gets its own box. \"+ Add another stop or direction\" adds the way home with its own times."]},
+ {"h": "2. Different days and dates", "steps": ["\"Same times every day\" or \"Weekdays, Saturday, Sunday\" sets up the days for you. Tick or untick the days in each set of times.", "\"+ Add times for other days\" adds another set of times with its own days. \"Remove these times\" takes one away.", "\"+ Only between dates (optional)\" is for a summer or school-holiday timetable. Between those dates it replaces the normal times on the ticked days.", "\"Today is a public holiday\" runs the Sunday times today. Add more dates under \"Public holidays\"."]},
+ {"h": "3. What the box tells you", "steps": ["The big time is the next departure and how long until it leaves, like \"07:40, in 7 min\". \"due now\" means it leaves this minute.", "\"Then\" shows the two after it.", "\"Leave in 2 min to catch the 07:40\" counts your walk to the stop. If the next one is too soon to reach, it says so and gives the one you can catch.", "\"Last one today\" is the final departure of today's timetable, including any after midnight. After it, the box shows the first one on the next day it runs.", "\"Full timetable\" lists all of today's times, with the ones that have gone faded and the next one marked. Pick another day to see its times."]},
+ {"h": "Edit, copy and backup", "steps": ["\"Edit\" changes the name, the walk or the times. \"Cancel\" leaves it as it was.", "\"Copy times\" copies the timetable as text to send to a friend or your child. \"Move up\" puts a stop higher in the list.", "\"Delete\" removes a stop, with \"Undo\".", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\". \"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The app shows the times you typed. It does not know where the bus is, so a late bus is not shown.", "Times use this phone's clock and time zone.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

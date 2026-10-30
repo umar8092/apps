@@ -1,0 +1,15 @@
+{
+  "name": "Bus and Train Timetable for My Stops",
+  "short_name": "My Timetable",
+  "description": "Type your stop's bus, train or shuttle times once and see the next departure, the minutes left, when to leave and the last one tonight.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#140b05",
+  "theme_color": "#c2410c",
+  "categories": ["travel", "navigation", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

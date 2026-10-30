@@ -676,5 +676,11 @@
     "name": "Load Shedding Schedule and Power Cut Log",
     "description": "Type your area's load shedding times once and see when the next power cut is and when the power comes back. Log real cuts in two taps and get the hours without power this month, how much more than planned, and a list for a complaint.",
     "color": "#4c5fd5"
+  },
+  {
+    "slug": "bus-and-train-timetable-for-my-stops",
+    "name": "Bus and Train Timetable for My Stops",
+    "description": "Type your stop's bus, train or shuttle times once and see the next departure, the minutes left, when to leave home and the last one tonight. Weekday, weekend and holiday times, offline.",
+    "color": "#f76707"
   }
 ]
