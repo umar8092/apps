@@ -875,6 +875,14 @@ For office workers and students who take the bus, metro or train most days and n
 
 <a href="commute-pass-or-pay-per-ride-tracker/"><img src="commute-pass-or-pay-per-ride-tracker/screenshots/phone.png" alt="Commute Pass or Pay Per Ride Tracker screenshot" width="260"></a>
 
+### <img src="shopping-wishlist-with-a-cooling-off-wait/favicon.svg" width="36" height="36" align="center"> [Shopping Wishlist with a Cooling-Off Wait](https://umar8092.github.io/apps/shopping-wishlist-with-a-cooling-off-wait/)
+
+Saw something you want? Put it on the list with its price instead of buying it on the spot, and pick a wait: 1 day, 2 days, 1 week, 30 days or any number of days. See "Air fryer: 18,500, wait ends Fri 6 Nov (in 7 days)". When the wait ends it moves to Ready to decide with the reason you wrote: tap Buy it or Skip it, or wait longer. Skipped prices add up to "Not spent this year", price drops while waiting are kept and counted, and an optional monthly limit shows what is left before you buy. Private on your device, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/shopping-wishlist-with-a-cooling-off-wait/) &middot; [Details and screenshots](shopping-wishlist-with-a-cooling-off-wait/)
+
+<a href="shopping-wishlist-with-a-cooling-off-wait/"><img src="shopping-wishlist-with-a-cooling-off-wait/screenshots/phone.png" alt="Shopping Wishlist with a Cooling-Off Wait screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Wishlist with a Cooling-Off Wait: Stop Impulse Buys</title>
+    <meta name="description" content="Free shopping wishlist that stops impulse buys. Put anything you want to buy on the list with its price and a wait of a day, a week or 30 days. When the wait ends, decide Buy it or Skip it, and see how much you did not spend this year. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/shopping-wishlist-with-a-cooling-off-wait/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#7b2cbf">
+    <meta name="theme-color" content="#5a189a">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Shopping Wishlist with a Cooling-Off Wait">
+    <meta property="og:url" content="https://umar8092.github.io/apps/shopping-wishlist-with-a-cooling-off-wait/">
+    <meta property="og:title" content="Shopping Wishlist with a Cooling-Off Wait: Stop Impulse Buys">
+    <meta property="og:description" content="Want to buy something? Put it on the list and wait a few days first. When the wait ends, buy it or skip it, and see how much you did not spend. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Shopping Wishlist with a Cooling-Off Wait","alternateName":["Impulse Buy Blocker","30 Day Rule Wishlist","Wait Before You Buy","Cooling-Off Wishlist","Stop Impulse Buying App"],"url":"https://umar8092.github.io/apps/shopping-wishlist-with-a-cooling-off-wait/","description":"A free, private wishlist that makes you wait before buying: each item gets a wait of a day, a week, 30 days or any number of days; when it ends you buy it or skip it, and the app adds up the money you did not spend.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"impulse buying, 30 day rule, wishlist, cooling off period, stop overspending, wait before you buy, money not spent","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How long should I wait before buying?","acceptedAnswer":{"@type":"Answer","text":"A common rule is 1 or 2 days for small things, a week for medium buys and 30 days for big ones. Pick any number of days from 1 to 365 with Custom."}},{"@type":"Question","name":"What does Not spent this year mean?","acceptedAnswer":{"@type":"Answer","text":"It adds up the price of every item you skipped this calendar year. It is money you were about to spend and did not."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your list stays in this browser on this device. There is no account, your data is never sent anywhere, and it works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Shopping Wishlist with a Cooling-Off Wait</h1>
+        <p class="sub">Want to buy something? Put it here first and wait a few days. When the wait ends, decide <b>Buy it</b> or <b>Skip it</b>, and see how much you did not spend.</p>
+    </header>
+    <p class="warn" id="store-warn" hidden>This browser is not letting the app save. Your list will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Want something? Add it here</h2>
+            <label for="a-name">What do you want to buy?</label>
+            <input id="a-name" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Air fryer" aria-describedby="a-name-err a-rep">
+            <p class="err" id="a-name-err" role="alert"></p>
+            <p class="rep" id="a-rep" hidden></p>
+            <label for="a-price">Price</label>
+            <div class="amount-row"><span class="cur-tag" id="a-price-cur" hidden></span><input id="a-price" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 18500" aria-describedby="a-price-err a-price-hint"></div>
+            <p class="err" id="a-price-err" role="alert"></p>
+            <p class="hint" id="a-price-hint">Leave it blank if you do not know it yet.</p>
+            <fieldset class="waits">
+                <legend>How long will you wait before buying?</legend>
+                <div class="quick" id="a-waits" role="group" aria-label="Wait">
+                    <button type="button" class="chip" data-days="1" aria-pressed="false">1 day</button>
+                    <button type="button" class="chip" data-days="2" aria-pressed="false">2 days</button>
+                    <button type="button" class="chip on" data-days="7" aria-pressed="true">1 week</button>
+                    <button type="button" class="chip" data-days="30" aria-pressed="false">30 days</button>
+                    <button type="button" class="chip" data-days="custom" aria-pressed="false">Custom</button>
+                </div>
+                <div id="a-days-box" hidden>
+                    <label for="a-days">Days to wait (1 to 365)</label>
+                    <input id="a-days" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="e.g. 14" aria-describedby="a-days-err">
+                    <p class="err" id="a-days-err" role="alert"></p>
+                </div>
+            </fieldset>
+            <p class="ends" id="a-ends" aria-live="polite"></p>
+            <button type="button" class="link" id="a-more-open">+ Shop, link or why you want it (optional)</button>
+            <div id="a-more" class="sub-box" hidden>
+                <label for="a-where">Shop</label>
+                <input id="a-where" type="text" maxlength="120" autocomplete="off" placeholder="e.g. Daraz, or the mall">
+                <label for="a-link">Web link</label>
+                <input id="a-link" type="text" inputmode="url" maxlength="500" autocomplete="off" placeholder="Paste the shop page link" aria-describedby="a-link-err">
+                <p class="err" id="a-link-err" role="alert"></p>
+                <label for="a-why">Why do you want it?</label>
+                <input id="a-why" type="text" maxlength="300" autocomplete="off" placeholder="e.g. The old one broke">
+                <p class="hint">You will see this again when the wait ends.</p>
+            </div>
+            <button type="button" class="link" id="a-need-open">+ I need it by a date (optional)</button>
+            <div id="a-need" class="sub-box" hidden>
+                <label for="a-needby">Need it by</label>
+                <input id="a-needby" type="date" aria-describedby="a-needby-err">
+                <p class="err" id="a-needby-err" role="alert"></p>
+                <p class="hint">If this day comes first, the wait ends on this day instead.</p>
+            </div>
+            <div class="row-btns">
+                <button type="button" class="primary" id="a-save">Start the wait</button>
+            </div>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Settings and backup</h2>
+            <label for="cur">Currency symbol</label>
+            <select id="cur"></select>
+            <button type="button" class="link" id="lim-open">+ Monthly limit for wishlist buys (optional)</button>
+            <div id="lim-box" class="sub-box" hidden>
+                <label for="lim">Most I want to spend on wishlist buys a month</label>
+                <div class="amount-row"><span class="cur-tag" id="lim-cur" hidden></span><input id="lim" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 30000" aria-describedby="lim-err"></div>
+                <p class="err" id="lim-err" role="alert"></p>
+                <div class="tool-grid">
+                    <button type="button" class="secondary" id="lim-save">Save limit</button>
+                    <button type="button" class="secondary" id="lim-del">No limit</button>
+                </div>
+            </div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>See something you want?</b> Do not buy it yet. Add it here with its price.</li>
+                <li><b>Pick a wait:</b> a day for small things, a week, or 30 days for big buys.</li>
+                <li><b>When the wait ends</b>, ask yourself if you still want it. Tap <b>Buy it</b> or <b>Skip it</b>, and watch the money you did not spend add up.</li>
+            </ol>
+        </section>
+        <section class="card sum" id="sum" aria-labelledby="sum-h" hidden>
+            <h2 id="sum-h">Not spent this year</h2>
+            <p class="big" id="sum-big"></p>
+            <p class="s-sub" id="sum-sub"></p>
+            <ul class="stats" id="sum-list"></ul>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy">Copy the list</button>
+                <a class="secondary" id="mail" href="mailto:">Email the list</a>
+            </div>
+            <div class="msg" id="sum-msg" role="status" aria-live="polite"></div>
+        </section>
+        <section class="list-sec" id="ready-sec" aria-labelledby="ready-h" hidden>
+            <h2 id="ready-h">Ready to decide</h2>
+            <div class="i-list" id="ready-list"></div>
+        </section>
+        <section class="list-sec" id="wait-sec" aria-labelledby="wait-h" hidden>
+            <h2 id="wait-h">Waiting</h2>
+            <div class="i-list" id="wait-list"></div>
+        </section>
+        <section class="list-sec" id="done-sec" aria-labelledby="done-h" hidden>
+            <h2 id="done-h">Decided</h2>
+            <div class="quick tabs" role="group" aria-label="Show">
+                <button type="button" class="chip on" id="tab-skipped" aria-pressed="true">Skipped</button>
+                <button type="button" class="chip" id="tab-bought" aria-pressed="false">Bought</button>
+            </div>
+            <div class="i-list" id="done-list"></div>
+            <p class="hint" id="done-none" hidden></p>
+            <button type="button" class="secondary" id="done-more" hidden>Show all</button>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How long should I wait?</summary><p>A common rule: <b>1 or 2 days</b> for small things, <b>1 week</b> for medium buys and <b>30 days</b> for big ones such as a phone or a sofa. Tap <b>Custom</b> for any number of days from 1 to 365. Most impulse wants fade within a few days.</p></details>
+        <details><summary>What does &ldquo;Not spent this year&rdquo; mean?</summary><p>It adds up the price of every item you tapped <b>Skip it</b> on this year (1 January to 31 December). It is money you were about to spend and did not. Skipping a 12,000 pair of shoes and a 25,000 watch shows <b>37,000</b>. It starts again from 0 on 1 January; the all-time total is shown under it.</p></details>
+        <details><summary>The price went down while I was waiting</summary><p>Tap <b>Edit</b> and type the new price. The old price is kept, so the item shows &ldquo;Was 18,500, now 16,900 (1,600 less)&rdquo;. When you buy it, the saving is added to &ldquo;Saved on price drops&rdquo;.</p></details>
+        <details><summary>I really need it soon</summary><p>Open <b>+ I need it by a date</b> when you add it: the wait ends on that day if it comes first. You can also tap <b>Buy anyway</b> before the wait ends; the app notes it was bought early.</p></details>
+        <details><summary>Will it remind me when the wait ends?</summary><p>The list shows <b>Ready to decide</b> at the top when you open it. For a phone reminder tap <b>Remind me</b> on an item: it saves a calendar file with a reminder at 9 in the morning on the day the wait ends.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your list stays in this browser on this device. No account, and your data is never sent anywhere. Once loaded, the app works with no connection. Save a backup file now and then, or before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/shopping-wishlist-with-a-cooling-off-wait">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Shopping Wishlist", "sections": [
+ {"h": "1. Add something you want", "steps": ["Under \"Want something? Add it here\" type \"What do you want to buy?\" and its \"Price\". Leave the price blank if you do not know it yet.", "Pick \"How long will you wait before buying?\": \"1 day\", \"2 days\", \"1 week\" or \"30 days\", or \"Custom\" and type any number of days from 1 to 365. The line below shows the day the wait ends.", "\"+ Shop, link or why you want it (optional)\" keeps the shop, a web link and your reason, which you see again when the wait ends.", "\"+ I need it by a date (optional)\": if that day comes before the wait ends, the wait ends on that day instead.", "Tap \"Start the wait\". If the same item is already on your list, or you skipped it before, a note tells you."]},
+ {"h": "2. While you wait", "steps": ["\"Waiting\" lists every item with the day its wait ends and a bar showing how much of the wait has passed.", "\"Edit\" changes anything. Type a new price when it changes: the old one is kept, so you see \"Was 18,500, now 16,900\".", "\"Remind me\" saves a calendar file with a reminder at 9 in the morning on the day the wait ends.", "Changed your mind already? \"Skip it\" now. Really need it? \"Buy anyway\" (it is noted as bought early)."]},
+ {"h": "3. When the wait ends", "steps": ["The item moves to \"Ready to decide\" at the top, with your reason, and asks \"Do you still want it?\"", "\"Buy it\": type the price you paid (or leave it blank) and tap \"Save as bought\". If you set a monthly limit, you see how much of it is left before you buy.", "\"Skip it\": its price is added to \"Not spent this year\".", "\"Wait longer\" adds 1 more day, 1 more week, 30 more days or any number of days."]},
+ {"h": "4. What the numbers mean", "steps": ["\"Not spent this year\" adds up the prices of everything you skipped from 1 January. The all-time total is under it.", "\"On your wishlist\" is the total price of everything still waiting or ready to decide.", "\"Bought this month\" adds up what you paid for wishlist items this month, against your limit if you set one.", "\"Saved on price drops\" adds up how much less you paid than the price when you added the item."]},
+ {"h": "Other buttons", "steps": ["\"Decided\" shows what you \"Skipped\" and \"Bought\". \"Put back on the list\" undoes a decision; \"Delete\" removes an item, with \"Undo\".", "\"Copy the list\" and \"Email the list\" send your wishlist as text.", "\"Currency symbol\" shows prices with $, Rs, AED or any other symbol, or plain numbers. \"+ Monthly limit for wishlist buys (optional)\" sets a monthly spending limit; \"No limit\" removes it.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\". \"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["Waits are counted in whole days: a 1 week wait added on Friday ends next Friday.", "Everything stays on this device. Your data is never sent anywhere and it works offline.", "Links are shown as text and open only when you tap them.", "Save a backup before changing phones or clearing your browser."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

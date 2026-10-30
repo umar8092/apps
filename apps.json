@@ -652,5 +652,11 @@
     "name": "Commute Pass or Pay Per Ride Tracker",
     "description": "Log your bus, metro or train rides in one tap and see whether a weekly or monthly pass, a 30-day pass or a ride card would have been cheaper than paying per ride, whether the pass you bought is paying for itself, and which to buy next month.",
     "color": "#0f9b8e"
+  },
+  {
+    "slug": "shopping-wishlist-with-a-cooling-off-wait",
+    "name": "Shopping Wishlist with a Cooling-Off Wait",
+    "description": "Stop impulse buys: put what you want on the list with its price and wait a day, a week or 30 days. When the wait ends, tap Buy it or Skip it, and see how much you did not spend this year.",
+    "color": "#7b2cbf"
   }
 ]
