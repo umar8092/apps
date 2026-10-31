@@ -124,13 +124,13 @@
         const pr = $('f-price').value.trim();
         v.price = C.readMoney(pr);
         if (!pr) errs.price = 'Type the price (0 if it is free).';
-        else if (Number.isNaN(v.price)) errs.price = 'Type a number such as 4500 or 4500.50, not below 0.';
+        else if (Number.isNaN(v.price)) errs.price = 'Type a number such as 4500 or 4500.50, not below 0 or above 10,000,000,000.';
         const dv = mode() === 'delivery' && !$('w-deliv').hidden ? $('f-deliv').value.trim() : '';
         v.deliv = dv ? C.readMoney(dv) : 0;
-        if (Number.isNaN(v.deliv)) errs.deliv = 'Type a number such as 250, or leave it empty.';
+        if (Number.isNaN(v.deliv)) errs.deliv = 'Type a number such as 250 (0 to 10,000,000,000), or leave it empty.';
         const av = $('w-adv').hidden ? '' : $('f-adv').value.trim();
         v.adv = av ? C.readMoney(av) : 0;
-        if (Number.isNaN(v.adv)) errs.adv = 'Type a number such as 1500, or leave it empty.';
+        if (Number.isNaN(v.adv)) errs.adv = 'Type a number such as 1500 (0 to 10,000,000,000), or leave it empty.';
         else if (!errs.price && !errs.deliv) {
             const later = editing ? byId(editing).pays.reduce((s, p) => s + p.amt, 0) : 0;
             const t = v.price + (v.mode === 'delivery' ? v.deliv : 0);
