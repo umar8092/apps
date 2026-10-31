@@ -931,6 +931,14 @@ For learner drivers and the parents who supervise them. Log each practice drive 
 
 <a href="learner-driver-practice-log/"><img src="learner-driver-practice-log/screenshots/phone.png" alt="Learner Driver Practice Log screenshot" width="260"></a>
 
+### <img src="loyalty-and-membership-card-wallet/favicon.svg" width="36" height="36" align="center"> [Loyalty and Membership Card Wallet](https://umar8092.github.io/apps/loyalty-and-membership-card-wallet/)
+
+For anyone with a purse full of supermarket, pharmacy, petrol, gym and library cards. Type the number on the back once and tap **Show barcode** at the till for a big barcode on white with the number in large digits, even with no signal. EAN-13, EAN-8, UPC-A, Code 128, Code 39 and QR, a check-digit warning for typos, whose card it is (Mum's and yours for the same shop), notes and expiry dates, most used first, search, undo and a backup file for a new phone. No account, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/loyalty-and-membership-card-wallet/) &middot; [Details and screenshots](loyalty-and-membership-card-wallet/)
+
+<a href="loyalty-and-membership-card-wallet/"><img src="loyalty-and-membership-card-wallet/screenshots/phone.png" alt="Loyalty and Membership Card Wallet screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

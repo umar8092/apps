@@ -694,5 +694,11 @@
     "name": "Learner Driver Practice Log",
     "description": "For learner drivers and the parents who supervise them. Log each practice drive and see the hours and night hours done and left (120 with 20 at night in NSW, 50 with 10 in California, or your own goal), with night worked out from sunset, instructor lessons counting 3 for 1 where allowed, a skills checklist and a printable logbook. Private, works offline.",
     "color": "#4a50d0"
+  },
+  {
+    "slug": "loyalty-and-membership-card-wallet",
+    "name": "Loyalty and Membership Card Wallet",
+    "description": "Your shop, pharmacy, petrol, gym and library cards in one place. Type the number once and show a big barcode at the till, even with no signal. No account, works offline.",
+    "color": "#db2777"
   }
 ]

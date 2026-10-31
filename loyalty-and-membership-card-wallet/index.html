@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loyalty and Membership Card Wallet: show your barcode at the till</title>
+    <meta name="description" content="Free wallet for your supermarket, pharmacy, petrol, gym and library cards. Type the number on the back once and show a big, bright barcode at the till, even with no signal. EAN-13, UPC, Code 128, Code 39 and QR. No account, no ads, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/loyalty-and-membership-card-wallet/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#db2777">
+    <meta name="theme-color" content="#be185d">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Loyalty and Membership Card Wallet">
+    <meta property="og:url" content="https://umar8092.github.io/apps/loyalty-and-membership-card-wallet/">
+    <meta property="og:title" content="Loyalty and Membership Card Wallet: show your barcode at the till">
+    <meta property="og:description" content="All your shop, gym and library cards on your phone. Show the barcode at the till, even offline. Free, no account, no ads.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Loyalty and Membership Card Wallet","alternateName":["Loyalty Card Wallet","Store Card Barcode Wallet","Stocard Alternative","Membership Card Holder"],"url":"https://umar8092.github.io/apps/loyalty-and-membership-card-wallet/","description":"A free wallet for loyalty and membership cards. Type the number once and show the barcode at the till, even offline.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"loyalty card wallet, store card app, barcode wallet, stocard alternative, membership card, library card barcode, gym card","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Will the till scanner read the barcode from my phone?","acceptedAnswer":{"@type":"Answer","text":"Most shop scanners today read phone screens. Turn the screen brightness up, hold the phone flat and still about 10 to 20 cm from the scanner. If it still does not read, the cashier can type the large number shown under the barcode."}},{"@type":"Question","name":"Which barcode type is my card?","acceptedAnswer":{"@type":"Answer","text":"Leave Barcode type on Work it out for me. A 13-digit number with a correct last digit becomes EAN-13, 12 digits UPC-A, 8 digits EAN-8, and anything else Code 128. Compare the bars with your plastic card; if they look different, try another type."}},{"@type":"Question","name":"Does it work with no signal?","acceptedAnswer":{"@type":"Answer","text":"Yes. After the first visit the app and your cards are on the phone, so it opens in a shop basement with no signal."}},{"@type":"Question","name":"Are my cards private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Cards are saved only on this device and your data is never sent anywhere. There is no account. Use Save a backup file to move them to a new phone."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Loyalty and Membership Card Wallet</h1>
+        <p class="sub">Your shop, pharmacy, petrol, gym and library cards in one place. Tap a card at the till to show its barcode, even with no signal.</p>
+        <p class="warn" id="storage-warn" role="alert" hidden>This browser is not letting the app save (private mode or storage turned off). Cards you add are lost when you close the page.</p>
+    </header>
+
+    <section class="card" id="cards-card" aria-labelledby="cards-title">
+        <h2 id="cards-title">My cards</h2>
+        <div id="empty" class="empty">
+            <p><b>No cards yet.</b> Add the cards you show at the till: supermarket, pharmacy, petrol station, gym, library or club.</p>
+            <a class="primary" href="#form-card" id="empty-add">+ Add your first card</a>
+        </div>
+        <div id="tools" class="tools" hidden>
+            <div id="find-box">
+                <label for="find">Find a card</label>
+                <input id="find" type="search" autocomplete="off" maxlength="60" placeholder="Shop or number">
+            </div>
+            <div>
+                <label for="sort">Order</label>
+                <select id="sort">
+                    <option value="used">Most used first</option>
+                    <option value="az">A to Z</option>
+                    <option value="new">Newest first</option>
+                </select>
+            </div>
+        </div>
+        <p class="hint" id="no-match" hidden></p>
+        <ul id="list" class="cards"></ul>
+    </section>
+
+    <section class="card" id="form-card" aria-labelledby="form-title">
+        <h2 id="form-title">Add a card</h2>
+        <form id="form" novalidate>
+            <label for="name">Shop or card name</label>
+            <input id="name" type="text" autocomplete="off" maxlength="60" placeholder="e.g. Imtiaz, Boots, Gym">
+            <p class="field-err" id="name-err" role="alert"></p>
+
+            <label for="number">Card number</label>
+            <input id="number" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="100" placeholder="Number under the barcode">
+            <p class="hint small-hint">Type it exactly as printed under the barcode on the back. Spaces and dashes are fine.</p>
+            <div id="scan-box" hidden>
+                <label class="ghost file-btn" for="photo">Read the barcode from a photo</label>
+                <input id="photo" type="file" accept="image/*" capture="environment" class="visually-hidden">
+                <p class="hint" id="scan-msg" role="status"></p>
+            </div>
+            <p class="field-err" id="number-err" role="alert"></p>
+
+            <label for="format">Barcode type</label>
+            <select id="format"></select>
+            <p class="hint" id="format-note"></p>
+
+            <div class="preview" id="preview" aria-live="polite">
+                <p class="preview-title">How it will look at the till</p>
+                <div class="code-wrap" id="preview-code"></div>
+                <p class="preview-num" id="preview-num"></p>
+            </div>
+
+            <span class="label" id="color-label">Colour</span>
+            <div class="swatches" id="swatches" role="radiogroup" aria-labelledby="color-label"></div>
+
+            <button type="button" class="link more" id="more-btn" aria-expanded="false">+ Add whose card, notes or expiry date (optional)</button>
+            <div id="more" hidden>
+                <label for="owner">Whose card</label>
+                <input id="owner" type="text" autocomplete="off" maxlength="40" placeholder="e.g. Mum, Ali">
+                <label for="note">Notes</label>
+                <textarea id="note" rows="3" maxlength="300" placeholder="e.g. 2,350 points"></textarea>
+                <label for="expires">Expires on</label>
+                <input id="expires" type="date" min="1900-01-01" max="2200-12-31">
+                <p class="field-err" id="expires-err" role="alert"></p>
+            </div>
+
+            <p class="hint dup" id="dup" role="status" hidden></p>
+            <button type="submit" class="primary" id="save">Save card</button>
+            <div class="row-actions" id="edit-actions" hidden>
+                <button type="button" class="ghost" id="cancel">Cancel</button>
+                <button type="button" class="ghost danger" id="delete">Delete card</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="card" id="backup-card" aria-labelledby="backup-title">
+        <h2 id="backup-title">Backup and a new phone</h2>
+        <p class="hint" id="count">Cards are saved on this device only.</p>
+        <div class="row-actions">
+            <button type="button" class="ghost" id="export">Save a backup file</button>
+            <label class="ghost file-btn" for="import">Restore from a backup file</label>
+        </div>
+        <input id="import" type="file" accept=".json,application/json" class="visually-hidden">
+        <div class="row-actions">
+            <button type="button" class="ghost" id="copy-all">Copy all card numbers</button>
+            <button type="button" class="ghost danger" id="clear">Delete all cards</button>
+        </div>
+    </section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Will the till scanner read my phone?</summary><p>Most shop scanners today read phone screens. Turn the screen brightness up, hold the phone flat and still, about 10 to 20 cm from the scanner. If it still does not read, the cashier can type the large number shown under the barcode.</p></details>
+        <details><summary>Which barcode type is my card?</summary><p>Leave <b>Barcode type</b> on <b>Work it out for me</b>. A 13-digit number becomes EAN-13 (most supermarkets), 12 digits UPC-A (US and Canada), 8 digits EAN-8, and anything else Code 128. A square code on your card is a <b>QR code</b>. Compare the bars in <b>How it will look at the till</b> with your plastic card; thin and thick bars in a similar pattern means it is right.</p></details>
+        <details><summary>The app says the last digit does not match</summary><p>EAN and UPC numbers end with a check digit worked out from the others, so a typing mistake shows up straight away. Check the number on your card. If it really is printed like that, the card uses a different barcode and the app shows it as Code 128.</p></details>
+        <details><summary>Two people in the family have the same shop's card</summary><p>Add each one and type the name under <b>Whose card</b> (for example Mum or Ali). The name shows on the card and on the barcode screen.</p></details>
+        <details><summary>Does it work with no signal, and is it private?</summary><p>Yes. After the first visit the app works offline, so it opens in a shop basement with no signal. Cards are saved on this device only, there is no account, and your data is never sent anywhere. Use <b>Save a backup file</b> before you change phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/loyalty-and-membership-card-wallet">Open source (MIT)</a> &middot; QR codes by <a href="https://www.nayuki.io/page/qr-code-generator-library">Project Nayuki (MIT)</a></footer>
+
+    <div id="show" class="show" role="dialog" aria-modal="true" aria-labelledby="show-name" hidden>
+        <div class="show-inner">
+            <div class="show-top" id="show-top">
+                <p class="show-name" id="show-name"></p>
+                <p class="show-owner" id="show-owner"></p>
+            </div>
+            <div class="show-body">
+                <div class="code-wrap big" id="show-code"></div>
+                <p class="show-num" id="show-num"></p>
+                <p class="show-fmt" id="show-fmt"></p>
+                <p class="show-exp" id="show-exp" hidden></p>
+                <p class="show-note" id="show-note" hidden></p>
+                <p class="show-tip">Scanner not reading it? Turn the screen brightness up and hold the phone still, 10 to 20 cm away.</p>
+                <div class="row-actions">
+                    <button type="button" class="ghost dark" id="show-copy">Copy number</button>
+                    <button type="button" class="primary" id="show-close">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="toast" class="toast" role="status" hidden><span id="toast-text"></span> <button type="button" id="toast-undo" class="link">Undo</button></div>
+</main>
+<script src="qrcodegen.js"></script>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Loyalty and Membership Card Wallet", "sections": [{"h": "Add a card", "steps": ["Under Add a card, type the Shop or card name, for example Imtiaz or City Library.", "Type the Card number exactly as printed under the barcode on the back. Spaces and dashes are fine. On some Android phones you can tap Read the barcode from a photo instead and take a picture of the barcode.", "Leave Barcode type on Work it out for me. Choose another type only if How it will look at the till looks different from your plastic card. Choose No barcode, number only for a card with just a number.", "Pick a Colour so you can spot the card quickly, then tap Save card.", "+ Add whose card, notes or expiry date (optional) lets you add Whose card (for example Mum), Notes such as points or a gift card balance, and the date the card Expires on."]}, {"h": "At the till", "steps": ["Tap Show barcode on the card. A big barcode on a white background fills the screen, with the number in large digits underneath.", "Hold the phone flat and still, about 10 to 20 cm from the scanner. Turn the screen brightness up if it does not read straight away.", "If the scanner still cannot read it, the cashier can type the large number. Copy number copies it for an online order.", "Tap Close or press Escape to go back."]}, {"h": "Find, change or delete a card", "steps": ["Cards you show most often move to the top. Change Order to A to Z or Newest first.", "Type in Find a card to search by shop name, whose card, notes or number.", "Tap Edit on a card to change it, then Save changes. Delete card removes it; tap Undo in the message to bring it back."]}, {"h": "Backup and a new phone", "steps": ["Save a backup file downloads all your cards in one small file. Keep it in your email or cloud drive.", "On the new phone open this app and tap Restore from a backup file. Cards already in the app are not added twice.", "Copy all card numbers copies a plain list you can paste into a note.", "Delete all cards empties the wallet, with Undo."]}, {"h": "Good to know", "tips": true, "steps": ["A wrong last digit on a 13, 12 or 8 digit number is caught straight away, because those barcodes have a check digit.", "Expired cards are marked in red, and cards that expire within 30 days say so.", "Everything is saved on this device only. Your data is never sent anywhere, and the app works offline after the first visit."]}]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
