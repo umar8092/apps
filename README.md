@@ -947,6 +947,14 @@ For anyone who sells cakes, biryani by the deg, frozen food or lunch boxes from 
 
 <a href="order-book-for-home-bakers-and-caterers/"><img src="order-book-for-home-bakers-and-caterers/screenshots/phone.png" alt="Order Book for Home Bakers and Caterers screenshot" width="260"></a>
 
+### <img src="gully-cricket-scorer-for-friends-matches/favicon.svg" width="36" height="36" align="center"> [Gully Cricket Scorer for Friends' Matches](https://umar8092.github.io/apps/gully-cricket-scorer-for-friends-matches/)
+
+For friends, cousins and office colleagues who play tape-ball, street or gully cricket. Set the overs and the players for each team, then tap 0, 1, 2, 3, 4, 6, Wide, No ball, Bye or Out for every ball and see "Block C 35/2, overs 3.4 of 6" and "Block C need 23 off 14 balls, required rate 9.86", then "Gali No. 7 won by 4 runs". Your own house rules for wides and no balls, last batter bats alone, uneven teams, change the overs after rain, undo any ball, a super over for a tie, each batter's runs and each bowler's overs if you want them, and a scorecard to copy into the group. Private, works offline in the park.
+
+[**Open the app**](https://umar8092.github.io/apps/gully-cricket-scorer-for-friends-matches/) &middot; [Details and screenshots](gully-cricket-scorer-for-friends-matches/)
+
+<a href="gully-cricket-scorer-for-friends-matches/"><img src="gully-cricket-scorer-for-friends-matches/screenshots/phone.png" alt="Gully Cricket Scorer for Friends' Matches screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

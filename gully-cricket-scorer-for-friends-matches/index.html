@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gully Cricket Scorer for Friends' Matches: runs, overs, target</title>
+    <meta name="description" content="Free cricket scorer for street, tape-ball and gully matches with friends. Tap each ball and see the score, overs left, the target, 'need 23 off 14 balls', who won and a scorecard to send to the group. Your own house rules for wides and no balls. Works offline, no sign-up, no ads.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/gully-cricket-scorer-for-friends-matches/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#1f9d55">
+    <meta name="theme-color" content="#0a2015">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Gully Cricket Scorer for Friends' Matches">
+    <meta property="og:url" content="https://umar8092.github.io/apps/gully-cricket-scorer-for-friends-matches/">
+    <meta property="og:title" content="Gully Cricket Scorer for Friends' Matches: runs, overs, target">
+    <meta property="og:description" content="Tap each ball, see the score, the target and who won. Free, offline, no ads.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Gully Cricket Scorer for Friends' Matches","alternateName":["Cricket Scorer","Tape Ball Cricket Score Keeper","Street Cricket Scoreboard","Box Cricket Scorer"],"url":"https://umar8092.github.io/apps/gully-cricket-scorer-for-friends-matches/","description":"A free cricket scorer for friends' matches. Tap each ball and see the score, overs, target, runs needed, who won, and a scorecard to share.","applicationCategory":"SportsApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"cricket scorer, gully cricket score, tape ball cricket scorer, street cricket scoreboard, box cricket scorer, cricket score keeper offline","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I score a gully cricket match on my phone?","acceptedAnswer":{"@type":"Answer","text":"Type the two team names, the players per side and the overs, choose who bats first and tap Start match. Then tap 0, 1, 2, 3, 4 or 6 for every ball, or Wide, No ball, Bye or Out. The app shows the score, the overs, and in the chase how many runs are needed off how many balls."}},{"@type":"Question","name":"Can I use our own rules for wides and no balls?","acceptedAnswer":{"@type":"Answer","text":"Yes. Under House rules choose whether a wide or a no ball gives a run and whether it is bowled again, and whether the last batter may bat alone."}},{"@type":"Question","name":"What if I tapped the wrong button?","acceptedAnswer":{"@type":"Answer","text":"Tap Undo. It takes back the last ball or choice, and you can keep tapping it to go further back, even into the previous innings."}},{"@type":"Question","name":"Is the match saved if my phone locks?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every ball is saved on your device straight away, so the match is still there when you come back. Your data is never sent anywhere."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Gully Cricket Scorer for Friends' Matches</h1>
+        <p class="sub">Tap each ball and see the score, the overs left, the target and who won.</p>
+        <p class="warn" id="storage-warn" role="alert" hidden>This browser is not letting the app save (private mode or storage turned off). The score is lost if you close or reload the page.</p>
+    </header>
+
+    <!-- 1. setting up a match -->
+    <section class="card" id="setup" aria-labelledby="setup-title">
+        <h2 id="setup-title">New match</h2>
+        <ul class="boxes" id="team-boxes"></ul>
+
+        <span class="label" id="overs-label">Overs per side</span>
+        <div class="chips" role="group" aria-labelledby="overs-label" id="overs-chips"></div>
+        <div id="overs-custom-box" hidden>
+            <label for="overs-custom">Number of overs (1 to 50)</label>
+            <input id="overs-custom" type="text" inputmode="numeric" autocomplete="off" maxlength="2">
+            <p class="field-err" id="overs-err" role="alert"></p>
+        </div>
+
+        <span class="label" id="first-label">Who bats first</span>
+        <div class="seg" role="group" aria-labelledby="first-label">
+            <button type="button" id="first-0" aria-pressed="true">Team A</button>
+            <button type="button" id="first-1" aria-pressed="false">Team B</button>
+        </div>
+
+        <span class="label" id="mode-label">What to score</span>
+        <div class="seg" role="group" aria-labelledby="mode-label">
+            <button type="button" id="mode-team" aria-pressed="true">Team score only</button>
+            <button type="button" id="mode-players" aria-pressed="false">Each player too</button>
+        </div>
+        <p class="hint" id="mode-hint">Quickest: just the team's runs, wickets and overs.</p>
+
+        <div class="rules-box">
+            <h3>House rules</h3>
+            <span class="label" id="wd-label">A wide gives</span>
+            <div class="seg" role="group" aria-labelledby="wd-label">
+                <button type="button" id="wd-run-1" aria-pressed="true">1 run</button>
+                <button type="button" id="wd-run-0" aria-pressed="false">No run</button>
+            </div>
+            <span class="label" id="wdb-label">Is a wide bowled again?</span>
+            <div class="seg" role="group" aria-labelledby="wdb-label">
+                <button type="button" id="wd-again-1" aria-pressed="true">Yes, bowl again</button>
+                <button type="button" id="wd-again-0" aria-pressed="false">No, it counts as a ball</button>
+            </div>
+            <span class="label" id="nb-label">A no ball gives</span>
+            <div class="seg" role="group" aria-labelledby="nb-label">
+                <button type="button" id="nb-run-1" aria-pressed="true">1 run</button>
+                <button type="button" id="nb-run-0" aria-pressed="false">No run</button>
+            </div>
+            <span class="label" id="nbb-label">Is a no ball bowled again?</span>
+            <div class="seg" role="group" aria-labelledby="nbb-label">
+                <button type="button" id="nb-again-1" aria-pressed="true">Yes, bowl again</button>
+                <button type="button" id="nb-again-0" aria-pressed="false">No, it counts as a ball</button>
+            </div>
+            <span class="label" id="lm-label">When only one batter is left</span>
+            <div class="seg" role="group" aria-labelledby="lm-label">
+                <button type="button" id="lm-0" aria-pressed="true">All out</button>
+                <button type="button" id="lm-1" aria-pressed="false">Bats alone</button>
+            </div>
+        </div>
+        <p class="field-err" id="setup-err" role="alert"></p>
+        <button type="button" id="start" class="primary">Start match</button>
+    </section>
+
+    <div class="play-grid" id="play-grid" hidden>
+    <div class="col-main">
+    <!-- 2. the score while playing -->
+    <section class="card board" id="board" aria-labelledby="board-team" hidden>
+        <p class="big-label" id="board-innings">1st innings</p>
+        <h2 class="score"><span id="board-team">Team A</span> <span id="board-runs" class="runs">0/0</span></h2>
+        <p class="overs" id="board-overs">Overs 0.0 of 6</p>
+        <p class="chase" id="board-chase" hidden></p>
+        <p class="rates" id="board-rates"></p>
+        <div id="board-players" hidden>
+            <ul class="at-crease" id="crease"></ul>
+            <p class="bowling" id="board-bowler"></p>
+        </div>
+        <p class="label tight">This over</p>
+        <ol class="over-balls" id="this-over" aria-label="Balls in this over"></ol>
+    </section>
+
+    <!-- 3a. choosing a batter or bowler (each player mode) -->
+    <section class="card" id="pick" aria-labelledby="pick-title" hidden>
+        <h2 id="pick-title">Who bats next?</h2>
+        <p class="hint" id="pick-hint"></p>
+        <div class="pick-list" id="pick-list"></div>
+        <details id="pick-again-box" hidden>
+            <summary>Someone bats again (uneven teams)</summary>
+            <div class="pick-list" id="pick-again"></div>
+        </details>
+    </section>
+
+    <!-- 3b. the scoring buttons -->
+    <section class="card" id="pad" aria-label="Score this ball" hidden>
+        <h2 class="pad-title">Score this ball</h2>
+        <div class="pad" id="pad-main">
+            <button type="button" class="run" data-run="0">0<small>dot</small></button>
+            <button type="button" class="run" data-run="1">1</button>
+            <button type="button" class="run" data-run="2">2</button>
+            <button type="button" class="run" data-run="3">3</button>
+            <button type="button" class="run four" data-run="4">4<small>four</small></button>
+            <button type="button" class="run six" data-run="6">6<small>six</small></button>
+            <button type="button" class="ext" data-extra="wd">Wide</button>
+            <button type="button" class="ext" data-extra="nb">No ball</button>
+            <button type="button" class="ext" data-extra="bye">Bye</button>
+            <button type="button" class="out-btn" id="out-open">Out</button>
+            <button type="button" class="ext" id="five">5 runs</button>
+            <button type="button" class="undo" id="undo">Undo</button>
+        </div>
+        <!-- extra runs on a wide, no ball or bye -->
+        <div class="sub-panel" id="extra-panel" hidden>
+            <p class="panel-q" id="extra-q">Wide: did they also run?</p>
+            <div class="pad small-pad" id="extra-runs"></div>
+            <button type="button" class="ghost" id="extra-cancel">Cancel</button>
+        </div>
+        <!-- how out -->
+        <div class="sub-panel" id="out-panel" hidden>
+            <p class="panel-q">How out?</p>
+            <div class="pad how" id="how-list"></div>
+            <div id="runout-box" hidden>
+                <div id="runout-who-box" hidden>
+                    <span class="label" id="ro-who-label">Who is run out?</span>
+                    <div class="seg" role="group" aria-labelledby="ro-who-label">
+                        <button type="button" id="ro-s" aria-pressed="true">Striker</button>
+                        <button type="button" id="ro-n" aria-pressed="false">Other batter</button>
+                    </div>
+                </div>
+                <span class="label" id="ro-runs-label">Runs completed before the run out</span>
+                <div class="seg four-seg" role="group" aria-labelledby="ro-runs-label" id="ro-runs"></div>
+                <button type="button" class="primary out-save" id="runout-save">Save run out</button>
+            </div>
+            <button type="button" class="ghost" id="out-cancel">Cancel</button>
+        </div>
+        <p class="field-err" id="pad-err" role="alert"></p>
+
+        <details class="more" id="more">
+            <summary>Match options: overs, target, swap strike, names</summary>
+            <div class="more-body">
+                <div class="two-btn" id="player-opts" hidden>
+                    <button type="button" class="small" id="swap">Swap strike</button>
+                    <button type="button" class="small" id="retire-s">Retire batter</button>
+                </div>
+                <label for="set-overs">Overs for this innings</label>
+                <div class="inline">
+                    <input id="set-overs" type="text" inputmode="numeric" autocomplete="off" maxlength="2">
+                    <button type="button" class="small" id="set-overs-save">Change overs</button>
+                </div>
+                <p class="field-err" id="set-overs-err" role="alert"></p>
+                <div id="target-box" hidden>
+                    <label for="set-target">Target to win (if overs were cut)</label>
+                    <div class="inline">
+                        <input id="set-target" type="text" inputmode="numeric" autocomplete="off" maxlength="4">
+                        <button type="button" class="small" id="set-target-save">Set target</button>
+                    </div>
+                    <p class="hint" id="target-hint"></p>
+                    <p class="field-err" id="set-target-err" role="alert"></p>
+                </div>
+                <button type="button" class="ghost" id="names-open">Fix team or player names</button>
+                <div id="names-panel" hidden>
+                    <ul class="boxes" id="names-boxes"></ul>
+                    <button type="button" class="primary" id="names-save">Save names</button>
+                </div>
+                <button type="button" class="ghost" id="end-innings">End this innings now</button>
+                <button type="button" class="ghost danger" id="new-from-play">Start a new match</button>
+            </div>
+        </details>
+    </section>
+
+    <!-- 3c. innings break -->
+    <section class="card result" id="break" aria-labelledby="break-title" hidden>
+        <p class="big-label">Innings over</p>
+        <h2 id="break-title" class="headline">Team B need 59 to win</h2>
+        <p class="subline" id="break-sub"></p>
+        <button type="button" class="primary" id="start-next">Start Team B's innings</button>
+        <button type="button" class="ghost" id="undo-break">Undo last ball</button>
+    </section>
+
+    <!-- 3d. result -->
+    <section class="card result" id="result" aria-labelledby="result-title" hidden>
+        <p class="big-label">Result</p>
+        <h2 id="result-title" class="headline">Team A won by 12 runs</h2>
+        <p class="subline" id="result-sub"></p>
+        <div id="tie-box" hidden>
+            <button type="button" class="primary" id="super-over">Play a super over</button>
+            <button type="button" class="primary alt" id="finish-tie">Finish as a tie</button>
+        </div>
+        <div class="share">
+            <button type="button" class="primary alt" id="copy">Copy scorecard</button>
+            <button type="button" class="primary alt" id="share">Share</button>
+        </div>
+        <button type="button" class="primary" id="rematch">Start a new match</button>
+        <button type="button" class="ghost" id="undo-result">Undo last ball</button>
+    </section>
+
+    </div>
+    <div class="col-side">
+    <!-- 4. scorecard -->
+    <section class="card" id="scorecard" aria-labelledby="sc-title" hidden>
+        <div class="sc-head">
+            <h2 id="sc-title">Scorecard</h2>
+            <button type="button" class="small" id="copy-live">Copy</button>
+        </div>
+        <div id="sc-body"></div>
+    </section>
+
+    </div>
+    </div>
+
+    <!-- 5. past matches -->
+    <section class="card" id="history-card" aria-labelledby="hist-title" hidden>
+        <h2 id="hist-title">Past matches</h2>
+        <ul class="history" id="history"></ul>
+        <button type="button" class="ghost danger" id="clear-history">Clear past matches</button>
+    </section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How are wides and no balls counted?</summary><p>By your house rules. Normally a wide or a no ball gives 1 run and is bowled again, so the over has an extra ball. Choose No run or No, it counts as a ball if your group plays that way. Runs the batters run on a wide go to wides; runs hit off a no ball go to the batter.</p></details>
+        <details><summary>Rain stopped play. Can we cut the overs?</summary><p>Yes. Open Match options and change the overs for this innings. In the chase you can also type a new target. If you do not, the target stays the first team's score plus one.</p></details>
+        <details><summary>What does "need 23 off 14 balls" mean?</summary><p>The team batting second needs 23 more runs to win, and has 14 legal balls left. The required rate is how many runs per over that is.</p></details>
+        <details><summary>Our teams are uneven. Is that okay?</summary><p>Yes. Each team has its own number of players, and a team is all out when one batter is left (or when everyone is out, if the last batter may bat alone). In Each player too, a player can also bat again.</p></details>
+        <details><summary>Is it private?</summary><p>Yes. The match is saved only on this device and works offline in a park with no signal. Your data is never sent anywhere.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/gully-cricket-scorer-for-friends-matches">Open source (MIT)</a></footer>
+    <p class="sr-only" id="announce" aria-live="polite"></p>
+    <div id="toast" class="toast" role="status" hidden><span id="toast-text"></span> <button type="button" id="toast-undo" class="link">Undo</button></div>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Gully Cricket Scorer for Friends' Matches", "sections": [
+{"h": "Start a match", "steps": ["Type each team's name. Under Players set how many play for that team with the − and + buttons; teams can be uneven.", "Pick the Overs per side (2, 4, 5, 6, 8, 10 or 20), or tap Custom and type 1 to 50.", "Choose Who bats first.", "Under What to score choose Team score only (quickest) or Each player too (each batter's runs and each bowler's overs). With Each player too you can type the players' names, or leave them blank.", "Set your House rules: whether a wide or a no ball gives a run, whether it is bowled again, and whether the last batter bats alone or the team is all out.", "Tap Start match."]},
+{"h": "Every ball", "steps": ["Tap 0, 1, 2, 3, 4 or 6 for the runs off the bat. 5 runs is for overthrows.", "Tap Wide, No ball or Bye, then tap how many runs they ran as well (0 if none).", "Tap Out and then how they were out. For Run out, choose who was run out and the runs they completed, then tap Save run out.", "The top card shows the score as runs/wickets, the overs bowled, and the balls of This over. In the chase it says, for example, Team B need 23 off 14 balls, with the required rate.", "Tapped the wrong button? Tap Undo. Keep tapping to go further back."]},
+{"h": "Each player too", "steps": ["Before the first ball, tap the two openers and then the bowler.", "The batter on strike has a * after the name. Ends change by themselves after 1 or 3 runs and at the end of each over.", "After a wicket tap who bats next. At the start of each over tap who bowls; the one who bowled the last over is marked.", "Under Match options, Swap strike fixes who is facing, and Retire batter lets a batter leave (not out) and come back later. Someone bats again lets a player bat twice when teams are uneven."]},
+{"h": "Rain, a mistake or a change", "steps": ["Open Match options to change the overs for this innings, set a new target in the chase, fix team or player names, or End this innings now.", "Start a new match there begins a new match. It has Undo."]},
+{"h": "The end of the match", "steps": ["The innings ends by itself when the overs are bowled, the team is all out or the target is reached. Tap Start Team B's innings.", "The result says who won and by how many runs or wickets. If the scores are level, tap Play a super over (1 over, 2 wickets, the team that batted second bats first) or Finish as a tie.", "Copy scorecard or Share to send it to the group. Start a new match keeps the teams and rules ready to change."]},
+{"h": "Good to know", "tips": true, "steps": ["Every ball is saved on this device as you tap, so a locked phone or closed page loses nothing. Your data is never sent anywhere, and it works offline.", "The Scorecard shows each innings with over-by-over runs, extras and fall of wickets, and in Each player too the batting and bowling figures.", "Past matches keeps your recent results."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

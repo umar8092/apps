@@ -706,5 +706,11 @@
     "name": "Order Book for Home Bakers and Caterers",
     "description": "For people who sell cakes, biryani, frozen food or lunch boxes from home. Write down each order and see what is due today and tomorrow, the balance to collect, and this week's sales, with ready-to-send WhatsApp messages. No account, works offline.",
     "color": "#a0522d"
+  },
+  {
+    "slug": "gully-cricket-scorer-for-friends-matches",
+    "name": "Gully Cricket Scorer for Friends' Matches",
+    "description": "For friends playing tape-ball, street or gully cricket. Tap each ball and see the score, overs left, \"Block C need 23 off 14 balls\" and who won, with your own rules for wides and no balls, undo, super over and a scorecard to send to the group. Works offline.",
+    "color": "#1f9d55"
   }
 ]
