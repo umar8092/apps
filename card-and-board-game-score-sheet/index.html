@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card and Board Game Score Sheet: Rummy, Uno, Hearts, Carrom</title>
+    <meta name="description" content="Free score sheet for card and board games with family and friends. Type each round's points and see running totals, who is winning, who is out in Pool Rummy 101 and the winner. Uno, Hearts, Spades, Carrom, Scrabble or your own rules. Works offline, no sign-up, no ads.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/card-and-board-game-score-sheet/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#16a34a">
+    <meta name="theme-color" content="#0b1f15">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Card and Board Game Score Sheet">
+    <meta property="og:url" content="https://umar8092.github.io/apps/card-and-board-game-score-sheet/">
+    <meta property="og:title" content="Card and Board Game Score Sheet: Rummy, Uno, Hearts, Carrom">
+    <meta property="og:description" content="Keep score round by round, see who is ahead, who is out and who won. Free, offline, no ads.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Card and Board Game Score Sheet","alternateName":["Rummy Score Sheet","Pool Rummy 101 Score Card","Uno Score Keeper","Game Score Keeper"],"url":"https://umar8092.github.io/apps/card-and-board-game-score-sheet/","description":"A free score sheet for card and board games. Type each round's points and see running totals, who is ahead, who is out and who won.","applicationCategory":"GameApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"rummy score sheet, pool rummy 101 score, uno score keeper, hearts score sheet, carrom score, game score keeper","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I keep score for Pool Rummy 101?","acceptedAnswer":{"@type":"Answer","text":"Pick Pool Rummy 101 as the game, add the players and start. After each deal type each player's points (0 for the winner, 20 for a drop, 40 for a middle drop, 80 for a full count). A player with 101 or more is out, and the last player left wins."}},{"@type":"Question","name":"Can I use it for any game?","acceptedAnswer":{"@type":"Answer","text":"Yes. Choose Custom game and set whether the highest or lowest score wins and when the game ends: when you stop, when someone reaches a score, when players are knocked out at a score, or after a set number of rounds."}},{"@type":"Question","name":"What if I typed a wrong score?","acceptedAnswer":{"@type":"Answer","text":"Tap Edit next to any round in Round by round, fix the number and save. Undo also takes back the last round you saved or deleted."}},{"@type":"Question","name":"Is my game saved if my phone locks?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every score is saved on your device as you type, so the game is still there when you come back. Your data is never sent anywhere."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Card and Board Game Score Sheet</h1>
+        <p class="sub">Keep score round by round and see who is winning. For Rummy, Uno, Hearts, Carrom or any game.</p>
+        <p class="warn" id="storage-warn" role="alert" hidden>This browser is not letting the app save (private mode or storage turned off). Scores are lost if you close or reload the page.</p>
+    </header>
+
+    <section class="card" id="setup" aria-labelledby="setup-title">
+        <h2 id="setup-title">New game</h2>
+        <div id="rules">
+            <label for="preset">Game</label>
+            <select id="preset"></select>
+            <span class="label" id="win-label">Who wins</span>
+            <div class="seg" role="group" aria-labelledby="win-label">
+                <button type="button" id="win-high" aria-pressed="true">Highest score</button>
+                <button type="button" id="win-low" aria-pressed="false">Lowest score</button>
+            </div>
+            <label for="end">The game ends</label>
+            <select id="end">
+                <option value="none">When we stop</option>
+                <option value="reach">At a target score</option>
+                <option value="out">Players are out at a score</option>
+                <option value="rounds">After a number of rounds</option>
+            </select>
+            <div id="limit-box" hidden>
+                <label for="limit" id="limit-label">Score to reach</label>
+                <input id="limit" type="text" inputmode="numeric" autocomplete="off" maxlength="7">
+                <p class="field-err" id="limit-err" role="alert"></p>
+            </div>
+            <p class="hint" id="rules-hint"></p>
+            <button type="button" id="rules-done" class="primary" hidden>Save rules</button>
+        </div>
+        <div id="setup-players">
+            <h3>Players</h3>
+            <ol id="names" class="boxes"></ol>
+            <button type="button" id="add-name" class="ghost">+ Add player</button>
+            <p class="field-err" id="setup-err" role="alert"></p>
+            <button type="button" id="start" class="primary">Start game</button>
+        </div>
+    </section>
+
+    <section class="card" id="rules-card" hidden>
+        <p id="rules-line" class="rules-line"></p>
+        <button type="button" id="rules-toggle" class="link">Change rules</button>
+        <div id="rules-slot"></div>
+    </section>
+
+    <section class="card result" id="standings" hidden aria-live="polite">
+        <p class="big-label" id="round-label"></p>
+        <p id="headline" class="headline"></p>
+        <p id="subline" class="subline"></p>
+        <ol id="table" class="standings"></ol>
+        <div id="over-box" hidden>
+            <button type="button" id="keep-playing" class="primary alt">Keep playing</button>
+        </div>
+        <div class="share">
+            <button type="button" id="copy" class="primary alt">Copy scores</button>
+            <a id="mail" class="primary alt" href="#">Email scores</a>
+        </div>
+        <div class="next">
+            <button type="button" id="again" class="primary">Play again, same players</button>
+            <button type="button" id="new-game" class="ghost">New game (change players or rules)</button>
+        </div>
+    </section>
+
+    <section class="card" id="entry" hidden aria-labelledby="entry-title">
+        <h2 id="entry-title">Round 1 scores</h2>
+        <p class="hint" id="entry-hint">Type each player's points for this round. An empty box counts as 0.</p>
+        <ol id="entry-list" class="boxes"></ol>
+        <p class="field-err" id="entry-err" role="alert"></p>
+        <button type="button" id="save-round" class="primary">Save round 1</button>
+        <button type="button" id="cancel-edit" class="ghost" hidden>Cancel editing</button>
+        <div class="row-actions">
+            <button type="button" id="add-late" class="ghost">+ Add player</button>
+            <button type="button" id="end-now" class="ghost">End game now</button>
+        </div>
+        <div id="late-box" class="pbox late" hidden>
+            <label for="late-name">New player's name</label>
+            <input id="late-name" type="text" maxlength="30" autocomplete="off" placeholder="e.g. Hamza">
+            <label for="late-start">Starts with</label>
+            <select id="late-start"></select>
+            <div id="late-custom-box" hidden>
+                <label for="late-custom">Starting score</label>
+                <input id="late-custom" type="text" inputmode="numeric" autocomplete="off" maxlength="8">
+            </div>
+            <p class="field-err" id="late-err" role="alert"></p>
+            <div class="two">
+                <button type="button" id="late-add" class="primary">Add to the game</button>
+                <button type="button" id="late-cancel" class="ghost">Cancel</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="card" id="rounds-card" hidden aria-labelledby="rounds-title">
+        <h2 id="rounds-title">Round by round</h2>
+        <p class="hint" id="rounds-empty">Saved rounds appear here. Tap Edit to fix a wrong score.</p>
+        <div class="scroll" id="rounds-scroll" style="overflow-x:auto"><table id="rounds"></table></div>
+    </section>
+
+    <section class="card" id="history-card" hidden aria-labelledby="history-title">
+        <h2 id="history-title">Past games</h2>
+        <p class="hint" id="tally"></p>
+        <ol id="history" class="history"></ol>
+        <button type="button" id="clear-history" class="ghost">Clear past games</button>
+    </section>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How do I keep score for Pool Rummy 101?</summary><p>Pick <b>Pool Rummy 101</b>, add the players and tap <b>Start game</b>. After each deal type each player's points: 0 for the player who won the deal, 20 for a drop, 40 for a middle drop, 80 for a full count (tap the buttons under each box). Anyone on 101 or more is out, and the last player left wins. Pool Rummy 201 works the same with 25 and 50 for drops.</p></details>
+        <details><summary>Can a player who is out come back in?</summary><p>Yes, if your table allows it. Their box shows <b>Rejoin at</b> with the highest score of the players still in, which is the usual rule.</p></details>
+        <details><summary>Can I use it for any game?</summary><p>Yes. Choose <b>Custom game</b>, then choose whether the highest or lowest score wins and when the game ends. Negative points are fine: tap <b>&minus;/+</b> or type a minus sign.</p></details>
+        <details><summary>What if I typed a wrong score?</summary><p>Tap <b>Edit</b> next to the round in <b>Round by round</b>, fix it and save. <b>Undo</b> appears after you save or delete a round.</p></details>
+        <details><summary>Someone joins late or leaves early</summary><p>Tap <b>+ Add player</b> during the game and choose their starting score. A player who leaves can be marked <b>Left the table</b> under <b>Edit player</b>, so they are not counted for the win.</p></details>
+        <details><summary>Is it private, and does it work offline?</summary><p>Yes. Scores are saved on this device as you type, so a locked phone or closed tab loses nothing. Your data is never sent anywhere, and after the first visit the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/card-and-board-game-score-sheet">Open source (MIT)</a></footer>
+    <div id="toast" class="toast" role="status" hidden><span id="toast-text"></span> <button type="button" id="toast-undo" class="link">Undo</button></div>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Card and Board Game Score Sheet", "sections": [{"h": "Start a game", "steps": ["Under Game, pick your game: Pool Rummy 101 or 201, Rummy, Gin Rummy, Uno, Hearts, Spades, Carrom, Scrabble, or Custom game for your own rules.", "Check Who wins (Highest score or Lowest score) and The game ends. You can change both for your house rules.", "Under Players type each name. Tap + Add player for more (up to 12) and Remove to take one away.", "Tap Start game."]}, {"h": "After every round", "steps": ["Under Round 1 scores type each player's points. An empty box counts as 0. Tap −/+ to make a number negative.", "In Pool Rummy tap Won, Drop, Middle drop or Full count to fill the box.", "Each box shows the new total before you save. Tap Save round.", "The top card shows who is ahead, by how much, and each player's total. In Pool Rummy it shows how many more points each player can take before they are out; in Uno how many are left to reach 500."]}, {"h": "Fix a mistake", "steps": ["Tap Undo in the message that appears after saving or deleting a round.", "Or tap Edit next to any round in Round by round, change the numbers and tap Save changes. Delete removes a round."]}, {"h": "Players joining, leaving or coming back", "steps": ["+ Add player during a game adds a late player. Choose whether they start at 0, at the highest or lowest score, or a score you type.", "Edit player lets you rename a player, mark them Left the table, or remove them.", "In Pool Rummy a player who is out can tap Rejoin at to come back with the highest score of the players still in."]}, {"h": "The end of the game", "steps": ["The game ends by itself when its rule is met and shows the winner. In a game with no end, tap End game now.", "If two players are level, tap Keep playing for a tie-break round.", "Copy scores or Email scores to send the result to the family group. Your mail app opens with it written; nothing is sent until you press send.", "Play again, same players starts the next game straight away. New game lets you change players or rules. Both have Undo."]}, {"h": "Good to know", "tips": true, "steps": ["Past games keeps the result of every game and counts wins per player.", "Everything is saved on this device as you type. Your data is never sent anywhere, and it works offline.", "Teams can be entered as players, for example Team Ali and Sara."]}]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

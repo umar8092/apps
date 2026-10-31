@@ -682,5 +682,11 @@
     "name": "Bus and Train Timetable for My Stops",
     "description": "Type your stop's bus, train or shuttle times once and see the next departure, the minutes left, when to leave home and the last one tonight. Weekday, weekend and holiday times, offline.",
     "color": "#f76707"
+  },
+  {
+    "slug": "card-and-board-game-score-sheet",
+    "name": "Card and Board Game Score Sheet",
+    "description": "Keep score for Rummy, Uno, Hearts, Carrom or any game. Type each round's points and see running totals, who is ahead, who is out in Pool Rummy 101 and who won. Undo, edit any round, past games with wins per player.",
+    "color": "#16a34a"
   }
 ]

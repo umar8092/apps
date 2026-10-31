@@ -915,6 +915,14 @@ For commuters and students whose bus, train or school, university or work shuttl
 
 <a href="bus-and-train-timetable-for-my-stops/"><img src="bus-and-train-timetable-for-my-stops/screenshots/phone.png" alt="Bus and Train Timetable for My Stops screenshot" width="260"></a>
 
+### <img src="card-and-board-game-score-sheet/favicon.svg" width="36" height="36" align="center"> [Card and Board Game Score Sheet](https://umar8092.github.io/apps/card-and-board-game-score-sheet/)
+
+For families and friends playing cards or a board game. Type each round's points and see running totals and "Ammi leads with 20, 40 ahead of Sara". Pool Rummy 101 and 201 with Drop and Full count buttons, who is out and Rejoin, Uno to 500, Hearts, Spades, Carrom, Scrabble or your own rules (highest or lowest wins, end at a score, knock-out or a set number of rounds). Edit any round, undo, late players, ties and tie-breaks, copy or email the result, and past games with wins per player. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/card-and-board-game-score-sheet/) &middot; [Details and screenshots](card-and-board-game-score-sheet/)
+
+<a href="card-and-board-game-score-sheet/"><img src="card-and-board-game-score-sheet/screenshots/phone.png" alt="Card and Board Game Score Sheet screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
