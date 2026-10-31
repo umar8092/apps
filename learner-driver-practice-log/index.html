@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learner Driver Practice Log: supervised hours, night driving and skills</title>
+    <meta name="description" content="Free learner driver logbook for learners and the parents who supervise them. Log each practice drive in seconds and see how many supervised hours and night hours are done and left: 120 hours with 20 at night in NSW and Victoria, 100 and 10 in Queensland, 50 and 10 in California, or your own goal. Night time is worked out from sunset and sunrise, instructor lessons count 3 for 1 where allowed, a skills checklist shows what still needs practice. No sign-up, private on your device, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/learner-driver-practice-log/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#4a50d0">
+    <meta name="theme-color" content="#4a50d0">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Learner Driver Practice Log">
+    <meta property="og:url" content="https://umar8092.github.io/apps/learner-driver-practice-log/">
+    <meta property="og:title" content="Learner Driver Practice Log">
+    <meta property="og:description" content="Log supervised practice drives and see the hours and night hours left before the driving test. Free, private, works offline.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Learner Driver Practice Log","alternateName":["Learner Driver Logbook","Supervised Driving Hours Log","Driving Hours Tracker","Learner Log Book"],"url":"https://umar8092.github.io/apps/learner-driver-practice-log/","description":"A free learner driver logbook: log supervised practice drives, see total and night hours left for your state's rule, and track skills. Private on your device.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"learner driver log book, supervised driving hours, night driving hours, driving practice log, 120 hours logbook, teen driving log","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Learner Driver Practice Log</h1>
+        <p class="sub">Log each supervised drive and see the hours and night hours left before the driving test.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Everything will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <section class="card start" id="start" aria-labelledby="start-h" hidden>
+            <h2 id="start-h">Start here</h2>
+            <p>Type the learner's name and choose where they are learning: the app sets the hours they need (for example 120 hours with 20 at night in New South Wales) and works out night time from sunset and sunrise. Then log each drive.</p>
+            <button type="button" class="primary" id="start-btn">Set up the learner</button>
+        </section>
+
+        <div class="who" id="who" hidden>
+            <label for="who-sel">Whose log</label>
+            <div class="who-row">
+                <select id="who-sel"></select>
+                <button type="button" class="secondary small" id="add-learner">+ Another learner</button>
+            </div>
+        </div>
+
+        <div class="add-row" id="add-row" hidden>
+            <div class="live" id="live" hidden>
+                <p class="live-h"><span class="dot" aria-hidden="true"></span> <span id="live-text">Driving now</span></p>
+                <div class="row-btns">
+                    <button type="button" class="primary" id="live-stop">Finish drive</button>
+                    <button type="button" class="secondary" id="live-cancel">Cancel</button>
+                </div>
+            </div>
+            <div class="row-btns" id="add-btns">
+                <button type="button" class="primary big-btn" id="live-start">Start a drive now</button>
+                <button type="button" class="secondary big-btn" id="add-drive">+ Add a drive I did</button>
+            </div>
+        </div>
+        <div class="msg" id="msg" role="status" aria-live="polite"></div>
+        <section class="card progress" id="progress" aria-labelledby="prog-h" hidden>
+            <h2 id="prog-h">Hours so far</h2>
+            <div id="prog-body" aria-live="polite"></div>
+            <div class="tool-grid gap" id="prog-tools">
+                <button type="button" class="secondary" id="copy">Copy summary</button>
+                <a class="secondary" id="email" href="mailto:">Email summary</a>
+                <button type="button" class="secondary" id="csv">Save logbook (CSV)</button>
+                <button type="button" class="secondary" id="print">Print logbook</button>
+            </div>
+        </section>
+
+
+        <section class="card drives" id="drives" aria-labelledby="drives-h" hidden>
+            <h2 id="drives-h">Drives</h2>
+            <div id="drive-list"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card skills" id="skills" aria-labelledby="skills-h" hidden>
+            <h2 id="skills-h">Skills checklist</h2>
+            <p class="hint top-hint">Ticked on each drive you log. Tick "Confident" when the learner can do it well on their own.</p>
+            <p class="ready" id="ready"></p>
+            <ul class="skill-list" id="skill-list"></ul>
+        </section>
+
+        <section class="card rules" id="rules" aria-labelledby="rules-h" hidden>
+            <h2 id="rules-h">Hours needed and night time</h2>
+            <div id="rules-body"></div>
+            <button type="button" class="secondary" id="edit-learner">Change the hours, night time or name</button>
+            <button type="button" class="link" id="add-learner2">+ Add another learner (a brother, sister or friend)</button>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Backup</h2>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="wipe">Delete everything</button>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How many hours does a learner need?</summary><p>It depends on where you live and your age. New South Wales and Victoria: 120 hours with 20 at night (under 25 in NSW, under 21 in Victoria). Queensland and the ACT: 100 hours with 10 at night (under 25). South Australia: 75 with 15 at night. Tasmania: 80 with 15 at night. Western Australia: 50 with 5 at night. In the US most states ask for 50 hours with 10 at night (California, Florida and many more), New York 50 with 15 at night, Pennsylvania 65 with 10 at night and 5 in bad weather, Texas 30 with 10 at night. The UK, Ireland, New Zealand and many countries have no minimum: set your own goal. Rules change, so check with your licensing office; you can always type your own numbers.</p></details>
+        <details><summary>How is night driving worked out?</summary><p>Most rules count night as sunset to sunrise. The app works out sunset and sunrise for your town on the date of each drive and counts the minutes of the drive that fall in the dark. A drive from 18:45 to 20:00 in Sydney on 31 October is 1 h 15 min, of which 39 min are at night because the sun sets at 19:21. A drive past midnight is counted into the next morning. If your rule uses fixed hours (for example 9 pm to 5 am), choose "Fixed hours" instead. You can also type the night minutes of any drive yourself.</p></details>
+        <details><summary>Do lessons with a driving instructor count extra?</summary><p>In New South Wales, Queensland and the ACT each hour of a lesson with a licensed instructor counts as 3 hours in the logbook, up to 30 logbook hours (10 hours of lessons). In Tasmania each hour counts as 2, up to 20 logbook hours. Tick "Lesson with a driving instructor" on the drive and the app adds the bonus. In New South Wales lesson time counts towards the total but not towards the 20 night hours, so the app leaves it out of the night count there.</p></details>
+        <details><summary>I already have hours in a paper logbook.</summary><p>Tap "Change the hours, night time or name" and use "+ Hours already logged before". Type the total hours and night hours from the paper logbook; they are added to the totals, and new drives are added on top.</p></details>
+        <details><summary>Does this replace the official logbook?</summary><p>Not everywhere. Some places want their own paper logbook or app with the supervisor's signature or licence number. Use this page to log drives on the day and plan the rest, then copy each drive across, or use "Print logbook" or "Save logbook (CSV)" where a printed record is accepted. Never log hours that were not driven.</p></details>
+        <details><summary>How is "about 7 weeks at your pace" worked out?</summary><p>The app adds up the driving time of the last 4 weeks and divides by 4 to get your hours a week. If there were no drives in the last 4 weeks it uses the average since the first drive. It then divides the time still to go (whichever is the most: total, night or bad weather, since night and bad weather hours are part of the total) by that pace.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. "Use my phone's location" is only used to work out sunset and sunrise and is never sent anywhere either. Once loaded, the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/learner-driver-practice-log">Open source (MIT)</a></footer>
+</main>
+
+<dialog class="form-dlg" id="d-drive" aria-labelledby="dd-h">
+    <form id="f-drive" novalidate>
+        <h2 id="dd-h">Add a drive</h2>
+        <p class="dlg-sub" id="dd-who"></p>
+        <label for="t-date">Date of the drive</label>
+        <input id="t-date" type="date" aria-describedby="te-date">
+        <div class="quick" id="t-quick-date">
+            <button type="button" class="chip" data-ago="0">Today</button>
+            <button type="button" class="chip" data-ago="1">Yesterday</button>
+        </div>
+        <p class="err" id="te-date" role="alert"></p>
+        <div class="two">
+            <div>
+                <label for="t-start">Started at</label>
+                <input id="t-start" type="time" aria-describedby="te-start">
+                <p class="err" id="te-start" role="alert"></p>
+            </div>
+            <div>
+                <label for="t-end">Finished at</label>
+                <input id="t-end" type="time" aria-describedby="te-end">
+                <p class="err" id="te-end" role="alert"></p>
+            </div>
+        </div>
+        <p class="preview" id="t-preview" aria-live="polite"></p>
+        <p class="hint warn-line" id="t-warn"></p>
+        <label for="t-sup">Supervising driver</label>
+        <input id="t-sup" type="text" maxlength="60" autocomplete="off" list="sups" placeholder="e.g. Mum" aria-describedby="te-sup">
+        <datalist id="sups"></datalist>
+        <p class="err" id="te-sup" role="alert"></p>
+        <label class="check"><input type="checkbox" id="t-lesson"> <span>Lesson with a driving instructor <small id="t-lesson-hint"></small></span></label>
+        <p class="label-like" id="tl-roads">Roads and conditions</p>
+        <div class="quick tags" id="t-roads" role="group" aria-labelledby="tl-roads"></div>
+        <p class="label-like" id="tl-skills">Skills practised</p>
+        <div class="quick tags" id="t-skills" role="group" aria-labelledby="tl-skills"></div>
+        <button type="button" class="link" id="to-car">+ Car (optional)</button>
+        <div class="opt" id="tw-car" hidden>
+            <label for="t-car">Car</label>
+            <input id="t-car" type="text" maxlength="40" autocomplete="off" list="cars" placeholder="e.g. Corolla">
+            <datalist id="cars"></datalist>
+        </div>
+        <button type="button" class="link" id="to-night">+ Type the night time myself (optional)</button>
+        <div class="opt" id="tw-night" hidden>
+            <label for="t-night">Minutes driven at night</label>
+            <input id="t-night" type="text" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="e.g. 40" aria-describedby="th-night te-night">
+            <p class="hint" id="th-night">Leave empty to use the sunset and sunrise times.</p>
+            <p class="err" id="te-night" role="alert"></p>
+        </div>
+        <button type="button" class="link" id="to-notes">+ Notes (optional)</button>
+        <div class="opt" id="tw-notes" hidden>
+            <label for="t-notes">Notes</label>
+            <textarea id="t-notes" maxlength="500" placeholder="e.g. Stalled on the hill"></textarea>
+        </div>
+        <div class="row-btns">
+            <button type="submit" class="primary" id="t-save">Add drive</button>
+            <button type="button" class="secondary" data-close>Cancel</button>
+        </div>
+        <div class="row-btns edit-only" id="t-edit" hidden>
+            <button type="button" class="danger" id="t-del">Delete this drive</button>
+        </div>
+    </form>
+</dialog>
+
+<dialog class="form-dlg" id="d-learner" aria-labelledby="dl-h">
+    <form id="f-learner" novalidate>
+        <h2 id="dl-h">Who is learning, and where?</h2>
+        <label for="l-name">Learner's name</label>
+        <input id="l-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Aisha" aria-describedby="le-name">
+        <p class="err" id="le-name" role="alert"></p>
+        <label for="l-rule">Where are they learning?</label>
+        <select id="l-rule" aria-describedby="l-rule-hint"></select>
+        <p class="hint" id="l-rule-hint"></p>
+        <div class="opt own" id="lw-custom" hidden>
+            <div class="two">
+                <div>
+                    <label for="l-total">Total hours needed</label>
+                    <input id="l-total" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="e.g. 50" aria-describedby="le-total">
+                    <p class="err" id="le-total" role="alert"></p>
+                </div>
+                <div>
+                    <label for="l-nightreq">Of them at night</label>
+                    <input id="l-nightreq" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="e.g. 10" aria-describedby="le-nightreq">
+                    <p class="err" id="le-nightreq" role="alert"></p>
+                </div>
+            </div>
+            <button type="button" class="link" id="lo-weather">+ Hours in bad weather too (optional)</button>
+            <div class="opt" id="lw-weather" hidden>
+                <label for="l-weather">Of them in bad weather (rain, fog, snow)</label>
+                <input id="l-weather" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="e.g. 5" aria-describedby="le-weather">
+                <p class="err" id="le-weather" role="alert"></p>
+            </div>
+            <label for="l-mult">Lessons with an instructor count</label>
+            <select id="l-mult">
+                <option value="1">The same</option>
+                <option value="2">Double: 1 hour = 2</option>
+                <option value="3">Triple: 1 hour = 3</option>
+            </select>
+            <div class="opt" id="lw-cap" hidden>
+                <label for="l-cap">Up to how many logbook hours from lessons?</label>
+                <input id="l-cap" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="e.g. 30" aria-describedby="le-cap">
+                <p class="err" id="le-cap" role="alert"></p>
+            </div>
+        </div>
+        <fieldset class="kinds">
+            <legend>When does night start?</legend>
+            <label class="radio"><input type="radio" name="l-nmode" value="sun" checked> <span><b>Sunset to sunrise</b><small>Worked out for your town on the date of each drive.</small></span></label>
+            <div class="opt" id="lw-sun">
+                <label for="l-city">Town or nearest big city</label>
+                <select id="l-city" aria-describedby="le-city"></select>
+                <button type="button" class="link" id="l-geo">Use my phone's location instead</button>
+                <p class="hint" id="l-sun-hint"></p>
+                <p class="err" id="le-city" role="alert"></p>
+            </div>
+            <label class="radio"><input type="radio" name="l-nmode" value="fixed"> <span><b>Fixed hours</b><small>For example 9 pm to 5 am, if your rule says so.</small></span></label>
+            <div class="opt two" id="lw-fixed" hidden>
+                <div>
+                    <label for="l-from">Night from</label>
+                    <input id="l-from" type="time" aria-describedby="le-from">
+                    <p class="err" id="le-from" role="alert"></p>
+                </div>
+                <div>
+                    <label for="l-to">Until</label>
+                    <input id="l-to" type="time" aria-describedby="le-to">
+                    <p class="err" id="le-to" role="alert"></p>
+                </div>
+            </div>
+        </fieldset>
+        <button type="button" class="link" id="lo-prior">+ Hours already logged before, e.g. in a paper logbook (optional)</button>
+        <div class="opt" id="lw-prior" hidden>
+            <div class="two">
+                <div>
+                    <label for="l-ptotal">Hours logged before</label>
+                    <input id="l-ptotal" type="text" inputmode="decimal" maxlength="7" autocomplete="off" placeholder="e.g. 32:30" aria-describedby="le-ptotal">
+                    <p class="err" id="le-ptotal" role="alert"></p>
+                </div>
+                <div>
+                    <label for="l-pnight">Of them at night</label>
+                    <input id="l-pnight" type="text" inputmode="decimal" maxlength="7" autocomplete="off" placeholder="e.g. 4" aria-describedby="le-pnight">
+                    <p class="err" id="le-pnight" role="alert"></p>
+                </div>
+            </div>
+            <p class="hint">Type hours like 32, 32.5 or 32:30.</p>
+        </div>
+        <p class="hint warn-line" id="l-warn"></p>
+        <div class="row-btns">
+            <button type="submit" class="primary" id="l-save">Save</button>
+            <button type="button" class="secondary" data-close>Cancel</button>
+        </div>
+        <div class="row-btns edit-only" id="l-edit" hidden>
+            <button type="button" class="danger" id="l-del">Delete this learner and their drives</button>
+        </div>
+    </form>
+</dialog>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Learner Driver Practice Log", "sections": [
+ {"h": "Set up once", "steps": ["Tap \"Set up the learner\" and type the \"Learner's name\".", "Under \"Where are they learning?\" choose the state or country rule, for example \"NSW, under 25\" (120 hours, 20 at night) or \"California\" (50 hours, 10 at night). Somewhere else, or no legal minimum? Choose \"My own goal or rule\" and type the total hours, the night hours, an optional bad-weather target and whether instructor lessons count double or triple.", "Under \"When does night start?\" keep \"Sunset to sunrise\" and choose your \"Town or nearest big city\", or tap \"Use my phone's location instead\". Choose \"Fixed hours\" if your rule names set times.", "Hours already in a paper logbook? Tap \"+ Hours already logged before\" and type them. Tap \"Save\".", "Two learners in the family? Tap \"+ Add another learner\" under \"Hours needed and night time\". Each learner has their own rule, town and drives; switch between them with \"Whose log\" at the top."]},
+ {"h": "Log a drive", "steps": ["Before you set off, tap \"Start a drive now\". When you park, tap \"Finish drive\": the date and times are filled in.", "Or tap \"+ Add a drive I did\" and choose the \"Date of the drive\", \"Started at\" and \"Finished at\". A drive past midnight is fine: finish at 00:30 means 00:30 the next morning.", "The line under the times shows how long the drive was and how much of it was at night, with the sunset or sunrise time.", "Type the \"Supervising driver\" (past names are suggested), tick \"Lesson with a driving instructor\" for a paid lesson, and tap the roads, conditions and skills you practised.", "\"+ Car\", \"+ Type the night time myself\" and \"+ Notes\" are optional. Tap \"Add drive\". Made a mistake? Tap \"Undo\" in the message, or \"Edit\" on the drive."]},
+ {"h": "See what is left", "steps": ["\"Hours so far\" shows the hours done of the hours needed, night hours, bars for each, any instructor bonus and hours logged before.", "Below it: the driving still to go and, from your pace over the last 4 weeks, about how many weeks that takes and the date you would finish.", "\"Skills checklist\" shows how many drives practised each skill and when last. Tick \"Confident\" when the learner can do it well. When the hours are done and every skill is ticked, it says the learner looks ready to book the test.", "\"Copy summary\" and \"Email summary\" give the totals, skills and every drive. \"Save logbook (CSV)\" opens in Excel or Google Sheets and \"Print logbook\" prints the drives."]},
+ {"h": "Good to know", "tips": true, "steps": ["Night time is worked out from sunset and sunrise for the date and town of each drive. Changing the town later does not change drives already logged.", "In NSW, Queensland and the ACT each lesson hour with an instructor counts as 3, up to 30 logbook hours; in Tasmania it counts as 2, up to 20. In NSW lesson time does not count towards the night hours.", "A drive in the future, a finish time equal to the start, a drive over 12 hours or a drive that overlaps another is refused with a message.", "Rules change: check the hours with your licensing office. Some places still need their own logbook or app with signatures, so copy drives across.", "\"Save a backup file\" keeps every learner and drive in one file; \"Restore a backup\" brings it back. \"Delete everything\" empties the app, with \"Undo\".", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

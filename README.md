@@ -923,6 +923,14 @@ For families and friends playing cards or a board game. Type each round's points
 
 <a href="card-and-board-game-score-sheet/"><img src="card-and-board-game-score-sheet/screenshots/phone.png" alt="Card and Board Game Score Sheet screenshot" width="260"></a>
 
+### <img src="learner-driver-practice-log/favicon.svg" width="36" height="36" align="center"> [Learner Driver Practice Log](https://umar8092.github.io/apps/learner-driver-practice-log/)
+
+For learner drivers and the parents who supervise them. Log each practice drive and see "74 h of 120 hours, 11 h 24 min of 20 at night: 46 h to go, about 19 weeks at your pace". Rules for every Australian state, California, Texas, Florida, New York, Pennsylvania and most US states, or your own goal. Night time worked out from sunset and sunrise by the minute, instructor lessons counted 3 for 1 where allowed, a drive timer, a skills checklist with "ready to book the test", several learners, CSV and print. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/learner-driver-practice-log/) &middot; [Details and screenshots](learner-driver-practice-log/)
+
+<a href="learner-driver-practice-log/"><img src="learner-driver-practice-log/screenshots/phone.png" alt="Learner Driver Practice Log screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

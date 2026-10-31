@@ -688,5 +688,11 @@
     "name": "Card and Board Game Score Sheet",
     "description": "Keep score for Rummy, Uno, Hearts, Carrom or any game. Type each round's points and see running totals, who is ahead, who is out in Pool Rummy 101 and who won. Undo, edit any round, past games with wins per player.",
     "color": "#16a34a"
+  },
+  {
+    "slug": "learner-driver-practice-log",
+    "name": "Learner Driver Practice Log",
+    "description": "For learner drivers and the parents who supervise them. Log each practice drive and see the hours and night hours done and left (120 with 20 at night in NSW, 50 with 10 in California, or your own goal), with night worked out from sunset, instructor lessons counting 3 for 1 where allowed, a skills checklist and a printable logbook. Private, works offline.",
+    "color": "#4a50d0"
   }
 ]
