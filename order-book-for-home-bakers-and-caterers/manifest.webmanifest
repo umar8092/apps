@@ -1,0 +1,15 @@
+{
+  "name": "Order Book for Home Bakers and Caterers",
+  "short_name": "Order Book",
+  "description": "Write down each order. See what is due today and tomorrow and how much money is still to collect.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#2b1710",
+  "theme_color": "#a0522d",
+  "categories": ["business", "productivity", "food"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

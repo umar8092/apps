@@ -700,5 +700,11 @@
     "name": "Loyalty and Membership Card Wallet",
     "description": "Your shop, pharmacy, petrol, gym and library cards in one place. Type the number once and show a big barcode at the till, even with no signal. No account, works offline.",
     "color": "#db2777"
+  },
+  {
+    "slug": "order-book-for-home-bakers-and-caterers",
+    "name": "Order Book for Home Bakers and Caterers",
+    "description": "For people who sell cakes, biryani, frozen food or lunch boxes from home. Write down each order and see what is due today and tomorrow, the balance to collect, and this week's sales, with ready-to-send WhatsApp messages. No account, works offline.",
+    "color": "#a0522d"
   }
 ]

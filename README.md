@@ -939,6 +939,14 @@ For anyone with a purse full of supermarket, pharmacy, petrol, gym and library c
 
 <a href="loyalty-and-membership-card-wallet/"><img src="loyalty-and-membership-card-wallet/screenshots/phone.png" alt="Loyalty and Membership Card Wallet screenshot" width="260"></a>
 
+### <img src="order-book-for-home-bakers-and-caterers/favicon.svg" width="36" height="36" align="center"> [Order Book for Home Bakers and Caterers](https://umar8092.github.io/apps/order-book-for-home-bakers-and-caterers/)
+
+For anyone who sells cakes, biryani by the deg, frozen food or lunch boxes from home and takes orders on WhatsApp. Write each order with the pickup or delivery date and time, price and advance, and see "Tomorrow: 3 orders, collect 9,250" in time order, orders from earlier days not handed over yet, who still owes you, and this week's sales. Mark ready, handed over and paid or pays later, part payments, cancel with the advance kept or given back, a daily order limit, and ready-written confirmation, reminder and payment messages to copy or open in WhatsApp. Currency symbol, CSV, backup, undo, private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/order-book-for-home-bakers-and-caterers/) &middot; [Details and screenshots](order-book-for-home-bakers-and-caterers/)
+
+<a href="order-book-for-home-bakers-and-caterers/"><img src="order-book-for-home-bakers-and-caterers/screenshots/phone.png" alt="Order Book for Home Bakers and Caterers screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
