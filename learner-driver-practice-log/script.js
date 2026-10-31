@@ -499,4 +499,5 @@
         document.addEventListener('visibilitychange', () => { if (!document.hidden && cur()) render(); });
     }
     init();
+    if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});
 })();

@@ -1,7 +1,7 @@
 // Saves the app on the device so it opens with no connection.
 // Network first: when online the newest files are always served and the saved copy is refreshed; the saved copy is used only offline.
 // Bump CACHE whenever the app changes.
-const CACHE = 'learner-driver-practice-log-v1';
+const CACHE = 'learner-driver-practice-log-v2';
 const FILES = ['../theme.js', '../help.js', './', 'index.html', 'style.css', 'core.js', 'script.js', 'favicon.svg', 'manifest.webmanifest',
     'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
