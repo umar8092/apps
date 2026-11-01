@@ -712,5 +712,11 @@
     "name": "Gully Cricket Scorer for Friends' Matches",
     "description": "For friends playing tape-ball, street or gully cricket. Tap each ball and see the score, overs left, \"Block C need 23 off 14 balls\" and who won, with your own rules for wides and no balls, undo, super over and a scorecard to send to the group. Works offline.",
     "color": "#1f9d55"
+  },
+  {
+    "slug": "online-orders-and-cash-on-delivery-tracker",
+    "name": "Online Orders and Cash on Delivery Tracker",
+    "description": "For anyone who shops online on Daraz, Amazon, Temu, Shein or Instagram. See which parcels are still coming and which are late, how much cash to keep at home for cash on delivery riders, the last day to return each item, and which refunds have not come back. Private, works offline.",
+    "color": "#1b8aa0"
   }
 ]

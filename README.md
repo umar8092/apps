@@ -955,6 +955,14 @@ For friends, cousins and office colleagues who play tape-ball, street or gully c
 
 <a href="gully-cricket-scorer-for-friends-matches/"><img src="gully-cricket-scorer-for-friends-matches/screenshots/phone.png" alt="Gully Cricket Scorer for Friends' Matches screenshot" width="260"></a>
 
+### <img src="online-orders-and-cash-on-delivery-tracker/favicon.svg" width="36" height="36" align="center"> [Online Orders and Cash on Delivery Tracker](https://umar8092.github.io/apps/online-orders-and-cash-on-delivery-tracker/)
+
+For anyone who orders from Daraz, Amazon, Temu, Shein, AliExpress or an Instagram shop and loses track of what is still coming. Add each order with the shop, the amount and whether you pay online or cash on delivery, and see "On the way: 4 parcels, keep Rs 7,450 cash ready for 3 cash on delivery parcels", "Late: Phone case from Temu, 3 days late", "Shoes from Shein: return by Sat 21 Nov (5 days left)" and "Refunds waiting: Rs 6,500 from 2 orders". Mark parcels as arrived, refused at the door, cancelled or sent back, record full or part refunds, keep tracking numbers to copy, and send the shop a ready-written "where is my parcel" or "where is my refund" message. Orders in another currency are kept apart. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/online-orders-and-cash-on-delivery-tracker/) &middot; [Details and screenshots](online-orders-and-cash-on-delivery-tracker/)
+
+<a href="online-orders-and-cash-on-delivery-tracker/"><img src="online-orders-and-cash-on-delivery-tracker/screenshots/phone.png" alt="Online Orders and Cash on Delivery Tracker screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.

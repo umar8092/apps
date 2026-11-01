@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Orders and Cash on Delivery Tracker</title>
+    <meta name="description" content="Free tracker for parcels you ordered online from Daraz, Amazon, Temu, Shein or any shop. See which parcels are still coming and which are late, how much cash to keep at home for cash on delivery riders, the last day to return each item, and which refunds have not arrived. Private on your device, no sign-up, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/online-orders-and-cash-on-delivery-tracker/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#1b8aa0">
+    <meta name="theme-color" content="#1b8aa0">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Online Orders and Cash on Delivery Tracker">
+    <meta property="og:url" content="https://umar8092.github.io/apps/online-orders-and-cash-on-delivery-tracker/">
+    <meta property="og:title" content="Online Orders and Cash on Delivery Tracker">
+    <meta property="og:description" content="Which parcels are still coming, how much cash to keep for cash on delivery, return deadlines and refunds still owed. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Online Orders and Cash on Delivery Tracker","alternateName":["Parcel Tracker","COD Cash Tracker","Online Shopping Order List","Refund Tracker"],"url":"https://umar8092.github.io/apps/online-orders-and-cash-on-delivery-tracker/","description":"A free list of your online orders: parcels on the way and late, cash to keep for cash on delivery, return deadlines and refunds still owed, private on your device.","applicationCategory":"LifestyleApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"online order tracker, cash on delivery, COD, parcel tracker, Daraz orders, Temu orders, refund tracker, return deadline","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does it work out the cash to keep at home?","acceptedAnswer":{"@type":"Answer","text":"It adds up the price of every parcel that is still on the way and marked cash on delivery. Parcels paid online are not counted."}},{"@type":"Question","name":"Does it track the parcel with the courier?","acceptedAnswer":{"@type":"Answer","text":"No. It keeps the tracking number for you to copy into the shop or courier app. It never sends anything anywhere."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your orders stay in this browser on this device. There is no account and your data is never sent anywhere."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Online Orders and Cash on Delivery Tracker</h1>
+        <p class="sub">Every parcel you ordered online in one list. See what is still coming, how much cash to keep for the rider, and which returns and refunds need chasing.</p>
+    </header>
+    <p class="warn-box" id="storage-warn" hidden>Your browser is not letting this page save. Your orders will be lost when you close it. Use "Save a backup file" before leaving.</p>
+
+    <div class="col-main">
+        <button type="button" class="primary jump" id="jump-add" hidden>+ Add an order</button>
+        <section class="card sum" id="sum" aria-labelledby="sum-h" hidden>
+            <h2 id="sum-h">At a glance</h2>
+            <div id="sum-body" aria-live="polite"></div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="copy-coming">Copy what is on the way</button>
+            </div>
+            <div class="msg" id="sum-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card list" id="list" aria-labelledby="list-h" hidden>
+            <h2 id="list-h">Your orders</h2>
+            <fieldset class="choice tabs">
+                <legend class="sr-only">Show</legend>
+                <div class="seg seg4" id="tabs">
+                    <input type="radio" name="tab" id="t-coming" value="coming" checked><label for="t-coming">On the way <small id="n-coming"></small></label>
+                    <input type="radio" name="tab" id="t-arrived" value="arrived"><label for="t-arrived">Arrived <small id="n-arrived"></small></label>
+                    <input type="radio" name="tab" id="t-returns" value="returns"><label for="t-returns">Returns and refunds <small id="n-returns"></small></label>
+                    <input type="radio" name="tab" id="t-all" value="all"><label for="t-all">All <small id="n-all"></small></label>
+                </div>
+            </fieldset>
+            <label for="q" class="sr-only">Search orders</label>
+            <input id="q" type="search" maxlength="60" autocomplete="off" placeholder="Search shop, item or tracking">
+            <div class="msg" id="list-msg" role="status" aria-live="polite"></div>
+            <div id="boxes" class="box-list"></div>
+        </section>
+    </div>
+
+    <div class="col-side">
+        <section class="card add" id="add" aria-labelledby="form-h">
+            <h2 id="form-h">Add an order</h2>
+            <div class="msg" id="form-msg" role="status" aria-live="polite"></div>
+            <form id="form" novalidate>
+                <label for="f-shop">Shop or website</label>
+                <input id="f-shop" type="text" maxlength="60" autocomplete="off" list="shop-list" placeholder="e.g. Daraz, Amazon, Temu">
+                <datalist id="shop-list"></datalist>
+
+                <label for="f-what">What you ordered</label>
+                <input id="f-what" type="text" maxlength="300" autocomplete="off" placeholder="e.g. Black phone case" aria-describedby="e-what">
+                <p class="err" id="e-what" role="alert"></p>
+
+                <fieldset class="choice">
+                    <legend>How you pay</legend>
+                    <div class="seg">
+                        <input type="radio" name="pay" id="p-cod" value="cod" checked><label for="p-cod">Cash on delivery<small>pay the rider</small></label>
+                        <input type="radio" name="pay" id="p-online" value="online"><label for="p-online">Paid online<small>card, wallet, bank</small></label>
+                    </div>
+                </fieldset>
+
+                <label for="f-price" id="l-price">Amount to pay the rider</label>
+                <div class="inline money">
+                    <span class="unit pre cur" id="f-cur-label" aria-hidden="true"></span>
+                    <input id="f-price" type="text" inputmode="decimal" maxlength="16" autocomplete="off" placeholder="e.g. 1250" aria-describedby="h-price e-price">
+                </div>
+                <p class="hint" id="h-price">The total with delivery, as shown on the order.</p>
+                <p class="err" id="e-price" role="alert"></p>
+
+                <label for="f-exp">When should it arrive?</label>
+                <select id="f-exp" aria-describedby="e-exp"></select>
+                <input id="f-exp-date" type="date" aria-label="Expected delivery date" hidden>
+                <p class="err" id="e-exp" role="alert"></p>
+
+                <button type="button" class="link" id="o-ordered">+ Ordered on another day (optional)</button>
+                <div class="opt" id="w-ordered" hidden>
+                    <label for="f-ordered">Order date</label>
+                    <input id="f-ordered" type="date" aria-describedby="e-ordered">
+                    <p class="err" id="e-ordered" role="alert"></p>
+                </div>
+
+                <button type="button" class="link" id="o-track">+ Add tracking or order number (optional)</button>
+                <div class="opt" id="w-track" hidden>
+                    <label for="f-track">Tracking number</label>
+                    <input id="f-track" type="text" maxlength="60" autocomplete="off" spellcheck="false" placeholder="e.g. TM123456789">
+                    <div class="two">
+                        <div>
+                            <label for="f-courier">Courier</label>
+                            <input id="f-courier" type="text" maxlength="40" autocomplete="off" list="courier-list" placeholder="e.g. TCS">
+                            <datalist id="courier-list"></datalist>
+                        </div>
+                        <div>
+                            <label for="f-orderno">Shop's order number</label>
+                            <input id="f-orderno" type="text" maxlength="60" autocomplete="off" spellcheck="false" placeholder="e.g. 4021-77">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="link" id="o-ret">+ Add return window (optional)</button>
+                <div class="opt" id="w-ret" hidden>
+                    <label for="f-ret">Days to return after it arrives</label>
+                    <select id="f-ret" aria-describedby="h-ret"></select>
+                    <input id="f-ret-days" type="text" inputmode="numeric" maxlength="3" autocomplete="off" aria-label="Number of days to return" placeholder="Days, 1 to 365" hidden>
+                    <p class="hint" id="h-ret">You see the last day to return once you mark it as arrived.</p>
+                    <p class="err" id="e-ret" role="alert"></p>
+                </div>
+
+                <button type="button" class="link" id="o-cur">+ Priced in a different currency (optional)</button>
+                <div class="opt" id="w-cur" hidden>
+                    <label for="f-cur">Currency of this order</label>
+                    <select id="f-cur" aria-describedby="h-cur"></select>
+                    <p class="hint" id="h-cur">Totals in different currencies are shown side by side, never added together.</p>
+                </div>
+
+                <button type="button" class="link" id="o-note">+ Add a note (optional)</button>
+                <div class="opt" id="w-note" hidden>
+                    <label for="f-note">Note</label>
+                    <textarea id="f-note" rows="2" maxlength="500" placeholder="e.g. Size M, blue. Seller's number 0300 1234567"></textarea>
+                </div>
+
+                <p class="preview" id="preview" aria-live="polite"></p>
+                <div class="row-btns">
+                    <button type="submit" class="primary" id="save">Add the order</button>
+                    <button type="button" class="secondary" id="cancel" hidden>Cancel</button>
+                </div>
+                <button type="button" class="danger" id="del" hidden>Delete this order</button>
+            </form>
+        </section>
+
+        <section class="card settings" id="settings" aria-labelledby="set-h">
+            <h2 id="set-h">Settings and backup</h2>
+            <div class="two">
+                <div>
+                    <label for="s-cur">Currency symbol</label>
+                    <select id="s-cur"></select>
+                </div>
+                <div>
+                    <label for="s-style">Numbers</label>
+                    <select id="s-style">
+                        <option value="intl">1,000,000</option>
+                        <option value="sa">10,00,000 (lakh)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="csv">Save as a spreadsheet (CSV)</button>
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+                <button type="button" class="secondary danger-t" id="wipe">Delete everything</button>
+            </div>
+            <div class="msg" id="set-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>How is the cash to keep worked out?</summary><p>It adds up the amount of every parcel that is still <b>On the way</b> and marked <b>Cash on delivery</b>. A phone case for 1,250, a kurta for 3,200 and shoes for 3,000 coming by cash on delivery means <b>keep 7,450 cash ready</b>. Parcels paid online are not counted.</p></details>
+        <details><summary>When is a parcel "Late"?</summary><p>When the day you said it should arrive has passed and you have not marked it <b>It arrived</b>. Tap <b>Ask the shop</b> for a ready-written message with the order date and tracking number to send to the shop's helpline or chat.</p></details>
+        <details><summary>How does the return deadline work?</summary><p>Add a return window, such as 7 or 14 days. When you mark the parcel <b>It arrived</b>, the app shows the last day to return it: shoes that arrived on Sat 7 Nov with 14 days can be returned until <b>Sat 21 Nov</b>. Tap <b>Keeping it</b> to stop the reminder. Shops count the days in different ways, so check their rules when the last day is close.</p></details>
+        <details><summary>I got only part of my refund.</summary><p>Tap <b>Refund received</b> and type the amount that came. The rest stays under <b>Refunds waiting</b>. If the shop says no more is coming, tap <b>No more refund coming</b>.</p></details>
+        <details><summary>Does it track the parcel with the courier?</summary><p>No. It keeps your tracking number so you can copy it into the shop or courier app. It does not connect to any shop.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Your orders stay in this browser on this device: no account, and your data is never sent anywhere. Use <b>Save a backup file</b> to keep a copy or move to a new phone. Once loaded, the app works with no connection.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/online-orders-and-cash-on-delivery-tracker">Open source (MIT)</a></footer>
+</main>
+
+<dialog class="sheet" id="sheet" aria-labelledby="sheet-h">
+    <h2 id="sheet-h">Message for the shop</h2>
+    <label for="sheet-text">You can change the words before sending</label>
+    <textarea id="sheet-text" rows="9"></textarea>
+    <div class="sheet-btns">
+        <button type="button" class="primary" id="sheet-copy">Copy text</button>
+        <button type="button" class="secondary" id="sheet-share" hidden>Share</button>
+        <a class="secondary" id="sheet-mail" href="#">Email it</a>
+        <button type="button" class="secondary" id="sheet-close">Close</button>
+    </div>
+    <p class="msg" id="sheet-msg" role="status" aria-live="polite"></p>
+</dialog>
+
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use Online Orders and Cash on Delivery Tracker", "sections": [
+ {"h": "Add an order", "steps": ["Type the \"Shop or website\" (a shop you used before is offered as you type) and \"What you ordered\".", "Choose \"Cash on delivery\" if you pay the rider when it comes, or \"Paid online\" if you already paid by card, wallet or bank.", "Type the amount: the total with delivery, as shown on the order. 0 is fine for a free item.", "Pick \"When should it arrive?\": \"Not sure yet\", a number of days from today, or \"Pick a date...\".", "\"+ Ordered on another day\" sets an older order date. \"+ Add tracking or order number\" keeps the tracking number, courier and the shop's order number.", "\"+ Add return window\" keeps how many days you have to send it back after it arrives. \"+ Priced in a different currency\" is for an order in dollars or another currency.", "Tap \"Add the order\". The line above the button shows what will be saved. A message lets you \"Undo\"."]},
+ {"h": "At a glance", "steps": ["\"On the way\" counts the parcels still coming. \"Keep ... cash ready\" adds up the cash on delivery parcels, so you know how much cash to keep at home for the riders.", "\"Arriving today or tomorrow\" lists what to expect. \"Late\" lists parcels whose expected day has passed.", "\"Return by\" lists items you can still send back, with the last day and days left. \"Refunds waiting\" lists money the shops still owe you, oldest first.", "The month box shows how many orders you placed this month and how much you have paid for them so far, after refunds, and which shops you ordered from most.", "\"Copy what is on the way\" copies the list, for example to send to someone at home who will pay the rider."]},
+ {"h": "Each order", "steps": ["\"On the way\", \"Arrived\", \"Returns and refunds\" and \"All\" pick which orders you see. Search finds a shop, item, tracking number or order number such as #4.", "\"It arrived\" asks for the day it came and, for cash on delivery, the cash you paid the rider. You can set or change the return window there.", "\"Cancelled or refused\" is for an order the shop cancelled, you cancelled, or you turned away at the door. If you had paid, type the refund you are owed.", "\"Ask the shop\" opens a ready-written message about a late parcel or a missing refund to copy, share or email.", "\"Sending it back\" records a return and the refund you expect. \"Keeping it\" stops the return reminder.", "\"Refund received\" records money that came back, in full or in part. \"No more refund coming\" closes it.", "\"Not arrived yet\", \"Undo cancel\", \"Undo refused\" and \"Not sending it back\" put a parcel back one step if you tapped by mistake.", "\"Edit\" changes the order, \"Order again\" copies it into the form, and \"Delete\" removes it, with \"Undo\". \"Copy\" beside a tracking number copies it."]},
+ {"h": "Settings and backup", "steps": ["Pick a \"Currency symbol\" (or none) and how big numbers look. They are remembered.", "\"Save as a spreadsheet (CSV)\" opens in Excel or Google Sheets. \"Save a backup file\" keeps everything in one file and \"Restore a backup\" brings it back. \"Delete everything\" empties the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["If a shop splits one order into two parcels, add each parcel as its own order with \"Order again\" and its own amount.", "The app does not connect to shops or couriers. It keeps what you type.", "Everything stays on this device and works offline. Your data is never sent anywhere."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
