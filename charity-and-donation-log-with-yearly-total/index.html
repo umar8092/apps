@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charity and Donation Log with Yearly Total: Zakat, Sadqa, Tithe and Tax Receipts</title>
+    <meta name="description" content="Free log of what you give to charity: zakat, sadqa, fitrana, tithe, church and temple offerings, donations and help to people in need. Add each gift in seconds, set up monthly or weekly gifts, and see this year's total, totals by kind and by cause, which gifts still need a receipt for your tax form, your yearly goal and promises paid in parts. No sign-up, private, works offline.">
+    <link rel="canonical" href="https://umar8092.github.io/apps/charity-and-donation-log-with-yearly-total/">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="app-color" content="#d23f6b">
+    <meta name="theme-color" content="#d23f6b">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Charity and Donation Log with Yearly Total">
+    <meta property="og:url" content="https://umar8092.github.io/apps/charity-and-donation-log-with-yearly-total/">
+    <meta property="og:title" content="Charity and Donation Log with Yearly Total: Zakat, Sadqa, Tithe and Tax Receipts">
+    <meta property="og:description" content="Add each gift you give in seconds. See this year's total, by kind and by cause, which gifts still need a receipt for tax, your yearly goal and promises paid in parts. Free, private, no sign-up.">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Charity and Donation Log with Yearly Total","alternateName":["Donation Tracker","Charity Tracker","Zakat and Sadqa Log","Tithe Tracker","Gift Aid Donation Log"],"url":"https://umar8092.github.io/apps/charity-and-donation-log-with-yearly-total/","description":"A free log of charitable giving. It records each gift with the kind, how it was paid and the receipt, repeats monthly or weekly gifts, and shows the yearly total, totals by kind and by cause, receipts still to get for tax, a yearly goal and promises paid in parts.","applicationCategory":"FinanceApplication","operatingSystem":"Any","isAccessibleForFree":true,"keywords":"donation tracker, charity log, zakat record, sadqa log, tithe tracker, tax deductible donations, Gift Aid, 80G receipts, giving goal","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Muhammad Umar","url":"https://github.com/umar8092"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it work out how much zakat I owe?","acceptedAnswer":{"@type":"Answer","text":"No. Rulings on zakat differ, so ask a scholar you trust. The app records what you gave and adds it up."}},{"@type":"Question","name":"Which gifts can I claim on my tax form?","acceptedAnswer":{"@type":"Answer","text":"That depends on your country's rules and on the charity. The app shows which gifts have a receipt and saves a list you can give to your accountant."}},{"@type":"Question","name":"Is it private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Everything stays in this browser on this device. There is no account and it works offline."}}]}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../theme.js"></script>
+    <script src="../help.js"></script>
+</head>
+<body>
+<main class="app" id="app">
+    <a class="back" href="../">&larr; All apps</a>
+    <header>
+        <h1>Charity and Donation Log with Yearly Total</h1>
+        <p class="sub">Add each gift you give: zakat, sadqa, tithe, a donation or help to someone. See how much you gave this year, to whom, and which gifts still need a receipt for tax.</p>
+    </header>
+    <p class="store-warn" id="store-warn" hidden>This browser is not letting the app save. What you type will be lost when you close the page. Save a backup file before you leave.</p>
+    <div class="msg" id="top-msg" role="status" aria-live="polite"></div>
+
+    <div class="col-a">
+        <section class="card add" id="add" aria-labelledby="add-h">
+            <h2 id="add-h">Add a gift</h2>
+            <p class="hint top" id="add-hint">Each time you give, add it here. It takes a few seconds.</p>
+            <label for="f-to">Given to</label>
+            <input id="f-to" type="text" maxlength="60" autocomplete="off" list="f-to-list" placeholder="e.g. Edhi Foundation" aria-describedby="f-to-err">
+            <datalist id="f-to-list"></datalist>
+            <p class="err" id="f-to-err" role="alert"></p>
+            <div class="two s-row">
+                <div class="field">
+                    <label for="f-amt">Amount</label>
+                    <div class="amount-row"><span class="cur-tag" id="f-amt-tag" hidden></span><input id="f-amt" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 5000" aria-describedby="f-amt-err"></div>
+                </div>
+                <div class="field">
+                    <label for="f-date" id="f-date-l">Date given</label>
+                    <input id="f-date" type="date" aria-describedby="f-date-err">
+                </div>
+            </div>
+            <p class="err" id="f-amt-err" role="alert"></p>
+            <p class="err" id="f-date-err" role="alert"></p>
+            <label for="f-kind">Kind of giving</label>
+            <select id="f-kind"></select>
+            <div id="f-kind-box" hidden>
+                <label for="f-kind-own">Your own kind</label>
+                <input id="f-kind-own" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Qurbani share" aria-describedby="f-kind-own-err">
+                <p class="err" id="f-kind-own-err" role="alert"></p>
+            </div>
+            <label for="f-how">How you paid</label>
+            <select id="f-how"></select>
+            <fieldset class="seg-wrap">
+                <legend id="f-rc-l">Receipt</legend>
+                <div class="seg three" role="radiogroup" aria-labelledby="f-rc-l">
+                    <label class="seg-o"><input type="radio" name="f-rc" value="kept"><span>Receipt kept</span></label>
+                    <label class="seg-o"><input type="radio" name="f-rc" value="todo"><span>Still to get</span></label>
+                    <label class="seg-o"><input type="radio" name="f-rc" value="none" checked><span>Not needed</span></label>
+                </div>
+                <p class="hint">Pick <b>Still to get</b> when the charity owes you a receipt for your tax form.</p>
+            </fieldset>
+            <div id="f-rep-box">
+                <label for="f-rep">Repeat</label>
+                <select id="f-rep">
+                    <option value="">Just this once</option>
+                    <option value="week">Every week</option>
+                    <option value="month">Every month</option>
+                    <option value="year">Every year</option>
+                </select>
+                <p class="hint" id="f-rep-hint" hidden></p>
+            </div>
+            <button type="button" class="link" id="f-behalf-open">+ Given on behalf of someone (optional)</button>
+            <div id="f-behalf-box" hidden>
+                <label for="f-behalf">On behalf of</label>
+                <input id="f-behalf" type="text" maxlength="40" autocomplete="off" list="f-behalf-list" placeholder="e.g. Ammi">
+                <datalist id="f-behalf-list"></datalist>
+                <p class="hint">Counted in the total, and shown apart from your own giving.</p>
+            </div>
+            <button type="button" class="link" id="f-note-open">+ Add a note (optional)</button>
+            <div id="f-note-box" hidden>
+                <label for="f-note">Note</label>
+                <input id="f-note" type="text" maxlength="120" autocomplete="off" placeholder="e.g. receipt no. 4471">
+            </div>
+            <button type="button" class="primary" id="f-save">Add gift</button>
+            <button type="button" class="secondary" id="f-cancel" hidden>Cancel editing</button>
+            <button type="button" class="link" id="restore-first">Moving from another phone? Restore a backup file</button>
+            <div class="msg" id="add-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card pledges" id="pledges" aria-labelledby="pl-h">
+            <h2 id="pl-h">Promises paid in parts</h2>
+            <p class="hint top">Promised a sum to a masjid, church, school or hospital fund and paying it bit by bit? Add the promise here. Every gift to the same name from that day counts towards it.</p>
+            <label for="pl-to">Promised to</label>
+            <input id="pl-to" type="text" maxlength="60" autocomplete="off" list="f-to-list" placeholder="e.g. Masjid Al-Noor" aria-describedby="pl-to-err">
+            <p class="err" id="pl-to-err" role="alert"></p>
+            <div class="two s-row pl-row">
+                <div class="field">
+                    <label for="pl-amt">Amount promised</label>
+                    <div class="amount-row"><span class="cur-tag" id="pl-tag" hidden></span><input id="pl-amt" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 30000" aria-describedby="pl-amt-err"></div>
+                </div>
+                <div class="field">
+                    <label for="pl-from">Promised on</label>
+                    <input id="pl-from" type="date">
+                </div>
+            </div>
+            <p class="err" id="pl-amt-err" role="alert"></p>
+            <button type="button" class="secondary" id="pl-add">Add promise</button>
+            <div class="pl-list" id="pl-list"></div>
+            <div class="msg" id="pl-msg" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="card tools" id="tools" aria-labelledby="tools-h">
+            <h2 id="tools-h">Goal, backup and settings</h2>
+            <label for="cur">Your currency symbol</label>
+            <select id="cur"></select>
+            <label for="yr">Your year runs</label>
+            <select id="yr"></select>
+            <p class="hint">Match your tax year so the yearly total fits your tax form.</p>
+            <h3>Yearly giving goal</h3>
+            <p class="hint" id="goal-now"></p>
+            <button type="button" class="link" id="goal-open">+ Set a yearly giving goal (optional)</button>
+            <div id="goal-box" hidden>
+                <label for="goal">Give this much each year</label>
+                <div class="amount-row"><span class="cur-tag" id="goal-tag" hidden></span><input id="goal" type="text" inputmode="decimal" maxlength="20" autocomplete="off" placeholder="e.g. 200000" aria-describedby="goal-err"></div>
+                <p class="err" id="goal-err" role="alert"></p>
+                <div class="row-btns">
+                    <button type="button" class="secondary" id="goal-save">Save goal</button>
+                    <button type="button" class="secondary" id="goal-cancel">Cancel</button>
+                </div>
+            </div>
+            <button type="button" class="link danger-t" id="goal-del" hidden>Remove the goal</button>
+            <div class="tool-grid">
+                <button type="button" class="secondary" id="backup">Save a backup file</button>
+                <button type="button" class="secondary" id="restore">Restore a backup</button>
+                <input type="file" id="restore-file" accept=".json,application/json" hidden>
+            </div>
+            <button type="button" class="danger" id="del-all">Delete everything</button>
+            <div class="msg" id="tools-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <div class="col-b">
+        <section class="card intro" id="intro" aria-labelledby="intro-h">
+            <h2 id="intro-h">How it works</h2>
+            <ol class="how">
+                <li><b>Add each gift</b> when you give: to whom, how much, the kind (zakat, sadqa, tithe, a donation) and how you paid.</li>
+                <li><b>Mark the receipt</b>: kept, still to get, or not needed. The app reminds you which receipts you still need for your tax form.</li>
+                <li><b>Give every month?</b> Pick <b>Repeat</b> and the app asks you to confirm each one when it is due.</li>
+                <li><b>See your year</b>: the total, by kind and by cause, your goal, and a list to give your accountant.</li>
+            </ol>
+        </section>
+        <section class="card due" id="due" aria-labelledby="due-h" hidden>
+            <h2 id="due-h">Regular gifts due</h2>
+            <p class="hint top">Tap <b>Given</b> once you have given it, or <b>Skip</b> if you did not give it this time.</p>
+            <ul class="due-list" id="due-list"></ul>
+            <button type="button" class="secondary" id="due-all" hidden>Mark all as given</button>
+            <div class="msg" id="due-msg" role="status" aria-live="polite"></div>
+        </section>
+        <section class="card sum" id="sum" aria-labelledby="sum-h" hidden>
+            <div class="y-nav">
+                <button type="button" class="secondary small" id="y-prev" aria-label="Previous year">&lsaquo; Prev</button>
+                <h2 id="sum-h">Year 2026</h2>
+                <button type="button" class="secondary small" id="y-next" aria-label="Next year">Next &rsaquo;</button>
+            </div>
+            <p class="y-range" id="y-range"></p>
+            <button type="button" class="link center" id="y-now" hidden>Back to this year</button>
+            <div id="sum-body"></div>
+            <div class="msg" id="sum-msg" role="status" aria-live="polite"></div>
+        </section>
+        <section class="card gifts" id="gifts" aria-labelledby="gifts-h" hidden>
+            <h2 id="gifts-h">Gifts</h2>
+            <div id="find-box" hidden>
+                <label for="find">Find a gift</label>
+                <input id="find" type="search" maxlength="60" autocomplete="off" placeholder="Name, kind or note">
+            </div>
+            <ul class="gift-list" id="g-list"></ul>
+            <button type="button" class="secondary" id="g-more" hidden>Show more</button>
+            <div class="msg" id="gifts-msg" role="status" aria-live="polite"></div>
+        </section>
+        <section class="card plans" id="plans" aria-labelledby="plans-h" hidden>
+            <h2 id="plans-h">Your regular gifts</h2>
+            <div class="plan-list" id="plan-list"></div>
+            <div class="msg" id="plans-msg" role="status" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <section class="faq">
+        <h2>Questions</h2>
+        <details><summary>Does it work out how much zakat I owe?</summary><p>No. Rulings on zakat (nisab, which wealth counts, the date) differ, so ask a scholar you trust. The app records what you gave and adds it up, so you can see how much of your zakat you have already paid.</p></details>
+        <details><summary>Which gifts can I claim on my tax form?</summary><p>That depends on your country and the charity: Gift Aid in the UK, 80G in India, approved institutions in Pakistan, registered charities in the US and Canada. Set <b>Your year runs</b> to your tax year, mark each receipt, and tap <b>Save list for tax form</b> for a file your accountant can open in Excel or Google Sheets.</p></details>
+        <details><summary>How do regular gifts work?</summary><p>Pick <b>Every week</b>, <b>Every month</b> or <b>Every year</b> under <b>Repeat</b>. The first gift is added on the date you pick. After that, each time one is due it shows under <b>Regular gifts due</b>: tap <b>Given</b> to add it, or <b>Skip</b>. Nothing is counted until you confirm it, so a missed month never inflates your total. A gift on the 31st falls on the last day of shorter months.</p></details>
+        <details><summary>I gave in another currency</summary><p>Type what it came to in your own money, and put the original amount in the note, such as "100 USD". The yearly total then stays in one currency.</p></details>
+        <details><summary>I gave on behalf of my mother, or for someone who passed away</summary><p>Tap <b>+ Given on behalf of someone</b> and type their name. The gift counts in the total, and the summary shows it apart from your own giving.</p></details>
+        <details><summary>I gave food, clothes or a ration bag, not money</summary><p>Pick <b>Goods or food</b> under <b>How you paid</b> and type what it was worth. For a tax claim, check what your country allows for gifts in kind.</p></details>
+        <details><summary>Is it private? Does it work offline?</summary><p>Everything stays in this browser on this device: no account, and your data is never sent anywhere. Once loaded, it works with no connection. Save a backup file before changing phones.</p></details>
+    </section>
+    <footer><a href="https://github.com/umar8092/apps/tree/main/charity-and-donation-log-with-yearly-total">Open source (MIT)</a></footer>
+</main>
+<script src="core.js"></script>
+<script src="script.js"></script>
+<script type="application/json" id="help-data">{"title": "How to use the Charity and Donation Log", "sections": [
+ {"h": "1. Add a gift", "steps": ["\"Given to\" is the charity, masjid, church, temple, school or person. Names you used before are suggested as you type.", "\"Amount\" is what you gave, and \"Date given\" is today unless you change it.", "\"Kind of giving\" is General donation, Zakat, Sadqa, Fitrana, Tithe or church offering, Temple or gurdwara offering, Help to someone in need, or \"Other (type your own)\".", "\"How you paid\" is Cash, Bank transfer, Card or online, Cheque, or Goods or food (type what they were worth).", "\"Receipt\": \"Receipt kept\", \"Still to get\" (the charity owes you one for your tax form) or \"Not needed\".", "\"+ Given on behalf of someone (optional)\" is for a gift for your mother or someone who passed away. \"+ Add a note (optional)\" keeps a receipt number or the appeal.", "Tap \"Add gift\"."]},
+ {"h": "2. Regular gifts", "steps": ["To give every week, month or year, pick it under \"Repeat\". The first gift is added on the date you pick; a date in the future starts the plan on that day.", "When the next one is due it shows under \"Regular gifts due\". Tap \"Given\" to add it, \"Skip\" if you did not give it, or \"Mark all as given\".", "\"Your regular gifts\" lists each plan with its next date. \"Change amount\" changes the gifts still to come; \"Stop\" ends the plan and keeps the gifts already added."]},
+ {"h": "3. Your year", "steps": ["\"Given this year\" is the total of every gift in the year, with how many gifts and to how many causes.", "\"On behalf of others\" shows gifts for other people apart from your own giving.", "\"Yearly goal\" shows what is left to give and about how much a month to reach it.", "\"Receipts for your tax form\" shows the gifts with a receipt kept, the ones still to get (by name), and those that need none.", "\"By kind\", \"By cause\" and \"How you paid\" add up the year. \"Month by month\" shows each month.", "\"‹ Prev\" and \"Next ›\" move between years. \"Copy summary\" and \"Email summary\" send the year to someone, and \"Save list for tax form\" saves a CSV file that opens in Excel or Google Sheets."]},
+ {"h": "4. Gifts and promises", "steps": ["\"Gifts\" lists the year's gifts, newest first. \"Find a gift\" searches names, kinds and notes. \"Got the receipt\" marks a receipt as kept. \"Edit\" changes a gift and \"Delete\" removes it, with \"Undo\".", "\"Promises paid in parts\": type who you promised, the \"Amount promised\" and the day, and tap \"Add promise\". Each promise shows what you have paid and what is left. \"Remove\" deletes the promise but keeps the gifts."]},
+ {"h": "Goal, backup and settings", "steps": ["\"Your currency symbol\" adds Rs, $, £ or another symbol, or none for plain numbers.", "\"Your year runs\" sets when your year starts: January, 1 April, 6 April (UK) or 1 July (Pakistan, Australia). Match your tax year.", "\"+ Set a yearly giving goal (optional)\" sets how much you want to give each year. \"Remove the goal\" takes it off.", "\"Save a backup file\" downloads everything; \"Restore a backup\" loads it on this or another phone, with \"Undo\". \"Delete everything\" clears the app, with \"Undo\"."]},
+ {"h": "Good to know", "tips": true, "steps": ["The app does not work out how much zakat you owe or which gifts you can claim on tax. It records and adds up what you gave.", "Every total is exact to the cent.", "Gave in another currency? Type what it came to in your money and put the original amount in the note.", "Everything stays on this device and works offline. Your data is never sent anywhere. Save a backup before changing phones."]}
+]}</script>
+<script data-goatcounter="https://umar8092.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

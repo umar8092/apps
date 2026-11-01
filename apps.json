@@ -718,5 +718,11 @@
     "name": "Online Orders and Cash on Delivery Tracker",
     "description": "For anyone who shops online on Daraz, Amazon, Temu, Shein or Instagram. See which parcels are still coming and which are late, how much cash to keep at home for cash on delivery riders, the last day to return each item, and which refunds have not come back. Private, works offline.",
     "color": "#1b8aa0"
+  },
+  {
+    "slug": "charity-and-donation-log-with-yearly-total",
+    "name": "Charity and Donation Log with Yearly Total",
+    "description": "Add each gift you give: zakat, sadqa, tithe, a donation or help to someone. See this year's total by kind and by cause, which gifts still need a receipt for tax, your yearly goal and promises paid in parts.",
+    "color": "#d23f6b"
   }
 ]

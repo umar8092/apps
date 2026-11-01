@@ -963,6 +963,14 @@ For anyone who orders from Daraz, Amazon, Temu, Shein, AliExpress or an Instagra
 
 <a href="online-orders-and-cash-on-delivery-tracker/"><img src="online-orders-and-cash-on-delivery-tracker/screenshots/phone.png" alt="Online Orders and Cash on Delivery Tracker screenshot" width="260"></a>
 
+### <img src="charity-and-donation-log-with-yearly-total/favicon.svg" width="36" height="36" align="center"> [Charity and Donation Log with Yearly Total](https://umar8092.github.io/apps/charity-and-donation-log-with-yearly-total/)
+
+For anyone who gives regularly, whether zakat, sadqa, fitrana, a church tithe, a temple offering, a donation or cash and food for someone in need, and cannot say at the end of the year how much they gave, to whom, or which receipts they still need for their tax form. Add each gift with the kind, how you paid and the receipt (kept, still to get, not needed), set up monthly or weekly gifts that wait for you to confirm them, and see "Given this year: Rs 140,500 in 11 gifts to 7 causes", "Yearly goal: Rs 59,500 still to give, about Rs 7,437.50 a month", "Receipt still to get: 3 gifts, Rs 35,000" with their names, totals by kind and by cause, gifts on behalf of a parent apart from your own, and "Masjid Al-Noor promise: Rs 17,500 left". Your year can start in January, April or July to match your tax year. Copy, email or save the year as a list for your accountant. Private, works offline.
+
+[**Open the app**](https://umar8092.github.io/apps/charity-and-donation-log-with-yearly-total/) &middot; [Details and screenshots](charity-and-donation-log-with-yearly-total/)
+
+<a href="charity-and-donation-log-with-yearly-total/"><img src="charity-and-donation-log-with-yearly-total/screenshots/phone.png" alt="Charity and Donation Log with Yearly Total screenshot" width="260"></a>
+
 ## Adding an app
 
 Create `<name>/index.html` (with its own `favicon.svg`, `icons/`, `screenshots/` and `README.md`). The hub page finds new folders by itself. Also append `{"slug","name","description"}` to `apps.json` as a fallback.
